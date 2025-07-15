@@ -157,7 +157,7 @@ class Scenario:
 
             logger.info(f'⏳ Получение полей товара: {url}', ex=None, exc_info=False, text_color="light_gray")
             try:
-                fields: ProductFields = await graber.grab_product_page(
+                product_fields: ProductFields = await graber.grab_product_page(
                     driver=driver, product_url=url, required_fields=required_fields
                 )
             except Exception as ex:  # pragma: no cover
@@ -166,7 +166,7 @@ class Scenario:
                     bot.send_message(chat_id, f"❌ Ошибка парсинга:\n{url}\n{ex}")
                 continue
 
-            if not fields or not fields.name:
+            if not product_fields or not product_fields.name:
 
                 if bot:
                     bot.send_message(chat_id, f"❌ Ошибка парсинга товара:\n{url}\nПроверьте локаторы.")
@@ -175,7 +175,7 @@ class Scenario:
 
             try:
                 # Конвертиртаци поля из объекта `ProductFields` в простой словарь для модели llm
-                product_data = self.convert_product_fields(fields)
+                product_data = self.convert_product_fields(product_fields)
 
                 # Индивидуальные настройки поставщиков
                 match(graber.supplier_prefix):

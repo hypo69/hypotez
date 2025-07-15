@@ -253,7 +253,7 @@ class Driver(Chrome):
             logger.error(f"Error executing event {locator.event} for {locator.locator_description}: {ex}")
             return False
 
-    async def _wait_for_condition(self, locator: SimpleNamespace, selector: str) -> list[WebElement]:
+    async def _wait_for_condition(self, locator: SimpleNamespace) -> list[WebElement]:
         """! Wait for a specific condition to be met before finding elements.
         
         Args:
@@ -270,7 +270,7 @@ class Driver(Chrome):
         
         while (asyncio.get_event_loop().time() - start_time) < timeout:
             try:
-                elements = await self.page.find_elements(By[locator.by.upper()], selector)
+                elements = await self.page.find_elements(By[locator.by.upper()], locator.selector)
                 
                 match timeout_for_event.lower():
                     case 'presence_of_element_located':
@@ -385,7 +385,7 @@ class Driver(Chrome):
 
         if not locator.selector or locator.selector == '':
             if locator.mandatory: # <- селектор может быть пустым. В таком случае возвращается весь вебэлемент 
-                logger.warning(f"""Пустой селектор в обязательном локаторе: {locator.locator_description=}""", 
+                logger.warning(f"""Пустой селектор в обязательном локаторе: {locator.locator_description if hasattr(locator,'locator_description') else print(locator)}""", 
                None, False)
             return False
 
@@ -406,20 +406,23 @@ class Driver(Chrome):
         #   т.е. разбивать формат XPATH селектора на блоки
         #   задача: переписать логику для парсинга собственно селектора.
         #   Тогда я смогу не ломать формат XPATH
-        #   Пример XPATH 
-        #   //div[@class='header'] | //div[@id='main-title']
-        #   //input[@type='text' or @type='password']
-        #   //*[contains(@class, 'btn') or contains(@class, 'button')]
-        #   //h1[@id='title'] | //h2[@id='subtitle'] | //h3[@id='section']
-        #   //a[contains(@href, 'example.com') or @target='_blank']
-        # 
- 
+        #   Пример XPATH с несколькими селекторами:
+        #   {"selector":"//div[@class='header'];//div[@id='main-title']"}
+        #   Пример XPATH с условными операторами: 
+        #   {"selector":"//div[@class='header'] | //div[@id='main-title']"}
+        #   {"selector":"//input[@type='text' or @type='password']"}
+        #   {"selector":"//*[contains(@class, 'btn') or contains(@class, 'button')]"}
+        #   {"selector":"//h1[@id='title'] | //h2[@id='subtitle'] | //h3[@id='section']"}
+        #   {"selector":"//a[contains(@href, 'example.com') or @target='_blank']"}
+        #   (//div[contains(@class, 'description')])[2]//div | (//div[contains(@class, 'description')])[2]//p  
+
         match getattr(locator, 'strategy_for_multiple_selectors', 'find_first_match').lower():
             case 'find_first_match':
                 for selector in selectors:
                     try:
-                        # Используем новый метод для ожидания условий
-                        if hasattr(locator, 'timeout_for_event') and locator.timeout_for_event:
+                        # Обработка ожиданий
+                        if hasattr(locator, 'timeout_for_event') and locator.timeout_for_event and \
+                           hasattr(locator, 'timeout') and  locator.timeout:
                             elements = await self._wait_for_condition(locator, selector)
                         else:
                             elements = await self.page.find_elements(By[locator.by.upper()], selector)
@@ -457,8 +460,8 @@ class Driver(Chrome):
             else:
                 return _result
 
+        
         # Если атрибут указан - извлекаем его значение
-        _result = None
         match getattr(locator, 'attribute', '').lower():
             case 'innertext':
                 if len(elements) == 1:
@@ -468,21 +471,25 @@ class Driver(Chrome):
 
             case 'innerhtml':
                 if len(elements) == 1:
-                    _result = await elements[0].inner_html
+                    # _result = await elements[0].inner_html
+                    _result = [elements[0].inner_html]
                 else:
-                    _result = [await el.inner_html for el in elements]
+                    # _result = [await el.inner_html for el in elements]
+                     _result = [ el.inner_html for el in elements]
 
             case 'src' | 'href':
                 if len(elements) == 1:
-                    _result = await elements[0].get_attribute(locator.attribute)
+                    # _result = await elements[0].get_attribute(locator.attribute)
+                    _result =  elements[0].get_attribute(locator.attribute)
                 else:
-                    _result = [await el.get_attribute(locator.attribute) for el in elements]
+                    # _result = [await el.get_attribute(locator.attribute) for el in elements]
+                    _result = [ el.get_attribute(locator.attribute) for el in elements]
 
             case _:
                 raise ValueError(f"Unsupported attribute: {locator.attribute} in {locator.locator_description}")
 
         # Проверка на пустой результат
-        if isinstance(_result, list) and len(_result) == 0:
+        if len(_result) == 0:
             return False
 
         # ТРЕТИЙ ЭТАП: Применение стратегии фильтрации списка

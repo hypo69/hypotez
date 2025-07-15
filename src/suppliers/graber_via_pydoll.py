@@ -101,8 +101,6 @@ class Graber:
         """
         required_fields = required_fields or self.config.required_fields
         f: ProductFields = ProductFields()
-        # Перечитываю локаторы при каждом вызове метода, 
-        # чтобы избежать проблем с изменениями в конфигурации
         product_locators = self.config.product_locators
         
 
@@ -118,12 +116,17 @@ class Graber:
         # Проверка, что `product_locators` существует и имеет `атрибут id_supplier`
         if product_locators and hasattr(product_locators, 'id_supplier') and product_locators.id_supplier:
             f.id_supplier = product_locators.id_supplier.attribute # <- передача параметра через локатор
-            logger.info(f"Установлен id_supplier: {f.id_supplier=}" , None, False, text_color = "light_gray", bg_color = "black")
+            logger.info(f"Установлен id_supplier: {f.id_supplier}" , None, False, text_color = "light_gray", bg_color = "black")
 
         for field_name in required_fields:
             # Пропуск id_supplier, так как он уже установлен
             if field_name == 'id_supplier':
                 continue
+
+            # DEBUG
+            # if field_name == 'default_image_url':
+            #     ...
+            
 
             if product_locators and hasattr(product_locators, field_name):
                 locator = getattr(product_locators, field_name)
@@ -132,7 +135,7 @@ class Graber:
                 # Установка значение, только если оно не пустое (или по другой логике)
                 if extracted_value: # Можно добавить проверку на пустую строку, если нужно
                     setattr(f, field_name, extracted_value)
-                    logger.info(f"""В поле '{field_name}' установлено значение: {extracted_value}'""", None, False, text_color = "light_gray", bg_color = "black")
+                    logger.info(f"""В поле '{field_name}' установлено значение: {extracted_value}""", None, False, text_color = "light_gray", bg_color = "black")
 
         return f
 

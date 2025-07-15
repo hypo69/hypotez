@@ -241,7 +241,7 @@ class KazarinovBot:
                     logger.warning(f"Статус ответа от сервера: {response.status_code}")
             except Exception:
                 logger.error("Обнаружена потеря соединения с сервером!", exc_info=True)
-                restart_bot()
+                self.restart_bot()
             threading.Event().wait(Config.CONNECTION_CHECK_INTERVAL)
 
 

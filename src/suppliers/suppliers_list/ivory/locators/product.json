@@ -2,131 +2,147 @@
   "close_pop_up": {
     "attribute": null,
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@class='close']",
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": "//button[@class='close']",
     "if_list": "first",
 
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": "click()",
     "mandatory": true,
-    "locator_description": "Закрыти попап окна"
+    "locator_description": "ivory - Закрытиe попап окна"
   },
   "id": {
     "attribute": null,
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
 
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "event": null,
+    "locator_description": "ivory - `id`"
   },
   "id_manufacturer": {
     "attribute": "innerText",
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "",
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": "",
     "if_list": "first",
 
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "SKU morlevi"
+    "locator_description": "ivory - `id_manufacturer`"
   },
   "id_supplier": {
     "attribute": 11343,
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
 
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "11343 ivory"
+    "locator_description": "11343 ivory - `id_supplier`"
   },
   "id_product": {
     "attribute": "innerText",
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//span[@class = 'barcode-specific-area']",
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": "//span[@class = 'barcode-specific-area']",
     "if_list": "first",
 
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "SKU ivory"
+    "locator_description": "ivory - `id_product` returned form prestashop"
   },
   "id_category_default": {
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "event": null,
+    "locator_description": "ivory - `id_category_default`"
   },
   "new": {
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "event": null,
+    "locator_description": "ivory - `new`"
   },
   "cache_default_attribute": {
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "event": null,
+    "locator_description": "ivory - `cache_default_attribute`"
   },
   "id_default_image": {
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "event": null,
+    "locator_description": "ivory - `id_default_image`"
   },
   "default_image_url": {
     "attribute": "src",
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//img[@id = 'img_zoom_inout']",
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": "//img[@id = 'img_zoom_inout']",
     "if_list": "first",
 
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
     "mandatory": true,
-    "locator_description": "URL картинки"
+    "locator_description": "ivory - `default_image_url`"
   },
   "id_default_combination": {
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -139,7 +155,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -152,7 +169,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -166,7 +184,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -179,7 +198,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -192,7 +212,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -205,7 +226,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -218,7 +240,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -231,7 +254,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -244,7 +268,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -257,7 +282,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -270,7 +296,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -283,7 +310,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -296,7 +324,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -309,7 +338,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -322,7 +352,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -335,7 +366,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -348,7 +380,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -361,7 +394,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -374,7 +408,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -387,7 +422,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -400,7 +436,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -413,7 +450,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -426,7 +464,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -439,7 +478,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -452,7 +492,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -465,7 +506,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -478,7 +520,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -491,7 +534,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -504,7 +548,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -517,7 +562,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -530,7 +576,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -543,7 +590,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -556,7 +604,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -569,7 +618,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -582,7 +632,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -595,7 +646,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -608,7 +660,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -621,7 +674,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -634,7 +688,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -647,7 +702,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -660,7 +716,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -673,7 +730,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -686,7 +744,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -699,7 +758,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -712,7 +772,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -725,7 +786,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -738,7 +800,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -751,7 +814,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -764,7 +828,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -777,7 +842,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -790,7 +856,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -803,7 +870,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -816,7 +884,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -829,7 +898,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -842,7 +912,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -855,7 +926,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -867,7 +939,8 @@
   "name": {
     "attribute": "innerText",
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//h1[@id = 'titleProd']",
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": "//h1[@id = 'titleProd']",
     "if_list": "all",
 
     "timeout": 0,
@@ -879,7 +952,8 @@
   "description_short": {
     "attribute": "innerText",
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//h2[ contains( @class, 'col-12 h2fake')]",
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": "//h2[ contains( @class, 'col-12 h2fake')]",
     "if_list": "all",
 
     "timeout": 0,
@@ -891,7 +965,8 @@
   "description": {
     "attribute": null,
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "all",
 
     "mandatory": true,
@@ -903,7 +978,8 @@
   "specification": {
     "attribute": "innerText",
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//div[ contains( @class, 'contentproducttable')]//li",
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": "//div[ contains( @class, 'contentproducttable')]//li",
     "if_list": "all",
 
     "mandatory": true,
@@ -916,7 +992,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -929,7 +1006,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -942,7 +1020,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -955,7 +1034,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -968,7 +1048,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -981,7 +1062,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -994,7 +1076,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1007,7 +1090,8 @@
     "attribute": "innerText",
 
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//*[contains(text(),'ASIN')]/following-sibling::*",
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": "//*[contains(text(),'ASIN')]/following-sibling::*",
 
     "if_list": "first",
 
@@ -1020,7 +1104,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1033,7 +1118,8 @@
     "attribute": "innerText",
 
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//span[@id='productTitle']",
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": "//span[@id='productTitle']",
 
     "if_list": "first",
 
@@ -1047,7 +1133,8 @@
     "attribute": "innerText",
 
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//div[contains(@id,'corePrice')]//span[@class ='a-price-whole'][1]",
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": "//div[contains(@id,'corePrice')]//span[@class ='a-price-whole'][1]",
 
     "if_list": "first",
 
@@ -1060,7 +1147,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1073,7 +1161,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1086,7 +1175,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1099,7 +1189,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1112,7 +1203,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1125,7 +1217,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1138,7 +1231,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1151,7 +1245,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1164,7 +1259,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1177,7 +1273,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1190,7 +1287,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1203,7 +1301,8 @@
     "attribute": "innerText",
 
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//span[contains(text(), 'Brand')]/parent::td/following-sibling::td/span[contains(@class, 'po-break-word')]",
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": "//span[contains(text(), 'Brand')]/parent::td/following-sibling::td/span[contains(@class, 'po-break-word')]",
 
     "if_list": "first",
 
@@ -1216,7 +1315,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1229,7 +1329,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1242,7 +1343,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1255,7 +1357,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1268,7 +1371,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1281,7 +1385,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1294,7 +1399,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1307,7 +1413,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1320,7 +1427,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1333,7 +1441,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1346,7 +1455,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1359,7 +1469,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1372,7 +1483,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1385,7 +1497,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1398,7 +1511,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1411,7 +1525,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1424,7 +1539,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1437,7 +1553,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1450,7 +1567,8 @@
     "attribute": "innerHTML",
 
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//div[contains(@data-a-expander-name , 'product_overview')]//table",
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": "//div[contains(@data-a-expander-name , 'product_overview')]//table",
 
     "if_list": "first",
 
@@ -1463,7 +1581,8 @@
     "attribute": "innerText",
 
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@id='productDescription']",
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": "//div[@id='productDescription']",
 
     "if_list": "first",
 
@@ -1476,7 +1595,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1489,7 +1609,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1502,7 +1623,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1515,7 +1637,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1528,7 +1651,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1541,7 +1665,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1554,7 +1679,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1567,7 +1693,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1580,7 +1707,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1593,7 +1721,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1606,7 +1735,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1619,7 +1749,8 @@
     "attribute": null,
 
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//img[@id='landingImage']|//img[@class='a-dynamic-image']",
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": "//img[@id='landingImage']|//img[@class='a-dynamic-image']",
     "if_list": "first",
 
     "mandatory": true,
@@ -1633,7 +1764,8 @@
   "images_urls": {
     "attribute": "{src:alt}",
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@class = 'carousel-inner']//img",
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": "//div[@class = 'carousel-inner']//img",
     "if_list": "first",
 
     "timeout": 0,
@@ -1647,7 +1779,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1660,7 +1793,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1673,7 +1807,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1686,7 +1821,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1699,7 +1835,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1712,7 +1849,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1725,7 +1863,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1738,7 +1877,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1751,7 +1891,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1764,7 +1905,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1777,7 +1919,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1790,7 +1933,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1803,7 +1947,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1816,7 +1961,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1829,7 +1975,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1842,7 +1989,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1855,7 +2003,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1868,7 +2017,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1881,7 +2031,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1894,7 +2045,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1940,7 +2092,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1953,7 +2106,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1966,7 +2120,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1979,7 +2134,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -1992,7 +2148,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -2005,7 +2162,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -2018,7 +2176,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
@@ -2031,7 +2190,8 @@
     "attribute": null,
 
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
 
     "if_list": "first",
 
