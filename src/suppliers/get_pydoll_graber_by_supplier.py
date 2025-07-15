@@ -244,15 +244,15 @@ def get_graber_by_supplier_prefix(supplier_prefix: str, ) -> Graber:
         except KeyError:
             #raise ValueError(f"Graber класс не найден для поставщика: {supplier_alias}")
             logger.error(f"Graber класс не найден для поставщика: {supplier_alias}", ex)
-            return Graber()
+            return Graber(supplier_prefix)
 
     try:
-        graber_instance = GraberClass()
+        graber_instance = GraberClass(supplier_prefix)
         return GraberClass()
     except Exception as ex:
         #raise ValueError(f"Не удалось создать экземпляр Graber для {supplier_alias}: {e}") from e
         logger.critical(f"Не удалось создать экземпляр Graber для {supplier_alias}:", ex)
-        return Graber() 
+        return Graber(supplier_prefix) 
 
 def get_graber_by_supplier_url(url: str) -> Graber:
     """
@@ -286,7 +286,7 @@ def get_graber_by_supplier_url(url: str) -> Graber:
     # Получаем класс Graber по домену из URL_PREFIX_MAP
     try:
         GraberClass = URL_PREFIX_MAP[domain]
-        return GraberClass()
+        return GraberClass(supplier_prefix)
 
     except KeyError:
         # raise ValueError(f"Graber класс не найден для поставщика (домен): {domain}")
@@ -302,6 +302,6 @@ def get_graber_by_supplier_url(url: str) -> Graber:
         # Это стандартный случай, когда нет подходящего класса для данного домена.
         # если вы хотите иметь базовый функционал Graber,
         # Функция вернет базовый `Graber`, 
-    return Graber()  
+    return Graber(supplier_prefix)  
 
 

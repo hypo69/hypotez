@@ -32,7 +32,7 @@ from src.logger.logger import logger
 
 class Graber(Grbr):
     """Класс для операций захвата Morlevi."""
-    supplier_prefix: str  = 'morlevi'
+    supplier_prefix: str  = 'morlevi.co.il'
 
     def __init__(self, driver: Optional['Driver'] = None, lang_index:Optional[int] = None):
         """Инициализация класса сбора полей товара."""

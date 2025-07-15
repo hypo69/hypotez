@@ -66,7 +66,7 @@ class Graber(Grbr):
         :param driver: Экземпляр веб-драйвера для взаимодействия с браузером.
         :type driver: Driver
         """
-        self.supplier_prefix = 'aliexpress'
+        self.supplier_prefix = 'aliexpress.com'
         # вызов конструктора родительского класса
         super().__init__(supplier_prefix=self.supplier_prefix, driver=driver, lang_index=lang_index)
 

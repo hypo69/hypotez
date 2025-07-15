@@ -3,7 +3,7 @@
   "supplier_id": "2801",
   "supplier_type": "11511",
   "supplier_types_description": "11510 -> manufacturer; 11511 -> marketplace",
-  "supplier_prefix": "aliexpress",
+  "supplier_prefix": "aliexpress.com",
   "start_url": "https://www.aliexpress.com/",
   "price_rule": "+0",
   "if_login": false,
