@@ -46,7 +46,7 @@ import asyncio
 from pathlib import Path
 from unittest.mock import patch, MagicMock
 from types import SimpleNamespace
-from src.suppliers.suppliers_list.aliexpress.campaign.prepare_campaigns import (
+from src.suppliers.suppliers_list.aliexpress_com.campaign.prepare_campaigns import (
     update_category,
     process_campaign_category,
     process_campaign,
@@ -91,7 +91,7 @@ def mock_ali_promo_campaign():
     """
     Фикстура для мокирования класса `AliPromoCampaign`.
     """
-    with patch("src.suppliers.suppliers_list.aliexpress.campaign.AliPromoCampaign") as mock:
+    with patch("src.suppliers.suppliers_list.aliexpress_com.campaign.AliPromoCampaign") as mock:
         yield mock
 
 def test_update_category_success(mock_j_loads: MagicMock, mock_j_dumps: MagicMock, mock_logger: MagicMock) -> None:

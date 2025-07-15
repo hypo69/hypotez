@@ -57,7 +57,7 @@
 
 Зависимости:
     - gspread
-    - src.suppliers.suppliers_list.aliexpress.campaign
+    - src.suppliers.suppliers_list.aliexpress_com.campaign
     - src.utils.printer
     - src.logger.logger
 
@@ -70,12 +70,12 @@
     >>> gs.set_products_worksheet(category_name)
     >>> gs.save_campaign_from_worksheet()
 
- .. module:: src.suppliers.suppliers_list.aliexpress.campaign._experiments
+ .. module:: src.suppliers.suppliers_list.aliexpress_com.campaign._experiments
 """
 
 from gspread import Worksheet, Spreadsheet
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignGoogleSheet
-from src.suppliers.suppliers_list.aliexpress.campaign.ttypes import CampaignType, CategoryType, ProductType
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignGoogleSheet
+from src.suppliers.suppliers_list.aliexpress_com.campaign.ttypes import CampaignType, CategoryType, ProductType
 from src.utils.printer import pprint as print
 from src.logger.logger import logger
 

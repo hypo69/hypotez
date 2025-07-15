@@ -42,10 +42,10 @@ hot_products_response.products = [
 ]
 ```
 
-**Примечание:** В данном примере используются объекты `Product` из модуля `src.suppliers.aliexpress.api.models.product`.
+**Примечание:** В данном примере используются объекты `Product` из модуля `src.suppliers.aliexpress_com.api.models.product`.
 
 ## Дополнительные сведения
 
-- Модуль `src.suppliers.suppliers_list.aliexpress.api.models` предоставляет  классы для работы с данными AliExpress.
+- Модуль `src.suppliers.suppliers_list.aliexpress_com.api.models` предоставляет  классы для работы с данными AliExpress.
 - Класс `HotProductsResponse` используется для получения данных о популярных товарах с API AliExpress.
 - Класс `Product`  используется для представления информации о товаре.

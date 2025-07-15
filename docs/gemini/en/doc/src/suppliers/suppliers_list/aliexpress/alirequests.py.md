@@ -104,7 +104,7 @@
 **Пример**:
 
 ```python
->>> response = alirequests.make_get_request('https://www.aliexpress.com') # Выполнение GET-запроса к AliExpress
+>>> response = alirequests.make_get_request('https://www.aliexpress_com.com') # Выполнение GET-запроса к AliExpress
 ```
 
 #### `short_affiliate_link`
@@ -122,13 +122,13 @@
 **Пример**:
 
 ```python
->>> response = alirequests.short_affiliate_link('https://www.aliexpress.com/item/10000000000000.html') # Получение короткой ссылки
+>>> response = alirequests.short_affiliate_link('https://www.aliexpress_com.com/item/10000000000000.html') # Получение короткой ссылки
 ```
 
 ## Примеры использования
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.alirequests import AliRequests
+from src.suppliers.suppliers_list.aliexpress_com.alirequests import AliRequests
 
 alirequests = AliRequests() # Инициализация объекта AliRequests
 
@@ -139,10 +139,10 @@ alirequests._load_webdriver_cookies_file(webdriver_for_cookies='chrome')
 alirequests._refresh_session_cookies()
 
 # Выполнение GET-запроса к AliExpress
-response = alirequests.make_get_request('https://www.aliexpress.com')
+response = alirequests.make_get_request('https://www.aliexpress_com.com')
 
 # Получение короткой партнерской ссылки
-response = alirequests.short_affiliate_link('https://www.aliexpress.com/item/10000000000000.html')
+response = alirequests.short_affiliate_link('https://www.aliexpress_com.com/item/10000000000000.html')
 ```
 
 ## Как работает модуль
@@ -171,7 +171,7 @@ response = alirequests.short_affiliate_link('https://www.aliexpress.com/item/100
 
 - **Описание**: URL, который нужно сократить.
 - **Тип**: str
-- **Пример**: `alirequests.short_affiliate_link('https://www.aliexpress.com/item/10000000000000.html')`
+- **Пример**: `alirequests.short_affiliate_link('https://www.aliexpress_com.com/item/10000000000000.html')`
 - **Подробности**: Этот параметр представляет собой URL, который будет обработан для получения короткой партнерской ссылки.
 
 ## Примеры
@@ -197,13 +197,13 @@ alirequests._load_webdriver_cookies_file(webdriver_for_cookies='firefox')
 ### Выполнение GET-запроса к AliExpress
 
 ```python
-response = alirequests.make_get_request('https://www.aliexpress.com')
+response = alirequests.make_get_request('https://www.aliexpress_com.com')
 ```
 
 ### Получение короткой партнерской ссылки
 
 ```python
-response = alirequests.short_affiliate_link('https://www.aliexpress.com/item/10000000000000.html')
+response = alirequests.short_affiliate_link('https://www.aliexpress_com.com/item/10000000000000.html')
 ```
 
 ## Дополнительная информация

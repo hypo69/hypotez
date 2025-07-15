@@ -7,7 +7,7 @@
 Модуль для подготовки рекламных кампаний AliExpress, обрабатывая категории, данные кампаний и генерируя рекламные материалы
 =======================================================================================================================
 
-Модуль :mod:`src.suppliers.suppliers_list.aliexpress.campaign` предназначен для автоматизации процесса подготовки рекламных кампаний на AliExpress. Он включает в себя функции для обработки категорий товаров, настройки параметров кампаний (язык, валюта) и создания необходимых рекламных материалов.
+Модуль :mod:`src.suppliers.suppliers_list.aliexpress_com.campaign` предназначен для автоматизации процесса подготовки рекламных кампаний на AliExpress. Он включает в себя функции для обработки категорий товаров, настройки параметров кампаний (язык, валюта) и создания необходимых рекламных материалов.
 
 Примеры использования
 ----------------------
@@ -29,8 +29,8 @@ from pathlib import Path
 from typing import List, Optional
 
 from src import gs
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignEditor
-from src.suppliers.suppliers_list.aliexpress.utils import locales
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress_com.utils import locales
 from src.utils.printer import pprint
 from src.utils.file import get_directory_names
 from src.utils.jjson import j_loads_ns
@@ -236,7 +236,7 @@ if __name__ == "__main__":
 Модуль для подготовки рекламных кампаний AliExpress, обрабатывая категории, данные кампаний и генерируя рекламные материалы
 =======================================================================================================================
 
-Модуль :mod:`src.suppliers.suppliers_list.aliexpress.campaign` предназначен для автоматизации процесса подготовки рекламных кампаний на AliExpress. Он включает в себя функции для обработки категорий товаров, настройки параметров кампаний (язык, валюта) и создания необходимых рекламных материалов.
+Модуль :mod:`src.suppliers.suppliers_list.aliexpress_com.campaign` предназначен для автоматизации процесса подготовки рекламных кампаний на AliExpress. Он включает в себя функции для обработки категорий товаров, настройки параметров кампаний (язык, валюта) и создания необходимых рекламных материалов.
 
 Примеры использования
 ----------------------
@@ -258,8 +258,8 @@ from pathlib import Path
 from typing import List, Optional
 
 from src import gs
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignEditor
-from src.suppliers.suppliers_list.aliexpress.utils import locales
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress_com.utils import locales
 from src.utils.printer import pprint
 from src.utils.file import get_directory_names
 from src.utils.jjson import j_loads_ns

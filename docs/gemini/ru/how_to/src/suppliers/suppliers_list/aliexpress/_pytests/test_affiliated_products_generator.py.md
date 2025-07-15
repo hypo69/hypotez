@@ -42,12 +42,12 @@ ali_affiliated_products = AliAffiliatedProducts(
 
 # Вызов метода check_and_process_affiliate_products
 ali_affiliated_products.check_and_process_affiliate_products(
-    prod_urls=["https://www.aliexpress.com/item/123.html", "456"]
+    prod_urls=["https://www.aliexpress_com.com/item/123.html", "456"]
 )
 
 # Вызов метода process_affiliate_products
 processed_products = ali_affiliated_products.process_affiliate_products(
-    prod_urls=["https://www.aliexpress.com/item/123.html", "456"]
+    prod_urls=["https://www.aliexpress_com.com/item/123.html", "456"]
 )
 
 # Проверка результата

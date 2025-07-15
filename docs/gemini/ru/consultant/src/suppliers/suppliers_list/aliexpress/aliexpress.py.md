@@ -40,7 +40,7 @@
 #### **Оптимизированный код**:
 
 ```python
-## \file /src/suppliers/suppliers_list/aliexpress.py
+## \file /src/suppliers/suppliers_list/aliexpress_com.py
 # -*- coding: utf-8 -*-
 
 #! .pyenv/bin/python3

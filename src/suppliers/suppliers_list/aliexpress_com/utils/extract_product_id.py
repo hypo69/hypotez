@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.suppliers_list.aliexpress.utils 
+.. module:: src.suppliers.suppliers_list.aliexpress_com.utils 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -25,10 +25,10 @@ def extract_prod_ids(urls: str | list[str]) -> str | list[str] | None:
         str | list[str] | None: A list of extracted item IDs, a single ID, or `None` if no valid ID is found.
 
     Examples:
-        >>> extract_prod_ids("https://www.aliexpress.com/item/123456.html")
+        >>> extract_prod_ids("https://www.aliexpress_com.com/item/123456.html")
         '123456'
 
-        >>> extract_prod_ids(["https://www.aliexpress.com/item/123456.html", "7891011.html"])
+        >>> extract_prod_ids(["https://www.aliexpress_com.com/item/123456.html", "7891011.html"])
         ['123456', '7891011']
 
         >>> extract_prod_ids(["https://www.example.com/item/123456.html", "https://www.example.com/item/abcdef.html"])
@@ -53,7 +53,7 @@ def extract_prod_ids(urls: str | list[str]) -> str | list[str] | None:
             str | None: The extracted product ID or the input itself if it's a valid ID, or `None` if no valid ID is found.
 
         Examples:
-            >>> extract_id("https://www.aliexpress.com/item/123456.html")
+            >>> extract_id("https://www.aliexpress_com.com/item/123456.html")
             '123456'
 
             >>> extract_id("7891011")

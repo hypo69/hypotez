@@ -96,7 +96,7 @@
     **Примеры**:
 
     ```python
-    url = 'https://www.aliexpress.com/wholesale?SearchText=phone'
+    url = 'https://www.aliexpress_com.com/wholesale?SearchText=phone'
     items = a.get_items_by_url(url)
     ```
 

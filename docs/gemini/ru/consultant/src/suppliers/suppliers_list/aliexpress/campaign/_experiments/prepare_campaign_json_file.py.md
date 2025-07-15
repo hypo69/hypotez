@@ -65,9 +65,9 @@
 from pathlib import Path
 from typing import Optional
 
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignEditor
 # from src import gs # Заменить конкретным импортом, если используется
-from src.suppliers.suppliers_list.aliexpress.campaign import (
+from src.suppliers.suppliers_list.aliexpress_com.campaign import (
     process_campaign_category,
     process_campaign,
     process_all_campaigns,

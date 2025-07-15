@@ -30,8 +30,8 @@
 
 ```python
     # Пример использования update_categories_in_scenario_file
-    from src.suppliers.suppliers_list.aliexpress.scenario import update_categories_in_scenario_file
-    from src.suppliers.suppliers_list.aliexpress.aliexpress import Aliexpress
+    from src.suppliers.suppliers_list.aliexpress_com.scenario import update_categories_in_scenario_file
+    from src.suppliers.suppliers_list.aliexpress_com.aliexpress import Aliexpress
     
     s = Aliexpress()
     scenario_filename = 'aliexpress_scenario.json'

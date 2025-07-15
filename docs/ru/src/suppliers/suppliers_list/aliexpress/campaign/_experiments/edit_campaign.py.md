@@ -31,10 +31,10 @@ a = AliCampaignEditor(campaign_name,'EN','USD')
 - `header`: <описание модуля header>
 - `pathlib.Path`: <описание модуля pathlib>
 - `src.gs`: <описание модуля gs>
-- `src.suppliers.suppliers_list.aliexpress.campaign.AliCampaignEditor`: <описание модуля AliCampaignEditor>
-- `src.suppliers.suppliers_list.aliexpress.campaign.process_campaign`: <описание модуля process_campaign>
-- `src.suppliers.suppliers_list.aliexpress.campaign.process_campaign_category`: <описание модуля process_campaign_category>
-- `src.suppliers.suppliers_list.aliexpress.campaign.process_all_campaigns`: <описание модуля process_all_campaigns>
+- `src.suppliers.suppliers_list.aliexpress_com.campaign.AliCampaignEditor`: <описание модуля AliCampaignEditor>
+- `src.suppliers.suppliers_list.aliexpress_com.campaign.process_campaign`: <описание модуля process_campaign>
+- `src.suppliers.suppliers_list.aliexpress_com.campaign.process_campaign_category`: <описание модуля process_campaign_category>
+- `src.suppliers.suppliers_list.aliexpress_com.campaign.process_all_campaigns`: <описание модуля process_all_campaigns>
 - `src.utils.get_filenames`: <описание модуля get_filenames>
 - `src.utils.get_directory_names`: <описание модуля get_directory_names>
 - `src.utils.printer.pprint`: <описание модуля pprint>

@@ -58,7 +58,7 @@ def short_affiliate_link(url: str) -> str:
 from src.suppliers.suppliers_list.aliexpress import AffiliateLinksShortener
 
 a = AffiliateLinksShortener()
-url = 'https://aliexpress.com'
+url = 'https://aliexpress_com.com'
 short_link = a.short_affiliate_link(url)
 print(short_link)
 ```
@@ -75,7 +75,7 @@ print(short_link)
 from src.suppliers.suppliers_list.aliexpress import AffiliateLinksShortener
 
 a = AffiliateLinksShortener()
-url = 'https://aliexpress.com/some/long/affiliate/link'
+url = 'https://aliexpress_com.com/some/long/affiliate/link'
 link = a.short_affiliate_link(url)
 print(f"Original URL: {url}")
 print(f"Shortened URL: {link}")

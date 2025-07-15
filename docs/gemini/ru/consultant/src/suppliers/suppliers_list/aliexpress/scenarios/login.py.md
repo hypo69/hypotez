@@ -43,7 +43,7 @@
 Пример использования:
 ----------------------
 
->>> from src.suppliers.suppliers_list.aliexpress.scenarios.login import login
+>>> from src.suppliers.suppliers_list.aliexpress_com.scenarios.login import login
 >>> from src.suppliers.supplier import Supplier  # Предполагается, что Supplier определен в supplier.py
 >>> supplier = Supplier()  # Инициализация экземпляра класса Supplier
 >>> result = login(supplier)
@@ -85,7 +85,7 @@ def login(supplier: "Supplier") -> bool:
     locators: dict = supplier.locators["login"]
 
     # driver.fullscreen_window() # <- полноэкранный режим # TODO выяснить, нужен ли полноэкранный режим
-    driver.get_url("https://www.aliexpress.com")
+    driver.get_url("https://www.aliexpress_com.com")
     driver.execute_locator(locators["cookies_accept"])
     driver.wait(0.7)
 

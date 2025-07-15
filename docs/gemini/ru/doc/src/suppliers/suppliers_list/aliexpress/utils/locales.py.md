@@ -29,7 +29,7 @@
 **Примеры**:
 
 ```python
->>> from src.suppliers.suppliers_list.aliexpress.utils.locales import get_locales
+>>> from src.suppliers.suppliers_list.aliexpress_com.utils.locales import get_locales
 >>> locales = get_locales(Path('/path/to/locales.json'))
 >>> print(locales)
 [{'EN': 'USD'}, {'HE': 'ILS'}, {'RU': 'ILS'}, {'EN': 'EUR'}, {'EN': 'GBR'}, {'RU': 'EUR'}]

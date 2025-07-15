@@ -135,15 +135,15 @@ pprint(product_details)
 
 ```python
 # Example 1: Generating affiliate links for a single product
-product_link = 'https://www.aliexpress.com/item/10000000000000000.html'
+product_link = 'https://www.aliexpress_com.com/item/10000000000000000.html'
 affiliate_links = aliapi.get_affiliate_links(product_link)
 pprint(affiliate_links)
 
 # Example 2: Generating affiliate links for multiple products
 product_links = [
-    'https://www.aliexpress.com/item/10000000000000000.html',
-    'https://www.aliexpress.com/item/20000000000000000.html',
-    'https://www.aliexpress.com/item/30000000000000000.html'
+    'https://www.aliexpress_com.com/item/10000000000000000.html',
+    'https://www.aliexpress_com.com/item/20000000000000000.html',
+    'https://www.aliexpress_com.com/item/30000000000000000.html'
 ]
 affiliate_links = aliapi.get_affiliate_links(product_links)
 pprint(affiliate_links)
@@ -167,7 +167,7 @@ product_details = aliapi.retrieve_product_details_as_dict([product_id])
 pprint(product_details)
 
 # Retrieve affiliate links for a single product
-product_link = 'https://www.aliexpress.com/item/10000000000000000.html'
+product_link = 'https://www.aliexpress_com.com/item/10000000000000000.html'
 affiliate_links = aliapi.get_affiliate_links(product_link)
 pprint(affiliate_links)
 ```

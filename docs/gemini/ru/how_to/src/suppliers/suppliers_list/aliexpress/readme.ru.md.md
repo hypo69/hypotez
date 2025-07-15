@@ -30,7 +30,7 @@ from hypotez.src.suppliers.suppliers_list.aliexpress import api, locators, scena
 affiliate_link = api.get_affiliate_link(product_id=1234567890)
 
 # Сбор данных о товарах в определенной категории
-products = scenarios.collect_products(category_url='https://www.aliexpress.com/category/200000491/men-s-clothing.html')
+products = scenarios.collect_products(category_url='https://www.aliexpress_com.com/category/200000491/men-s-clothing.html')
 
 # Создание маркетинговой кампании
 campaign = campaign.create_campaign(name='Новая кампания', budget=1000, target_audience='Мужчины')

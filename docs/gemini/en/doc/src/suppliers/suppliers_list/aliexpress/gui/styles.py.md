@@ -1,4 +1,4 @@
-# Module: `src.suppliers.aliexpress.gui.styles`
+# Module: `src.suppliers.aliexpress_com.gui.styles`
 
 ## Overview
 

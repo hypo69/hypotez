@@ -106,7 +106,7 @@ test_scenario: dict = {
     "iPhone 13 & 13 MINI": {
         "category ID on site": 40000002781737,
         "brand": "APPLE",
-        "url": "https://hi5group.aliexpress.com/store/group/iPhone-13-13-mini/1053035_40000002781737.html",
+        "url": "https://hi5group.aliexpress_com.com/store/group/iPhone-13-13-mini/1053035_40000002781737.html",
         "active": True,
         "condition": "new",
         "presta_categories": {
@@ -128,11 +128,11 @@ test_scenario: dict = {
 
 ```python
 test_products_list: list = [
-    'https://s.click.aliexpress.com/e/_oFLpkfz',
-    'https://s.click.aliexpress.com/e/_oE5V3d9',
-    'https://s.click.aliexpress.com/e/_oDnvttN',
-    'https://s.click.aliexpress.com/e/_olWWQCP',
-    'https://s.click.aliexpress.com/e/_ok0xeMn'
+    'https://s.click.aliexpress_com.com/e/_oFLpkfz',
+    'https://s.click.aliexpress_com.com/e/_oE5V3d9',
+    'https://s.click.aliexpress_com.com/e/_oDnvttN',
+    'https://s.click.aliexpress_com.com/e/_olWWQCP',
+    'https://s.click.aliexpress_com.com/e/_ok0xeMn'
 ]
 ```
 

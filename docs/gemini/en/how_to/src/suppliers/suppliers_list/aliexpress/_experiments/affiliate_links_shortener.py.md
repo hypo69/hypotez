@@ -20,7 +20,7 @@ Execution Steps
 -------------------------
 1. Imports the necessary modules, including the `header` module and the `AffiliateLinksShortener` class from the `aliexpress` module.
 2. Creates an instance of the `AffiliateLinksShortener` class.
-3. Defines a sample URL, in this case, "https://aliexpress.com".
+3. Defines a sample URL, in this case, "https://aliexpress_com.com".
 4. Calls the `short_affiliate_link` method of the `AffiliateLinksShortener` instance, passing the sample URL as an argument. This method returns the shortened affiliate link.
 5. The shortened affiliate link is stored in the `link` variable.
 
@@ -34,7 +34,7 @@ from src.suppliers.suppliers_list.aliexpress import AffiliateLinksShortener
 a = AffiliateLinksShortener()
 
 # Define the URL to shorten
-url = 'https://aliexpress.com'
+url = 'https://aliexpress_com.com'
 
 # Shorten the affiliate link
 link = a.short_affiliate_link(url)

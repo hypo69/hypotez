@@ -410,7 +410,7 @@ instance2 = MySingletonClass(20) # Значение 20 будет проигно
 ```python
 # Пример доступа к настройкам через глобальный экземпляр
 # project_base_directory = gs.base_dir
-# aliexpress_api_key = gs.credentials.aliexpress.api_key
+# aliexpress_api_key = gs.credentials.aliexpress_com.api_key
 # current_log_path = gs.path.log
 ```
 ```

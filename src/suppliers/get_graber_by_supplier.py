@@ -3,7 +3,7 @@
 #! .pyenv/bin/python3
 
 """
-Модуль вохвращает класс вебдрайвера  для каждого конкретного поставщика
+Модуль вохвращает класс грабера  для каждого конкретного поставщика
 
 ```rst
 .. :module:: src.suppliers.get_graber_by_supplier 
@@ -17,30 +17,30 @@ from urllib.parse import urlparse
 
 # --- Импорты Graber классов ---
 from src.suppliers.suppliers_list.ads_tec_iit_com.graber import Graber as AdsTecIitComGraber
-from src.suppliers.suppliers_list.aliexpress.graber import Graber as AliexpressGraber
-from src.suppliers.suppliers_list.amazon.graber import Graber as AmazonGraber
+from src.suppliers.suppliers_list.aliexpress_com.graber import Graber as AliexpressGraber
+from src.suppliers.suppliers_list.amazon_com.graber import Graber as AmazonGraber
 from src.suppliers.suppliers_list.apple_com.graber import Graber as AppleComGraber
 from src.suppliers.suppliers_list.atlascopco_com.graber import Graber as AtlascopcoComGraber
-from src.suppliers.suppliers_list.bangood.graber import Graber as BangoodGraber
+from src.suppliers.suppliers_list.bangood_com.graber import Graber as BangoodGraber
 from src.suppliers.suppliers_list.bucketmaster_com_cn.graber import Graber as BucketmasterComCnGraber
-from src.suppliers.suppliers_list.cdata.graber import Graber as CdataGraber
+from src.suppliers.suppliers_list.cdata_co_il.graber import Graber as CdataGraber
 from src.suppliers.suppliers_list.cisco_com.graber import Graber as CiscoComGraber
 from src.suppliers.suppliers_list.de_de_ring_com.graber import Graber as DeDeRingComGraber
 from src.suppliers.suppliers_list.de_hexcel_com.graber import Graber as DeHexcelComGraber
 from src.suppliers.suppliers_list.de_rs_online_com.graber import Graber as DeRsOnlineComGraber
 from src.suppliers.suppliers_list.denaliweld_com.graber import Graber as DenaliweldComGraber
 from src.suppliers.suppliers_list.dewesoft_com.graber import Graber as DewesoftComGraber
-from src.suppliers.suppliers_list.ebay.graber import Graber as EbayGraber
+from src.suppliers.suppliers_list.ebay_com.graber import Graber as EbayGraber
 from src.suppliers.suppliers_list.elektrometal_eu.graber import Graber as ElektrometalEuGraber
-from src.suppliers.suppliers_list.etzmaleh.graber import Graber as EtzmalehGraber
+from src.suppliers.suppliers_list.etzmaleh_co_il.graber import Graber as EtzmalehGraber
 from src.suppliers.suppliers_list.findernet_com.graber import Graber as FindernetComGraber
 from src.suppliers.suppliers_list.fresubin_com.graber import Graber as FresubinComGraber
-from src.suppliers.suppliers_list.gearbest.graber import Graber as GearbestGraber
+from src.suppliers.suppliers_list.gearbest_com.graber import Graber as GearbestGraber
 from src.suppliers.suppliers_list.generex_de.graber import Graber as GenerexDeGraber
 from src.suppliers.suppliers_list.georgin_com.graber import Graber as GeorginComGraber
 from src.suppliers.suppliers_list.german_micro_steppermotors_com.graber import Graber as GermanMicroSteppermotorsComGraber
-from src.suppliers.suppliers_list.grandadvance.graber import Graber as GrandadvanceGraber
-from src.suppliers.suppliers_list.hb.graber import Graber as HbGraber
+from src.suppliers.suppliers_list.grandadvance_co_il.graber import Graber as GrandadvanceGraber
+from src.suppliers.suppliers_list.hbdeadsea_co_il.graber import Graber as HbGraber
 from src.suppliers.suppliers_list.imos3d_com.graber import Graber as Imos3dComGraber
 from src.suppliers.suppliers_list.induprogress_pl.graber import Graber as InduprogressPlGraber
 from src.suppliers.suppliers_list.industrierat_west_de.graber import Graber as IndustrieratWestDeGraber
@@ -49,11 +49,11 @@ from src.suppliers.suppliers_list.it_defelsko_com.graber import Graber as ItDefe
 from src.suppliers.suppliers_list.it_jarvis_smart_com.graber import Graber as ItJarvisSmartComGraber
 from src.suppliers.suppliers_list.it_superb_heater_com.graber import Graber as ItSuperbHeaterComGraber
 from src.suppliers.suppliers_list.it_thermo_heater_com.graber import Graber as ItThermoHeaterComGraber
-from src.suppliers.suppliers_list.ivory.graber import Graber as IvoryGraber
+from src.suppliers.suppliers_list.ivory_co_il.graber import Graber as IvoryGraber
 from src.suppliers.suppliers_list.janitza_com.graber import Graber as JanitzaComGraber
 from src.suppliers.suppliers_list.jungbluth_com.graber import Graber as JungbluthComGraber
-from src.suppliers.suppliers_list.ksp.graber import Graber as KspGraber
-from src.suppliers.suppliers_list.kualastyle.graber import Graber as KualastyleGraber
+from src.suppliers.suppliers_list.ksp_co_il.graber import Graber as KspGraber
+from src.suppliers.suppliers_list.kualastyle_co_il.graber import Graber as KualastyleGraber
 from src.suppliers.suppliers_list.ledodm_com.graber import Graber as LedodmComGraber
 from src.suppliers.suppliers_list.leybold_com.graber import Graber as LeyboldComGraber
 from src.suppliers.suppliers_list.mecalux_it.graber import Graber as MecaluxItGraber
@@ -61,7 +61,7 @@ from src.suppliers.suppliers_list.megatron_de.graber import Graber as MegatronDe
 from src.suppliers.suppliers_list.megger_com.graber import Graber as MeggerComGraber
 from src.suppliers.suppliers_list.mococonnectors_com.graber import Graber as MococonnectorsComGraber
 from src.suppliers.suppliers_list.mordorintelligence_it.graber import Graber as MordorintelligenceItGraber
-from src.suppliers.suppliers_list.morlevi.graber import Graber as MorleviGraber
+from src.suppliers.suppliers_list.morlevi_co_il.graber import Graber as MorleviGraber
 from src.suppliers.suppliers_list.omnipod_com.graber import Graber as OmnipodComGraber
 from src.suppliers.suppliers_list.opel_de.graber import Graber as OpelDeGraber
 from src.suppliers.suppliers_list.pfannenberg_com.graber import Graber as PfannenbergComGraber
@@ -76,21 +76,21 @@ from src.suppliers.suppliers_list.shop_scheppach_com.graber import Graber as Sho
 from src.suppliers.suppliers_list.sigmaaldrich_com.graber import Graber as SigmaaldrichComGraber
 from src.suppliers.suppliers_list.sphinxitalia_it.graber import Graber as SphinxitaliaItGraber
 from src.suppliers.suppliers_list.vidaxl_pl.graber import Graber as VidaxlPlGraber
-from src.suppliers.suppliers_list.visualdg.graber import Graber as VisualdgGraber
-from src.suppliers.suppliers_list.wallashop.graber import Graber as WallashopGraber
-from src.suppliers.suppliers_list.wallmart.graber import Graber as WallmartGraber
+from src.suppliers.suppliers_list.visualdg_co_il.graber import Graber as VisualdgGraber
+from src.suppliers.suppliers_list.wallashop_co_il.graber import Graber as WallashopGraber
+from src.suppliers.suppliers_list.wallmart_com.graber import Graber as WallmartGraber
 from src.suppliers.suppliers_list.zebra_com.graber import Graber as ZebraComGraber
 
 
 URL_PREFIX_MAP = {
     "https://ads-tec-iit.com/": AdsTecIitComGraber,
-    "https://aliexpress.com/": AliexpressGraber,
+    "https://aliexpress_com.com/": AliexpressGraber,
     "https://amazon.com/": AmazonGraber,
     "https://apple.com/": AppleComGraber,
     "https://atlascopco.com/": AtlascopcoComGraber,
     "https://bangood.com/": BangoodGraber,
     "https://bucketmaster.com.cn/": BucketmasterComCnGraber,
-    "https://cdata.com/": CdataGraber,
+    "https://cdata.co.il/": CdataGraber,
     "https://chat.openai.com/": "chat_gpt",
     "https://cisco.com/": CiscoComGraber,
     "https://de-de.ring.com/": DeDeRingComGraber,
@@ -108,7 +108,7 @@ URL_PREFIX_MAP = {
     "https://georgin.com/": GeorginComGraber,
     "https://german.micro-steppermotors.com/": GermanMicroSteppermotorsComGraber,
     "https://grandadvance.com/": GrandadvanceGraber,
-    "https://hb.com/": HbGraber,
+    "https://hbdeadsea.co.il/": HbGraber,
     "https://imos3d.com/": Imos3dComGraber,
     "https://induprogress.pl/": InduprogressPlGraber,
     "https://industrierat-west.de/": IndustrieratWestDeGraber,
@@ -117,7 +117,7 @@ URL_PREFIX_MAP = {
     "https://it.jarvis-smart.com/": ItJarvisSmartComGraber,
     "https://it.superb-heater.com/": ItSuperbHeaterComGraber,
     "https://it.thermo-heater.com/": ItThermoHeaterComGraber,
-    "https://ivory.com/": IvoryGraber,
+    "https://ivory.co.il/": IvoryGraber,
     "https://janitza.com/": JanitzaComGraber,
     "https://jungbluth.com/": JungbluthComGraber,
     "https://ksp.com/": KspGraber,
@@ -129,7 +129,7 @@ URL_PREFIX_MAP = {
     "https://megger.com/": MeggerComGraber,
     "https://mococonnectors.com/": MococonnectorsComGraber,
     "https://mordorintelligence.it/": MordorintelligenceItGraber,
-    "https://morlevi.com/": MorleviGraber,
+    "https://morlevi.co.il/": MorleviGraber,
     "https://omnipod.com/": OmnipodComGraber,
     "https://opel.de/": OpelDeGraber,
     "https://pfannenberg.com/": PfannenbergComGraber,
@@ -144,8 +144,8 @@ URL_PREFIX_MAP = {
     "https://sigmaaldrich.com/": SigmaaldrichComGraber,
     "https://sphinxitalia.it/": SphinxitaliaItGraber,
     "https://vidaxl.pl/": VidaxlPlGraber,
-    "https://visualdg.com/": VisualdgGraber,
-    "https://wallashop.com/": WallashopGraber,
+    "https://visualdg.co.il/": VisualdgGraber,
+    "https://wallashop.co.il/": WallashopGraber,
     "https://wallmart.com/": WallmartGraber,
     "https://zebra.com/": ZebraComGraber,
 }
@@ -237,8 +237,8 @@ def get_graber_by_supplier_url(url: str) -> str:
     """
     Возвращает URL-префикс, соответствующий поставщику по входному URL.
 
-    :param url: исходный URL (например, 'https://aliexpress.com/item/abc123')
-    :return: базовый URL-префикс (например, 'https://aliexpress.com/')
+    :param url: исходный URL (например, 'https://aliexpress_com.com/item/abc123')
+    :return: базовый URL-префикс (например, 'https://aliexpress_com.com/')
     :raises ValueError: если URL не соответствует ни одному из известных поставщиков
     """
     parsed = urlparse(url)

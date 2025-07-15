@@ -35,8 +35,8 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignGoogleSheet, AliCampaignEditor
-from src.suppliers.suppliers_list.aliexpress.campaign.ttypes import CampaignType, CategoryType, ProductType
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignGoogleSheet, AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress_com.campaign.ttypes import CampaignType, CategoryType, ProductType
 
 # Google Sheet ID
 gs_id = '1nu4mNNFMzSePlggaaL_QM2vdKVP_NNBl2OG7R9MNrs0'

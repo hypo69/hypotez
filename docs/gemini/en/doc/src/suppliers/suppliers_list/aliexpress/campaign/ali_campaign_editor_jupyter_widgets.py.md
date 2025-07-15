@@ -6,7 +6,7 @@ This module provides widgets for managing AliExpress campaigns in Jupyter notebo
 
 ## Details
 
-The `JupyterCampaignEditorWidgets` class is responsible for displaying and managing widgets related to AliExpress campaign editing within a Jupyter notebook environment. It leverages the `AliCampaignEditor` class from the `aliexpress.campaign` module to interact with campaign data and perform various actions.
+The `JupyterCampaignEditorWidgets` class is responsible for displaying and managing widgets related to AliExpress campaign editing within a Jupyter notebook environment. It leverages the `AliCampaignEditor` class from the `aliexpress_com.campaign` module to interact with campaign data and perform various actions.
 
 ## Classes
 

@@ -1,4 +1,4 @@
-# Module: `src.suppliers.suppliers_list.aliexpress._experiments.affiliate_links_shortener`
+# Module: `src.suppliers.suppliers_list.aliexpress_com._experiments.affiliate_links_shortener`
 
 ## Overview
 
@@ -24,7 +24,7 @@ This module is part of the `hypotez` project and handles the process of shorteni
 from src.suppliers.suppliers_list.aliexpress import AffiliateLinksShortener
 
 a = AffiliateLinksShortener()
-url = 'https://aliexpress.com'
+url = 'https://aliexpress_com.com'
 link = a.short_affiliate_link(url)
 ```
 
@@ -42,7 +42,7 @@ This module does not contain any functions other than the methods within the `Af
 from src.suppliers.suppliers_list.aliexpress import AffiliateLinksShortener
 
 a = AffiliateLinksShortener()
-url = 'https://aliexpress.com/item/4000000000000.html'  # Example AliExpress product URL
+url = 'https://aliexpress_com.com/item/4000000000000.html'  # Example AliExpress product URL
 link = a.short_affiliate_link(url)
 print(f"Shortened affiliate link: {link}")
 ```

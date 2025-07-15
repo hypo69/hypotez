@@ -70,7 +70,7 @@ Jupyter Notebooks. Класс работает с Google Sheets. В модуле
 ## Примеры
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.campaign import JupyterCampaignEditorWidgets
+from src.suppliers.suppliers_list.aliexpress_com.campaign import JupyterCampaignEditorWidgets
 
 # Создание объекта виджетов
 editor_widgets: JupyterCampaignEditorWidgets = JupyterCampaignEditorWidgets()

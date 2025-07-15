@@ -31,7 +31,7 @@ def login(s)->bool:
 **Как работает функция**:
 
 1.  **Получает драйвер и локаторы**: Из объекта поставщика `s` извлекаются драйвер веб-браузера (`_d`) и локаторы элементов для входа (`_l`).
-2.  **Переходит на страницу AliExpress**: Драйвер переходит по URL-адресу `https://www.aliexpress.com`.
+2.  **Переходит на страницу AliExpress**: Драйвер переходит по URL-адресу `https://www.aliexpress_com.com`.
 3.  **Принимает cookies**: Функция принимает cookies, используя локатор `_l['cookies_accept']`.
 4.  **Открывает форму входа**: Функция открывает форму входа, используя локатор `_l['open_login']`.
 5.  **Вводит email и пароль**: Функция пытается ввести email и пароль, используя локаторы `_l['email_locator']` и `_l['password_locator']` соответственно.
@@ -42,7 +42,7 @@ def login(s)->bool:
 
 ```python
 # Пример вызова функции login
-from src.suppliers.suppliers_list.aliexpress.aliexpress import Supplier
+from src.suppliers.suppliers_list.aliexpress_com.aliexpress import Supplier
 from src.webdriver import Driver, Firefox
 
 # Создание экземпляра поставщика

@@ -15,7 +15,7 @@
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.graber import Graber
+from src.suppliers.suppliers_list.aliexpress_com.graber import Graber
 from src.webdriver.driver import Driver
 from src.webdriver.browsers import Firefox
 
@@ -24,7 +24,7 @@ graber = Graber(driver, lang_index=0)
 
 # В этом примере `Config.locator_for_decorator` не установлен, 
 # поэтому декоратор `@close_pop_up` не будет выполняться.
-graber.get_product_data(product_url='https://www.aliexpress.com/item/10050048019963.html')
+graber.get_product_data(product_url='https://www.aliexpress_com.com/item/10050048019963.html')
 ```
 
 **Важно:**

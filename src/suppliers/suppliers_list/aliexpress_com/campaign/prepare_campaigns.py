@@ -3,7 +3,7 @@
 #! .pyenv/bin/python3
 """
 ```rst
-.. module:: src.suppliers.suppliers_list.aliexpress.campaign 
+.. module:: src.suppliers.suppliers_list.aliexpress_com.campaign 
 	:platform: Windows, Unix
 	:synopsis: module prepares AliExpress campaigns by processing categories, handling campaign data, and generating promotional materials
 ```
@@ -25,8 +25,8 @@ from pathlib import Path
 from typing import List, Optional
 
 from src import gs
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignEditor
-from src.suppliers.suppliers_list.aliexpress.utils import locales
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress_com.utils import locales
 from src.utils.printer import pprint 
 from src.utils.file import get_directory_names
 from src.utils.jjson import j_loads_ns

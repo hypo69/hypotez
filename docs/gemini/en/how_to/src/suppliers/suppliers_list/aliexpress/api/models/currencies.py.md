@@ -25,7 +25,7 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.aliexpress.api.models.currencies import Currency
+from src.suppliers.aliexpress_com.api.models.currencies import Currency
 
 # Get the USD currency code
 currency_code = Currency.USD 

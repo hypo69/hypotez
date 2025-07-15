@@ -1,8 +1,8 @@
-# Модуль `src.suppliers.aliexpress.api.helpers.requests`
+# Модуль `src.suppliers.aliexpress_com.api.helpers.requests`
 
 ## Обзор
 
-Модуль `src.suppliers.aliexpress.api.helpers.requests` предоставляет функцию `api_request` для отправки запросов к API AliExpress и обработки ответов.
+Модуль `src.suppliers.aliexpress_com.api.helpers.requests` предоставляет функцию `api_request` для отправки запросов к API AliExpress и обработки ответов.
 
 ## Подробней
 
@@ -42,7 +42,7 @@
 **Примеры**:
 
 ```python
-from src.suppliers.aliexpress.api.helpers.requests import api_request
+from src.suppliers.aliexpress_com.api.helpers.requests import api_request
 # ...
 # Инициализация объекта запроса
 request = ...
@@ -66,7 +66,7 @@ else:
 **Примеры**:
 
 ```python
-from src.suppliers.aliexpress.api.helpers.requests import api_request
+from src.suppliers.aliexpress_com.api.helpers.requests import api_request
 # ...
 # Инициализация объекта запроса
 request = ...

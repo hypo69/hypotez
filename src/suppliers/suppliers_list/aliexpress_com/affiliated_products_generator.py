@@ -21,17 +21,13 @@ from typing import List
 
 from src.logger.logger import logger
 from src import gs
-from src.suppliers.suppliers_list.aliexpress import AliApi
-from src.suppliers.suppliers_list.aliexpress.campaign.html_generators import ProductHTMLGenerator, CategoryHTMLGenerator, CampaignHTMLGenerator 
-from src.suppliers.suppliers_list.aliexpress.utils.ensure_https import ensure_https
+from src.suppliers.suppliers_list.aliexpress_com import AliApi
+from src.suppliers.suppliers_list.aliexpress_com.campaign.html_generators import ProductHTMLGenerator, CategoryHTMLGenerator, CampaignHTMLGenerator 
+from src.suppliers.suppliers_list.aliexpress_com.utils.ensure_https import ensure_https
 from src.endpoints.prestashop.product_fields import ProductFields as f
 from src.utils.image import save_image_from_url_async 
 from src.utils.video import save_video_from_url
-from src.utils.file import (read_text_file,
-                        get_filenames_from_directory,
-                        get_directory_names,
-                        save_text_file
-                        )
+from src.utils.file import read_text_file,get_filenames_from_directory,get_directory_names,save_text_file
 from src.utils.jjson import j_loads_ns, j_dumps
 from src.utils.printer import pprint
 from src.logger.logger import logger
@@ -166,7 +162,7 @@ class AliAffiliatedProducts(AliApi):
 
         _promotion_links: list = []
         _prod_urls: list = []
-        normilized_prod_urls = ensure_https(prod_ids) # <- привожу к виду `https://aliexpress.com/item/<product_id>.html`
+        normilized_prod_urls = ensure_https(prod_ids) # <- привожу к виду `https://aliexpress_com.com/item/<product_id>.html`
         print_flag = '' # <- флаг переключения печати в одну строку
 
 

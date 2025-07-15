@@ -26,7 +26,7 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.graber import Graber
+from src.suppliers.suppliers_list.aliexpress_com.graber import Graber
 from src.webdriver.driver import Driver
 
 # Initialize the WebDriver

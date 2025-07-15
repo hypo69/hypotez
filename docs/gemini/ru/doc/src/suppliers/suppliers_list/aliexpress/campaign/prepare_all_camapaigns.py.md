@@ -18,12 +18,12 @@
 **Как работает**:
 
 - Импортирует необходимый заголовок.
-- Выполняет функцию `process_all_campaigns` из модуля `src.suppliers.suppliers_list.aliexpress.campaign.process_all_campaigns`.
+- Выполняет функцию `process_all_campaigns` из модуля `src.suppliers.suppliers_list.aliexpress_com.campaign.process_all_campaigns`.
 
 **Примеры**:
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.campaign import process_all_campaigns
+from src.suppliers.suppliers_list.aliexpress_com.campaign import process_all_campaigns
 
 process_all_campaigns()
 ```
@@ -48,12 +48,12 @@ process_all_campaigns()
 **Примеры**:
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.campaign import process_all_campaigns
+from src.suppliers.suppliers_list.aliexpress_com.campaign import process_all_campaigns
 
 # Вызов функции 
 process_all_campaigns() 
 ```
 
 **Как работает**:
-- Функция `process_all_campaigns` из модуля `src.suppliers.suppliers_list.aliexpress.campaign.process_all_campaigns` выполняет проверку и создание affiliate для всех рекламных кампаний. 
+- Функция `process_all_campaigns` из модуля `src.suppliers.suppliers_list.aliexpress_com.campaign.process_all_campaigns` выполняет проверку и создание affiliate для всех рекламных кампаний. 
 - Если affiliate не существует, то создается новый.

@@ -29,7 +29,7 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.api.models.request_parameters import ProductType, SortBy, LinkType
+from src.suppliers.suppliers_list.aliexpress_com.api.models.request_parameters import ProductType, SortBy, LinkType
 
 # Get all products sorted by sale price descending
 product_type = ProductType.ALL

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
  # <- venv win
 ## ~~~~~~~~~~~~~
-""" module: src.suppliers.suppliers_list.aliexpress.api.skd.api.rest """
+""" module: src.suppliers.suppliers_list.aliexpress_com.api.skd.api.rest """
 """
 Created by auto_sdk on 2021.05.12
 """
@@ -10,7 +10,7 @@ from ..base import RestApi
 
 
 class AliexpressAffiliateHotproductDownloadRequest(RestApi):
-    def __init__(self, domain="api-sg.aliexpress.com", port=80):
+    def __init__(self, domain="api-sg.apiexpress.com", port=80):
         RestApi.__init__(self, domain, port)
         self.app_signature = None
         self.category_id = None
@@ -24,5 +24,5 @@ class AliexpressAffiliateHotproductDownloadRequest(RestApi):
         self.tracking_id = None
 
     def getapiname(self):
-        return "aliexpress.affiliate.hotproduct.download"
+        return "apiexpress.affiliate.hotproduct.download"
 

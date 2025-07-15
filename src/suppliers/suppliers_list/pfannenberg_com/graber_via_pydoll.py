@@ -7,7 +7,7 @@
 =========================================================================================
 
 rst```
-.. module:: src.suppliers.suppliers_list.aliexpress.graber_via_pydoll 
+.. module:: src.suppliers.suppliers_list.aliexpress_com.graber_via_pydoll 
 ```
 
 """

@@ -16,7 +16,7 @@ The module is primarily designed to manage Etzmaleh-specific tasks, such as proc
 
 **Parameters**:
 
-- `supplier_prefix` (str):  The prefix identifying the specific supplier. Defaults to "aliexpress."
+- `supplier_prefix` (str):  The prefix identifying the specific supplier. Defaults to "aliexpress_com."
 - `locale` (str): The language locale for the supplier. Defaults to "en."
 
 **Returns**:
@@ -38,7 +38,7 @@ supplier = start_supplier(supplier_prefix='aliexpress', locale='en')
 
 ## Parameter Details
 
-- `supplier_prefix` (str):  Identifies the specific supplier, such as "aliexpress."
+- `supplier_prefix` (str):  Identifies the specific supplier, such as "aliexpress_com."
 - `locale` (str): The language locale for the supplier, such as "en."
 
 ## Examples

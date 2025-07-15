@@ -30,7 +30,7 @@
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.campaign.ali_campaign_editor import AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress_com.campaign.ali_campaign_editor import AliCampaignEditor
 
 # Создание экземпляра класса AliCampaignEditor
 editor = AliCampaignEditor(campaign_name="Summer Sale", language="EN", currency="USD")

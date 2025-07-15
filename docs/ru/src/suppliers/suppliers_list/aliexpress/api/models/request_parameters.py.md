@@ -1,4 +1,4 @@
-# Модуль: src.suppliers.suppliers_list.aliexpress.api.models
+# Модуль: src.suppliers.suppliers_list.aliexpress_com.api.models
 
 ## Обзор
 

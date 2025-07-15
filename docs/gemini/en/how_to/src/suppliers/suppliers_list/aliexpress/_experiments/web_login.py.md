@@ -21,13 +21,13 @@ Execution Steps
 1. **Import necessary modules**: Imports required modules for working with AliExpress, such as `header`, `Path`, `pickle`, `requests`, `gs`, and `pprint`.
 2. **Initialize Supplier object**: Creates an instance of the `Supplier` class for AliExpress.
 3. **Get web driver**: Retrieves the web driver associated with the `Supplier` object.
-4. **Navigate to AliExpress**: Uses the web driver to open the AliExpress website (`https://aliexpress.com`).
+4. **Navigate to AliExpress**: Uses the web driver to open the AliExpress website (`https://aliexpress_com.com`).
 
 Usage Example
 -------------------------
 
 ```python
-    from src.suppliers.suppliers_list.aliexpress._experiments import Supplier
+    from src.suppliers.suppliers_list.aliexpress_com._experiments import Supplier
 
     # Initialize the Supplier object
     aliexpress_supplier = Supplier('aliexpress')
@@ -36,7 +36,7 @@ Usage Example
     driver = aliexpress_supplier.driver
 
     # Navigate to the AliExpress website
-    driver.get_url('https://aliexpress.com') 
+    driver.get_url('https://aliexpress_com.com') 
 ```
 
 4. **Avoid Vague Terms** like "getting" or "doing". Be specific about what the code does, for example: "checks", "validates", or "sends".

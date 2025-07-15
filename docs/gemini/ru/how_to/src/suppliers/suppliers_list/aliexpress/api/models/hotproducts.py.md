@@ -20,8 +20,8 @@
 -------------------------
 
 ```python
-from src.suppliers.aliexpress.api.models.hotproducts import HotProductsResponse
-from src.suppliers.aliexpress.api.models.product import Product
+from src.suppliers.aliexpress_com.api.models.hotproducts import HotProductsResponse
+from src.suppliers.aliexpress_com.api.models.product import Product
 
 # Пример данных из API AliExpress
 api_response = {

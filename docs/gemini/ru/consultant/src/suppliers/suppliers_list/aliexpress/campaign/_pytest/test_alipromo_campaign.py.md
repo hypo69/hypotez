@@ -65,7 +65,7 @@
 import pytest
 from pathlib import Path
 from types import SimpleNamespace
-from src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign import AliPromoCampaign
+from src.suppliers.suppliers_list.aliexpress_com.campaign.ali_promo_campaign import AliPromoCampaign
 from src.utils.jjson import j_dumps, j_loads_ns
 from src.utils.file import save_text_file
 from src import gs
@@ -125,7 +125,7 @@ def test_get_category_products_no_json_files(mocker, campaign: AliPromoCampaign)
         campaign (AliPromoCampaign): Экземпляр AliPromoCampaign.
     """
     mocker.patch("src.utils.file.get_filenames", return_value=[])
-    mocker.patch("src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.fetch_product_data", return_value=[])
+    mocker.patch("src.suppliers.suppliers_list.aliexpress_com.campaign.ali_promo_campaign.AliPromoCampaign.fetch_product_data", return_value=[])
 
     products = campaign.get_category_products(force=True)
     # Проверка, что возвращается пустой список, если нет JSON файлов
@@ -210,10 +210,10 @@ def test_prepare_products(mocker, campaign: AliPromoCampaign) -> None:
         mocker: Pytest mocker fixture.
         campaign (AliPromoCampaign): Экземпляр AliPromoCampaign.
     """
-    mocker.patch("src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.get_prepared_products", return_value=[])
+    mocker.patch("src.suppliers.suppliers_list.aliexpress_com.campaign.ali_promo_campaign.AliPromoCampaign.get_prepared_products", return_value=[])
     mocker.patch("src.utils.file.read_text_file", return_value="source_data")
     mocker.patch("src.utils.file.get_filenames", return_value=["source.html"])
-    mocker.patch("src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.process_affiliate_products")
+    mocker.patch("src.suppliers.suppliers_list.aliexpress_com.campaign.ali_promo_campaign.AliPromoCampaign.process_affiliate_products")
 
     campaign.prepare_products()
     # Проверка, что метод process_affiliate_products вызывается один раз
@@ -229,7 +229,7 @@ def test_fetch_product_data(mocker, campaign: AliPromoCampaign) -> None:
     """
     product_ids: list[str] = ["123", "456"]
     mock_products: list[SimpleNamespace] = [SimpleNamespace(product_id="123"), SimpleNamespace(product_id="456")]
-    mocker.patch("src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.process_affiliate_products", return_value=mock_products)
+    mocker.patch("src.suppliers.suppliers_list.aliexpress_com.campaign.ali_promo_campaign.AliPromoCampaign.process_affiliate_products", return_value=mock_products)
 
     products = campaign.fetch_product_data(product_ids)
     # Проверка, что данные товара извлечены корректно

@@ -22,7 +22,7 @@
 -------------------------
 
 ```python
-from src.suppliers.aliexpress.campaign.html_generators import ProductHTMLGenerator, CategoryHTMLGenerator, CampaignHTMLGenerator
+from src.suppliers.aliexpress_com.campaign.html_generators import ProductHTMLGenerator, CategoryHTMLGenerator, CampaignHTMLGenerator
 from types import SimpleNamespace
 from pathlib import Path
 
@@ -37,7 +37,7 @@ product = SimpleNamespace(
     target_original_price=15.99,
     target_original_price_currency='USD',
     second_level_category_name='Category Name',
-    promotion_link='https://aliexpress.com/product/123456789'
+    promotion_link='https://aliexpress_com.com/product/123456789'
 )
 
 # Пример данных категорий
@@ -58,7 +58,7 @@ products_list = [
         target_original_price=15.99,
         target_original_price_currency='USD',
         second_level_category_name='Category Name',
-        promotion_link='https://aliexpress.com/product/123456789'
+        promotion_link='https://aliexpress_com.com/product/123456789'
     ),
     SimpleNamespace(
         product_id='987654321',
@@ -69,7 +69,7 @@ products_list = [
         target_original_price=19.99,
         target_original_price_currency='USD',
         second_level_category_name='Category Name',
-        promotion_link='https://aliexpress.com/product/987654321'
+        promotion_link='https://aliexpress_com.com/product/987654321'
     )
 ]
 

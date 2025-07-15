@@ -345,7 +345,7 @@ settings = ProgramSettings()
 
 # Доступ к настройкам
 print(f"Project name: {settings.config.project_name}")
-print(f"API key: {settings.credentials.aliexpress.api_key}")
+print(f"API key: {settings.credentials.aliexpress_com.api_key}")
 print(f"Log directory: {settings.path.log}")
 print(f"Current timestamp: {settings.now}")
 ```

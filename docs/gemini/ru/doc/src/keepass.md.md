@@ -18,11 +18,11 @@
 **Атрибуты**:
     - `credentials`:  Объект `SimpleNamespace`, содержащий учетные данные для различных сервисов:
     - `credentials.aliexpress`: Объект `SimpleNamespace` для хранения учетных данных Aliexpress.
-    - `credentials.aliexpress.api_key`: API ключ Aliexpress.
-    - `credentials.aliexpress.secret`: Secret ключ Aliexpress.
-    - `credentials.aliexpress.tracking_id`: Tracking ID Aliexpress.
-    - `credentials.aliexpress.email`: Email адрес Aliexpress.
-    - `credentials.aliexpress.password`: Пароль для Aliexpress.
+    - `credentials.aliexpress_com.api_key`: API ключ Aliexpress.
+    - `credentials.aliexpress_com.secret`: Secret ключ Aliexpress.
+    - `credentials.aliexpress_com.tracking_id`: Tracking ID Aliexpress.
+    - `credentials.aliexpress_com.email`: Email адрес Aliexpress.
+    - `credentials.aliexpress_com.password`: Пароль для Aliexpress.
     - `credentials.openai`: Объект `SimpleNamespace` для хранения учетных данных OpenAI.
     - `credentials.openai.api_key`: API ключ OpenAI.
     - `credentials.openai.project_api`: API ключ проекта OpenAI.
@@ -102,7 +102,7 @@
     settings = get_program_settings()
 
     # Получение API ключа Aliexpress
-    aliexpress_api_key = settings.credentials.aliexpress.api_key
+    aliexpress_api_key = settings.credentials.aliexpress_com.api_key
     ```
 ## Внутренние функции
 ### `_open_kp()`:
@@ -337,7 +337,7 @@
     _load_credentials(kp=kp)
 
     # Получение API ключа Aliexpress
-    aliexpress_api_key = settings.credentials.aliexpress.api_key
+    aliexpress_api_key = settings.credentials.aliexpress_com.api_key
 
     # Получение ID ассистента OpenAI
     assistant_id = settings.credentials.openai.assistant_id

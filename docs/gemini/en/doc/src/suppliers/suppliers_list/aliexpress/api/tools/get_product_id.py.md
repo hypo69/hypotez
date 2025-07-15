@@ -1,8 +1,8 @@
-# Module: src.suppliers.aliexpress.api.tools.get_product_id
+# Module: src.suppliers.aliexpress_com.api.tools.get_product_id
 
 ## Overview
 
-This module provides a function to extract product IDs from given text. It utilizes the `extract_prod_ids` function from the `src.suppliers.suppliers_list.aliexpress.utils.extract_product_id` module to perform the extraction.
+This module provides a function to extract product IDs from given text. It utilizes the `extract_prod_ids` function from the `src.suppliers.suppliers_list.aliexpress_com.utils.extract_product_id` module to perform the extraction.
 
 ## Details
 
@@ -28,12 +28,12 @@ The `get_product_id` function takes a raw product ID as input and returns a prod
 
 **How the Function Works**:
 
-- The function delegates the extraction process to the `extract_prod_ids` function from the `src.suppliers.suppliers_list.aliexpress.utils.extract_product_id` module. 
+- The function delegates the extraction process to the `extract_prod_ids` function from the `src.suppliers.suppliers_list.aliexpress_com.utils.extract_product_id` module. 
 
 **Examples**:
 
 ```python
-from src.suppliers.aliexpress.api.tools.get_product_id import get_product_id
+from src.suppliers.aliexpress_com.api.tools.get_product_id import get_product_id
 
 # Example 1: Successful extraction
 raw_product_id = "Product ID: 1234567890"

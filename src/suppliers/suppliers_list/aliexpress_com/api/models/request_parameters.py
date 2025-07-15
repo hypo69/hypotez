@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
  # <- venv win
 ## ~~~~~~~~~~~~~
-""" module: src.suppliers.suppliers_list.aliexpress.api.models """
+""" module: src.suppliers.suppliers_list.aliexpress_com.api.models """
 class ProductType:
     ALL = 'ALL'
     PLAZA = 'PLAZA'

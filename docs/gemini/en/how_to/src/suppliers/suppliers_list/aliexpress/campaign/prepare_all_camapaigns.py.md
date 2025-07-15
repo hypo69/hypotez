@@ -20,7 +20,7 @@ If a campaign does not exist, a new one will be created.
 Execution Steps
 -------------------------
 1. Import the `header` module, which likely contains necessary configuration or initialization settings for the AliExpress affiliate program.
-2. Import the `process_all_campaigns` function from the `src.suppliers.suppliers_list.aliexpress.campaign` module.
+2. Import the `process_all_campaigns` function from the `src.suppliers.suppliers_list.aliexpress_com.campaign` module.
 3. Execute the `process_all_campaigns()` function, which manages the process of preparing all existing AliExpress affiliate campaigns or creating new ones.
 
 Usage Example
@@ -29,7 +29,7 @@ Usage Example
 ```python
     # Import necessary modules
     import header
-    from src.suppliers.suppliers_list.aliexpress.campaign import process_all_campaigns
+    from src.suppliers.suppliers_list.aliexpress_com.campaign import process_all_campaigns
 
     # Initiate the campaign preparation process
     process_all_campaigns()

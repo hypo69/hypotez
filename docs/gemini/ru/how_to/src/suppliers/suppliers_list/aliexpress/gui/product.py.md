@@ -30,7 +30,7 @@
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.gui.product import ProductEditor
+from src.suppliers.suppliers_list.aliexpress_com.gui.product import ProductEditor
 
 # создание экземпляр ProductEditor
 product_editor = ProductEditor()

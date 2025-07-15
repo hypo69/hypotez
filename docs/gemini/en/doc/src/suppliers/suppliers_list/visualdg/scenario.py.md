@@ -134,4 +134,4 @@ get_list_categories_from_site(s)
 - Опишите процесс сбора товаров с сайта  `kualastyle.il`,  включая все этапы сбора.
 - Опишите локаторы, которые используются для работы с элементами на странице.
 - Внесите в код изменения, используя `logger.error(...)` для обработки ошибок в каждой функции.
-- Опишите, как  `get_list_categories_from_site` взаимодействует с  `PrestaShop.categories <-> aliexpress.shop.categoies`.
+- Опишите, как  `get_list_categories_from_site` взаимодействует с  `PrestaShop.categories <-> aliexpress_com.shop.categoies`.

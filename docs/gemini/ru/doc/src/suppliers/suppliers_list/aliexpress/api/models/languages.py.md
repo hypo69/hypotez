@@ -38,7 +38,7 @@
 **Примеры**:
 
 ```python
-from src.suppliers.aliexpress.api.models.languages import Language
+from src.suppliers.aliexpress_com.api.models.languages import Language
 
 # Получение значения для английского языка
 language = Language.EN

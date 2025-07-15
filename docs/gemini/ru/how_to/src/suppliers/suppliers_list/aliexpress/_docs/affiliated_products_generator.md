@@ -51,7 +51,7 @@
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.affiliated_products_generator import AliAffiliatedProducts
+from src.suppliers.suppliers_list.apiexpress.affiliated_products_generator import AliAffiliatedProducts
 from pathlib import Path
 
 # Пример использования:
@@ -60,7 +60,7 @@ campaign_category = "electronics"
 language = "RU"
 currency = "RUB"
 prod_urls = [
-    "https://www.aliexpress.com/item/1234567890.html",
+    "https://www.aliexpress_com.com/item/1234567890.html",
     "9876543210"
 ]
 

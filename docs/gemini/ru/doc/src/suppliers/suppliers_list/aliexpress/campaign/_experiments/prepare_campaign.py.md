@@ -6,7 +6,7 @@
 
 ## Подробнее
 
-Модуль использует функцию `process_campaign` из модуля `src.suppliers.suppliers_list.aliexpress.campaign` для создания или обновления рекламной кампании на AliExpress. Он определяет словарь `locales` с  соответствиями языков и валют, а также устанавливает язык `language` и валюту `currency`. 
+Модуль использует функцию `process_campaign` из модуля `src.suppliers.suppliers_list.aliexpress_com.campaign` для создания или обновления рекламной кампании на AliExpress. Он определяет словарь `locales` с  соответствиями языков и валют, а также устанавливает язык `language` и валюту `currency`. 
 
 Модуль также определяет название кампании `campaign_name`. 
 

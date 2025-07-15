@@ -1,4 +1,4 @@
-# Модуль: src.suppliers.aliexpress.api.models.product
+# Модуль: src.suppliers.aliexpress_com.api.models.product
 
 ## Обзор
 
@@ -48,7 +48,7 @@
 **Примеры**:
 
 ```python
-from src.suppliers.aliexpress.api.models.product import Product
+from src.suppliers.aliexpress_com.api.models.product import Product
 
 product = Product(
     app_sale_price='10.00',
@@ -63,20 +63,20 @@ product = Product(
     lastest_volume=100,
     original_price='15.00',
     original_price_currency='USD',
-    product_detail_url='https://www.aliexpress.com/item/1234567890.html',
+    product_detail_url='https://www.aliexpress_com.com/item/1234567890.html',
     product_id=1234567890,
     product_main_image_url='https://img.alicdn.com/imgextra/i4/6000000000000/O1CN01H36N8F2s4015c.jpg',
     product_small_image_urls=['https://img.alicdn.com/imgextra/i4/6000000000000/O1CN01H36N8F2s4015c.jpg'],
     product_title='Smartphone',
     product_video_url='https://www.youtube.com/watch?v=1234567890',
-    promotion_link='https://www.aliexpress.com/promotion/1234567890.html',
+    promotion_link='https://www.aliexpress_com.com/promotion/1234567890.html',
     relevant_market_commission_rate='0.15',
     sale_price='12.00',
     sale_price_currency='USD',
     second_level_category_id=567890,
     second_level_category_name='Phones & Telecommunications',
     shop_id=9876543210,
-    shop_url='https://www.aliexpress.com/store/9876543210',
+    shop_url='https://www.aliexpress_com.com/store/9876543210',
     target_app_sale_price='11.00',
     target_app_sale_price_currency='USD',
     target_original_price='16.00',

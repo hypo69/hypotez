@@ -48,7 +48,7 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.gui.product import ProductEditor
+from src.suppliers.suppliers_list.aliexpress_com.gui.product import ProductEditor
 
 # Create an instance of ProductEditor
 product_editor = ProductEditor()

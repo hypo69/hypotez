@@ -3,13 +3,13 @@
   "supplier_id": "2801",
   "supplier_type": "11511",
   "supplier_types_description": "11510 -> manufacturer; 11511 -> marketplace",
-  "supplier_prefix": "aliexpress.com",
-  "start_url": "https://www.aliexpress.com/",
+  "supplier_prefix": "aliexpress_com.com",
+  "start_url": "https://www.aliexpress_com.com/",
   "price_rule": "+0",
   "if_login": false,
-  "login_url": "https://www.login.aliexpress.com",
+  "login_url": "https://www.login.aliexpress_com.com",
   "collect_products_from_categorypage": true,
-  "aliexpres_ajax_store": "https://he.aliexpress.com/store/productGroupsAjax.htm?storeId=",
+  "aliexpres_ajax_store": "https://he.aliexpress_com.com/store/productGroupsAjax.htm?storeId=",
 
   "scenario_files": [
     "aliexpress_stores_6388_1053035_hi5group.json",

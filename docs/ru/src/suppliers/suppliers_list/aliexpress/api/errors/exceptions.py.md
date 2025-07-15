@@ -121,7 +121,7 @@ def __str__(self) -> str:
 ## Примеры
 
 ```python
-from src.suppliers.aliexpress.api.errors.exceptions import ProductIdNotFoundException
+from src.suppliers.aliexpress_com.api.errors.exceptions import ProductIdNotFoundException
 
 try:
     product_id = "12345"
@@ -132,7 +132,7 @@ except ProductIdNotFoundException as ex:
     print(f"Произошла ошибка: {ex}")  # Вывод: Произошла ошибка: Товар с ID 12345 не найден.
 ```
 ```python
-from src.suppliers.aliexpress.api.errors.exceptions import InvalidArgumentException
+from src.suppliers.aliexpress_com.api.errors.exceptions import InvalidArgumentException
 
 try:
     # Попытка выполнить операцию с неверными аргументами
@@ -141,7 +141,7 @@ except InvalidArgumentException as ex:
     print(f"Произошла ошибка: {ex}")  # Вывод: Произошла ошибка: Неверный тип аргумента.
 ```
 ```python
-from src.suppliers.aliexpress.api.errors.exceptions import ApiRequestException
+from src.suppliers.aliexpress_com.api.errors.exceptions import ApiRequestException
 
 try:
     # Имитация ошибки при запросе к API

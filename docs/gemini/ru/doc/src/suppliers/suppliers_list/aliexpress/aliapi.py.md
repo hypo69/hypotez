@@ -92,7 +92,7 @@ pprint(product_details) # Вывод данных о товарах на экр�
 
 ```python
 # Получение партнёрских ссылок
-links = 'https://aliexpress.com/item/1234567890.html'
+links = 'https://aliexpress_com.com/item/1234567890.html'
 affiliate_links = aliapi.get_affiliate_links(links, link_type=1)
 pprint(affiliate_links) # Вывод партнёрских ссылок на экран
 ```
@@ -108,7 +108,7 @@ pprint(affiliate_links) # Вывод партнёрских ссылок на э
 
 ```python
 # Импорт необходимых модулей
-from src.suppliers.suppliers_list.aliexpress.aliapi import AliApi
+from src.suppliers.suppliers_list.aliexpress_com.aliapi import AliApi
 
 # Инициализация экземпляра класса AliApi
 aliapi = AliApi(language='ru', currency='rub')
@@ -121,7 +121,7 @@ product_details = aliapi.retrieve_product_details_as_dict(product_ids)
 pprint(product_details)
 
 # Получение партнёрских ссылок
-links = ['https://aliexpress.com/item/1234567890.html']
+links = ['https://aliexpress_com.com/item/1234567890.html']
 affiliate_links = aliapi.get_affiliate_links(links, link_type=1)
 
 # Вывод партнёрских ссылок на экран

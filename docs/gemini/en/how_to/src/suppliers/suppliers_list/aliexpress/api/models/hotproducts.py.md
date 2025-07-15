@@ -18,7 +18,7 @@ This code block defines a class `HotProductsResponse` which represents the respo
 
 Execution Steps
 -------------------------
-1. The code imports the `Product` class from the `src.suppliers.aliexpress.api.models` module.
+1. The code imports the `Product` class from the `src.suppliers.aliexpress_com.api.models` module.
 2. The `HotProductsResponse` class is defined.
 3. The class has four attributes:
     - `current_page_no`: An integer representing the current page number in the response.
@@ -30,7 +30,7 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.aliexpress.api.models.hotproducts import HotProductsResponse
+from src.suppliers.aliexpress_com.api.models.hotproducts import HotProductsResponse
 
 # Example response data
 response_data = {

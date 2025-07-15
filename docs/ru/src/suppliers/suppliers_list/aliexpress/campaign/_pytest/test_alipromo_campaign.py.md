@@ -68,7 +68,7 @@ def test_initialize_campaign(mocker, campaign):
 
 **Как работает функция**:
 - `src.utils.file.get_filenames` патчится, чтобы возвращать пустой список, имитируя отсутствие JSON-файлов.
-- `src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.fetch_product_data` патчится, чтобы возвращать пустой список.
+- `src.suppliers.suppliers_list.aliexpress_com.campaign.ali_promo_campaign.AliPromoCampaign.fetch_product_data` патчится, чтобы возвращать пустой список.
 - Вызывается метод `get_category_products` у экземпляра `campaign` с параметром `force=True`.
 - Проверяется, что Возвратый список товаров пуст.
 
@@ -77,7 +77,7 @@ def test_initialize_campaign(mocker, campaign):
 def test_get_category_products_no_json_files(mocker, campaign):
     """Test get_category_products method when no JSON files are present."""
     mocker.patch("src.utils.file.get_filenames", return_value=[])
-    mocker.patch("src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.fetch_product_data", return_value=[])
+    mocker.patch("src.suppliers.suppliers_list.aliexpress_com.campaign.ali_promo_campaign.AliPromoCampaign.fetch_product_data", return_value=[])
 
     products = campaign.get_category_products(force=True)
     assert products == []
@@ -201,10 +201,10 @@ def test_create_campaign_namespace(campaign):
 - `campaign`: Fixture `campaign`, предоставляющая экземпляр `AliPromoCampaign`.
 
 **Как работает функция**:
-- `src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.get_prepared_products` патчится, чтобы возвращать пустой список.
+- `src.suppliers.suppliers_list.aliexpress_com.campaign.ali_promo_campaign.AliPromoCampaign.get_prepared_products` патчится, чтобы возвращать пустой список.
 - `src.utils.file.read_text_file` патчится, чтобы возвращать "source_data".
 - `src.utils.file.get_filenames` патчится, чтобы возвращать список с именем HTML-файла.
-- `src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.process_affiliate_products` патчится.
+- `src.suppliers.suppliers_list.aliexpress_com.campaign.ali_promo_campaign.AliPromoCampaign.process_affiliate_products` патчится.
 - Вызывается метод `prepare_products` у экземпляра `campaign`.
 - Проверяется, что метод `process_affiliate_products` был вызван один раз.
 
@@ -212,10 +212,10 @@ def test_create_campaign_namespace(campaign):
 ```python
 def test_prepare_products(mocker, campaign):
     """Test prepare_products method."""
-    mocker.patch("src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.get_prepared_products", return_value=[])
+    mocker.patch("src.suppliers.suppliers_list.aliexpress_com.campaign.ali_promo_campaign.AliPromoCampaign.get_prepared_products", return_value=[])
     mocker.patch("src.utils.file.read_text_file", return_value="source_data")
     mocker.patch("src.utils.file.get_filenames", return_value=["source.html"])
-    mocker.patch("src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.process_affiliate_products")
+    mocker.patch("src.suppliers.suppliers_list.aliexpress_com.campaign.ali_promo_campaign.AliPromoCampaign.process_affiliate_products")
 
     campaign.prepare_products()
     campaign.process_affiliate_products.assert_called_once()
@@ -232,7 +232,7 @@ def test_prepare_products(mocker, campaign):
 **Как работает функция**:
 - Создается список `product_ids` с идентификаторами товаров.
 - Создается список `mock_products` с мок-объектами товаров.
-- `src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.process_affiliate_products` патчится, чтобы возвращать `mock_products`.
+- `src.suppliers.suppliers_list.aliexpress_com.campaign.ali_promo_campaign.AliPromoCampaign.process_affiliate_products` патчится, чтобы возвращать `mock_products`.
 - Вызывается метод `fetch_product_data` у экземпляра `campaign` с `product_ids`.
 - Проверяется, что Возвратый список товаров содержит два элемента и что атрибуты `product_id` соответствуют ожидаемым значениям.
 
@@ -242,7 +242,7 @@ def test_fetch_product_data(mocker, campaign):
     """Test fetch_product_data method."""
     product_ids = ["123", "456"]
     mock_products = [SimpleNamespace(product_id="123"), SimpleNamespace(product_id="456")]
-    mocker.patch("src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.process_affiliate_products", return_value=mock_products)
+    mocker.patch("src.suppliers.suppliers_list.aliexpress_com.campaign.ali_promo_campaign.AliPromoCampaign.process_affiliate_products", return_value=mock_products)
 
     products = campaign.fetch_product_data(product_ids)
     assert len(products) == 2

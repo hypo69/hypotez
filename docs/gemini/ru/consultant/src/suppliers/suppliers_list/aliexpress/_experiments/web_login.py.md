@@ -63,7 +63,7 @@
 
 Пример использования:
 ----------------------
-    >>> from src.suppliers.suppliers_list.aliexpress._experiments.web_login import check_login
+    >>> from src.suppliers.suppliers_list.aliexpress_com._experiments.web_login import check_login
     >>> check_login()
 """
 
@@ -96,7 +96,7 @@ def check_login() -> None:
         driver = Driver(Firefox)
 
         # Открытие страницы Aliexpress
-        driver.get_url('https://aliexpress.com')
+        driver.get_url('https://aliexpress_com.com')
 
     except Exception as ex:
         logger.error('Произошла ошибка при выполнении проверки логина', ex, exc_info=True)

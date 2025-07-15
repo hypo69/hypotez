@@ -35,7 +35,7 @@
 **Примеры**:
 
 ```python
->>> from src.suppliers.aliexpress.api.helpers.products import parse_product
+>>> from src.suppliers.aliexpress_com.api.helpers.products import parse_product
 >>> product = {"product_small_image_urls": "<img src='image_url'>"}
 >>> parsed_product = parse_product(product)
 >>> parsed_product['product_small_image_urls']
@@ -58,7 +58,7 @@
 **Примеры**:
 
 ```python
->>> from src.suppliers.aliexpress.api.helpers.products import parse_products
+>>> from src.suppliers.aliexpress_com.api.helpers.products import parse_products
 >>> products = [{"product_small_image_urls": "<img src='image_url1'>"}, {"product_small_image_urls": "<img src='image_url2'>"}, {"product_small_image_urls": "<img src='image_url3'>"},]
 >>> parsed_products = parse_products(products)
 >>> parsed_products[0]['product_small_image_urls']

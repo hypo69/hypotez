@@ -2,7 +2,7 @@
 
 ## Overview
 
-This module, `src.suppliers.suppliers_list.aliexpress._experiments.web_login.py`, is part of the `hypotez` project and is designed to test various aspects of the Aliexpress website, including login functionality, cookies, and other features. It uses the `Driver` class from the `src.webdirver` module for web interactions and includes functions for interacting with the Aliexpress platform. 
+This module, `src.suppliers.suppliers_list.aliexpress_com._experiments.web_login.py`, is part of the `hypotez` project and is designed to test various aspects of the Aliexpress website, including login functionality, cookies, and other features. It uses the `Driver` class from the `src.webdirver` module for web interactions and includes functions for interacting with the Aliexpress platform. 
 
 ## Details
 
@@ -18,7 +18,7 @@ from src.utils.printer import pprint
 a = Supplier('aliexpress')
 
 d = a.driver
-d.get_url('https://aliexpress.com')
+d.get_url('https://aliexpress_com.com')
 ```
 
 This code snippet suggests:
@@ -81,7 +81,7 @@ from src.utils.printer import pprint
 a = Supplier('aliexpress')
 
 d = a.driver
-d.get_url('https://aliexpress.com')
+d.get_url('https://aliexpress_com.com')
 ```
 
 ## Parameter Details

@@ -1,8 +1,8 @@
-# Модуль `src.suppliers.aliexpress.gui.styles`
+# Модуль `src.suppliers.aliexpress_com.gui.styles`
 
 ## Обзор
 
-Модуль `src.suppliers.aliexpress.gui.styles` предоставляет функции для настройки стилей элементов пользовательского интерфейса (UI) в приложении для работы с поставщиками AliExpress. 
+Модуль `src.suppliers.aliexpress_com.gui.styles` предоставляет функции для настройки стилей элементов пользовательского интерфейса (UI) в приложении для работы с поставщиками AliExpress. 
 
 ## Подробнее
 
@@ -28,7 +28,7 @@
 
 ```python
 from PyQt6 import QtWidgets
-from src.suppliers.aliexpress.gui.styles import set_fixed_size
+from src.suppliers.aliexpress_com.gui.styles import set_fixed_size
 
 # Создание виджета
 widget = QtWidgets.QLabel("Пример виджета")
@@ -46,7 +46,7 @@ set_fixed_size(widget, 200, 50)
 ```python
 # Пример 1: Установка размера виджета
 from PyQt6 import QtWidgets
-from src.suppliers.aliexpress.gui.styles import set_fixed_size
+from src.suppliers.aliexpress_com.gui.styles import set_fixed_size
 
 widget = QtWidgets.QPushButton("Кнопка")
 set_fixed_size(widget, 100, 30)  # Установка размера кнопки

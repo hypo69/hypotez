@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
  # <- venv win
 ## ~~~~~~~~~~~~~
-""" module: src.suppliers.suppliers_list.aliexpress.api """
+""" module: src.suppliers.suppliers_list.aliexpress_com.api """
 """ Aliexpress API wrapper"""
 ...
 

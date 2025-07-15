@@ -216,7 +216,7 @@ class AliexpressApi:
 
         Example:
             >>> api = AliexpressApi(key='your_key', secret='your_secret', language='RU', currency='RUB', tracking_id='your_tracking_id')
-            >>> affiliate_links = api.get_affiliate_links(links=['https://aliexpress.com/item/1234567890.html'])
+            >>> affiliate_links = api.get_affiliate_links(links=['https://aliexpress_com.com/item/1234567890.html'])
         """
         if not self._tracking_id:
             logger.error('Не указан tracking ID, необходимый для получения партнерских ссылок')

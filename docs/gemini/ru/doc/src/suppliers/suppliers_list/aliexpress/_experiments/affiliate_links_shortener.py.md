@@ -41,7 +41,7 @@
 from src.suppliers.suppliers_list.aliexpress import AffiliateLinksShortener
 
 a = AffiliateLinksShortener()
-url = 'https://aliexpress.com/item/1000000000000000.html'  # Замените на актуальную ссылку
+url = 'https://aliexpress_com.com/item/1000000000000000.html'  # Замените на актуальную ссылку
 link = a.short_affiliate_link(url)
 print(link)
 ```
@@ -60,7 +60,7 @@ print(link)
 from src.suppliers.suppliers_list.aliexpress import AffiliateLinksShortener
 
 a = AffiliateLinksShortener()
-url = 'https://aliexpress.com/item/1000000000000000.html'  # Замените на актуальную ссылку
+url = 'https://aliexpress_com.com/item/1000000000000000.html'  # Замените на актуальную ссылку
 link = a.short_affiliate_link(url)
 print(link)
 ```

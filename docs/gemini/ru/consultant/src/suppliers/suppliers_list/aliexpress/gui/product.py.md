@@ -59,7 +59,7 @@ from types import SimpleNamespace
 from PyQt6 import QtWidgets, QtGui, QtCore
 from PyQt6.QtCore import pyqtSlot as asyncSlot
 from src.utils.jjson import j_loads_ns, j_dumps
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignEditor
 from src.logger import logger # добавление logger
 from typing import Optional
 

@@ -29,7 +29,7 @@
 **Примеры**:
 
 ```python
-from src.suppliers.aliexpress.api.models.hotproducts import HotProductsResponse
+from src.suppliers.aliexpress_com.api.models.hotproducts import HotProductsResponse
 
 # Пример создания объекта HotProductsResponse
 hot_products_response = HotProductsResponse(
@@ -40,8 +40,8 @@ hot_products_response = HotProductsResponse(
         Product(
             product_id=1234567890,
             product_title="Название товара",
-            product_url="https://aliexpress.com/item/1234567890",
-            product_image="https://images.aliexpress.com/image/product/1234567890",
+            product_url="https://aliexpress_com.com/item/1234567890",
+            product_image="https://images.aliexpress_com.com/image/product/1234567890",
             product_price=10.00,
             product_discount=5.00,
             product_rating=4.5,

@@ -27,7 +27,7 @@ Usage Example
 
 ```python
     # Import the necessary modules
-    from src.suppliers.suppliers_list.aliexpress.aliapi import AliApi
+    from src.suppliers.suppliers_list.aliexpress_com.aliapi import AliApi
     from src import gs
 
     # Create an instance of the AliApi class
@@ -41,7 +41,7 @@ Usage Example
     print(product_details)
 
     # Generate affiliate links for a list of product URLs
-    product_urls = ['https://www.aliexpress.com/item/1005001234567.html', 'https://www.aliexpress.com/item/9876543210123.html']
+    product_urls = ['https://www.aliexpress_com.com/item/1005001234567.html', 'https://www.aliexpress_com.com/item/9876543210123.html']
     affiliate_links = api.get_affiliate_links(product_urls)
 
     # Print the generated affiliate links

@@ -1,4 +1,4 @@
-# Module: src.suppliers.aliexpress.campaign._experiments.prepare_new_campaign
+# Module: src.suppliers.aliexpress_com.campaign._experiments.prepare_new_campaign
 
 ## Overview
 
@@ -6,7 +6,7 @@ This module is a part of the `hypotez` project and contains code for experimenti
 
 ## Details
 
-This module focuses on the AliExpress campaign scenario, specifically for the `rc` campaign name. It leverages the `AliCampaignEditor` class from the `src.suppliers.suppliers_list.aliexpress.campaign` module to perform the following tasks:
+This module focuses on the AliExpress campaign scenario, specifically for the `rc` campaign name. It leverages the `AliCampaignEditor` class from the `src.suppliers.suppliers_list.aliexpress_com.campaign` module to perform the following tasks:
 
 - **Initialization**: Creates an instance of `AliCampaignEditor` with the `campaign_name` set to `'rc'`.
 - **Processing**: Calls the `process_new_campaign` method of the `AliCampaignEditor` instance, passing the `campaign_name`. This method is likely responsible for handling the campaign's creation and subsequent processing steps.
@@ -17,7 +17,7 @@ This module focuses on the AliExpress campaign scenario, specifically for the `r
 
 **Description**: This class is responsible for managing and editing AliExpress campaigns.
 
-**Inherits**: The class inherits from `AliCampaignEditor` in the `src.suppliers.suppliers_list.aliexpress.campaign` module, so it utilizes functionalities from that base class.
+**Inherits**: The class inherits from `AliCampaignEditor` in the `src.suppliers.suppliers_list.aliexpress_com.campaign` module, so it utilizes functionalities from that base class.
 
 **Attributes**:
 
@@ -88,7 +88,7 @@ aliexpress_editor.process_new_campaign('rc')
 - **Docstring**: 
   ```python
 """
-.. module:: src.suppliers.suppliers_list.aliexpress.campaign._experiments 
+.. module:: src.suppliers.suppliers_list.aliexpress_com.campaign._experiments 
 	:platform: Windows, Unix
 	:synopsis:
 

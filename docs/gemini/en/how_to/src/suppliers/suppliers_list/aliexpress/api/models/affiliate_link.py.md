@@ -25,14 +25,14 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.aliexpress.api.models.affiliate_link import AffiliateLink
+from src.suppliers.aliexpress_com.api.models.affiliate_link import AffiliateLink
 
 affiliate_link = AffiliateLink()
-affiliate_link.promotion_link = "https://www.aliexpress.com/item/4000000000000.html?aff=xxxxxxxx"
+affiliate_link.promotion_link = "https://www.aliexpress_com.com/item/4000000000000.html?aff=xxxxxxxx"
 affiliate_link.source_value = "aliexpress_api"
 
 print(affiliate_link.promotion_link)
-# Output: https://www.aliexpress.com/item/4000000000000.html?aff=xxxxxxxx
+# Output: https://www.aliexpress_com.com/item/4000000000000.html?aff=xxxxxxxx
 ```
 
 4. **Avoid Vague Terms** like "getting" or "doing". Be specific about what the code does, for example: "checks", "validates", or "sends".

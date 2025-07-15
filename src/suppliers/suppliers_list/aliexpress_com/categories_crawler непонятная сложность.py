@@ -10,7 +10,7 @@
 на основе данных с сайта.
 
 ```rst
- .. module:: src.suppliers.suppliers_list.aliexpress.sceanrio
+ .. module:: src.suppliers.suppliers_list.aliexpress_com.sceanrio
     :platform: Windows, Unix
     :synopsis: управление категориями aliexpress
 ```

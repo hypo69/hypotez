@@ -80,7 +80,7 @@ assert campaign.campaign.category.test_category.name == "test_category"
 mocker.patch("src.utils.file.get_filenames", return_value=[])
 
 # Мокинг функции fetch_product_data для возврата пустого списка
-mocker.patch("src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.fetch_product_data", return_value=[])
+mocker.patch("src.suppliers.suppliers_list.aliexpress_com.campaign.ali_promo_campaign.AliPromoCampaign.fetch_product_data", return_value=[])
 
 # Получение товаров
 products = campaign.get_category_products(force=True)
@@ -232,7 +232,7 @@ assert camp.title == "Test Campaign"
 
 ```python
 # Мокинг метода get_prepared_products
-mocker.patch("src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.get_prepared_products", return_value=[])
+mocker.patch("src.suppliers.suppliers_list.aliexpress_com.campaign.ali_promo_campaign.AliPromoCampaign.get_prepared_products", return_value=[])
 
 # Мокинг функции read_text_file
 mocker.patch("src.utils.file.read_text_file", return_value="source_data")
@@ -241,7 +241,7 @@ mocker.patch("src.utils.file.read_text_file", return_value="source_data")
 mocker.patch("src.utils.file.get_filenames", return_value=["source.html"])
 
 # Мокинг метода process_affiliate_products
-mocker.patch("src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.process_affiliate_products")
+mocker.patch("src.suppliers.suppliers_list.aliexpress_com.campaign.ali_promo_campaign.AliPromoCampaign.process_affiliate_products")
 
 # Вызов метода prepare_products
 campaign.prepare_products()
@@ -273,7 +273,7 @@ product_ids = ["123", "456"]
 mock_products = [SimpleNamespace(product_id="123"), SimpleNamespace(product_id="456")]
 
 # Мокинг метода process_affiliate_products
-mocker.patch("src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign.AliPromoCampaign.process_affiliate_products", return_value=mock_products)
+mocker.patch("src.suppliers.suppliers_list.aliexpress_com.campaign.ali_promo_campaign.AliPromoCampaign.process_affiliate_products", return_value=mock_products)
 
 # Извлечение данных о товарах
 products = campaign.fetch_product_data(product_ids)

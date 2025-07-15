@@ -61,7 +61,7 @@
 
 >>> from src.suppliers.suppliers_list.aliexpress import AffiliateLinksShortener
 >>> a = AffiliateLinksShortener()
->>> url = 'https://aliexpress.com'
+>>> url = 'https://aliexpress_com.com'
 >>> link = a.short_affiliate_link(url)
 >>> print(link)
 ...
@@ -71,7 +71,7 @@ from src.suppliers.suppliers_list.aliexpress import AffiliateLinksShortener
 from src.logger import logger  # Добавлен импорт logger
 
 a = AffiliateLinksShortener()
-url: str = 'https://aliexpress.com'
+url: str = 'https://aliexpress_com.com'
 link: str | None = None  # Инициализация link значением None
 
 try:

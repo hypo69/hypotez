@@ -29,10 +29,10 @@ from src.db.db_ адаптор import DBAdaptor  # Предполагается,
 supplier_data = {
     'id': 1,
     'name': 'aliexpress',
-    'domain': 'aliexpress.com',
+    'domain': 'aliexpress_com.com',
     'token': 'your_token',
     ' main_category': 'electronics',
-    'file_name': 'aliexpress.json'
+    'file_name': 'aliexpress_com.json'
 }
 supplier = Supplier(**supplier_data)
 

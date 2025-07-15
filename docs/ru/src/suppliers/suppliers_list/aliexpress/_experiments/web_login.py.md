@@ -56,7 +56,7 @@ from src.utils.printer import pprint
 a = Supplier('aliexpress')
 
 d = a.driver
-d.get_url('https://aliexpress.com')
+d.get_url('https://aliexpress_com.com')
 ```
 
 **Объяснение работы кода**:
@@ -64,4 +64,4 @@ d.get_url('https://aliexpress.com')
 1.  Импортируются необходимые библиотеки, такие как `header`, `pathlib`, `pickle`, `requests`, `gs` и `pprint` (из `src.utils.printer`).
 2.  Создается экземпляр класса `Supplier` с именем 'aliexpress' и присваивается переменной `a`.
 3.  Извлекается драйвер из экземпляра `a` и присваивается переменной `d`.
-4.  Используется метод `get_url` драйвера `d` для открытия страницы 'https://aliexpress.com'.
+4.  Используется метод `get_url` драйвера `d` для открытия страницы 'https://aliexpress_com.com'.

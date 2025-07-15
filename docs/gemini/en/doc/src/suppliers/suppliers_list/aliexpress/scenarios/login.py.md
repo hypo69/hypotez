@@ -1,4 +1,4 @@
-# Module: `src.suppliers.aliexpress.scenarios.login`
+# Module: `src.suppliers.aliexpress_com.scenarios.login`
 
 ## Overview
 
@@ -40,8 +40,8 @@ This function is used in the `hypotez` project to automate the login process for
 **Examples**:
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.suppliers import Supplier
-from src.suppliers.suppliers_list.aliexpress.scenarios.login import login
+from src.suppliers.suppliers_list.aliexpress_com.suppliers import Supplier
+from src.suppliers.suppliers_list.aliexpress_com.scenarios.login import login
 
 # Assuming you have a Supplier object `supplier` with initialized driver and locators
 result = login(supplier)
@@ -62,8 +62,8 @@ else:
 **Example**: 
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.suppliers import Supplier
-from src.suppliers.suppliers_list.aliexpress.scenarios.login import login
+from src.suppliers.suppliers_list.aliexpress_com.suppliers import Supplier
+from src.suppliers.suppliers_list.aliexpress_com.scenarios.login import login
 from src.webdirver import Driver, Chrome
 
 driver = Driver(Chrome) # Инициализация драйвера

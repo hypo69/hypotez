@@ -135,7 +135,7 @@
 ### Generating HTML for a Product
 
 ```python
-from src.suppliers.aliexpress.campaign.html_generators import ProductHTMLGenerator
+from src.suppliers.aliexpress_com.campaign.html_generators import ProductHTMLGenerator
 
 product = SimpleNamespace(
     product_id="1234567890",
@@ -146,7 +146,7 @@ product = SimpleNamespace(
     target_original_price="15.00",
     target_original_price_currency="USD",
     second_level_category_name="Electronics",
-    promotion_link="https://aliexpress.com/product/1234567890"
+    promotion_link="https://aliexpress_com.com/product/1234567890"
 )
 
 category_path = "/path/to/category"
@@ -157,7 +157,7 @@ ProductHTMLGenerator.set_product_html(product, category_path)
 ### Generating HTML for a Category
 
 ```python
-from src.suppliers.aliexpress.campaign.html_generators import CategoryHTMLGenerator
+from src.suppliers.aliexpress_com.campaign.html_generators import CategoryHTMLGenerator
 
 products_list = [
     SimpleNamespace(
@@ -169,7 +169,7 @@ products_list = [
         target_original_price="15.00",
         target_original_price_currency="USD",
         second_level_category_name="Electronics",
-        promotion_link="https://aliexpress.com/product/1234567890"
+        promotion_link="https://aliexpress_com.com/product/1234567890"
     ),
     SimpleNamespace(
         product_id="9876543210",
@@ -180,7 +180,7 @@ products_list = [
         target_original_price="18.00",
         target_original_price_currency="USD",
         second_level_category_name="Electronics",
-        promotion_link="https://aliexpress.com/product/9876543210"
+        promotion_link="https://aliexpress_com.com/product/9876543210"
     )
 ]
 
@@ -192,7 +192,7 @@ CategoryHTMLGenerator.set_category_html(products_list, category_path)
 ### Generating HTML for a Campaign
 
 ```python
-from src.suppliers.aliexpress.campaign.html_generators import CampaignHTMLGenerator
+from src.suppliers.aliexpress_com.campaign.html_generators import CampaignHTMLGenerator
 
 categories = ["Electronics", "Fashion", "Home"]
 campaign_path = "/path/to/campaign"

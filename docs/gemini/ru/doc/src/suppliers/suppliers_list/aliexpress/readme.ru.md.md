@@ -91,7 +91,7 @@ print(title_element.text)
 
 ### Документация по API AliExpress
 
-- https://open.aliexpress.com/
+- https://open.aliexpress_com.com/
 
 ### Документация по Selenium Webdriver
 

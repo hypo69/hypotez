@@ -35,7 +35,7 @@
 #### Примеры:
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.category import get_list_products_in_category
+from src.suppliers.suppliers_list.aliexpress_com.category import get_list_products_in_category
 from src.supplier import Supplier
 
 # Пример использования
@@ -68,7 +68,7 @@ else:
 #### Примеры:
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.category import get_prod_urls_from_pagination
+from src.suppliers.suppliers_list.aliexpress_com.category import get_prod_urls_from_pagination
 from src.supplier import Supplier
 
 # Пример использования
@@ -102,7 +102,7 @@ else:
 #### Примеры:
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.category import update_categories_in_scenario_file
+from src.suppliers.suppliers_list.aliexpress_com.category import update_categories_in_scenario_file
 from src.supplier import Supplier
 
 # Пример использования
@@ -138,7 +138,7 @@ else:
 #### Примеры:
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.category import get_list_categories_from_site
+from src.suppliers.suppliers_list.aliexpress_com.category import get_list_categories_from_site
 from src.supplier import Supplier
 
 # Пример использования
@@ -181,7 +181,7 @@ else:
 #### Примеры:
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.category import DBAdaptor
+from src.suppliers.suppliers_list.aliexpress_com.category import DBAdaptor
 
 # Пример использования (предполагается, что DBAdaptor инициализируется с необходимыми параметрами подключения к базе данных)
 db_adaptor = DBAdaptor()
@@ -223,7 +223,7 @@ else:
 ## Пример использования
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.category import get_list_products_in_category, update_categories_in_scenario_file
+from src.suppliers.suppliers_list.aliexpress_com.category import get_list_products_in_category, update_categories_in_scenario_file
 from src.supplier import Supplier
 
 # Пример использования

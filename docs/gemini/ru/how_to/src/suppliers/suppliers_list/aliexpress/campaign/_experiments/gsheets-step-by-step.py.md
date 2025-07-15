@@ -37,8 +37,8 @@
 
 ```python
 from src.suppliers.suppliers_list.aliexpress import campaign
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignGoogleSheet , AliCampaignEditor
-from src.suppliers.suppliers_list.aliexpress.campaign.ttypes import CampaignType, CategoryType, ProductType
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignGoogleSheet , AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress_com.campaign.ttypes import CampaignType, CategoryType, ProductType
 
 # Инициализация объекта кампании
 campaign_name = "lighting"

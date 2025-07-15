@@ -26,7 +26,7 @@ parser = AliAffiliatedProducts(
 )
 
 # Список URL или ID товаров
-prod_urls = ['https://www.aliexpress.com/item/123456789.html', '987654321']
+prod_urls = ['https://www.aliexpress_com.com/item/123456789.html', '987654321']
 
 # Получение информации о товарах
 products = parser.process_affiliate_products(prod_urls)

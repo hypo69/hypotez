@@ -24,7 +24,7 @@
 -------------------------
 
 ```python
-from src.suppliers.aliexpress.api.models.request_parameters import ProductType, SortBy, LinkType
+from src.suppliers.aliexpress_com.api.models.request_parameters import ProductType, SortBy, LinkType
 
 # Установка тип товара как "TMALL"
 product_type = ProductType.TMALL

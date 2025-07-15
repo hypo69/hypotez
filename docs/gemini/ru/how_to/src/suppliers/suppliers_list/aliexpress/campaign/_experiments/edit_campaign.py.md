@@ -11,7 +11,7 @@
     - `header`:  Импортирует необходимый заголовок.
     - `Path`: Импортирует класс `Path` из модуля `pathlib` для работы с файлами и директориями.
     - `gs`: Импортирует модуль `gs` для работы с Google Sheets.
-    - `AliCampaignEditor`: Импортирует класс `AliCampaignEditor` из модуля `aliexpress.campaign` для редактирования рекламных кампаний на AliExpress.
+    - `AliCampaignEditor`: Импортирует класс `AliCampaignEditor` из модуля `aliexpress_com.campaign` для редактирования рекламных кампаний на AliExpress.
     - `process_campaign`, `process_campaign_category`, `process_all_campaigns`: Импортирует функции для обработки данных рекламных кампаний.
     - `get_filenames`, `get_directory_names`: Импортирует функции для получения имен файлов и директорий.
     - `pprint`: Импортирует функцию `pprint` для красивого вывода данных в консоль.
@@ -38,8 +38,8 @@ import header
 from pathlib import Path
 
 from src import gs
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignEditor
-from src.suppliers.suppliers_list.aliexpress.campaign import  process_campaign, process_campaign_category, process_all_campaigns
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress_com.campaign import  process_campaign, process_campaign_category, process_all_campaigns
 from src.utils import get_filenames, get_directory_names
 from src.utils.printer import pprint
 

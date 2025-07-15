@@ -1,4 +1,4 @@
-# Модуль: `aliexpress.campaign.gsheet`
+# Модуль: `aliexpress_com.campaign.gsheet`
 
 ## Обзор
 

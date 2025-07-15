@@ -18,7 +18,7 @@ from header import __root__
 from src import gs
 from src.endpoints.prestashop.product_fields import ProductFields
 # from src.webdriver.driverless import use_pydoll as driver
-from src.suppliers.graber_via_pydoll import Config, Graber as GraberSupplier
+from src.suppliers.graber_via_pydoll import Graber as GraberSupplier
 # from src.utils.file import get_filenames_from_directory
 from src.utils.jjson import j_loads_ns
 # from src.utils.image import save_image_async, save_image_from_url_async
@@ -31,15 +31,10 @@ from src.logger import logger
 class Graber(GraberSupplier):
     """! Grabs product/category info for Morlevi supplier using pydoll. """
 
-    config: Config = field(init=False)
-
     def __post_init__(self):
-        self.config = Config(supplier_prefix='morlevi.co.il')
-
+        
         super().__post_init__(
             supplier_prefix = self.config.supplier_prefix,
-            product_locators = self.config.product_locators,
-            category_locators = self.config.category_locators,
             driver = self.driver,
             product_fields = self.product_fields or self.config.required_fields,
         )

@@ -181,7 +181,7 @@ def get_affiliate_links(self,
 
 **Примеры**:
 ```python
-links = 'https://www.aliexpress.com/item/1234567890.html'
+links = 'https://www.aliexpress_com.com/item/1234567890.html'
 affiliate_links = api.get_affiliate_links(links=links, link_type=model_LinkType.HOTLINK)
 if affiliate_links:
     for link in affiliate_links:

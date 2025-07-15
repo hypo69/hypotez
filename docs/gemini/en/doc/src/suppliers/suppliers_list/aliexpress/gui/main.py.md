@@ -1,4 +1,4 @@
-#  Module `src.suppliers.aliexpress.gui.main`
+#  Module `src.suppliers.aliexpress_com.gui.main`
 ##  Overview
 This module provides the main window interface (`MainApp`) for managing advertising campaigns on AliExpress. It uses PyQt6 to create a user-friendly interface with multiple tabs for different functionalities:
 

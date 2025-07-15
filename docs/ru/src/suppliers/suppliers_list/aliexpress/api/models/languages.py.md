@@ -45,7 +45,7 @@
 
 ```python
 # Импорт класса Language
-from src.suppliers.suppliers_list.aliexpress.api.models.languages import Language
+from src.suppliers.suppliers_list.aliexpress_com.api.models.languages import Language
 
 # Использование языковых кодов
 english_code = Language.EN

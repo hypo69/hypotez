@@ -249,11 +249,11 @@ def _load_aliexpress_credentials(self, kp: PyKeePass) -> bool:
         group = kp.find_groups(path="suppliers/aliexpress/api")[0]
         # Извлекает учетные данные из записей в группе
         self.credentials.aliexpress = SimpleNamespace()
-        self.credentials.aliexpress.api_key = group.find_entries(title="api_key")[0].password
-        self.credentials.aliexpress.secret = group.find_entries(title="secret")[0].password
-        self.credentials.aliexpress.tracking_id = group.find_entries(title="tracking_id")[0].password
-        self.credentials.aliexpress.email = group.find_entries(title="email")[0].password
-        self.credentials.aliexpress.password = group.find_entries(title="password")[0].password
+        self.credentials.aliexpress_com.api_key = group.find_entries(title="api_key")[0].password
+        self.credentials.aliexpress_com.secret = group.find_entries(title="secret")[0].password
+        self.credentials.aliexpress_com.tracking_id = group.find_entries(title="tracking_id")[0].password
+        self.credentials.aliexpress_com.email = group.find_entries(title="email")[0].password
+        self.credentials.aliexpress_com.password = group.find_entries(title="password")[0].password
         return True
     except Exception as ex:
         logger.error('Не удалось загрузить учетные данные Aliexpress', ex, exc_info=True)
@@ -699,7 +699,7 @@ credentials.kdbx
 
 1. **suppliers/aliexpress/api**:
    - Contains Aliexpress API credentials.
-   - Example entry: `self.credentials.aliexpress.api_key`, `self.credentials.aliexpress.secret`, `self.credentials.aliexpress.tracking_id`, `self.credentials.aliexpress.email`, `self.credentials.aliexpress.password`.
+   - Example entry: `self.credentials.aliexpress_com.api_key`, `self.credentials.aliexpress_com.secret`, `self.credentials.aliexpress_com.tracking_id`, `self.credentials.aliexpress_com.email`, `self.credentials.aliexpress_com.password`.
 
 2. **openai**:
    - Contains OpenAI API keys.

@@ -31,7 +31,7 @@ Execution Steps
    - If the cookies are successfully loaded, the method refreshes the session cookies.
 
 3. **Refreshing Session Cookies:**
-   - The `_refresh_session_cookies()` method refreshes the session cookies by making a GET request to `https://portals.aliexpress.com`.
+   - The `_refresh_session_cookies()` method refreshes the session cookies by making a GET request to `https://portals.aliexpress_com.com`.
    - It then handles the `JSESSIONID` cookie in the response.
 
 4. **Handling JSESSIONID:**
@@ -51,13 +51,13 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.alirequests import AliRequests
+from src.suppliers.suppliers_list.aliexpress_com.alirequests import AliRequests
 
 # Initialize AliRequests with Chrome webdriver for cookies
 aliexpress_requests = AliRequests(webdriver_for_cookies='chrome')
 
 # Make a GET request to a product page
-url = "https://www.aliexpress.com/item/10000000000000000.html"  # Replace with actual product URL
+url = "https://www.aliexpress_com.com/item/10000000000000000.html"  # Replace with actual product URL
 response = aliexpress_requests.make_get_request(url)
 
 if response:
@@ -65,7 +65,7 @@ if response:
     print(response.text)
 
 # Generate a short affiliate link
-long_url = "https://www.aliexpress.com/item/10000000000000000.html"  # Replace with actual URL
+long_url = "https://www.aliexpress_com.com/item/10000000000000000.html"  # Replace with actual URL
 short_link_response = aliexpress_requests.short_affiliate_link(long_url)
 
 if short_link_response:

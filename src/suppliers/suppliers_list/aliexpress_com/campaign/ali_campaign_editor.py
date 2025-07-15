@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.suppliers_list.aliexpress.campaign 
+.. module:: src.suppliers.suppliers_list.aliexpress_com.campaign 
 	:platform: Windows, Unix
 	:synopsis: This module provides the editor for advertising campaigns
 
@@ -70,16 +70,13 @@ from typing import List, Optional
 
 import header
 from src import gs
-from src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign import AliPromoCampaign
-from src.suppliers.suppliers_list.aliexpress.campaign.gsheet import AliCampaignGoogleSheet
-from src.suppliers.suppliers_list.aliexpress.utils import extract_prod_ids, ensure_https
+from src.suppliers.suppliers_list.aliexpress_com.campaign.ali_promo_campaign import AliPromoCampaign
+from src.suppliers.suppliers_list.aliexpress_com.campaign.gsheet import AliCampaignGoogleSheet
+from src.suppliers.suppliers_list.aliexpress_com.utils import extract_prod_ids, ensure_https
 from src.utils.jjson import j_loads_ns, j_loads, j_dumps
 from src.utils.convertors.csv import csv2dict
-from src.utils.printer import pprint
-from src.utils.file import (read_text_file,
-                        get_filenames_from_directory,
-                        get_directory_names,
-                        )
+from src.utils.printer import pprint as print
+from src.utils.file import (read_text_file, save_text_file,get_filenames_from_directory,get_directory_names,)
 from src.logger.logger import logger
 
 class AliCampaignEditor(AliPromoCampaign):

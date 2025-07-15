@@ -28,8 +28,8 @@
 **Пример**:
 
 ```python
-from src.suppliers.aliexpress.scenarios.login import login
-from src.suppliers.suppliers_list.aliexpress.supplier import Supplier
+from src.suppliers.aliexpress_com.scenarios.login import login
+from src.suppliers.suppliers_list.aliexpress_com.supplier import Supplier
 
 # создание экземпляр класса Supplier
 supplier = Supplier(login='your_login', password='your_password')

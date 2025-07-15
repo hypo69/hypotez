@@ -60,8 +60,8 @@ from typing import List
 from src.logger.logger import logger
 from src import gs
 from src.suppliers.suppliers_list.aliexpress import AliApi
-from src.suppliers.suppliers_list.aliexpress.campaign.html_generators import ProductHTMLGenerator, CategoryHTMLGenerator, CampaignHTMLGenerator
-from src.suppliers.suppliers_list.aliexpress.utils.ensure_https import ensure_https
+from src.suppliers.suppliers_list.aliexpress_com.campaign.html_generators import ProductHTMLGenerator, CategoryHTMLGenerator, CampaignHTMLGenerator
+from src.suppliers.suppliers_list.aliexpress_com.utils.ensure_https import ensure_https
 from src.endpoints.prestashop.product_fields import ProductFields as f
 from src.utils.image import save_image_from_url_async
 from src.utils.video import save_video_from_url
@@ -129,7 +129,7 @@ class AliAffiliatedProducts(AliApi):
 
         _promotion_links: list = []
         _prod_urls: list = []
-        normilized_prod_urls: list[str] = ensure_https(prod_ids)  # приведение к виду `https://aliexpress.com/item/<product_id>.html`
+        normilized_prod_urls: list[str] = ensure_https(prod_ids)  # приведение к виду `https://aliexpress_com.com/item/<product_id>.html`
         print_flag: str = ''  # флаг переключения печати в одну строку
 
         for prod_url in normilized_prod_urls:

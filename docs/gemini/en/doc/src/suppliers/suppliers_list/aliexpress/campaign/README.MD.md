@@ -1,4 +1,4 @@
-#  `src.suppliers.suppliers_list.aliexpress.campaign`
+#  `src.suppliers.suppliers_list.aliexpress_com.campaign`
 
 ## Overview
 

@@ -31,7 +31,7 @@
    - Введите URL или ID товаров для кампании.
    - Пример:
      ```python
-     product_urls = ['https://www.aliexpress.com/item/123.html', 'https://www.aliexpress.com/item/456.html']
+     product_urls = ['https://www.aliexpress_com.com/item/123.html', 'https://www.aliexpress_com.com/item/456.html']
      product_data = collect_product_data(product_urls)
      ```
 
@@ -87,7 +87,7 @@
    - Введите новые URL или ID товаров для обновленной кампании.
    - Пример:
      ```python
-     new_product_urls = ['https://www.aliexpress.com/item/789.html']
+     new_product_urls = ['https://www.aliexpress_com.com/item/789.html']
      updated_product_data = collect_product_data(new_product_urls)
      ```
 

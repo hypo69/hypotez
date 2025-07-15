@@ -25,7 +25,7 @@
 
 ```python
 d = Driver(Firefox)
-d.get_url(r"https://www.aliexpress.com")
+d.get_url(r"https://www.aliexpress_com.com")
 ...
 ```
 
@@ -43,4 +43,4 @@ from src.webdriver.driver import Driver, Chrome, Firefox
 d = Driver(Firefox)
 
 # Открытие URL в браузере
-d.get_url(r"https://www.aliexpress.com")
+d.get_url(r"https://www.aliexpress_com.com")

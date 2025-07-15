@@ -61,8 +61,8 @@ from IPython.display import display
 import webbrowser
 
 from src import gs
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignEditor
-from src.suppliers.suppliers_list.aliexpress.utils import locales
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress_com.utils import locales
 from src.utils.printer import pprint, get_directory_names
 from src.logger.logger import logger
 

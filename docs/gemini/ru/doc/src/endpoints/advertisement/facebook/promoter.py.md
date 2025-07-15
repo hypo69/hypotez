@@ -192,7 +192,7 @@ events = [
         },
         'start': datetime.now(),
         'end': datetime.now() + timedelta(days=7),
-        'promotional_link': 'https://aliexpress.com/event1'
+        'promotional_link': 'https://aliexpress_com.com/event1'
     },
     {
         'name': 'Событие 2',
@@ -201,7 +201,7 @@ events = [
         },
         'start': datetime.now(),
         'end': datetime.now() + timedelta(days=14),
-        'promotional_link': 'https://aliexpress.com/event2'
+        'promotional_link': 'https://aliexpress_com.com/event2'
     }
 ]
 promoter.process_groups(events=events, is_event=True)

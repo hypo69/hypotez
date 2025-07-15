@@ -32,7 +32,7 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.aliexpress.api.errors.exceptions import InvalidArgumentException
+from src.suppliers.aliexpress_com.api.errors.exceptions import InvalidArgumentException
 
 try:
     # Example API call with invalid arguments

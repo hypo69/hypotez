@@ -46,9 +46,9 @@ campaign_editor = AliCampaignEditor(campaign_name=campaign_name, campaign_file=c
 
 - `header`: Импортируется как `import header`, но не используется в предоставленном коде.
 - `pathlib.Path`: Используется для работы с путями к файлам.
-- `src.suppliers.suppliers_list.aliexpress.campaign.AliCampaignEditor`: Класс для редактирования кампании AliExpress.
+- `src.suppliers.suppliers_list.aliexpress_com.campaign.AliCampaignEditor`: Класс для редактирования кампании AliExpress.
 - `src.gs`: Импортируется как `from src import gs`, но не используется в предоставленном коде.
-- `src.suppliers.suppliers_list.aliexpress.campaign.process_campaign_category`, `src.suppliers.suppliers_list.aliexpress.campaign.process_campaign`, `src.suppliers.suppliers_list.aliexpress.campaign.process_all_campaigns`: Функции для обработки кампании.
+- `src.suppliers.suppliers_list.aliexpress_com.campaign.process_campaign_category`, `src.suppliers.suppliers_list.aliexpress_com.campaign.process_campaign`, `src.suppliers.suppliers_list.aliexpress_com.campaign.process_all_campaigns`: Функции для обработки кампании.
 - `src.utils.get_filenames`, `src.utils.get_directory_names`: Функции для получения имен файлов и директорий.
 - `src.utils.printer.pprint`: Функция для "красивой" печати данных.
 - `src.logger.logger.logger`: Модуль для логирования.

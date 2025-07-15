@@ -27,7 +27,7 @@
 -------------------------
 
 ```python
-from src.suppliers.aliexpress.api.helpers.arguments import get_list_as_string, get_product_ids
+from src.suppliers.aliexpress_com.api.helpers.arguments import get_list_as_string, get_product_ids
 
 # Пример использования get_list_as_string
 product_ids = [123456789, 987654321]

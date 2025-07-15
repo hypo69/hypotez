@@ -1,8 +1,9 @@
+## \file /src/suppliers/get_pydoll_graber_by_supplier.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 
 """
-Модуль возвращает экземпляр pydoll вебдрайвера (Graber) для каждого конкретного поставщика
+Модуль возвращает экземпляр pydoll грабера (Graber) для каждого конкретного поставщика
 
 ```rst
 .. :module:: src.suppliers.get_pydoll_graber_by_supplier 
@@ -15,30 +16,30 @@ from typing import Optional
 # --- Импорты Graber классов ---
 # Убедитесь, что все импорты корректны и ведут к классам Graber
 from src.suppliers.suppliers_list.ads_tec_iit_com.graber_via_pydoll import Graber as AdsTecIitComGraber
-from src.suppliers.suppliers_list.aliexpress.graber_via_pydoll import Graber as AliexpressGraber
-from src.suppliers.suppliers_list.amazon.graber_via_pydoll import Graber as AmazonGraber
+from src.suppliers.suppliers_list.aliexpress_com.graber_via_pydoll import Graber as AliexpressGraber
+from src.suppliers.suppliers_list.amazon_com.graber_via_pydoll import Graber as AmazonGraber
 from src.suppliers.suppliers_list.apple_com.graber_via_pydoll import Graber as AppleComGraber
 from src.suppliers.suppliers_list.atlascopco_com.graber_via_pydoll import Graber as AtlascopcoComGraber
-from src.suppliers.suppliers_list.bangood.graber_via_pydoll import Graber as BangoodGraber
+from src.suppliers.suppliers_list.bangood_com.graber_via_pydoll import Graber as BangoodGraber
 from src.suppliers.suppliers_list.bucketmaster_com_cn.graber_via_pydoll import Graber as BucketmasterComCnGraber
-from src.suppliers.suppliers_list.cdata.graber_via_pydoll import Graber as CdataGraber
+from src.suppliers.suppliers_list.cdata_co_il.graber_via_pydoll import Graber as CdataGraber
 from src.suppliers.suppliers_list.cisco_com.graber_via_pydoll import Graber as CiscoComGraber
 from src.suppliers.suppliers_list.de_de_ring_com.graber_via_pydoll import Graber as DeDeRingComGraber
 from src.suppliers.suppliers_list.de_hexcel_com.graber_via_pydoll import Graber as DeHexcelComGraber
 from src.suppliers.suppliers_list.de_rs_online_com.graber_via_pydoll import Graber as DeRsOnlineComGraber
 from src.suppliers.suppliers_list.denaliweld_com.graber_via_pydoll import Graber as DenaliweldComGraber
 from src.suppliers.suppliers_list.dewesoft_com.graber_via_pydoll import Graber as DewesoftComGraber
-from src.suppliers.suppliers_list.ebay.graber_via_pydoll import Graber as EbayGraber
+from src.suppliers.suppliers_list.ebay_com.graber_via_pydoll import Graber as EbayGraber
 from src.suppliers.suppliers_list.elektrometal_eu.graber_via_pydoll import Graber as ElektrometalEuGraber
-from src.suppliers.suppliers_list.etzmaleh.graber_via_pydoll import Graber as EtzmalehGraber
+from src.suppliers.suppliers_list.etzmaleh_co_il.graber_via_pydoll import Graber as EtzmalehGraber
 from src.suppliers.suppliers_list.findernet_com.graber_via_pydoll import Graber as FindernetComGraber
 from src.suppliers.suppliers_list.fresubin_com.graber_via_pydoll import Graber as FresubinComGraber
-from src.suppliers.suppliers_list.gearbest.graber_via_pydoll import Graber as GearbestGraber
+from src.suppliers.suppliers_list.gearbest_com.graber_via_pydoll import Graber as GearbestGraber
 from src.suppliers.suppliers_list.generex_de.graber_via_pydoll import Graber as GenerexDeGraber
 from src.suppliers.suppliers_list.georgin_com.graber_via_pydoll import Graber as GeorginComGraber
 from src.suppliers.suppliers_list.german_micro_steppermotors_com.graber_via_pydoll import Graber as GermanMicroSteppermotorsComGraber
-from src.suppliers.suppliers_list.grandadvance.graber_via_pydoll import Graber as GrandadvanceGraber
-from src.suppliers.suppliers_list.hb.graber_via_pydoll import Graber as HbGraber
+from src.suppliers.suppliers_list.grandadvance_co_il.graber_via_pydoll import Graber as GrandadvanceGraber
+from src.suppliers.suppliers_list.hbdeadsea_co_il.graber_via_pydoll import Graber as HbGraber
 from src.suppliers.suppliers_list.imos3d_com.graber_via_pydoll import Graber as Imos3dComGraber
 from src.suppliers.suppliers_list.induprogress_pl.graber_via_pydoll import Graber as InduprogressPlGraber
 from src.suppliers.suppliers_list.industrierat_west_de.graber_via_pydoll import Graber as IndustrieratWestDeGraber
@@ -47,11 +48,11 @@ from src.suppliers.suppliers_list.it_defelsko_com.graber_via_pydoll import Grabe
 from src.suppliers.suppliers_list.it_jarvis_smart_com.graber_via_pydoll import Graber as ItJarvisSmartComGraber
 from src.suppliers.suppliers_list.it_superb_heater_com.graber_via_pydoll import Graber as ItSuperbHeaterComGraber
 from src.suppliers.suppliers_list.it_thermo_heater_com.graber_via_pydoll import Graber as ItThermoHeaterComGraber
-from src.suppliers.suppliers_list.ivory.graber_via_pydoll import Graber as IvoryGraber
+from src.suppliers.suppliers_list.ivory_co_il.graber_via_pydoll import Graber as IvoryGraber
 from src.suppliers.suppliers_list.janitza_com.graber_via_pydoll import Graber as JanitzaComGraber
 from src.suppliers.suppliers_list.jungbluth_com.graber_via_pydoll import Graber as JungbluthComGraber
-from src.suppliers.suppliers_list.ksp.graber_via_pydoll import Graber as KspGraber
-from src.suppliers.suppliers_list.kualastyle.graber_via_pydoll import Graber as KualastyleGraber
+from src.suppliers.suppliers_list.ksp_co_il.graber_via_pydoll import Graber as KspGraber
+from src.suppliers.suppliers_list.kualastyle_co_il.graber_via_pydoll import Graber as KualastyleGraber
 from src.suppliers.suppliers_list.ledodm_com.graber_via_pydoll import Graber as LedodmComGraber
 from src.suppliers.suppliers_list.leybold_com.graber_via_pydoll import Graber as LeyboldComGraber
 from src.suppliers.suppliers_list.mecalux_it.graber_via_pydoll import Graber as MecaluxItGraber
@@ -59,7 +60,7 @@ from src.suppliers.suppliers_list.megatron_de.graber_via_pydoll import Graber as
 from src.suppliers.suppliers_list.megger_com.graber_via_pydoll import Graber as MeggerComGraber
 from src.suppliers.suppliers_list.mococonnectors_com.graber_via_pydoll import Graber as MococonnectorsComGraber
 from src.suppliers.suppliers_list.mordorintelligence_it.graber_via_pydoll import Graber as MordorintelligenceItGraber
-from src.suppliers.suppliers_list.morlevi.graber_via_pydoll import Graber as MorleviGraber
+from src.suppliers.suppliers_list.morlevi_co_il.graber_via_pydoll import Graber as MorleviGraber
 from src.suppliers.suppliers_list.omnipod_com.graber_via_pydoll import Graber as OmnipodComGraber
 from src.suppliers.suppliers_list.opel_de.graber_via_pydoll import Graber as OpelDeGraber
 from src.suppliers.suppliers_list.pfannenberg_com.graber_via_pydoll import Graber as PfannenbergComGraber
@@ -74,9 +75,9 @@ from src.suppliers.suppliers_list.shop_scheppach_com.graber_via_pydoll import Gr
 from src.suppliers.suppliers_list.sigmaaldrich_com.graber_via_pydoll import Graber as SigmaaldrichComGraber
 from src.suppliers.suppliers_list.sphinxitalia_it.graber_via_pydoll import Graber as SphinxitaliaItGraber
 from src.suppliers.suppliers_list.vidaxl_pl.graber_via_pydoll import Graber as VidaxlPlGraber
-from src.suppliers.suppliers_list.visualdg.graber_via_pydoll import Graber as VisualdgGraber
-from src.suppliers.suppliers_list.wallashop.graber_via_pydoll import Graber as WallashopGraber
-from src.suppliers.suppliers_list.wallmart.graber_via_pydoll import Graber as WallmartGraber
+from src.suppliers.suppliers_list.visualdg_co_il.graber_via_pydoll import Graber as VisualdgGraber
+from src.suppliers.suppliers_list.wallashop_co_il.graber_via_pydoll import Graber as WallashopGraber
+from src.suppliers.suppliers_list.wallmart_com.graber_via_pydoll import Graber as WallmartGraber
 from src.suppliers.suppliers_list.zebra_com.graber_via_pydoll import Graber as ZebraComGraber
 from src.suppliers.graber_via_pydoll import Graber
 
@@ -85,14 +86,14 @@ from src.logger import logger
 # Словарь для соответствия доменов классам Graber
 URL_PREFIX_MAP = {
     "ads-tec-iit.com":AdsTecIitComGraber,
-    "aliexpress.com":AliexpressGraber,
+    "aliexpress_com.com":AliexpressGraber,
     "amazon.com":AmazonGraber,
     "apple.com":AppleComGraber,
     "atlascopco.com":AtlascopcoComGraber,
     "bangood.com":BangoodGraber,
     "bucketmaster.com.cn":BucketmasterComCnGraber,
     "cdata.com":CdataGraber,
-    "chat.openai.com":"chat_gpt", # Специальный случай, если нужно обрабатывать, но возвращает строку.
+  
     "cisco.com":CiscoComGraber,
     "de.de-ring.com":DeDeRingComGraber,
     "de.hexcel.com":DeHexcelComGraber,
@@ -286,7 +287,7 @@ def get_graber_by_supplier_url(url: str) -> Graber:
     # Получаем класс Graber по домену из URL_PREFIX_MAP
     try:
         GraberClass = URL_PREFIX_MAP[domain]
-        return GraberClass(supplier_prefix)
+        return GraberClass(domain)
 
     except KeyError:
         # raise ValueError(f"Graber класс не найден для поставщика (домен): {domain}")
@@ -298,10 +299,6 @@ def get_graber_by_supplier_url(url: str) -> Graber:
         msg = f"\n\nНе удалось создать экземпляр Graber для {domain}\n\n" 
         logger.critical(msg, ex, True)
         ...
-        # Если ничего не найдено, Возвращается объект Graber по умолчанию. 
-        # Это стандартный случай, когда нет подходящего класса для данного домена.
-        # если вы хотите иметь базовый функционал Graber,
-        # Функция вернет базовый `Graber`, 
-    return Graber(supplier_prefix)  
+    return False
 
 

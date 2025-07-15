@@ -6,7 +6,7 @@ This module provides functionality for editing AliExpress campaigns. It utilizes
 
 ## Details
 
-The module utilizes the `AliCampaignEditor` class from the `src.suppliers.suppliers_list.aliexpress.campaign` module. This class provides methods for interacting with AliExpress campaigns and modifying their settings. 
+The module utilizes the `AliCampaignEditor` class from the `src.suppliers.suppliers_list.aliexpress_com.campaign` module. This class provides methods for interacting with AliExpress campaigns and modifying their settings. 
 
 ## Classes
 

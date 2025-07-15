@@ -32,7 +32,7 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.campaign import JupyterCampaignEditorWidgets
+from src.suppliers.suppliers_list.aliexpress_com.campaign import JupyterCampaignEditorWidgets
 
 # Create an instance of the JupyterCampaignEditorWidgets
 editor_widgets = JupyterCampaignEditorWidgets()

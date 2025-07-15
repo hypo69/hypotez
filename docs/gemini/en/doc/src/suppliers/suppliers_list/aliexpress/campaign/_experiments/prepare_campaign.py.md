@@ -10,7 +10,7 @@ This module focuses on experimenting with the creation of affiliate campaigns.
 
 ## Details
 
-This module is designed to be a testing ground for various campaign creation strategies. It utilizes the `process_campaign` function from the `src.suppliers.suppliers_list.aliexpress.campaign` module to generate campaigns. 
+This module is designed to be a testing ground for various campaign creation strategies. It utilizes the `process_campaign` function from the `src.suppliers.suppliers_list.aliexpress_com.campaign` module to generate campaigns. 
 
 The `process_campaign` function is responsible for:
 
@@ -20,17 +20,17 @@ The `process_campaign` function is responsible for:
 
 ## Classes
 
-This module does not define any new classes. It relies on existing classes from other modules within the `hypotez` project, such as `process_campaign` from `src.suppliers.suppliers_list.aliexpress.campaign`. 
+This module does not define any new classes. It relies on existing classes from other modules within the `hypotez` project, such as `process_campaign` from `src.suppliers.suppliers_list.aliexpress_com.campaign`. 
 
 ## Functions
 
-This module uses the `process_campaign` function to generate campaigns, but it does not explicitly define any new functions. The core functionality for campaign creation resides in the `process_campaign` function from the `src.suppliers.suppliers_list.aliexpress.campaign` module.
+This module uses the `process_campaign` function to generate campaigns, but it does not explicitly define any new functions. The core functionality for campaign creation resides in the `process_campaign` function from the `src.suppliers.suppliers_list.aliexpress_com.campaign` module.
 
 ## Examples
 
 ```python
 import header
-from src.suppliers.suppliers_list.aliexpress.campaign import process_campaign
+from src.suppliers.suppliers_list.aliexpress_com.campaign import process_campaign
 
 locales = {'EN': 'USD', 'HE': 'ILS', 'RU': 'ILS'}
 language: str = 'EN'
@@ -53,7 +53,7 @@ process_campaign(campaign_name=campaign_name)
 
 1. **Import Statements:** The code starts by importing necessary modules:
    - `header` - likely contains configurations or shared data.
-   - `process_campaign` from `src.suppliers.suppliers_list.aliexpress.campaign` - the function used for campaign generation.
+   - `process_campaign` from `src.suppliers.suppliers_list.aliexpress_com.campaign` - the function used for campaign generation.
 
 2. **Defining Parameters:** The code defines several key parameters for campaign creation:
    - `locales`: Maps languages to their associated currencies.

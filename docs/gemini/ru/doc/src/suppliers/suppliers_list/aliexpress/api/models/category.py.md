@@ -24,7 +24,7 @@
 **Пример использования**:
 
 ```python
-from src.suppliers.aliexpress.api.models.category import Category
+from src.suppliers.aliexpress_com.api.models.category import Category
 
 category = Category(category_id=12345, category_name="Одежда")
 
@@ -43,7 +43,7 @@ print(f"Название категории: {category.category_name}")
 **Пример использования**:
 
 ```python
-from src.suppliers.aliexpress.api.models.category import ChildCategory
+from src.suppliers.aliexpress_com.api.models.category import ChildCategory
 
 child_category = ChildCategory(
     category_id=67890,
@@ -61,7 +61,7 @@ print(f"ID родительской категории: {child_category.parent_c
 **Пример 1: Создание объекта `Category`**:
 
 ```python
-from src.suppliers.aliexpress.api.models.category import Category
+from src.suppliers.aliexpress_com.api.models.category import Category
 
 category = Category(category_id=12345, category_name="Одежда")
 ```
@@ -69,7 +69,7 @@ category = Category(category_id=12345, category_name="Одежда")
 **Пример 2: Создание объекта `ChildCategory`**:
 
 ```python
-from src.suppliers.aliexpress.api.models.category import ChildCategory
+from src.suppliers.aliexpress_com.api.models.category import ChildCategory
 
 child_category = ChildCategory(
     category_id=67890,

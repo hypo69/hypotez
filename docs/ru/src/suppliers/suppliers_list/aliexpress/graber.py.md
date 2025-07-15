@@ -42,7 +42,7 @@
 **Примеры**:
 ```python
 from src.webdriver.driver import Driver, Chrome
-from src.suppliers.suppliers_list.aliexpress.graber import Graber
+from src.suppliers.suppliers_list.aliexpress_com.graber import Graber
 
 # Создание инстанса драйвера (пример с Chrome)
 driver = Driver(Chrome)
@@ -51,7 +51,7 @@ graber = Graber(driver=driver, lang_index=0)
 ```
 ```python
 from src.webdriver.driver import Driver, Firefox
-from src.suppliers.suppliers_list.aliexpress.graber import Graber
+from src.suppliers.suppliers_list.aliexpress_com.graber import Graber
 
 # Создание инстанса драйвера (пример с Firefox)
 driver = Driver(Firefox)
@@ -61,7 +61,7 @@ graber = Graber(driver=driver, lang_index=1)
 ```
 ```python
 from src.webdriver.driver import Driver
-from src.suppliers.suppliers_list.aliexpress.graber import Graber
+from src.suppliers.suppliers_list.aliexpress_com.graber import Graber
 
 # Создание инстанса класса Graber
 # driver не определен
@@ -70,7 +70,7 @@ from src.suppliers.suppliers_list.aliexpress.graber import Graber
 ```
 ```python
 from src.webdriver.driver import Driver, Chrome
-from src.suppliers.suppliers_list.aliexpress.graber import Graber
+from src.suppliers.suppliers_list.aliexpress_com.graber import Graber
 
 # Создание инстанса драйвера (пример с Chrome)
 driver = Driver(Chrome)
@@ -82,7 +82,7 @@ driver = Driver(Chrome)
 ```
 ```python
 from src.webdriver.driver import Driver, Chrome
-from src.suppliers.suppliers_list.aliexpress.graber import Graber
+from src.suppliers.suppliers_list.aliexpress_com.graber import Graber
 
 # Создание инстанса драйвера (пример с Chrome)
 driver = Driver(Chrome)
@@ -94,7 +94,7 @@ graber = Graber(driver=driver, lang_index=1)
 ```
 ```python
 from src.webdriver.driver import Driver, Chrome
-from src.suppliers.suppliers_list.aliexpress.graber import Graber
+from src.suppliers.suppliers_list.aliexpress_com.graber import Graber
 
 # Создание инстанса драйвера (пример с Chrome)
 driver = Driver(Chrome)

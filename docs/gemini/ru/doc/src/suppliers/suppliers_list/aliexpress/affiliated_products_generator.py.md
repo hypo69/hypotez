@@ -52,7 +52,7 @@
 **Примеры**:
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.affiliated_products_generator import AliAffiliatedProducts
+from src.suppliers.suppliers_list.apiexpress.affiliated_products_generator import AliAffiliatedProducts
 
 # Создание экземпляра класса AliAffiliatedProducts
 aliexpress_products = AliAffiliatedProducts(language='RU', currency='RUB')
@@ -187,9 +187,9 @@ for product in products:
 **Пример**:
 
 ```python
->>> urls = ['http://aliexpress.com/item/1234567890.html', 'aliexpress.com/item/9876543210.html']
+>>> urls = ['http://aliexpress_com.com/item/1234567890.html', 'aliexpress_com.com/item/9876543210.html']
 >>> ensure_https(urls)
-['https://aliexpress.com/item/1234567890.html', 'https://aliexpress.com/item/9876543210.html']
+['https://aliexpress_com.com/item/1234567890.html', 'https://aliexpress_com.com/item/9876543210.html']
 ```
 
 **Описание**:
@@ -203,6 +203,6 @@ for product in products:
 **Пример**:
 
 ```python
->>> urls = ['http://aliexpress.com/item/1234567890.html', 'aliexpress.com/item/9876543210.html']
+>>> urls = ['http://aliexpress_com.com/item/1234567890.html', 'aliexpress_com.com/item/9876543210.html']
 >>> ensure_https(urls)
-['https://aliexpress.com/item/1234567890.html', 'https://aliexpress.com/item/9876543210.html']
+['https://aliexpress_com.com/item/1234567890.html', 'https://aliexpress_com.com/item/9876543210.html']

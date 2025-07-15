@@ -1,4 +1,4 @@
-# Модуль `src.suppliers.suppliers_list.aliexpress.api.models.currencies`
+# Модуль `src.suppliers.suppliers_list.aliexpress_com.api.models.currencies`
 
 ## Обзор
 
@@ -32,7 +32,7 @@
 **Примеры**:
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.api.models.currencies import Currency
+from src.suppliers.suppliers_list.aliexpress_com.api.models.currencies import Currency
 
 # Получение кода валюты USD
 usd_currency = Currency.USD

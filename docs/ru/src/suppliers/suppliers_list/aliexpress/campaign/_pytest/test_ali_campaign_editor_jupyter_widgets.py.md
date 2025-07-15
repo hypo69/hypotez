@@ -1,4 +1,4 @@
-# src.suppliers.aliexpress.campaign._pytest.test_ali_campaign_editor_jupyter_widgets.py
+# src.suppliers.aliexpress_com.campaign._pytest.test_ali_campaign_editor_jupyter_widgets.py
 
 ## Обзор
 

@@ -50,8 +50,8 @@
 **Примеры**:
 
 ```python
-from src.suppliers.aliexpress.api.helpers import categories
-from src.suppliers.aliexpress.api import models
+from src.suppliers.aliexpress_com.api.helpers import categories
+from src.suppliers.aliexpress_com.api import models
 
 # Пример 1: Список с одним объектом категории
 category = models.Category(category_id=1, name="Одежда", parent_category_id=None)
@@ -95,8 +95,8 @@ print(filtered_categories)  # Вывод: [<models.Category object>, <models.Cat
 **Примеры**:
 
 ```python
-from src.suppliers.aliexpress.api.helpers import categories
-from src.suppliers.aliexpress.api import models
+from src.suppliers.aliexpress_com.api.helpers import categories
+from src.suppliers.aliexpress_com.api import models
 
 # Пример 1: Список с одним объектом категории
 category = models.Category(category_id=1, name="Одежда", parent_category_id=None)

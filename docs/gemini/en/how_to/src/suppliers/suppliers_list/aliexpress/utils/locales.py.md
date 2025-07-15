@@ -27,7 +27,7 @@ Usage Example
 -------------------------
 
 ```python
-    from src.suppliers.suppliers_list.aliexpress.utils.locales import locales
+    from src.suppliers.suppliers_list.aliexpress_com.utils.locales import locales
 
     # Access the locales data
     print(locales) 

@@ -21,7 +21,7 @@ Execution Steps
 1. Imports the `header` module.
 2. Imports the `Driver` class and the `Firefox` browser type from the `src.webdriver.driver` module.
 3. Creates an instance of the `Driver` class using the `Firefox` browser.
-4. Calls the `get_url()` method of the `Driver` instance to navigate to the AliExpress website (`https://www.aliexpress.com`).
+4. Calls the `get_url()` method of the `Driver` instance to navigate to the AliExpress website (`https://www.aliexpress_com.com`).
 
 Usage Example
 -------------------------
@@ -30,7 +30,7 @@ Usage Example
 from src.webdriver.driver import Driver, Chrome, Firefox
 
 d = Driver(Firefox)
-d.get_url(r"https://www.aliexpress.com")
+d.get_url(r"https://www.aliexpress_com.com")
 # ... continue with additional actions on the AliExpress website
 ```
 

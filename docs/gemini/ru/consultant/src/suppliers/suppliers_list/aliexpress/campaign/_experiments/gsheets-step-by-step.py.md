@@ -63,11 +63,11 @@ from typing import List, Dict
 from gspread import Spreadsheet, Worksheet
 
 from src.suppliers.suppliers_list.aliexpress import campaign
-from src.suppliers.suppliers_list.aliexpress.campaign import (
+from src.suppliers.suppliers_list.aliexpress_com.campaign import (
     AliCampaignGoogleSheet,
     AliCampaignEditor,
 )
-from src.suppliers.suppliers_list.aliexpress.campaign.ttypes import (
+from src.suppliers.suppliers_list.aliexpress_com.campaign.ttypes import (
     CampaignType,
     CategoryType,
     ProductType,

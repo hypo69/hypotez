@@ -77,7 +77,7 @@ from types import SimpleNamespace
 from src.webdriver.driver import Driver, Chrome
 from gspread.worksheet import Worksheet
 from src.goog.spreadsheet.spreadsheet import SpreadSheet
-from src.suppliers.suppliers_list.aliexpress.campaign.ali_campaign_editor import AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress_com.campaign.ali_campaign_editor import AliCampaignEditor
 from src.utils.jjson import j_dumps
 from src.utils.printer import pprint
 from src.logger.logger import logger

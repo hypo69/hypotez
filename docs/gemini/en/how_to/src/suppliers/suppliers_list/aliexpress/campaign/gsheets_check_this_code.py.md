@@ -32,7 +32,7 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.aliexpress.campaign.gsheets_check_this_code import AliCampaignGoogleSheet
+from src.suppliers.aliexpress_com.campaign.gsheets_check_this_code import AliCampaignGoogleSheet
 
 # Initialize AliCampaignGoogleSheet with campaign details
 campaign_sheet = AliCampaignGoogleSheet(campaign_name='My Campaign', language='English', currency='USD')

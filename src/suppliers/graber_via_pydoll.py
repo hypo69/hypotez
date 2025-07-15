@@ -31,45 +31,7 @@ from src.logger.logger import logger
 @dataclass(slots=True)
 class Config:
     """Configuration for a supplier."""
-    supplier_prefix: str 
-    supplier_alias: str = field(init=False)
-    ENDPOINT: Path = field(init=False)
-    SCENARIOS_DIR: Path = field(init=False)
 
-    required_fields: list[str] = field(default_factory=lambda: [
-        'id_supplier',
-        'name',
-        'price',
-        'reference',
-        'description',
-        'description_short',
-        'default_image_url',
-        'local_image_path',
-    ])
-
-    def __post_init__(self):
-        self.supplier_alias = self.supplier_prefix.replace('.', '_').replace('-', '_')
-        self.ENDPOINT = __root__ / 'src' / 'suppliers' / 'suppliers_list' / self.supplier_alias
-        self.SCENARIOS_DIR = self.ENDPOINT / 'scenarios'
-        ...
-
-    @property
-    def product_locators(self) -> SimpleNamespace:
-        # Убедитесь, что этот путь верен и файл существует
-        try:
-            return j_loads_ns(self.ENDPOINT / 'locators' / 'product.json')
-        except FileNotFoundError:
-            logger.error(f"Файл локаторов товара не найден для поставщика {self.supplier_prefix}: {self.ENDPOINT / 'locators' / 'product.json'}")
-            return SimpleNamespace() # Возврат пустой объект, чтобы избежать ошибок дальше
-
-    @property
-    def category_locators(self) -> SimpleNamespace:
-        # Убедитесь, что этот путь верен и файл существует
-        try:
-            return j_loads_ns(self.ENDPOINT / 'locators' / 'category.json')
-        except FileNotFoundError:
-            logger.error(f"Файл локаторов категории не найден для поставщика {self.supplier_prefix}: {self.ENDPOINT / 'locators' / 'category.json'}")
-            return SimpleNamespace() # Возврат пустой объект
 
 # --- end config.py ---
 
@@ -87,11 +49,10 @@ class Graber(GraberSupplier):
         self.config = Config(supplier_prefix=self.supplier_prefix)
         super().__init__(
             supplier_prefix = self.supplier_prefix,  
-            product_locator = self.product_locator, 
-            category_locator = self.category_locator, 
             driver = self.driver, 
-            fields = self.product_fields,
-            *args, **kwargs)
+            product_fields = self.product_fields,
+            lang_index = self.lang_index or 1
+            )
 
     async def grab_product_page(self, driver: Driver, product_url: str, required_fields: Optional[List[str]] = None, ) -> ProductFields:
         """
@@ -149,9 +110,9 @@ class Graber(GraberSupplier):
         """
         Приводит URL к стандартному виду https://...
         Поддерживаются форматы:
-            //he.aliexpress.com/item/
-            https://he.aliexpress.com/item/
-            he.aliexpress.com/item/
+            //he.aliexpress_com.com/item/
+            https://he.aliexpress_com.com/item/
+            he.aliexpress_com.com/item/
         """
             
         if url.startswith('//'):

@@ -41,7 +41,7 @@ The `Language` class defines a set of constants representing the supported langu
 ## Examples
 
 ```python
-from src.suppliers.aliexpress.api.models.languages import Language
+from src.suppliers.aliexpress_com.api.models.languages import Language
 
 # Accessing language codes:
 print(Language.EN)  # Output: 'EN'

@@ -18,7 +18,7 @@ This code block creates a new instance of the `AliPromoDeal` class, retrieves al
 
 Execution Steps
 -------------------------
-1. Imports the necessary modules, including `header` and `AliPromoDeal` from the `aliexpress.scenarios` module.
+1. Imports the necessary modules, including `header` and `AliPromoDeal` from the `aliexpress_com.scenarios` module.
 2. Creates an instance of the `AliPromoDeal` class, named `deal`, with the campaign ID `'150624_baseus_deals'`.
 3. Retrieves all product details associated with the campaign by calling the `get_all_products_details()` method on the `deal` object.
 4. The code then moves on to further actions, as indicated by `...`.
@@ -27,7 +27,7 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.scenarios import AliPromoDeal
+from src.suppliers.suppliers_list.aliexpress_com.scenarios import AliPromoDeal
 
 # Create an instance of the AliPromoDeal class
 deal = AliPromoDeal('150624_baseus_deals')

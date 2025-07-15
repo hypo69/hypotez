@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-module: src.suppliers.aliexpress..ipynb_checkpoints 
+module: src.suppliers.aliexpress_com..ipynb_checkpoints 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -21,7 +21,7 @@ MODE = 'dev'
   :synopsis:
 """MODE = 'dev'
   
-""" module: src.suppliers.aliexpress..ipynb_checkpoints """
+""" module: src.suppliers.aliexpress_com..ipynb_checkpoints """
 
 
 """ supplier `aliexpress`
@@ -36,8 +36,8 @@ Here is the list of files and directories that are included in the `aliexpress` 
    - **affiliate_links_shortener_via_webdriver.py**
    - **affiliated_products_generator.py**
    - **aliapi.py**
-   - **aliexpress.json**
-   - **aliexpress.py**
+   - **aliexpress_com.json**
+   - **aliexpress_com.py**
    - **alirequests.py**
    - **category.py**
    - **desktop.ini**
@@ -113,7 +113,7 @@ The `aliexpress` module appears to be a comprehensive package designed to intera
   - **affiliate_links_shortener_via_webdriver.py**: Shortens affiliate links using WebDriver.
   - **affiliated_products_generator.py**: Generates affiliated products.
   - **aliapi.py**: Interacts with the AliExpress API.
-  - **aliexpress.py**: Main script for AliExpress-related operations.
+  - **aliexpress_com.py**: Main script for AliExpress-related operations.
   - **alirequests.py**: Manages HTTP requests to AliExpress.
   - **category.py**: Handles category data.
   - **graber.py**: Script for grabbing data.

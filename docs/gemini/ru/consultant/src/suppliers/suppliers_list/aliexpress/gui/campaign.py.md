@@ -53,7 +53,7 @@ from PyQt6 import QtWidgets, QtGui, QtCore
 from qasync import QEventLoop, asyncSlot
 
 from src.utils.jjson import j_loads_ns, j_dumps
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignEditor
 from styles import set_fixed_size
 from src.logger import logger
 

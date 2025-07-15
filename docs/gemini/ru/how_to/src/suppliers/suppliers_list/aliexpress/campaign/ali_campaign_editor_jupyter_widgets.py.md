@@ -18,7 +18,7 @@
 1. Импортируйте класс `JupyterCampaignEditorWidgets`:
 
    ```python
-   from src.suppliers.aliexpress.campaign import JupyterCampaignEditorWidgets
+   from src.suppliers.aliexpress_com.campaign import JupyterCampaignEditorWidgets
    ```
 
 2. Создайте экземпляр класса:
@@ -50,7 +50,7 @@
 -------------------------
 
 ```python
-from src.suppliers.aliexpress.campaign import JupyterCampaignEditorWidgets
+from src.suppliers.aliexpress_com.campaign import JupyterCampaignEditorWidgets
 
 editor_widgets = JupyterCampaignEditorWidgets()
 editor_widgets.display_widgets()

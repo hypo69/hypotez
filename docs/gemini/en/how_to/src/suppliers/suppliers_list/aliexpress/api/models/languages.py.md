@@ -26,7 +26,7 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.aliexpress.api.models.languages import Language
+from src.suppliers.aliexpress_com.api.models.languages import Language
 
 # Retrieve the language code for English
 language_code = Language.EN  # 'EN'

@@ -229,7 +229,7 @@ if grabber_instance:
 
 ## Примеры
 
-- `get_graber_by_supplier_url(driver, 'https://www.aliexpress.com/item/1234567890.html', 2)`: Возвращает `AliexpressGraber` для извлечения данных с AliExpress.
+- `get_graber_by_supplier_url(driver, 'https://www.aliexpress_com.com/item/1234567890.html', 2)`: Возвращает `AliexpressGraber` для извлечения данных с AliExpress.
 - `get_graber_by_supplier_prefix(driver, 'ksp', 2)`: Возвращает `KspGraber` для извлечения данных с Ksp.
 
 ## Дополнительные сведения

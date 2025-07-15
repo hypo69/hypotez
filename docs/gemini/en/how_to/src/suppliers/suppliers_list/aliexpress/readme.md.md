@@ -34,8 +34,8 @@ Usage Example
 
 ```python
 # Example usage:
-from hypotez.src.suppliers.suppliers_list.aliexpress.utils import some_helper_function
-from hypotez.src.suppliers.suppliers_list.aliexpress.api import get_product_details, get_affiliate_link
+from hypotez.src.suppliers.suppliers_list.aliexpress_com.utils import some_helper_function
+from hypotez.src.suppliers.suppliers_list.aliexpress_com.api import get_product_details, get_affiliate_link
 
 # Example usage of helper functions:
 product_data = get_product_details(product_id)

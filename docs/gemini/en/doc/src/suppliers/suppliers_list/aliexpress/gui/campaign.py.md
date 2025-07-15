@@ -13,7 +13,7 @@ The `CampaignEditor` class utilizes PyQt6 for building the GUI. It provides a us
 - **Campaign Editing:** Editing essential campaign parameters, including title, description, and promotion name.
 - **Campaign Preparation:** Triggering an asynchronous campaign preparation process. 
 
-The module relies on `AliCampaignEditor` from `src.suppliers.suppliers_list.aliexpress.campaign` to handle the actual campaign preparation logic.
+The module relies on `AliCampaignEditor` from `src.suppliers.suppliers_list.aliexpress_com.campaign` to handle the actual campaign preparation logic.
 
 ## Classes
 
@@ -175,7 +175,7 @@ The module relies on `AliCampaignEditor` from `src.suppliers.suppliers_list.alie
 
 ```python
 # Example usage:
-from src.suppliers.aliexpress.gui.campaign import CampaignEditor
+from src.suppliers.aliexpress_com.gui.campaign import CampaignEditor
 
 # Create a CampaignEditor instance
 editor = CampaignEditor()

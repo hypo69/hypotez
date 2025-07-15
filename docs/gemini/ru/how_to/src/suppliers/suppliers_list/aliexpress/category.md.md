@@ -17,7 +17,7 @@
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.category import get_list_products_in_category
+from src.suppliers.suppliers_list.aliexpress_com.category import get_list_products_in_category
 
 # Создание экземпляра поставщика
 supplier_instance = Supplier()

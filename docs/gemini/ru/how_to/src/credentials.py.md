@@ -21,7 +21,7 @@ from src.credentials import gs
 
 # Доступ к настройкам
 print(gs.base_dir)  # Путь к корневой директории проекта
-print(gs.credentials.aliexpress.api_key)  # Алиэкспресс API ключ
+print(gs.credentials.aliexpress_com.api_key)  # Алиэкспресс API ключ
 print(gs.credentials.openai.owner.api_key) # OpenAI API ключ
 
 # Доступ к параметрам конфигурации

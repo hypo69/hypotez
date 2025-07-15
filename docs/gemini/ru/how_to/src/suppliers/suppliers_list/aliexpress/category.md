@@ -20,7 +20,7 @@
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.category import get_list_products_in_category, update_categories_in_scenario_file
+from src.suppliers.suppliers_list.aliexpress_com.category import get_list_products_in_category, update_categories_in_scenario_file
 from src.suppliers.supplier import Supplier  # Предполагается, что класс Supplier находится в этом модуле
 
 # Создание экземпляра класса Supplier (требуется инициализация драйвера и локаторов)

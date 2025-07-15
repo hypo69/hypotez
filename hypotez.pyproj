@@ -805,8 +805,8 @@
     <Content Include="docs\doxygen\_build\ru\html\d3\d28\threads_8py_source.html" />
     <Content Include="docs\doxygen\_build\ru\html\d3\d2f\kualastyle__locators_8json.html" />
     <Content Include="docs\doxygen\_build\ru\html\d3\d2f\kualastyle__locators_8json_source.html" />
-    <Content Include="docs\doxygen\_build\ru\html\d3\d30\classsrc_1_1suppliers_1_1aliexpress_1_1aliexpress_1_1_aliexpress.html" />
-    <Content Include="docs\doxygen\_build\ru\html\d3\d30\classsrc_1_1suppliers_1_1aliexpress_1_1aliexpress_1_1_aliexpress.js" />
+    <Content Include="docs\doxygen\_build\ru\html\d3\d30\classsrc_1_1suppliers_1_1aliexpress_1_1aliexpress_1_1_aliexpress_com.html" />
+    <Content Include="docs\doxygen\_build\ru\html\d3\d30\classsrc_1_1suppliers_1_1aliexpress_1_1aliexpress_1_1_aliexpress_com.js" />
     <Content Include="docs\doxygen\_build\ru\html\d3\d30\classsrc_1_1suppliers_1_1aliexpress_1_1aliexpress_1_1_aliexpress_af0f0fe44d1c67c4e7f01d659733e087f_cgraph.png" />
     <Content Include="docs\doxygen\_build\ru\html\d3\d30\classsrc_1_1suppliers_1_1aliexpress_1_1aliexpress_1_1_aliexpress_af0f0fe44d1c67c4e7f01d659733e087f_icgraph.png" />
     <Content Include="docs\doxygen\_build\ru\html\d3\d33\namespacesrc_1_1suppliers_1_1aliexpress_1_1api_1_1helpers_1_1requests.html" />
@@ -815,8 +815,8 @@
     <Content Include="docs\doxygen\_build\ru\html\d3\d34\randomizer_8py.html" />
     <Content Include="docs\doxygen\_build\ru\html\d3\d34\randomizer_8py.js" />
     <Content Include="docs\doxygen\_build\ru\html\d3\d34\randomizer_8py_source.html" />
-    <Content Include="docs\doxygen\_build\ru\html\d3\d35\namespacesrc_1_1suppliers_1_1aliexpress.html" />
-    <Content Include="docs\doxygen\_build\ru\html\d3\d35\namespacesrc_1_1suppliers_1_1aliexpress.js" />
+    <Content Include="docs\doxygen\_build\ru\html\d3\d35\namespacesrc_1_1suppliers_1_1aliexpress_com.html" />
+    <Content Include="docs\doxygen\_build\ru\html\d3\d35\namespacesrc_1_1suppliers_1_1aliexpress_com.js" />
     <Content Include="docs\doxygen\_build\ru\html\d3\d3b\chrome_2extentions_2catch__page_2popup_8js.html" />
     <Content Include="docs\doxygen\_build\ru\html\d3\d3b\chrome_2extentions_2catch__page_2popup_8js_source.html" />
     <Content Include="docs\doxygen\_build\ru\html\d3\d3e\md__c_1_2_users_2user_2_documents_2repos_2hypotez_2src_2suppliers_2aliexpress_2__docs_2affiliated__products__generator.html" />
@@ -2052,8 +2052,8 @@
     <Content Include="docs\doxygen\_build\ru\html\d9\d76\namespacesrc_1_1utils_1_1interface_1_1goog_1_1gspreadsheet.html" />
     <Content Include="docs\doxygen\_build\ru\html\d9\d76\namespacesrc_1_1utils_1_1interface_1_1goog_1_1gspreadsheet.js" />
     <Content Include="docs\doxygen\_build\ru\html\d9\d78\namespacesrc_1_1suppliers_1_1aliexpress_1_1scenarios_1_1login.html" />
-    <Content Include="docs\doxygen\_build\ru\html\d9\d7e\namespacesrc_1_1suppliers_1_1aliexpress_1_1aliexpress.html" />
-    <Content Include="docs\doxygen\_build\ru\html\d9\d7e\namespacesrc_1_1suppliers_1_1aliexpress_1_1aliexpress.js" />
+    <Content Include="docs\doxygen\_build\ru\html\d9\d7e\namespacesrc_1_1suppliers_1_1aliexpress_1_1aliexpress_com.html" />
+    <Content Include="docs\doxygen\_build\ru\html\d9\d7e\namespacesrc_1_1suppliers_1_1aliexpress_1_1aliexpress_com.js" />
     <Content Include="docs\doxygen\_build\ru\html\d9\d7e\namespacesrc_1_1webdriver_1_1firefox_1_1__examples.html" />
     <Content Include="docs\doxygen\_build\ru\html\d9\d7e\namespacesrc_1_1webdriver_1_1firefox_1_1__examples.js" />
     <Content Include="docs\doxygen\_build\ru\html\d9\d80\namespacesrc_1_1suppliers_1_1amazon_1_1via__webdriver.html" />
@@ -3301,8 +3301,8 @@
     <Content Include="docs\doxygen\_build\ru\html\de\da3\20240505170656_8json.html" />
     <Content Include="docs\doxygen\_build\ru\html\de\da3\20240505170656_8json_source.html" />
     <Content Include="docs\doxygen\_build\ru\html\de\da3\classsrc_1_1gui_1_1qt_1_1aliexpress__category__editor_1_1_category_editor-members.html" />
-    <Content Include="docs\doxygen\_build\ru\html\de\da4\namespacesrc_1_1gui_1_1qt_1_1main__window__tabs_1_1tab__aliexpress.html" />
-    <Content Include="docs\doxygen\_build\ru\html\de\da4\namespacesrc_1_1gui_1_1qt_1_1main__window__tabs_1_1tab__aliexpress.js" />
+    <Content Include="docs\doxygen\_build\ru\html\de\da4\namespacesrc_1_1gui_1_1qt_1_1main__window__tabs_1_1tab__aliexpress_com.html" />
+    <Content Include="docs\doxygen\_build\ru\html\de\da4\namespacesrc_1_1gui_1_1qt_1_1main__window__tabs_1_1tab__aliexpress_com.js" />
     <Content Include="docs\doxygen\_build\ru\html\de\da5\prestashop_2__examples_2____init_____8py.html" />
     <Content Include="docs\doxygen\_build\ru\html\de\da5\prestashop_2__examples_2____init_____8py_source.html" />
     <Content Include="docs\doxygen\_build\ru\html\de\da8\utils_2interface_2goog_2____init_____8py.html" />
@@ -18366,7 +18366,7 @@
     <Content Include="src\scenario\json\___ksp_locators.json" />
     <Content Include="src\scenario\json\___morlevi.json" />
     <Content Include="src\scenario\json\___morlevi_locators.json" />
-    <Content Include="src\scenario\json\____aliexpress.json" />
+    <Content Include="src\scenario\json\____aliexpress_com.json" />
     <Content Include="src\scenario\json\____aliexpress_locators.json" />
     <Content Include="src\scenario\json\_____aliexpress-DESKTOP-M87QSSI.json" />
     <Content Include="src\scenario\json\_____amazon_locators.json" />
@@ -18398,7 +18398,7 @@
     <Content Include="src\suppliers\aliexpress\ %283%29.gitignore" />
     <Content Include="src\suppliers\aliexpress\ %284%29.gitignore" />
     <Content Include="src\suppliers\aliexpress\.gitignore" />
-    <Content Include="src\suppliers\aliexpress\aliexpress.json" />
+    <Content Include="src\suppliers\aliexpress\aliexpress_com.json" />
     <Content Include="src\suppliers\aliexpress\api\errors\__pycache__\exceptions.cpython-311.pyc" />
     <Content Include="src\suppliers\aliexpress\api\errors\__pycache__\exceptions.cpython-312.pyc" />
     <Content Include="src\suppliers\aliexpress\api\errors\__pycache__\__init__.cpython-311.pyc" />
@@ -18609,8 +18609,8 @@
     <Content Include="src\suppliers\aliexpress\__pycache__\affiliate_links_shortener_via_webdriver.cpython-312.pyc" />
     <Content Include="src\suppliers\aliexpress\__pycache__\aliapi.cpython-311.pyc" />
     <Content Include="src\suppliers\aliexpress\__pycache__\aliapi.cpython-312.pyc" />
-    <Content Include="src\suppliers\aliexpress\__pycache__\aliexpress.cpython-311.pyc" />
-    <Content Include="src\suppliers\aliexpress\__pycache__\aliexpress.cpython-312.pyc" />
+    <Content Include="src\suppliers\aliexpress\__pycache__\aliexpress_com.cpython-311.pyc" />
+    <Content Include="src\suppliers\aliexpress\__pycache__\aliexpress_com.cpython-312.pyc" />
     <Content Include="src\suppliers\aliexpress\__pycache__\alirequests.cpython-311.pyc" />
     <Content Include="src\suppliers\aliexpress\__pycache__\alirequests.cpython-312.pyc" />
     <Content Include="src\suppliers\aliexpress\__pycache__\api.cpython-311.pyc" />
@@ -23370,7 +23370,7 @@
     <Compile Include="src.bak\gui\qt\main_window_tabs\tab_advertisement %282%29.py" />
     <Compile Include="src.bak\gui\qt\main_window_tabs\tab_advertisement.py" />
     <Compile Include="src.bak\gui\qt\main_window_tabs\tab_aliexpress %282%29.py" />
-    <Compile Include="src.bak\gui\qt\main_window_tabs\tab_aliexpress.py" />
+    <Compile Include="src.bak\gui\qt\main_window_tabs\tab_aliexpress_com.py" />
     <Compile Include="src.bak\gui\qt\main_window_tabs\tab_parsing.py" />
     <Compile Include="src.bak\gui\qt\main_window_tabs\version.py" />
     <Compile Include="src.bak\gui\qt\main_window_tabs\__init__.py" />
@@ -23490,7 +23490,7 @@
     <Compile Include="src.bak\suppliers\aliexpress\aliapi %282%29.py" />
     <Compile Include="src.bak\suppliers\aliexpress\aliapi.py" />
     <Compile Include="src.bak\suppliers\aliexpress\aliexpress %282%29.py" />
-    <Compile Include="src.bak\suppliers\aliexpress\aliexpress.py" />
+    <Compile Include="src.bak\suppliers\aliexpress\aliexpress_com.py" />
     <Compile Include="src.bak\suppliers\aliexpress\alirequests %282%29.py" />
     <Compile Include="src.bak\suppliers\aliexpress\alirequests.py" />
     <Compile Include="src.bak\suppliers\aliexpress\api\api.py" />
@@ -23956,7 +23956,7 @@
     <Compile Include="src\ai\openai\model\_experiments\header.py" />
     <Compile Include="src\ai\openai\model\_experiments\kazarinov %283%29.py" />
     <Compile Include="src\ai\openai\model\_experiments\kazarinov.py" />
-    <Compile Include="src\ai\openai\model\_experiments\model_train_for_aliexpress.py" />
+    <Compile Include="src\ai\openai\model\_experiments\model_train_for_aliexpress_com.py" />
     <Compile Include="src\ai\openai\model\__init__.py" />
     <Compile Include="src\ai\openai\translator.py" />
     <Compile Include="src\ai\openai\version.py" />
@@ -24463,7 +24463,7 @@
     <Compile Include="src\suppliers\aliexpress\aliapi %282%29.py" />
     <Compile Include="src\suppliers\aliexpress\aliapi.py" />
     <Compile Include="src\suppliers\aliexpress\aliexpress %282%29.py" />
-    <Compile Include="src\suppliers\aliexpress\aliexpress.py" />
+    <Compile Include="src\suppliers\aliexpress\aliexpress_com.py" />
     <Compile Include="src\suppliers\aliexpress\alirequests %282%29.py" />
     <Compile Include="src\suppliers\aliexpress\alirequests.py" />
     <Compile Include="src\suppliers\aliexpress\api\api.py" />

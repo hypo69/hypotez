@@ -42,7 +42,7 @@ def filter_parent_categories(categories: List[models.Category | models.ChildCate
 Предположим, у нас есть следующий список категорий:
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.api import models
+from src.suppliers.suppliers_list.aliexpress_com.api import models
 
 categories = [
     models.Category(id=1, name='Category 1'),
@@ -96,7 +96,7 @@ def filter_child_categories(categories: List[models.Category | models.ChildCateg
 Предположим, у нас есть следующий список категорий:
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.api import models
+from src.suppliers.suppliers_list.aliexpress_com.api import models
 
 categories = [
     models.Category(id=1, name='Category 1'),

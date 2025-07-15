@@ -38,14 +38,14 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.aliexpress._experiments.test_aliexpress_scenario import start_supplier, start_product
+from src.suppliers.aliexpress_com._experiments.test_aliexpress_scenario import start_supplier, start_product
 
 # Initialize the Supplier and Product classes
 supplier = start_supplier('aliexpress')
 product = start_product()
 
 # Get product data
-product.driver.get_url('https://s.click.aliexpress.com/e/_oFLpkfz')
+product.driver.get_url('https://s.click.aliexpress_com.com/e/_oFLpkfz')
 product.fields.reference = product.driver.current_url.split('/')[-1].split('.')[0]
 product.fields.price = product.driver.execute_locator(product.webelements_locators['price'])
 

@@ -191,7 +191,7 @@ from src.utils.printer import pprint as print
 
 Пример использования:
     >>> from pathlib import Path
-    >>> from src.suppliers.suppliers_list.aliexpress.utils.locales import get_locales
+    >>> from src.suppliers.suppliers_list.aliexpress_com.utils.locales import get_locales
     >>> # Предположим, что locales.json находится в той же директории, что и этот модуль
     >>> locales_path = Path(__file__).parent / 'locales.json'
     >>> locales = get_locales(locales_path)
@@ -201,7 +201,7 @@ from src.utils.printer import pprint as print
     ...     print("Файл локалей не найден или содержит некорректные данные.")
     # doctest: +SKIP
 
-.. module:: src.suppliers.suppliers_list.aliexpress.utils
+.. module:: src.suppliers.suppliers_list.aliexpress_com.utils
 """
 
 from pathlib import Path
@@ -229,7 +229,7 @@ def get_locales(locales_path: Path | str) -> Optional[List[Dict[str, str]]]:
 
     Example:
         >>> from pathlib import Path
-        >>> from src.suppliers.suppliers_list.aliexpress.utils.locales import get_locales
+        >>> from src.suppliers.suppliers_list.aliexpress_com.utils.locales import get_locales
         >>> # Предположим, что locales.json находится в той же директории, что и этот модуль
         >>> locales_path = Path(__file__).parent / 'locales.json'
         >>> locales = get_locales(locales_path)

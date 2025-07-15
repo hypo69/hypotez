@@ -47,7 +47,7 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.aliexpress.gui.main import MainApp
+from src.suppliers.aliexpress_com.gui.main import MainApp
 
 # Create a MainApp instance
 app = MainApp()

@@ -57,7 +57,7 @@
 -------------------------
 
 ```python
-from src.suppliers.aliexpress.campaign.gsheet import AliCampaignGoogleSheet
+from src.suppliers.aliexpress_com.campaign.gsheet import AliCampaignGoogleSheet
 from types import SimpleNamespace
 
 sheet = AliCampaignGoogleSheet(campaign_name='Моя кампания', language='ru', currency='RUB')

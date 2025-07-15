@@ -42,10 +42,10 @@
 
 ```python
 >>> ensure_https("example_product_id")
-'https://www.aliexpress.com/item/example_product_id.html'
+'https://www.aliexpress_com.com/item/example_product_id.html'
 
->>> ensure_https(["example_product_id1", "https://www.aliexpress.com/item/example_product_id2.html"])
-['https://www.aliexpress.com/item/example_product_id1.html', 'https://www.aliexpress.com/item/example_product_id2.html']
+>>> ensure_https(["example_product_id1", "https://www.aliexpress_com.com/item/example_product_id2.html"])
+['https://www.aliexpress_com.com/item/example_product_id1.html', 'https://www.aliexpress_com.com/item/example_product_id2.html']
 
 >>> ensure_https("https://www.example.com/item/example_product_id")
 'https://www.example.com/item/example_product_id'
@@ -78,7 +78,7 @@
 
 ```python
 >>> ensure_https_single("example_product_id")
-'https://www.aliexpress.com/item/example_product_id.html'
+'https://www.aliexpress_com.com/item/example_product_id.html'
 
 >>> ensure_https_single("https://www.example.com/item/example_product_id")
 'https://www.example.com/item/example_product_id'
@@ -95,10 +95,10 @@
 # Пример использования ID товара
 prod_id = "example_product_id"
 url_with_https = ensure_https(prod_id)
-print(url_with_https)  # Вывод: https://www.aliexpress.com/item/example_product_id.html
+print(url_with_https)  # Вывод: https://www.aliexpress_com.com/item/example_product_id.html
 
 # Пример использования списка URL-адресов
-urls = ["example_product_id1", "https://www.aliexpress.com/item/example_product_id2.html"]
+urls = ["example_product_id1", "https://www.aliexpress_com.com/item/example_product_id2.html"]
 urls_with_https = ensure_https(urls)
-print(urls_with_https)  # Вывод: ['https://www.aliexpress.com/item/example_product_id1.html', 'https://www.aliexpress.com/item/example_product_id2.html']
+print(urls_with_https)  # Вывод: ['https://www.aliexpress_com.com/item/example_product_id1.html', 'https://www.aliexpress_com.com/item/example_product_id2.html']
 ```

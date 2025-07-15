@@ -59,7 +59,7 @@
     ```
 
     **How the Function Works**:
-    - Функция сначала получает список ID товаров или URLs и нормализует их к виду `https://aliexpress.com/item/<product_id>.html`.
+    - Функция сначала получает список ID товаров или URLs и нормализует их к виду `https://aliexpress_com.com/item/<product_id>.html`.
     - Для каждого ID товара или URL функция проверяет наличие аффилированной ссылки.
     - Если аффилированная ссылка найдена, функция извлекает полные данные о товаре с помощью API AliExpress.
     - Функция сохраняет изображения товара и видео (если есть) в локальный каталог, а также генерирует HTML-шаблоны для рекламной кампании.
@@ -87,7 +87,7 @@
 ### Создание экземпляра класса `AliAffiliatedProducts`:
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.affiliated_products_generator import AliAffiliatedProducts
+from src.suppliers.suppliers_list.apiexpress.affiliated_products_generator import AliAffiliatedProducts
 
 aliexpress_products = AliAffiliatedProducts(language='RU', currency='RUB')
 ```
@@ -114,7 +114,7 @@ for product in products:
 ### Создание экземпляра класса `AliAffiliatedProducts` с использованием различных языков и валют:
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.affiliated_products_generator import AliAffiliatedProducts
+from src.suppliers.suppliers_list.apiexpress.affiliated_products_generator import AliAffiliatedProducts
 
 aliexpress_products_en_usd = AliAffiliatedProducts(language='EN', currency='USD')
 aliexpress_products_ru_rub = AliAffiliatedProducts(language='RU', currency='RUB')

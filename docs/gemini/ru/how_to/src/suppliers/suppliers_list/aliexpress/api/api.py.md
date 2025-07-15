@@ -37,8 +37,8 @@
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.api.api import AliexpressApi
-from src.suppliers.suppliers_list.aliexpress.api.models import Language, Currency, LinkType
+from src.suppliers.suppliers_list.aliexpress_com.api.api import AliexpressApi
+from src.suppliers.suppliers_list.aliexpress_com.api.models import Language, Currency, LinkType
 
 # создание экземпляр класса AliexpressApi
 api = AliexpressApi(
@@ -55,7 +55,7 @@ product_details = api.retrieve_product_details(product_id)
 print(product_details)
 
 # создание партнерскую ссылку
-link = 'https://www.aliexpress.com/item/123456789.html'
+link = 'https://www.aliexpress_com.com/item/123456789.html'
 affiliate_links = api.get_affiliate_links(link)
 print(affiliate_links)
 

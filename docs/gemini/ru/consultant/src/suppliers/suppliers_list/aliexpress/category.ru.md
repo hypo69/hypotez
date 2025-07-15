@@ -65,7 +65,7 @@
 >>> products = get_list_products_in_category(supplier)
 >>> updated = update_categories_in_scenario_file(supplier, "scenario_file.json")
 
-.. module:: src.suppliers.suppliers_list.aliexpress.category
+.. module:: src.suppliers.suppliers_list.aliexpress_com.category
 """
 
 from typing import List, Optional

@@ -14,7 +14,7 @@ How to Use This Code Block
 
 Description
 -------------------------
-The code block defines a function `get_product_id` that extracts the product ID from a given text string. It utilizes the `extract_prod_ids` function from the `src.suppliers.suppliers_list.aliexpress.utils.extract_product_id` module. The `get_product_id` function is designed to handle different formats of product IDs, including those found in URLs.
+The code block defines a function `get_product_id` that extracts the product ID from a given text string. It utilizes the `extract_prod_ids` function from the `src.suppliers.suppliers_list.aliexpress_com.utils.extract_product_id` module. The `get_product_id` function is designed to handle different formats of product IDs, including those found in URLs.
 
 Execution Steps
 -------------------------
@@ -28,9 +28,9 @@ Usage Example
 -------------------------
 
 ```python
-    from src.suppliers.suppliers_list.aliexpress.api.tools.get_product_id import get_product_id
+    from src.suppliers.suppliers_list.aliexpress_com.api.tools.get_product_id import get_product_id
 
-    raw_product_id = 'https://www.aliexpress.com/item/4000000000000.html'
+    raw_product_id = 'https://www.aliexpress_com.com/item/4000000000000.html'
     try:
         product_id = get_product_id(raw_product_id)
         print(f"Extracted product ID: {product_id}")

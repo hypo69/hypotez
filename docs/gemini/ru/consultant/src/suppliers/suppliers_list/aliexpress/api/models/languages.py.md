@@ -36,7 +36,7 @@
 Пример использования:
 ----------------------
 
->>> from src.suppliers.aliexpress.api.models.languages import Language
+>>> from src.suppliers.aliexpress_com.api.models.languages import Language
 >>> current_language = Language.RU
 >>> print(current_language)
 RU

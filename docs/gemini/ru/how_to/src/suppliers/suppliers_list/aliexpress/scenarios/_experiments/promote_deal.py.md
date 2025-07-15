@@ -7,7 +7,7 @@
 
 Шаги выполнения
 -------------------------
-1. Импортируются необходимые модули: `header` и `AliPromoDeal` из `src.suppliers.suppliers_list.aliexpress.scenarios`.
+1. Импортируются необходимые модули: `header` и `AliPromoDeal` из `src.suppliers.suppliers_list.aliexpress_com.scenarios`.
 2. Создается объект `deal` класса `AliPromoDeal` с указанием идентификатора предложения "150624_baseus_deals".
 3. Получаются подробные сведения о всех товарах в этом предложении с помощью `deal.get_all_products_details()`.
 
@@ -21,7 +21,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.suppliers_list.aliexpress.scenarios._experiments 
+.. module:: src.suppliers.suppliers_list.aliexpress_com.scenarios._experiments 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -31,7 +31,7 @@
 
 import header
 
-from src.suppliers.suppliers_list.aliexpress.scenarios import AliPromoDeal
+from src.suppliers.suppliers_list.aliexpress_com.scenarios import AliPromoDeal
 
 deal = AliPromoDeal('150624_baseus_deals')
 

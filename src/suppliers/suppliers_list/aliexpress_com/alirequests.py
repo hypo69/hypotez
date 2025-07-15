@@ -44,7 +44,7 @@ class AliRequests:
         @param webdriver_for_cookies The name of the webdriver.
         @returns True if cookies loaded successfully, False otherwise.
         """
-        cookie_file_path = Path(gs.dir_cookies, 'aliexpress.com', webdriver_for_cookies, 'cookie')
+        cookie_file_path = Path(gs.dir_cookies, 'aliexpress_com.com', webdriver_for_cookies, 'cookie')
 
         try:
             with open(cookie_file_path, 'rb') as file:
@@ -71,7 +71,7 @@ class AliRequests:
 
     def _refresh_session_cookies(self):
         """ Refreshes session cookies."""
-        url = 'https://portals.aliexpress.com'
+        url = 'https://portals.aliexpress_com.com'
         try:
             if self.cookies_jar:
                 resp = self.session.get(url, headers=self.headers, cookies=self.cookies_jar)
@@ -139,7 +139,7 @@ class AliRequests:
 
         @returns requests.Response object if successful, False otherwise.
         """
-        base_url = 'https://portals.aliexpress.com/affiportals/web/link_generator.htm'
+        base_url = 'https://portals.aliexpress_com.com/affiportals/web/link_generator.htm'
         track_id = 'default'
         url = f"{base_url}?trackId={track_id}&targetUrl={link_url}"
         return self.make_get_request(url)

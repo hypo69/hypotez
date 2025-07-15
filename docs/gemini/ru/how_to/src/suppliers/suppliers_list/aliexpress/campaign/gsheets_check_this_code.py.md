@@ -29,7 +29,7 @@
 Пример использования
 -------------------------
 ```python
-from src.suppliers.aliexpress.campaign.gsheets_check_this_code import AliCampaignGoogleSheet
+from src.suppliers.aliexpress_com.campaign.gsheets_check_this_code import AliCampaignGoogleSheet
 
 # Инициализация экземпляра AliCampaignGoogleSheet с именем кампании, языком и валютой
 campaign_gsheet = AliCampaignGoogleSheet(

@@ -1,7 +1,7 @@
 # Module for Collecting Product Information from AliExpress
 ## Overview
 
-This module contains the `Graber` class, used to collect product information from the `aliexpress.com` website. It inherits from the base class `src.suppliers.graber.Graber`.
+This module contains the `Graber` class, used to collect product information from the `aliexpress_com.com` website. It inherits from the base class `src.suppliers.graber.Graber`.
 
 The `Graber` class provides methods for handling different product fields on the page. If a field requires non-standard processing, its method can be overridden.
 
@@ -73,7 +73,7 @@ driver = Driver(Chrome)  # создание экземпляр веб-драйв
 graber = Graber(driver, lang_index=0)  # Инициализация Graber с веб-драйвером и индексом языка
 
 # Вызов метода для получения информации о товаре
-product_data = graber.get_product_info(product_url='https://www.aliexpress.com/item/10050012345678.html')
+product_data = graber.get_product_info(product_url='https://www.aliexpress_com.com/item/10050012345678.html')
 
 # Обработка полученных данных
 print(product_data)  # Вывод данных о товаре

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
  # <- venv win
 ## ~~~~~~~~~~~~~
-""" module: src.suppliers.suppliers_list.aliexpress.api.skd.api """
+""" module: src.suppliers.suppliers_list.aliexpress_com.api.skd.api """
 from .rest import *
 from .base import FileItem
 

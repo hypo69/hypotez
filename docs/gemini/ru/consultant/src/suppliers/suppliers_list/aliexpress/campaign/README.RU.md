@@ -44,7 +44,7 @@
 Пример использования:
 ----------------------
 
->>> from src.suppliers.suppliers_list.aliexpress.campaign import campaign
+>>> from src.suppliers.suppliers_list.aliexpress_com.campaign import campaign
 >>> campaign.create_campaign(campaign_name='test_campaign', language='ru', currency='RUB')
 
 Зависимости:

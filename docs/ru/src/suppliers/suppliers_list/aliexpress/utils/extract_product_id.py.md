@@ -28,10 +28,10 @@ def extract_prod_ids(urls: str | list[str]) -> str | list[str] | None:
         - Отсутствуют явные исключения, но функция может вернуть `None` в случае отсутствия валидных идентификаторов.
 
     Example:
-        >>> extract_prod_ids("https://www.aliexpress.com/item/123456.html")
+        >>> extract_prod_ids("https://www.aliexpress_com.com/item/123456.html")
         '123456'
 
-        >>> extract_prod_ids(["https://www.aliexpress.com/item/123456.html", "7891011.html"])
+        >>> extract_prod_ids(["https://www.aliexpress_com.com/item/123456.html", "7891011.html"])
         ['123456', '7891011']
 
         >>> extract_prod_ids(["https://www.example.com/item/123456.html", "https://www.example.com/item/abcdef.html"])
@@ -78,7 +78,7 @@ def extract_prod_ids(urls: str | list[str]) -> str | list[str] | None:
             - Отсутствуют явные исключения, но функция может вернуть `None` в случае отсутствия валидного идентификатора.
 
         Example:
-            >>> extract_id("https://www.aliexpress.com/item/123456.html")
+            >>> extract_id("https://www.aliexpress_com.com/item/123456.html")
             '123456'
 
             >>> extract_id("7891011")
@@ -107,10 +107,10 @@ def extract_prod_ids(urls: str | list[str]) -> str | list[str] | None:
 **Примеры**:
 
 ```python
-extract_prod_ids("https://www.aliexpress.com/item/123456.html")
+extract_prod_ids("https://www.aliexpress_com.com/item/123456.html")
 # Результат: '123456'
 
-extract_prod_ids(["https://www.aliexpress.com/item/123456.html", "7891011.html"])
+extract_prod_ids(["https://www.aliexpress_com.com/item/123456.html", "7891011.html"])
 # Результат: ['123456', '7891011']
 
 extract_prod_ids(["https://www.example.com/item/123456.html", "https://www.example.com/item/abcdef.html"])

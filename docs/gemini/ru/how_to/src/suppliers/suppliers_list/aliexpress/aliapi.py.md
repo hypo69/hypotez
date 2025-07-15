@@ -28,7 +28,7 @@
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.aliapi import AliApi
+from src.suppliers.suppliers_list.aliexpress_com.aliapi import AliApi
 
 # Инициализация класса AliApi
 api = AliApi(language='ru', currency='rub')
@@ -41,7 +41,7 @@ product_details = api.retrieve_product_details_as_dict(product_ids)
 print(product_details)
 
 # Генерация партнерских ссылок
-product_links = ['https://www.aliexpress.com/item/1234567890.html', 'https://www.aliexpress.com/item/9876543210.html']
+product_links = ['https://www.aliexpress_com.com/item/1234567890.html', 'https://www.aliexpress_com.com/item/9876543210.html']
 affiliate_links = api.get_affiliate_links(product_links)
 
 # Вывод партнерских ссылок

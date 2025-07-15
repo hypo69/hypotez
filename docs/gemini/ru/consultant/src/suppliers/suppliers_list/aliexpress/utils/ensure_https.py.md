@@ -52,12 +52,12 @@
 >>> url = "example_product_id"
 >>> url_with_https = ensure_https(url)
 >>> print(url_with_https)
-'https://www.aliexpress.com/item/example_product_id.html'
+'https://www.aliexpress_com.com/item/example_product_id.html'
 
->>> urls = ["example_product_id1", "https://www.aliexpress.com/item/example_product_id2.html"]
+>>> urls = ["example_product_id1", "https://www.aliexpress_com.com/item/example_product_id2.html"]
 >>> urls_with_https = ensure_https(urls)
 >>> print(urls_with_https)
-['https://www.aliexpress.com/item/example_product_id1.html', 'https://www.aliexpress.com/item/example_product_id2.html']
+['https://www.aliexpress_com.com/item/example_product_id1.html', 'https://www.aliexpress_com.com/item/example_product_id2.html']
 """
 
 from src.logger.logger import logger
@@ -79,10 +79,10 @@ def ensure_https(prod_ids: str | list[str]) -> str | list[str]:
 
     Example:
         >>> ensure_https("example_product_id")
-        'https://www.aliexpress.com/item/example_product_id.html'
+        'https://www.aliexpress_com.com/item/example_product_id.html'
 
-        >>> ensure_https(["example_product_id1", "https://www.aliexpress.com/item/example_product_id2.html"])
-        ['https://www.aliexpress.com/item/example_product_id1.html', 'https://www.aliexpress.com/item/example_product_id2.html']
+        >>> ensure_https(["example_product_id1", "https://www.aliexpress_com.com/item/example_product_id2.html"])
+        ['https://www.aliexpress_com.com/item/example_product_id1.html', 'https://www.aliexpress_com.com/item/example_product_id2.html']
 
         >>> ensure_https("https://www.example.com/item/example_product_id")
         'https://www.example.com/item/example_product_id'
@@ -103,7 +103,7 @@ def ensure_https(prod_ids: str | list[str]) -> str | list[str]:
 
         Example:
             >>> ensure_https_single("example_product_id")
-            'https://www.aliexpress.com/item/example_product_id.html'
+            'https://www.aliexpress_com.com/item/example_product_id.html'
 
             >>> ensure_https_single("https://www.example.com/item/example_product_id")
             'https://www.example.com/item/example_product_id'
@@ -117,7 +117,7 @@ def ensure_https(prod_ids: str | list[str]) -> str | list[str]:
             return prod_id  # Возврат исходный URL
 
         if _prod_id:
-            return f'https://www.aliexpress.com/item/{_prod_id}.html'  # Формируем URL с https
+            return f'https://www.aliexpress_com.com/item/{_prod_id}.html'  # Формируем URL с https
         else:
             logger.error(f'Неверный ID товара или URL: {prod_id=}', exc_info=False)  # Логируем ошибку
             return prod_id  # Возврат исходный URL

@@ -67,13 +67,13 @@ from src.suppliers.suppliers_list.aliexpress import Aliexpress
 aliexpress = Aliexpress()
 
 # Get product data using the API
-product_data = aliexpress.api.get_product_data(product_id)
+product_data = aliexpress_com.api.get_product_data(product_id)
 
 # Print the product data
 print(product_data)
 
 # Use webdriver to get additional information
-driver = aliexpress.webdriver.Driver(Chrome)
+driver = aliexpress_com.webdriver.Driver(Chrome)
 product_description = driver.execute_locator({
     "attribute": "innerHTML",
     "by": "XPATH",

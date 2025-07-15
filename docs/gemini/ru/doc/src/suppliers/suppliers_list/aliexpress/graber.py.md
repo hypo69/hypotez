@@ -2,7 +2,7 @@
 
 ## Обзор
 
-Модуль содержит класс `Graber`, который используется для сбора данных о товарах с веб-сайта `aliexpress.com`. Он наследуется от базового класса `src.suppliers.graber.Graber`. 
+Модуль содержит класс `Graber`, который используется для сбора данных о товарах с веб-сайта `aliexpress_com.com`. Он наследуется от базового класса `src.suppliers.graber.Graber`. 
 
 Класс `Graber` предоставляет методы для обработки различных полей товара на странице. В случае необходимости нестандартной обработки поля, метод может быть переопределен.
 
@@ -69,7 +69,7 @@ my_function()
 ## Примеры
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.graber import Graber
+from src.suppliers.suppliers_list.aliexpress_com.graber import Graber
 from src.webdriver.driver import Driver
 from src.webdriver import Chrome
 

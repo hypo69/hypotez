@@ -153,8 +153,8 @@ The `AliexpressApi` class is the core component of this module. It allows you to
 ### Retrieve Product Details
 
 ```python
-from src.suppliers.aliexpress.api.api import AliexpressApi
-from src.suppliers.aliexpress.api.models import Language, Currency
+from src.suppliers.aliexpress_com.api.api import AliexpressApi
+from src.suppliers.aliexpress_com.api.models import Language, Currency
 
 api = AliexpressApi(
     key="your_api_key",
@@ -175,8 +175,8 @@ for product in products:
 ### Generate Affiliate Links
 
 ```python
-from src.suppliers.aliexpress.api.api import AliexpressApi
-from src.suppliers.aliexpress.api.models import Language, Currency, LinkType
+from src.suppliers.aliexpress_com.api.api import AliexpressApi
+from src.suppliers.aliexpress_com.api.models import Language, Currency, LinkType
 
 api = AliexpressApi(
     key="your_api_key",
@@ -186,7 +186,7 @@ api = AliexpressApi(
     tracking_id="your_tracking_id"
 )
 
-links = ['https://www.aliexpress.com/item/1234567890.html', 'https://www.aliexpress.com/item/9876543210.html']
+links = ['https://www.aliexpress_com.com/item/1234567890.html', 'https://www.aliexpress_com.com/item/9876543210.html']
 affiliate_links = api.get_affiliate_links(links, link_type=LinkType.NORMAL)
 
 for link in affiliate_links:
@@ -196,8 +196,8 @@ for link in affiliate_links:
 ### Search for Hot Products
 
 ```python
-from src.suppliers.aliexpress.api.api import AliexpressApi
-from src.suppliers.aliexpress.api.models import Language, Currency, SortBy, ProductType
+from src.suppliers.aliexpress_com.api.api import AliexpressApi
+from src.suppliers.aliexpress_com.api.models import Language, Currency, SortBy, ProductType
 
 api = AliexpressApi(
     key="your_api_key",
@@ -225,8 +225,8 @@ for product in hot_products.products:
 ### Get Categories
 
 ```python
-from src.suppliers.aliexpress.api.api import AliexpressApi
-from src.suppliers.aliexpress.api.models import Language, Currency
+from src.suppliers.aliexpress_com.api.api import AliexpressApi
+from src.suppliers.aliexpress_com.api.models import Language, Currency
 
 api = AliexpressApi(
     key="your_api_key",
@@ -246,8 +246,8 @@ for category in categories:
 ### Get Parent Categories
 
 ```python
-from src.suppliers.aliexpress.api.api import AliexpressApi
-from src.suppliers.aliexpress.api.models import Language, Currency
+from src.suppliers.aliexpress_com.api.api import AliexpressApi
+from src.suppliers.aliexpress_com.api.models import Language, Currency
 
 api = AliexpressApi(
     key="your_api_key",
@@ -267,8 +267,8 @@ for category in parent_categories:
 ### Get Child Categories
 
 ```python
-from src.suppliers.aliexpress.api.api import AliexpressApi
-from src.suppliers.aliexpress.api.models import Language, Currency
+from src.suppliers.aliexpress_com.api.api import AliexpressApi
+from src.suppliers.aliexpress_com.api.models import Language, Currency
 
 api = AliexpressApi(
     key="your_api_key",

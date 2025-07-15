@@ -22,7 +22,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.suppliers_list.aliexpress.campaign 
+.. module:: src.suppliers.suppliers_list.aliexpress_com.campaign 
 	:platform: Windows, Unix
 	:synopsis: Проверка создания affiliate для рекламной кампании  
 Если текой рекламной кампании не существует - будет создана новая
@@ -32,9 +32,9 @@
 
 
 import header
-from src.suppliers.suppliers_list.aliexpress.campaign import process_all_campaigns
+from src.suppliers.suppliers_list.aliexpress_com.campaign import process_all_campaigns
 
 process_all_campaigns()
                 ```
 
-**Важно:** Этот фрагмент кода не содержит детальной информации о том, что именно делает функция `process_all_campaigns()`. Для получения полного представления о ее функциональности необходимо обратиться к документации модуля `src.suppliers.suppliers_list.aliexpress.campaign`.
+**Важно:** Этот фрагмент кода не содержит детальной информации о том, что именно делает функция `process_all_campaigns()`. Для получения полного представления о ее функциональности необходимо обратиться к документации модуля `src.suppliers.suppliers_list.aliexpress_com.campaign`.

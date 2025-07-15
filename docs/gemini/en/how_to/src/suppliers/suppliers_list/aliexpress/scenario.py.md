@@ -41,7 +41,7 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.scenario import update_categories_in_scenario_file
+from src.suppliers.suppliers_list.aliexpress_com.scenario import update_categories_in_scenario_file
 from src.suppliers import Supplier
 
 supplier = Supplier("aliexpress")  # Initialize an AliExpress supplier object

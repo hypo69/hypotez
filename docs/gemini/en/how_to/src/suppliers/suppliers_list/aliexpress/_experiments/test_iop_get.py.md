@@ -26,12 +26,12 @@ Execution Steps
 -------------------------
 1. **Import the `iop` library:** `import iop` 
 2. **Initialize an `iop.IopClient` object:**
-    * Specify the API endpoint URL (`'https://api-sg.aliexpress.com/sync'`).
+    * Specify the API endpoint URL (`'https://api-sg.apiexpress.com/sync'`).
     * Provide the app key (`'345846782'`).
     * Provide the app secret (`'e1b26aac391d1bc3987732af93eb26aabc391d187732af93'`).
 3. **Set the log level:** `client.log_level = iop.P_LOG_LEVEL_DEBUG` 
 4. **Create an `iop.IopRequest` object:** 
-    * Specify the API method (`'aliexpress.affiliate.link.generate'`).
+    * Specify the API method (`'apiexpress.affiliate.link.generate'`).
     * Optionally set the HTTP method to `'GET'`. (The default method is `'POST'`).
 5. **Add API parameters:** 
     * Use `request.add_api_param()` to add key-value pairs to the request.
@@ -47,15 +47,15 @@ Usage Example
 import iop
 
 # Initialize the IopClient
-client = iop.IopClient('https://api-sg.aliexpress.com/sync', '345846782', 'e1b26aac391d1bc3987732af93eb26aabc391d187732af93')
+client = iop.IopClient('https://api-sg.apiexpress.com/sync', '345846782', 'e1b26aac391d1bc3987732af93eb26aabc391d187732af93')
 client.log_level = iop.P_LOG_LEVEL_DEBUG
 
-# Create a request for the 'aliexpress.affiliate.link.generate' API method
-request = iop.IopRequest('aliexpress.affiliate.link.generate')
+# Create a request for the 'apiexpress.affiliate.link.generate' API method
+request = iop.IopRequest('apiexpress.affiliate.link.generate')
 
 # Add API parameters
 request.add_api_param('promotion_link_type', '0')
-request.add_api_param('source_values', 'https://www.aliexpress.com/item/1005005058280371.html')
+request.add_api_param('source_values', 'https://www.aliexpress_com.com/item/1005005058280371.html')
 request.add_api_param('tracking_id', 'default')
 
 # Execute the request

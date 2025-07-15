@@ -48,10 +48,10 @@ def get_short_affiliate_link(d: Driver, url: str) -> str:
         >>> from src.webdriver.driver import Driver
         >>> from src.webdriver.chrome import Chrome
         >>> driver = Driver(Chrome)
-        >>> url = "https://aliexpress.com/item/1234567890.html"
+        >>> url = "https://aliexpress_com.com/item/1234567890.html"
         >>> short_url = get_short_affiliate_link(driver, url)
         >>> print(short_url)
-        "https://s.click.aliexpress.com/e/_DeFghij"
+        "https://s.click.aliexpress_com.com/e/_DeFghij"
     """
 ```
 
@@ -90,7 +90,7 @@ from src.webdriver.chrome import Chrome
 
 # Создание инстанса драйвера (пример с Chrome)
 driver = Driver(Chrome)
-url = "https://aliexpress.com/item/1234567890.html"
+url = "https://aliexpress_com.com/item/1234567890.html"
 short_url = get_short_affiliate_link(driver, url)
 print(short_url)
-# Вывод: "https://s.click.aliexpress.com/e/_DeFghij"
+# Вывод: "https://s.click.aliexpress_com.com/e/_DeFghij"

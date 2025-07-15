@@ -84,14 +84,14 @@
 ### Пример создания и использования объекта `AliRequests`
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.alirequests import AliRequests
+from src.suppliers.suppliers_list.aliexpress_com.alirequests import AliRequests
 
 # Создание объекта AliRequests с использованием куки из Chrome
 aliexpress_requests = AliRequests(webdriver_for_cookies='chrome')
 
 # Выполнение GET запроса к API AliExpress
 response = aliexpress_requests.make_get_request(
-    url='https://api.aliexpress.com/product/v1/product/search/all',
+    url='https://api.aliexpress_com.com/product/v1/product/search/all',
     headers={'Accept': 'application/json'}
 )
 
@@ -111,7 +111,7 @@ else:
 Функция `_load_webdriver_cookies_file` загружает куки из файла веб-драйвера.
 
 **Как работает функция**:
-Функция считывает куки из файла `cookie`, который находится в директории `gs.dir_cookies/aliexpress.com/webdriver_for_cookies/`. 
+Функция считывает куки из файла `cookie`, который находится в директории `gs.dir_cookies/aliexpress_com.com/webdriver_for_cookies/`. 
 Затем куки добавляются в объект `RequestsCookieJar` и обновляется объект `requests.Session`.
 
 ### `_refresh_session_cookies`
@@ -120,7 +120,7 @@ else:
 Функция `_refresh_session_cookies` обновляет сессионные куки.
 
 **Как работает функция**:
-Функция отправляет GET запрос на URL `https://portals.aliexpress.com` с использованием куки, загруженных из файла веб-драйвера. 
+Функция отправляет GET запрос на URL `https://portals.aliexpress_com.com` с использованием куки, загруженных из файла веб-драйвера. 
 Затем она вызывается функция `_handle_session_id`, которая обрабатывает `JSESSIONID` в ответе.
 
 ### `_handle_session_id`
@@ -147,5 +147,5 @@ else:
 Функция `short_affiliate_link` получает сокращенную аффилированную ссылку.
 
 **Как работает функция**:
-Функция отправляет GET запрос на URL `https://portals.aliexpress.com/affiportals/web/link_generator.htm` с параметрами `trackId` и `targetUrl`. 
+Функция отправляет GET запрос на URL `https://portals.aliexpress_com.com/affiportals/web/link_generator.htm` с параметрами `trackId` и `targetUrl`. 
 Затем она возвращает объект `requests.Response`, который содержит сокращенную ссылку.

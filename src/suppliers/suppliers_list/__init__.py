@@ -6,7 +6,7 @@
 """
 
 # import header
-# from .aliexpress.graber import Graber as AliexpressGraber  
+# from .aliexpress_com.graber import Graber as AliexpressGraber  
 # from .amazon.graber import Graber as AmazonGraber
 # from .bangood.graber import Graber as BangoodGraber
 # from .cdata.graber import Graber as CadtaGraber

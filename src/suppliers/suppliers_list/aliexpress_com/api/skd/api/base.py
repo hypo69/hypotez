@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
  # <- venv win
 ## ~~~~~~~~~~~~~
-""" module: src.suppliers.suppliers_list.aliexpress.api.skd.api """
+""" module: src.suppliers.suppliers_list.aliexpress_com.api.skd.api """
 """
 Created on 2012-7-3
 
@@ -194,7 +194,7 @@ class RestApi(object):
     # Rest api的基类
     # ===========================================================================
 
-    def __init__(self, domain="api-sg.aliexpress.com", port=80):
+    def __init__(self, domain="api-sg.apiexpress.com", port=80):
         # =======================================================================
         # 初始化基类
         # Args @param domain: 请求的域名或者ip
@@ -220,7 +220,7 @@ class RestApi(object):
         # =======================================================================
         # 设置请求的app信息
         # @param appinfo: import top
-        #                 appinfo aliexpress.top.appinfo(appkey,secret)
+        #                 appinfo aliexpress_com.top.appinfo(appkey,secret)
         # =======================================================================
         self.__app_key = appinfo.appkey
         self.__secret = appinfo.secret

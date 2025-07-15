@@ -40,7 +40,7 @@
 **Примеры**:
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.api.models.currencies import Currency
+from src.suppliers.suppliers_list.aliexpress_com.api.models.currencies import Currency
 
 # Использование константы для доллара США
 usd_code = Currency.USD

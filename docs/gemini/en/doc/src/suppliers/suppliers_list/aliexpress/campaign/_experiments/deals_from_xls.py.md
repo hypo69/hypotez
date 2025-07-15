@@ -2,15 +2,15 @@
 
 ## Обзор
 
-Этот модуль содержит код для парсинга таблиц xls, сгенерированных в личном кабинете portals.aliexpress.com. Он использует класс `DealsFromXLS` для извлечения данных из файла xls.
+Этот модуль содержит код для парсинга таблиц xls, сгенерированных в личном кабинете portals.aliexpress_com.com. Он использует класс `DealsFromXLS` для извлечения данных из файла xls.
 
 ## Детали
 
-Модуль `src.suppliers.suppliers_list.aliexpress.campaign._experiments.deals_from_xls.py`  использует класс `DealsFromXLS` для парсинга таблиц xls.
+Модуль `src.suppliers.suppliers_list.aliexpress_com.campaign._experiments.deals_from_xls.py`  использует класс `DealsFromXLS` для парсинга таблиц xls.
 
 ### Класс `DealsFromXLS`
 
-**Описание**: Класс `DealsFromXLS` предназначен для извлечения данных из таблиц xls, полученных с портала portals.aliexpress.com. 
+**Описание**: Класс `DealsFromXLS` предназначен для извлечения данных из таблиц xls, полученных с портала portals.aliexpress_com.com. 
 
 **Атрибуты**:
 
@@ -97,7 +97,7 @@ for deal in deals_parser.get_next_deal():
 
 ## Дополнительная информация
 
-- Модуль `deals_from_xls.py` предназначен для обработки таблиц xls, сгенерированных в личном кабинете portals.aliexpress.com.
+- Модуль `deals_from_xls.py` предназначен для обработки таблиц xls, сгенерированных в личном кабинете portals.aliexpress_com.com.
 -  Класс `DealsFromXLS`  предоставляет удобный интерфейс для извлечения данных из таблицы xls.
 - `pprint` - функция, которая используется для красивого вывода данных на экран.
 -  Данный модуль использует библиотеку `pandas` для обработки таблицы xls.

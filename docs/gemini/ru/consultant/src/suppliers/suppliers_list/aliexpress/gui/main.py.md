@@ -70,7 +70,7 @@ from src.utils.jjson import j_loads_ns
 from product import ProductEditor
 from campaign import CampaignEditor
 from category import CategoryEditor
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignEditor
 from styles import set_fixed_size
 from src.logger import logger
 

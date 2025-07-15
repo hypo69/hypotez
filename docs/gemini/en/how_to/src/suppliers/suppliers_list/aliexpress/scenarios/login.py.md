@@ -29,8 +29,8 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.aliexpress.scenarios.login import login
-from src.suppliers.aliexpress.supplier import Supplier
+from src.suppliers.aliexpress_com.scenarios.login import login
+from src.suppliers.aliexpress_com.supplier import Supplier
 
 # Instantiate a Supplier object
 supplier = Supplier(...)

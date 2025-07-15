@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-module: src.suppliers.aliexpress.campaign._experiments..ipynb_checkpoints 
+module: src.suppliers.aliexpress_com.campaign._experiments..ipynb_checkpoints 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -21,7 +21,7 @@ MODE = 'dev'
   :synopsis:
 """MODE = 'dev'
   
-""" module: src.suppliers.aliexpress.campaign._experiments..ipynb_checkpoints """
+""" module: src.suppliers.aliexpress_com.campaign._experiments..ipynb_checkpoints """
 
 
 import os

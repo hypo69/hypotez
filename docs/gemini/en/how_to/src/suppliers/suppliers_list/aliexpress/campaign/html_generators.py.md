@@ -37,7 +37,7 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.aliexpress.campaign.html_generators import ProductHTMLGenerator, CategoryHTMLGenerator, CampaignHTMLGenerator
+from src.suppliers.aliexpress_com.campaign.html_generators import ProductHTMLGenerator, CategoryHTMLGenerator, CampaignHTMLGenerator
 from types import SimpleNamespace
 from pathlib import Path
 

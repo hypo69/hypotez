@@ -31,8 +31,8 @@
 **Примеры**:
 
 ```python
-from src.suppliers.aliexpress.api.helpers.arguments import get_list_as_string
-from src.suppliers.aliexpress.api.errors.exceptions import InvalidArgumentException
+from src.suppliers.aliexpress_com.api.helpers.arguments import get_list_as_string
+from src.suppliers.aliexpress_com.api.errors.exceptions import InvalidArgumentException
 
 # Пример 1: Преобразование списка в строку
 result1 = get_list_as_string(['item1', 'item2', 'item3'])
@@ -75,21 +75,21 @@ except InvalidArgumentException as ex:
 **Примеры**:
 
 ```python
-from src.suppliers.aliexpress.api.helpers.arguments import get_product_ids
-from src.suppliers.aliexpress.api.tools.get_product_id import get_product_id
+from src.suppliers.aliexpress_com.api.helpers.arguments import get_product_ids
+from src.suppliers.aliexpress_com.api.tools.get_product_id import get_product_id
 from unittest.mock import patch
-from src.suppliers.aliexpress.api.errors.exceptions import InvalidArgumentException
+from src.suppliers.aliexpress_com.api.errors.exceptions import InvalidArgumentException
 
 
 # Пример 1: Извлечение идентификаторов из строки
-@patch('src.suppliers.aliexpress.api.helpers.arguments.get_product_id')
+@patch('src.suppliers.aliexpress_com.api.helpers.arguments.get_product_id')
 def test_get_product_ids_from_string(mock_get_product_id):
     mock_get_product_id.side_effect = lambda x: f'ID_{x}'
     result = get_product_ids('123,456,789')
     print(result)  # Вывод: ['ID_123', 'ID_456', 'ID_789']
 
 # Пример 2: Извлечение идентификаторов из списка
-@patch('src.suppliers.aliexpress.api.helpers.arguments.get_product_id')
+@patch('src.suppliers.aliexpress_com.api.helpers.arguments.get_product_id')
 def test_get_product_ids_from_list(mock_get_product_id):
     mock_get_product_id.side_effect = lambda x: f'ID_{x}'
     result = get_product_ids(['123', '456', '789'])

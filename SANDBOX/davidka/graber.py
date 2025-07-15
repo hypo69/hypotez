@@ -41,7 +41,7 @@ ALLOWED_ATTRIBUTES: list[str] = [
 # URL, содержащие любое из этих слов/паттернов, будут отфильтрованы и не будут обрабатываться.
 FORBIDDEN_KEYWORDS: list[str] = [
     "google.", "facebook.", "twitter.", "youtube.", "instagram.", "linkedin.",
-    "pinterest.", "amazon.", "aliexpress.", "ebay.", "wikipedia.org", "vk.com",
+    "pinterest.", "amazon.", "aliexpress_com.", "ebay.", "wikipedia.org", "vk.com",
     "archive.org","wikibooks",
     "ok.ru", "yandex.ru", "mail.ru", "livejournal.com", "blogspot.com", "wordpress.com",
     "microsoft.com", "apple.com", "adobe.com", "archive.org", "wa.me", "t.me", "tel:",

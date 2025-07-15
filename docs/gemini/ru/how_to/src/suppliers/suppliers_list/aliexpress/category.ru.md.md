@@ -27,7 +27,7 @@
 
 ```python
 # Импорт необходимых модулей
-from hypotez.src.suppliers.suppliers_list.aliexpress.category import get_list_products_in_category, update_categories_in_scenario_file, DBAdaptor
+from hypotez.src.suppliers.suppliers_list.aliexpress_com.category import get_list_products_in_category, update_categories_in_scenario_file, DBAdaptor
 
 # Создание экземпляра поставщика
 supplier = Supplier()

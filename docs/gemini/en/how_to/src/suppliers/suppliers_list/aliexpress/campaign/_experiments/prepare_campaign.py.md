@@ -18,7 +18,7 @@ This code block checks for the existence of an affiliate program for a given adv
 
 Execution Steps
 -------------------------
-1. **Import Necessary Modules**:  The code imports the `header` module and the `process_campaign` function from the `src.suppliers.suppliers_list.aliexpress.campaign` module.
+1. **Import Necessary Modules**:  The code imports the `header` module and the `process_campaign` function from the `src.suppliers.suppliers_list.aliexpress_com.campaign` module.
 2. **Define Campaign Parameters**: It defines a dictionary `locales` with language-currency mappings. It also specifies the language (`language`), currency (`currency`), and campaign name (`campaign_name`).
 3. **Check for Existing Campaign**: It checks for the existence of a campaign with the specified name (`campaign_name`). 
 4. **Create New Campaign**: If the campaign doesn't exist, it creates a new one using the `process_campaign` function. 
@@ -27,7 +27,7 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.campaign import process_campaign
+from src.suppliers.suppliers_list.aliexpress_com.campaign import process_campaign
 
 locales = {'EN': 'USD', 'HE': 'ILS', 'RU': 'ILS'}
 language: str = 'EN'

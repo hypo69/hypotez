@@ -17,7 +17,7 @@
 ```python
 # Пример использования
 prod_urls = ['123','456',...]
-prod_urls = ['https://www.aliexpress.com/item/123.html','456',...]
+prod_urls = ['https://www.aliexpress_com.com/item/123.html','456',...]
 
 parser = AliAffiliatedProducts(
     campaign_name, 
@@ -61,7 +61,7 @@ products = parser._affiliate_product(prod_urls)
 ```python
 # Пример использования
 prod_urls = ['123','456',...]
-prod_urls = ['https://www.aliexpress.com/item/123.html','456',...]
+prod_urls = ['https://www.aliexpress_com.com/item/123.html','456',...]
 
 parser = AliAffiliatedProducts(
     campaign_name, 
@@ -126,7 +126,7 @@ parser = AliAffiliatedProducts(
 )
 
 # Обработка списка ссылок на товары
-prod_urls = ['https://www.aliexpress.com/item/123.html', 'https://www.aliexpress.com/item/456.html']
+prod_urls = ['https://www.aliexpress_com.com/item/123.html', 'https://www.aliexpress_com.com/item/456.html']
 products = parser.process_affiliate_products(prod_urls)
 
 # Вывод информации о товарах

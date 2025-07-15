@@ -88,7 +88,7 @@ process_all_campaigns()
 ## Examples 
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignEditor
 
 campaign_name = 'lighting'
 campaign_file = 'EN_US.JSON'

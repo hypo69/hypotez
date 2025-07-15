@@ -84,10 +84,10 @@ product_details = api.retrieve_product_details(product_ids='100000000000000000')
 product_details = api.retrieve_product_details(product_ids=['100000000000000000', '100000000000000001'])
 
 # Получение информации о товаре по ссылке
-product_details = api.retrieve_product_details(product_ids='https://www.aliexpress.com/item/100000000000000000.html')
+product_details = api.retrieve_product_details(product_ids='https://www.aliexpress_com.com/item/100000000000000000.html')
 
 # Получение информации о товарах по списку ссылок
-product_details = api.retrieve_product_details(product_ids=['https://www.aliexpress.com/item/100000000000000000.html', 'https://www.aliexpress.com/item/100000000000000001.html'])
+product_details = api.retrieve_product_details(product_ids=['https://www.aliexpress_com.com/item/100000000000000000.html', 'https://www.aliexpress_com.com/item/100000000000000001.html'])
 ```
 
 #### `get_affiliate_links()`
@@ -124,13 +124,13 @@ product_details = api.retrieve_product_details(product_ids=['https://www.aliexpr
 
 ```python
 # Конвертирование ссылки в партнерскую ссылку
-affiliate_links = api.get_affiliate_links(links='https://www.aliexpress.com/item/100000000000000000.html')
+affiliate_links = api.get_affiliate_links(links='https://www.aliexpress_com.com/item/100000000000000000.html')
 
 # Конвертирование списка ссылок в партнерские ссылки
-affiliate_links = api.get_affiliate_links(links=['https://www.aliexpress.com/item/100000000000000000.html', 'https://www.aliexpress.com/item/100000000000000001.html'])
+affiliate_links = api.get_affiliate_links(links=['https://www.aliexpress_com.com/item/100000000000000000.html', 'https://www.aliexpress_com.com/item/100000000000000001.html'])
 
 # Конвертирование ссылок в партнерские ссылки с использованием горячей комиссии
-affiliate_links = api.get_affiliate_links(links='https://www.aliexpress.com/item/100000000000000000.html', link_type=model_LinkType.HOTLINK)
+affiliate_links = api.get_affiliate_links(links='https://www.aliexpress_com.com/item/100000000000000000.html', link_type=model_LinkType.HOTLINK)
 ```
 
 #### `get_hotproducts()`

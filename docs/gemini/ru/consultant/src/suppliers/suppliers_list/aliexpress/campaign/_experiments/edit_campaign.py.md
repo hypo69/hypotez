@@ -13,10 +13,10 @@
 
 Зависимости:
     - src.gs
-    - src.suppliers.suppliers_list.aliexpress.campaign.AliCampaignEditor
-    - src.suppliers.suppliers_list.aliexpress.campaign.process_campaign
-    - src.suppliers.suppliers_list.aliexpress.campaign.process_campaign_category
-    - src.suppliers.suppliers_list.aliexpress.campaign.process_all_campaigns
+    - src.suppliers.suppliers_list.aliexpress_com.campaign.AliCampaignEditor
+    - src.suppliers.suppliers_list.aliexpress_com.campaign.process_campaign
+    - src.suppliers.suppliers_list.aliexpress_com.campaign.process_campaign_category
+    - src.suppliers.suppliers_list.aliexpress_com.campaign.process_all_campaigns
     - src.utils.get_filenames
     - src.utils.get_directory_names
     - src.utils.printer.pprint
@@ -63,10 +63,10 @@
 
 Зависимости:
     - src.gs
-    - src.suppliers.suppliers_list.aliexpress.campaign.AliCampaignEditor
-    - src.suppliers.suppliers_list.aliexpress.campaign.process_campaign
-    - src.suppliers.suppliers_list.aliexpress.campaign.process_campaign_category
-    - src.suppliers.suppliers_list.aliexpress.campaign.process_all_campaigns
+    - src.suppliers.suppliers_list.aliexpress_com.campaign.AliCampaignEditor
+    - src.suppliers.suppliers_list.aliexpress_com.campaign.process_campaign
+    - src.suppliers.suppliers_list.aliexpress_com.campaign.process_campaign_category
+    - src.suppliers.suppliers_list.aliexpress_com.campaign.process_all_campaigns
     - src.utils.get_filenames
     - src.utils.get_directory_names
     - src.utils.printer.pprint
@@ -84,8 +84,8 @@ from pathlib import Path # Импорт модуля Path из библиоте�
 from typing import Dict
 
 from src import gs # Импорт модуля gs из пакета src
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignEditor # Импорт класса AliCampaignEditor
-from src.suppliers.suppliers_list.aliexpress.campaign import  process_campaign, process_campaign_category, process_all_campaigns # Импорт функций для обработки кампаний
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignEditor # Импорт класса AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress_com.campaign import  process_campaign, process_campaign_category, process_all_campaigns # Импорт функций для обработки кампаний
 from src.utils import get_filenames, get_directory_names # Импорт функций для работы с файлами и директориями
 from src.utils.printer import pprint # Импорт функции pprint для красивой печати
 

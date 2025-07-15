@@ -33,11 +33,11 @@
 #### Пример
 
 ```python
-from src.suppliers.aliexpress.scenarios.affiliate_links_shortener_scenario import get_short_affiliate_link
+from src.suppliers.aliexpress_com.scenarios.affiliate_links_shortener_scenario import get_short_affiliate_link
 from src.webdriver.driver import Driver, Chrome
 
 driver = Driver(Chrome)
 
-short_url = get_short_affiliate_link(driver, "https://www.aliexpress.com/item/4000000000000.html")
+short_url = get_short_affiliate_link(driver, "https://www.aliexpress_com.com/item/4000000000000.html")
 print(f"Сокращенная ссылка: {short_url}")
 ```

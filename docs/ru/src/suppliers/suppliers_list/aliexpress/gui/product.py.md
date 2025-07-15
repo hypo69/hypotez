@@ -166,7 +166,7 @@ async def prepare_product_async(self):
 
 ```python
 from PyQt6 import QtWidgets
-from src.suppliers.suppliers_list.aliexpress.gui.product import ProductEditor
+from src.suppliers.suppliers_list.aliexpress_com.gui.product import ProductEditor
 
 app = QtWidgets.QApplication([])
 product_editor = ProductEditor()

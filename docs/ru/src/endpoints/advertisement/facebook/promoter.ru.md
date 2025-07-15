@@ -134,7 +134,7 @@ from src.endpoints.advertisement.facebook.promoter import FacebookPromoter
 
 # Пример создания экземпляра класса SimpleNamespace для имитации данных группы и товара
 group_data = SimpleNamespace(id="1234567890", name="Test Group", url="https://www.facebook.com/groups/testgroup")
-item_data = SimpleNamespace(name="Test Product", url="https://aliexpress.com/item/1234567890.html", price=10.00, image="https://ae01.alicdn.com/kf/test.jpg")
+item_data = SimpleNamespace(name="Test Product", url="https://aliexpress_com.com/item/1234567890.html", price=10.00, image="https://ae01.alicdn.com/kf/test.jpg")
 
 # Создание экземпляра класса FacebookPromoter (требуется предварительная настройка WebDriver)
 driver = Driver() #  Замените на инициализацию вашего WebDriver
@@ -268,8 +268,8 @@ promoter = FacebookPromoter(d=driver, promoter="aliexpress", group_file_paths=["
 promoter.process_groups(campaign_name="SummerSales", group_categories_to_adv=["shoes", "bags"], language="en", currency="USD")
 
 # Пример вызова функции process_groups для продвижения мероприятий
-event1 = SimpleNamespace(name="Summer Sale", url="https://aliexpress.com/event/summersale.html")
-event2 = SimpleNamespace(name="Black Friday", url="https://aliexpress.com/event/blackfriday.html")
+event1 = SimpleNamespace(name="Summer Sale", url="https://aliexpress_com.com/event/summersale.html")
+event2 = SimpleNamespace(name="Black Friday", url="https://aliexpress_com.com/event/blackfriday.html")
 promoter.process_groups(events=[event1, event2], is_event=True, language="en", currency="USD")
 ```
 

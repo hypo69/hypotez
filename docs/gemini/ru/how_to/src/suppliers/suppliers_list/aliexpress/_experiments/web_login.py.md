@@ -3,7 +3,7 @@
 
 Описание
 -------------------------
-Данный код представляет собой фрагмент из модуля `src.suppliers.suppliers_list.aliexpress._experiments` и демонстрирует начальную настройку и использование `WebDriver` для взаимодействия с сайтом AliExpress. 
+Данный код представляет собой фрагмент из модуля `src.suppliers.suppliers_list.aliexpress_com._experiments` и демонстрирует начальную настройку и использование `WebDriver` для взаимодействия с сайтом AliExpress. 
 
 Шаги выполнения
 -------------------------
@@ -19,18 +19,18 @@
 3. **Инициализация `WebDriver`:**
     -  `a.driver`:  Предположительно,  `a` -  экземпляр `Supplier`, а  `driver` -  аттрибут, содержащий объект `WebDriver`. 
 4. **Открытие URL:**
-    -  `d.get_url('https://aliexpress.com')`:  Метод  `get_url`  открывает URL-адрес сайта AliExpress в браузере.
+    -  `d.get_url('https://aliexpress_com.com')`:  Метод  `get_url`  открывает URL-адрес сайта AliExpress в браузере.
 
 Пример использования
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress._experiments import Supplier
+from src.suppliers.suppliers_list.aliexpress_com._experiments import Supplier
 from src.utils.printer import pprint
 
 a = Supplier('aliexpress')
 d = a.driver
-d.get_url('https://aliexpress.com')
+d.get_url('https://aliexpress_com.com')
 
 # После открытия сайта можно использовать методы WebDriver для взаимодействия с элементами страницы
 # Например, можно получить текст заголовка страницы:

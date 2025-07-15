@@ -30,10 +30,10 @@
 
 ```python
 >>> ensure_https("example_product_id")
-'https://www.aliexpress.com/item/example_product_id.html'
+'https://www.aliexpress_com.com/item/example_product_id.html'
 
->>> ensure_https(["example_product_id1", "https://www.aliexpress.com/item/example_product_id2.html"])
-['https://www.aliexpress.com/item/example_product_id1.html', 'https://www.aliexpress.com/item/example_product_id2.html']
+>>> ensure_https(["example_product_id1", "https://www.aliexpress_com.com/item/example_product_id2.html"])
+['https://www.aliexpress_com.com/item/example_product_id1.html', 'https://www.aliexpress_com.com/item/example_product_id2.html']
 
 >>> ensure_https("https://www.example.com/item/example_product_id")
 'https://www.example.com/item/example_product_id'
@@ -61,7 +61,7 @@
 
 ```python
 >>> ensure_https_single("example_product_id")
-'https://www.aliexpress.com/item/example_product_id.html'
+'https://www.aliexpress_com.com/item/example_product_id.html'
 
 >>> ensure_https_single("https://www.example.com/item/example_product_id")
 'https://www.example.com/item/example_product_id'
@@ -77,7 +77,7 @@
 
 ```python
 >>> ensure_https("example_product_id")
-'https://www.aliexpress.com/item/example_product_id.html'
+'https://www.aliexpress_com.com/item/example_product_id.html'
 ```
 
 В этом случае функция `extract_prod_ids` извлекает идентификатор товара `example_product_id` из исходной строки. Затем функция `ensure_https_single` строит полный URL с префиксом `https://` и возвращает его.
@@ -95,11 +95,11 @@
 # Пример использования
 url = "example_product_id"
 url_with_https = ensure_https(url)
-print(url_with_https)  # Вывод: https://www.aliexpress.com/item/example_product_id.html
+print(url_with_https)  # Вывод: https://www.aliexpress_com.com/item/example_product_id.html
 
-urls = ["example_product_id1", "https://www.aliexpress.com/item/example_product_id2.html"]
+urls = ["example_product_id1", "https://www.aliexpress_com.com/item/example_product_id2.html"]
 urls_with_https = ensure_https(urls)
-print(urls_with_https)  # Вывод: ['https://www.aliexpress.com/item/example_product_id1.html', 'https://www.aliexpress.com/item/example_product_id2.html']
+print(urls_with_https)  # Вывод: ['https://www.aliexpress_com.com/item/example_product_id1.html', 'https://www.aliexpress_com.com/item/example_product_id2.html']
 ```
 
 ## Дополнительная информация

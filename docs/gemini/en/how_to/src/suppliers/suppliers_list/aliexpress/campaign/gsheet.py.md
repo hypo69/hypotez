@@ -37,7 +37,7 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.aliexpress.campaign.gsheet import AliCampaignGoogleSheet
+from src.suppliers.aliexpress_com.campaign.gsheet import AliCampaignGoogleSheet
 
 # Initialize the spreadsheet
 spreadsheet = AliCampaignGoogleSheet(campaign_name='Summer Sale', language='en', currency='USD')

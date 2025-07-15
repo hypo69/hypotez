@@ -1,4 +1,4 @@
-# Module: `src.suppliers.aliexpress.api.helpers.categories`
+# Module: `src.suppliers.aliexpress_com.api.helpers.categories`
 
 ## Overview
 
@@ -47,8 +47,8 @@ This module is part of the `hypotez` project, specifically within the `aliexpres
 **Examples**:
 
 ```python
-from src.suppliers.aliexpress.api.helpers.categories import filter_parent_categories
-from src.suppliers.aliexpress.api.models import Category, ChildCategory
+from src.suppliers.aliexpress_com.api.helpers.categories import filter_parent_categories
+from src.suppliers.aliexpress_com.api.models import Category, ChildCategory
 
 # Example 1: Filtering a list of categories
 categories = [
@@ -93,8 +93,8 @@ print(parent_categories)  # Output: [Category(category_id=1, name='Electronics',
 **Examples**:
 
 ```python
-from src.suppliers.aliexpress.api.helpers.categories import filter_child_categories
-from src.suppliers.aliexpress.api.models import Category, ChildCategory
+from src.suppliers.aliexpress_com.api.helpers.categories import filter_child_categories
+from src.suppliers.aliexpress_com.api.models import Category, ChildCategory
 
 # Example 1: Filtering child categories of a parent category
 categories = [

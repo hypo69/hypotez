@@ -2,6 +2,6 @@
 # -*- coding: utf-8 -*-
  # <- venv win
 ## ~~~~~~~~~~~~~
-""" module: src.suppliers.suppliers_list.aliexpress.api.tools """
+""" module: src.suppliers.suppliers_list.aliexpress_com.api.tools """
 from .get_product_id import get_product_id
 

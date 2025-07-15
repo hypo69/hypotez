@@ -25,17 +25,17 @@
 
 ```python
 # Пример использования WebDriver
-from hypotez.src.suppliers.suppliers_list.aliexpress.aliexpress import Driver, Chrome
+from hypotez.src.suppliers.suppliers_list.aliexpress_com.aliexpress import Driver, Chrome
 
 driver = Driver(Chrome)
 
 # Выполнение действий с помощью Driver
-driver.get("https://www.aliexpress.com/item/1000000000000.html")  # Загрузка страницы товара
+driver.get("https://www.aliexpress_com.com/item/1000000000000.html")  # Загрузка страницы товара
 product_title = driver.find_element_by_xpath("//h1[@class='product-title']").text  # Извлечение названия товара
 driver.quit()
 
 # Пример использования API
-from hypotez.src.suppliers.suppliers_list.aliexpress.aliexpress.api import get_affiliate_link
+from hypotez.src.suppliers.suppliers_list.aliexpress_com.aliexpress_com.api import get_affiliate_link
 
 affiliate_link = get_affiliate_link(product_id='1000000000000')  # Получение партнерской ссылки
 print(affiliate_link)

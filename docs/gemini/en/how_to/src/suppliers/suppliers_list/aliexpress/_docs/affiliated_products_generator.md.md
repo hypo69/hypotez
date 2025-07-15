@@ -30,7 +30,7 @@ Usage Example
 ```python
     # Example usage:
     prod_urls = ['123', '456', ...]  # List of product URLs or IDs
-    prod_urls = ['https://www.aliexpress.com/item/123.html', '456', ...]  # List of product URLs or IDs
+    prod_urls = ['https://www.aliexpress_com.com/item/123.html', '456', ...]  # List of product URLs or IDs
 
     parser = AliAffiliatedProducts(
                                 campaign_name,

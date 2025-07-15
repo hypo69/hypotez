@@ -57,14 +57,14 @@
 Пример использования:
 ----------------------
 
->>> from src.suppliers.aliexpress._experiments.alirequests import fetch_data
->>> data = fetch_data("https://www.aliexpress.com")
+>>> from src.suppliers.aliexpress_com._experiments.alirequests import fetch_data
+>>> data = fetch_data("https://www.aliexpress_com.com")
 >>> if data:
 ...     print("Данные успешно получены")
 ... else:
 ...     print("Не удалось получить данные")
 
-.. module:: src.suppliers.suppliers_list.aliexpress._experiments
+.. module:: src.suppliers.suppliers_list.aliexpress_com._experiments
 """
 
 from src.webdriver.driver import Driver, Firefox
@@ -97,7 +97,7 @@ def fetch_data(url: str) -> bool:
         return False
 
 if __name__ == '__main__':
-    url = "https://www.aliexpress.com"
+    url = "https://www.aliexpress_com.com"
     result = fetch_data(url)
     if result:
         print("Данные успешно получены")

@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.suppliers_list.aliexpress.campaign._experiments 
+.. module:: src.suppliers.suppliers_list.aliexpress_com.campaign._experiments 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -33,7 +33,7 @@
   :synopsis:
 """
   
-""" module: src.suppliers.suppliers_list.aliexpress.campaign._experiments """
+""" module: src.suppliers.suppliers_list.aliexpress_com.campaign._experiments """
 
 
 
@@ -45,8 +45,8 @@ import header
 from pathlib import Path
 
 from src import gs
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignEditor
-from src.suppliers.suppliers_list.aliexpress.campaign import  process_campaign, process_campaign_category, process_all_campaigns
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress_com.campaign import  process_campaign, process_campaign_category, process_all_campaigns
 from src.utils import get_filenames, get_directory_names
 from src.utils.printer import pprint
 

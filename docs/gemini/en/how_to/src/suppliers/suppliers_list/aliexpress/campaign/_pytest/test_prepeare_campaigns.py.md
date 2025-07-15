@@ -30,7 +30,7 @@ Usage Example
 import pytest
 from unittest.mock import patch, MagicMock
 
-from src.suppliers.suppliers_list.aliexpress.campaign.prepare_campaigns import update_category
+from src.suppliers.suppliers_list.aliexpress_com.campaign.prepare_campaigns import update_category
 
 @pytest.fixture
 def mock_j_loads():

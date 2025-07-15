@@ -2,18 +2,18 @@
 # -*- coding: utf-8 -*-
  # <- venv win
 ## ~~~~~~~~~~~~~
-""" module: src.suppliers.suppliers_list.aliexpress.api._examples.iop """
+""" module: src.suppliers.suppliers_list.aliexpress_com.api._examples.iop """
 
 import iop
 
 # params 1 : gateway url
 # params 2 : appkey
 # params 3 : appSecret
-client = iop.IopClient('https://api-pre.aliexpress.com/sync', '33505222', 'e1fed6b34feb26aabc391d187732af93')
+client = iop.IopClient('https://api-pre.aliexpress_com.com/sync', '33505222', 'e1fed6b34feb26aabc391d187732af93')
 
 # create a api request set GET mehotd
 # default http method is POST
-request = iop.IopRequest('aliexpress.logistics.redefining.getlogisticsselleraddresses', 'POST')
+request = iop.IopRequest('aliexpress_com.logistics.redefining.getlogisticsselleraddresses', 'POST')
 request.set_simplify()
 # simple type params ,Number ,String
 request.add_api_param('seller_address_query','pickup')

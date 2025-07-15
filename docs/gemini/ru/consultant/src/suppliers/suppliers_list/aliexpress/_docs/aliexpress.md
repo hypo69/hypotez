@@ -44,7 +44,7 @@
 ## Оптимизированный код:
 
 ```python
-## \file src/suppliers/suppliers_list/aliexpress/_docs/aliexpress.md
+## \file src/suppliers/suppliers_list/aliexpress/_docs/aliexpress_com.md
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 

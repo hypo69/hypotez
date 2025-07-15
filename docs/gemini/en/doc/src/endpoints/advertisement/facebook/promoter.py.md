@@ -160,7 +160,7 @@ promoter.process_groups(events=events_data, is_event=True)
 -  Класс использует модуль `src.utils.jjson` для чтения и записи данных JSON.
 -  Класс использует модуль `src.utils.cursor_spinner` для отображения индикатора загрузки.
 -  Класс использует модуль `src.logger.logger` для ведения логов.
--  Класс использует модуль `src.suppliers.suppliers_list.aliexpress.campaign` для работы с данными AliExpress.
+-  Класс использует модуль `src.suppliers.suppliers_list.aliexpress_com.campaign` для работы с данными AliExpress.
 -  Класс `FacebookPromoter` также использует модуль `src.webdriver.driver` для управления браузером.
 -  В коде используются выражения между `<` и `>`. Это заполнители, в которые нужно вставить соответствующие значения.
 -  При работе с файлами используется модуль `src.utils.file`.
@@ -168,7 +168,7 @@ promoter.process_groups(events=events_data, is_event=True)
 ## Дополнительная информация
 
 -  В модуле `src.endpoints.advertisement.facebook.scenarios` определены функции для продвижения сообщений, событий и рекламы.
--  В модуле `src.suppliers.suppliers_list.aliexpress.campaign` определен класс для работы с данными AliExpress.
+-  В модуле `src.suppliers.suppliers_list.aliexpress_com.campaign` определен класс для работы с данными AliExpress.
 -  В модуле `src.webdriver.driver` определены классы для управления браузером.
 
 ```python
@@ -360,7 +360,7 @@ class FacebookPromoter:
     def get_category_item(self, campaign_name: str, group: SimpleNamespace, language: str, currency: str) -> SimpleNamespace:
         """Fetches the category item for promotion based on the campaign and promoter."""    
         if self.promoter == 'aliexpress':
-            from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignEditor
+            from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignEditor
             ce = AliCampaignEditor(campaign_name=campaign_name, language=group.language, currency=group.currency)
             list_categories = ce.list_categories
             random.shuffle(list_categories)

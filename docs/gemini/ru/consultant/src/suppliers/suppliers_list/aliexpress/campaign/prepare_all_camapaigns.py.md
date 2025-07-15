@@ -40,7 +40,7 @@
 включая создание новых, если они не существуют.
 
 Зависимости:
-    - src.suppliers.suppliers_list.aliexpress.campaign.process_all_campaigns
+    - src.suppliers.suppliers_list.aliexpress_com.campaign.process_all_campaigns
 
 Пример использования:
 ----------------------
@@ -48,14 +48,14 @@
 """
 
 """
-.. module:: src.suppliers.suppliers_list.aliexpress.campaign
+.. module:: src.suppliers.suppliers_list.aliexpress_com.campaign
     :platform: Windows, Unix
     :synopsis: Проверка создания affiliate для рекламной кампании.
                Если такой рекламной кампании не существует - будет создана новая
 """
 
 from src.logger import logger # Импорт модуля для логирования
-from src.suppliers.suppliers_list.aliexpress.campaign import process_all_campaigns # Импорт функции для обработки кампаний
+from src.suppliers.suppliers_list.aliexpress_com.campaign import process_all_campaigns # Импорт функции для обработки кампаний
 
 
 def prepare_all_campaigns() -> None:

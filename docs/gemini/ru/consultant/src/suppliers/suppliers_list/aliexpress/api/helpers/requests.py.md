@@ -55,7 +55,7 @@
 Пример использования:
 ----------------------
 
->>> from src.suppliers.aliexpress.api.helpers.requests import api_request
+>>> from src.suppliers.aliexpress_com.api.helpers.requests import api_request
 >>> # Пример использования функции api_request
 >>> # response = api_request(request, response_name='example_response')
 """

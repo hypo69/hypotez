@@ -108,7 +108,7 @@ print(products_in_category)
 # Пример использования функции:
 from src.suppliers.aliexpress import AliExpress
 supplier = AliExpress()
-update_categories_in_scenario_file(supplier, 'aliexpress.json')
+update_categories_in_scenario_file(supplier, 'aliexpress_com.json')
 ```
 
 ### `get_list_categories_from_site(s,scenario_file,brand=\'\')`
@@ -135,7 +135,7 @@ update_categories_in_scenario_file(supplier, 'aliexpress.json')
 # Пример использования функции:
 from src.suppliers.aliexpress import AliExpress
 supplier = AliExpress()
-categories = get_list_categories_from_site(supplier, 'aliexpress.json')
+categories = get_list_categories_from_site(supplier, 'aliexpress_com.json')
 print(categories)
 ```
 
@@ -164,7 +164,7 @@ _update_all_ids_in_file()
 ## Примечания
 
 - Модуль использует `webdriver` для сбора данных с сайта AliExpress.
-- Файл сценария `aliexpress.json` содержит информацию о категориях, их идентификаторах и URL.
+- Файл сценария `aliexpress_com.json` содержит информацию о категориях, их идентификаторах и URL.
 - Функция `update_categories_in_scenario_file` сравнивает данные из файла сценария с данными, полученными с сайта, и обновляет файл в случае необходимости.
 - Класс `DBAdaptor` предоставляет примеры операций с базой данных для работы с категориями AliExpress.
 
@@ -174,23 +174,23 @@ _update_all_ids_in_file()
 
 ```python
 from src.suppliers.aliexpress import AliExpress
-from src.suppliers.suppliers_list.aliexpress.scenario import get_list_categories_from_site
-from src.suppliers.suppliers_list.aliexpress.scenario import update_categories_in_scenario_file
+from src.suppliers.suppliers_list.aliexpress_com.scenario import get_list_categories_from_site
+from src.suppliers.suppliers_list.aliexpress_com.scenario import update_categories_in_scenario_file
 
 # создание экземпляр поставщика AliExpress
 supplier = AliExpress()
 
 # Получаем список категорий с сайта
-categories = get_list_categories_from_site(supplier, 'aliexpress.json')
+categories = get_list_categories_from_site(supplier, 'aliexpress_com.json')
 
 # Обновляем файл сценария
-update_categories_in_scenario_file(supplier, 'aliexpress.json')
+update_categories_in_scenario_file(supplier, 'aliexpress_com.json')
 ```
 
 ### Пример работы с базой данных
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.scenario import DBAdaptor
+from src.suppliers.suppliers_list.aliexpress_com.scenario import DBAdaptor
 
 # создание экземпляр класса DBAdaptor
 db = DBAdaptor()

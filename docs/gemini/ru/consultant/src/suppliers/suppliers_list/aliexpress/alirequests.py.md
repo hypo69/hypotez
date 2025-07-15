@@ -55,7 +55,7 @@
 ----------------------
 
 >>> ali_requests = AliRequests(webdriver_for_cookies='chrome')
->>> response = ali_requests.make_get_request('https://aliexpress.com')
+>>> response = ali_requests.make_get_request('https://aliexpress_com.com')
 >>> if response:
 ...     print('Запрос выполнен успешно')
 """
@@ -102,7 +102,7 @@ class AliRequests:
         Returns:
             bool: True, если куки загружены успешно, иначе False.
         """
-        cookie_file_path: Path = Path(gs.dir_cookies, 'aliexpress.com', webdriver_for_cookies, 'cookie')
+        cookie_file_path: Path = Path(gs.dir_cookies, 'aliexpress_com.com', webdriver_for_cookies, 'cookie')
 
         try:
             with open(cookie_file_path, 'rb') as file:
@@ -134,7 +134,7 @@ class AliRequests:
         """
         Обновляет куки сессии.
         """
-        url: str = 'https://portals.aliexpress.com'
+        url: str = 'https://portals.aliexpress_com.com'
         try:
             if self.cookies_jar:
                 resp: requests.Response = self.session.get(url, headers=self.headers, cookies=self.cookies_jar)
@@ -213,7 +213,7 @@ class AliRequests:
         Returns:
             requests.Response | bool: Объект requests.Response в случае успеха, False в противном случае.
         """
-        base_url: str = 'https://portals.aliexpress.com/affiportals/web/link_generator.htm'
+        base_url: str = 'https://portals.aliexpress_com.com/affiportals/web/link_generator.htm'
         track_id: str = 'default'
         url: str = f"{base_url}?trackId={track_id}&targetUrl={link_url}"
         return self.make_get_request(url)

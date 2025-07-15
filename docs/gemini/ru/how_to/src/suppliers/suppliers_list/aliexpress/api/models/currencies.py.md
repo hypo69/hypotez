@@ -7,14 +7,14 @@
 
 Шаги выполнения
 -------------------------
-1. **Импорт класса:** Импортируйте класс `Currency` из модуля `src.suppliers.suppliers_list.aliexpress.api.models`.
+1. **Импорт класса:** Импортируйте класс `Currency` из модуля `src.suppliers.suppliers_list.aliexpress_com.api.models`.
 2. **Использование атрибутов:** Доступ к кодам валют можно получить через атрибуты класса. Например, `Currency.USD` вернет строку `'USD'`.
 
 Пример использования
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.api.models import Currency
+from src.suppliers.suppliers_list.aliexpress_com.api.models import Currency
 
 # Получение кода валюты USD
 usd_code = Currency.USD

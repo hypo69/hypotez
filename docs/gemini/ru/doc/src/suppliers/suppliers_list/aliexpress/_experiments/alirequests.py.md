@@ -36,4 +36,4 @@ from src.webdriver.driver import Driver, Chrome, Firefox
 driver = Driver(Firefox)
 
 # Переход на сайт AliExpress
-driver.get_url(r"https://www.aliexpress.com")
+driver.get_url(r"https://www.aliexpress_com.com")

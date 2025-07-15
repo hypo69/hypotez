@@ -1,4 +1,4 @@
-#  Module: src.suppliers.suppliers_list.aliexpress.campaign._experiments.prepare_ai_campaign
+#  Module: src.suppliers.suppliers_list.aliexpress_com.campaign._experiments.prepare_ai_campaign
 
 ## Overview
 
@@ -108,7 +108,7 @@ The module uses the `AliCampaignEditor` class to manage advertising campaigns.  
 
 ```python
 # Import necessary modules
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignEditor
 
 # Set campaign name and file
 campaign_name = 'lighting'
@@ -125,7 +125,7 @@ campaign_editor.process_llm_campaign(campaign_name)
 
 ```python
 # Import necessary modules
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignEditor
 
 # Set category name, campaign name, and file
 category_name = 'home_lighting'
@@ -143,7 +143,7 @@ campaign_editor.process_campaign_category(category_name=category_name, campaign_
 
 ```python
 # Import necessary modules
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignEditor
 
 # Create an instance of the AliCampaignEditor class
 campaign_editor = AliCampaignEditor(campaign_name='lighting', campaign_file='EN_US.JSON')

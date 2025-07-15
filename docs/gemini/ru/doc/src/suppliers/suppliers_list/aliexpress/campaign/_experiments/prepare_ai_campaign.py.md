@@ -46,7 +46,7 @@
 ```python
 # Загрузка необходимых модулей
 from pathlib import Path
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignEditor
 from src.utils.printer import pprint
 from src.logger.logger import logger
 

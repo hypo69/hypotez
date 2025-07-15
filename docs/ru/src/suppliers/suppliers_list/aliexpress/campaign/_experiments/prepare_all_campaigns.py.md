@@ -11,7 +11,7 @@
 ## Импортированные модули
 
 - `header`: Предположительно, содержит общие настройки или функции, Используетсяые в проекте.
-- `src.suppliers.suppliers_list.aliexpress.campaign.prepare_campaigns`: Содержит функции для подготовки и обработки рекламных кампаний, включая `process_all_campaigns` и `main_process`.
+- `src.suppliers.suppliers_list.aliexpress_com.campaign.prepare_campaigns`: Содержит функции для подготовки и обработки рекламных кампаний, включая `process_all_campaigns` и `main_process`.
 
 ## Функции
 
@@ -34,7 +34,7 @@ process_campaign(campaign_name: str, language: str, currency: str, campaign_file
 - `None`: Функция ничего не возвращает.
 
 **Как работает функция**:
-Функция предполагает вызов другой функции с аналогичным названием `process_campaign` из модуля `src.suppliers.suppliers_list.aliexpress.campaign.prepare_campaigns`, передавая ей параметры для создания или обновления рекламной кампании.
+Функция предполагает вызов другой функции с аналогичным названием `process_campaign` из модуля `src.suppliers.suppliers_list.aliexpress_com.campaign.prepare_campaigns`, передавая ей параметры для создания или обновления рекламной кампании.
 
 **Примеры**:
 
@@ -59,7 +59,7 @@ main_process(data_type: str, data_list: List[str]) -> None
 - `None`: Функция ничего не возвращает.
 
 **Как работает функция**:
-Функция вызывает функцию `main_process` из модуля `src.suppliers.suppliers_list.aliexpress.campaign.prepare_campaigns` с указанными параметрами, чтобы инициировать процесс обработки данных для рекламных кампаний.
+Функция вызывает функцию `main_process` из модуля `src.suppliers.suppliers_list.aliexpress_com.campaign.prepare_campaigns` с указанными параметрами, чтобы инициировать процесс обработки данных для рекламных кампаний.
 
 **Примеры**:
 
@@ -83,7 +83,7 @@ process_all_campaigns() -> None
 - `None`: Функция ничего не возвращает.
 
 **Как работает функция**:
-Функция вызывает функцию `process_all_campaigns` из модуля `src.suppliers.suppliers_list.aliexpress.campaign.prepare_campaigns`, чтобы запустить процесс обработки всех рекламных кампаний.
+Функция вызывает функцию `process_all_campaigns` из модуля `src.suppliers.suppliers_list.aliexpress_com.campaign.prepare_campaigns`, чтобы запустить процесс обработки всех рекламных кампаний.
 
 **Примеры**:
 

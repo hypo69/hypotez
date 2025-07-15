@@ -238,7 +238,7 @@ class AliApi(AliexpressApi):
 Пример использования
 ----------------------
 
->>> from src.suppliers.suppliers_list.aliexpress.aliapi import AliApi
+>>> from src.suppliers.suppliers_list.aliexpress_com.aliapi import AliApi
 >>> ali_api = AliApi()
 >>> product_ids = ['1234567890', '0987654321']
 >>> product_details = ali_api.retrieve_product_details_as_dict(product_ids)

@@ -7,7 +7,7 @@
 
 
 ```rst
- .. module:: src.suppliers.suppliers_list.aliexpress.categories_crawler
+ .. module:: src.suppliers.suppliers_list.aliexpress_com.categories_crawler
 ```
 """
 

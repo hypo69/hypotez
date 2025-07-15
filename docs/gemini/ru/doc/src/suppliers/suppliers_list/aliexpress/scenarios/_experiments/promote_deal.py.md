@@ -6,7 +6,7 @@
 
 ## Подробнее
 
-Модуль `promote_deal` импортирует модуль `header` (неизвестно, что это за модуль) и класс `AliPromoDeal` из модуля `src.suppliers.suppliers_list.aliexpress.scenarios`. 
+Модуль `promote_deal` импортирует модуль `header` (неизвестно, что это за модуль) и класс `AliPromoDeal` из модуля `src.suppliers.suppliers_list.aliexpress_com.scenarios`. 
 
 Он создает экземпляр `AliPromoDeal` с идентификатором '150624_baseus_deals'. Далее, модуль получает список товаров с помощью метода `get_all_products_details()` и, предположительно,  создает рекламную кампанию (не ясно, каким образом). 
 

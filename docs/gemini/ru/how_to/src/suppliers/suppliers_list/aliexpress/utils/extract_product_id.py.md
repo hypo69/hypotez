@@ -25,12 +25,12 @@
 
 ```python
     # Извлечение идентификатора из одного URL-адреса
-    url = "https://www.aliexpress.com/item/123456.html"
+    url = "https://www.aliexpress_com.com/item/123456.html"
     product_id = extract_prod_ids(url)
     print(f"Product ID: {product_id}")  # Output: Product ID: 123456
 
     # Извлечение идентификаторов из списка URL-адресов
-    urls = ["https://www.aliexpress.com/item/123456.html", "https://www.aliexpress.com/item/7891011.html"]
+    urls = ["https://www.aliexpress_com.com/item/123456.html", "https://www.aliexpress_com.com/item/7891011.html"]
     product_ids = extract_prod_ids(urls)
     print(f"Product IDs: {product_ids}") # Output: Product IDs: ['123456', '7891011']
 

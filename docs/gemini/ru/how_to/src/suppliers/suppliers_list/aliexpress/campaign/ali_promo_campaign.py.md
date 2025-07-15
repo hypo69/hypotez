@@ -31,7 +31,7 @@
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign import AliPromoCampaign
+from src.suppliers.suppliers_list.aliexpress_com.campaign.ali_promo_campaign import AliPromoCampaign
 from pathlib import Path
 from src import gs
 

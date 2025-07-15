@@ -1,11 +1,11 @@
 ## \file /src/suppliers/aliexpress/api/tools/get_product_id.py
 # -*- coding: utf-8 -*-
 
-""" module: src.suppliers.suppliers_list.aliexpress.api.tools """
+""" module: src.suppliers.suppliers_list.aliexpress_com.api.tools """
 """Some useful tools."""
 
 from ..errors import ProductIdNotFoundException
-from src.suppliers.suppliers_list.aliexpress.utils.extract_product_id import extract_prod_ids
+from src.suppliers.suppliers_list.aliexpress_com.utils.extract_product_id import extract_prod_ids
 import re
 
 

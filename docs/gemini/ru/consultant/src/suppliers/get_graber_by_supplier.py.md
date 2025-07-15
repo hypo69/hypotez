@@ -34,7 +34,7 @@
 from typing import Optional
 import header
 from src.suppliers.graber import Graber
-from src.suppliers.suppliers_list.aliexpress.graber import Graber as AliexpressGraber
+from src.suppliers.suppliers_list.aliexpress_com.graber import Graber as AliexpressGraber
 from src.suppliers.suppliers_list.amazon.graber import Graber as AmazonGraber
 from src.suppliers.suppliers_list.bangood.graber import Graber as BangoodGraber
 from src.suppliers.suppliers_list.cdata.graber import Graber as CdataGraber
@@ -68,7 +68,7 @@ def get_graber_by_supplier_url(driver: 'Driver', url: str, lang_index:int ) -> G
     """
     driver.get_url(url)
     # Проверка, начинается ли URL с одного из указанных префиксов для каждого поставщика.
-    if url.startswith(('https://aliexpress.com', 'https://wwww.aliexpress.com')):# aliexpress
+    if url.startswith(('https://aliexpress_com.com', 'https://wwww.aliexpress_com.com')):# aliexpress
         return AliexpressGraber(driver,lang_index)
 
     if url.startswith(('https://amazon.com', 'https://wwww.amazon.com')):# amazon
@@ -213,7 +213,7 @@ def get_graber_by_supplier_prefix(driver: 'Driver', supplier_prefix: str, lang_i
 from typing import Optional, Type
 import header
 from src.suppliers.graber import Graber
-from src.suppliers.suppliers_list.aliexpress.graber import Graber as AliexpressGraber
+from src.suppliers.suppliers_list.aliexpress_com.graber import Graber as AliexpressGraber
 from src.suppliers.suppliers_list.amazon.graber import Graber as AmazonGraber
 from src.suppliers.suppliers_list.bangood.graber import Graber as BangoodGraber
 from src.suppliers.suppliers_list.cdata.graber import Graber as CdataGraber
@@ -248,7 +248,7 @@ def get_graber_by_supplier_url(driver: 'Driver', url: str, lang_index: int) -> G
     """
     # Словарь соответствий префиксов URL и классов граберов
     grabbers: dict[tuple[str, ...], Type[Graber]] = {
-        ('https://aliexpress.com', 'https://wwww.aliexpress.com'): AliexpressGraber,
+        ('https://aliexpress_com.com', 'https://wwww.aliexpress_com.com'): AliexpressGraber,
         ('https://amazon.com', 'https://wwww.amazon.com'): AmazonGraber,
         ('https://bangood.com', 'https://wwww.bangood.com'): BangoodGraber,
         ('https://cdata.co.il', 'https://wwww.cdata.co.il'): CdataGraber,

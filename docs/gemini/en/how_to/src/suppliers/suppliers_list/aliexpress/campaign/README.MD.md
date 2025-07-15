@@ -34,7 +34,7 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignEditor
 from src.utils.string.html_simplification import strip_tags
 from src.utils.printer import pprint
 

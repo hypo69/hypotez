@@ -27,15 +27,15 @@
     # Пример 1: Обработка одиночного идентификатора товара
     product_id = "example_product_id"
     url_with_https = ensure_https(product_id)
-    print(url_with_https)  # Вывод: https://www.aliexpress.com/item/example_product_id.html
+    print(url_with_https)  # Вывод: https://www.aliexpress_com.com/item/example_product_id.html
 
     # Пример 2: Обработка списка идентификаторов товаров
     product_ids = ["example_product_id1", "example_product_id2"]
     urls_with_https = ensure_https(product_ids)
-    print(urls_with_https)  # Вывод: ['https://www.aliexpress.com/item/example_product_id1.html', 'https://www.aliexpress.com/item/example_product_id2.html']
+    print(urls_with_https)  # Вывод: ['https://www.aliexpress_com.com/item/example_product_id1.html', 'https://www.aliexpress_com.com/item/example_product_id2.html']
 
     # Пример 3: Обработка списка, содержащего URL с префиксом https://
-    product_ids = ["example_product_id1", "https://www.aliexpress.com/item/example_product_id2.html"]
+    product_ids = ["example_product_id1", "https://www.aliexpress_com.com/item/example_product_id2.html"]
     urls_with_https = ensure_https(product_ids)
-    print(urls_with_https)  # Вывод: ['https://www.aliexpress.com/item/example_product_id1.html', 'https://www.aliexpress.com/item/example_product_id2.html']
+    print(urls_with_https)  # Вывод: ['https://www.aliexpress_com.com/item/example_product_id1.html', 'https://www.aliexpress_com.com/item/example_product_id2.html']
 ```

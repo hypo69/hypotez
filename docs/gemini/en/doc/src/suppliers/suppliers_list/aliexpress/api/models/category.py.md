@@ -1,4 +1,4 @@
-# Module: `src.suppliers.aliexpress.api.models.category`
+# Module: `src.suppliers.aliexpress_com.api.models.category`
 
 ## Overview
 
@@ -32,7 +32,7 @@ This module is part of the `hypotez` project and plays a crucial role in retriev
 ## Example:
 
 ```python
-from src.suppliers.aliexpress.api.models.category import Category, ChildCategory
+from src.suppliers.aliexpress_com.api.models.category import Category, ChildCategory
 
 # Creating a category object
 category = Category(category_id=12345, category_name="Electronics")

@@ -1,16 +1,16 @@
-## Как использовать модуль `src.suppliers.aliexpress.api.errors.exceptions`
+## Как использовать модуль `src.suppliers.aliexpress_com.api.errors.exceptions`
 =========================================================================================
 
 ### Описание
 -------------------------
-Модуль `src.suppliers.aliexpress.api.errors.exceptions` определяет набор пользовательских исключений для обработки ошибок, возникающих при работе с AliExpress API. Эти исключения расширяют базовый класс `AliexpressException` и предоставляют более конкретную информацию об ошибке.
+Модуль `src.suppliers.aliexpress_com.api.errors.exceptions` определяет набор пользовательских исключений для обработки ошибок, возникающих при работе с AliExpress API. Эти исключения расширяют базовый класс `AliexpressException` и предоставляют более конкретную информацию об ошибке.
 
 ### Шаги выполнения
 -------------------------
-1. **Импорт модуля:** Импортируйте модуль `src.suppliers.aliexpress.api.errors.exceptions` в ваш код:
+1. **Импорт модуля:** Импортируйте модуль `src.suppliers.aliexpress_com.api.errors.exceptions` в ваш код:
 
    ```python
-   from src.suppliers.aliexpress.api.errors.exceptions import AliexpressException, InvalidArgumentException, ProductIdNotFoundException, ApiRequestException, ApiRequestResponseException, ProductsNotFoudException, CategoriesNotFoudException, InvalidTrackingIdException
+   from src.suppliers.aliexpress_com.api.errors.exceptions import AliexpressException, InvalidArgumentException, ProductIdNotFoundException, ApiRequestException, ApiRequestResponseException, ProductsNotFoudException, CategoriesNotFoudException, InvalidTrackingIdException
    ```
 
 2. **Использование исключений:** В вашем коде используйте соответствующие исключения для обработки ошибок:
@@ -49,7 +49,7 @@
 -------------------------
 
 ```python
-from src.suppliers.aliexpress.api.errors.exceptions import AliexpressException, InvalidArgumentException, ProductIdNotFoundException, ApiRequestException, ApiRequestResponseException, ProductsNotFoudException, CategoriesNotFoudException, InvalidTrackingIdException
+from src.suppliers.aliexpress_com.api.errors.exceptions import AliexpressException, InvalidArgumentException, ProductIdNotFoundException, ApiRequestException, ApiRequestResponseException, ProductsNotFoudException, CategoriesNotFoudException, InvalidTrackingIdException
 
 def get_product_details(product_id: str):
     """Функция для получения деталей товара по его ID."""

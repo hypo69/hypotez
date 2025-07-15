@@ -32,15 +32,15 @@
 
 ```python
 # Создание экземпляра IopClient
-client = iop.IopClient('https://api-sg.aliexpress.com/sync', '345846782', 'e1b26aac391d1bc3987732af93')
+client = iop.IopClient('https://api-sg.apiexpress.com/sync', '345846782', 'e1b26aac391d1bc3987732af93')
 client.log_level = iop.P_LOG_LEVEL_DEBUG
 
 # Создание запроса API 
-request = iop.IopRequest('aliexpress.affiliate.link.generate')
+request = iop.IopRequest('apiexpress.affiliate.link.generate')
 
 # Добавление параметров запроса
 request.add_api_param('promotion_link_type', '0')
-request.add_api_param('source_values', 'https://www.aliexpress.com/item/1005005058280371.html')
+request.add_api_param('source_values', 'https://www.aliexpress_com.com/item/1005005058280371.html')
 request.add_api_param('tracking_id', 'default')
 
 # Отправка запроса и получение ответа
@@ -62,7 +62,7 @@ print(response.body)
 
 **Параметры**:
 
-- `method` (str): Метод API (например, `aliexpress.affiliate.link.generate`).
+- `method` (str): Метод API (например, `apiexpress.affiliate.link.generate`).
 
 **Атрибуты**:
 
@@ -78,11 +78,11 @@ print(response.body)
 
 ```python
 # Создание запроса API
-request = iop.IopRequest('aliexpress.affiliate.link.generate')
+request = iop.IopRequest('apiexpress.affiliate.link.generate')
 
 # Добавление параметров запроса
 request.add_api_param('promotion_link_type', '0')
-request.add_api_param('source_values', 'https://www.aliexpress.com/item/1005005058280371.html')
+request.add_api_param('source_values', 'https://www.aliexpress_com.com/item/1005005058280371.html')
 request.add_api_param('tracking_id', 'default')
 ```
 
@@ -90,14 +90,14 @@ request.add_api_param('tracking_id', 'default')
 
 ```python
 # Создание экземпляра IopClient
-client = iop.IopClient('https://api-sg.aliexpress.com/sync', '345846782', 'e1b26aac391d1bc3987732af93')
+client = iop.IopClient('https://api-sg.apiexpress.com/sync', '345846782', 'e1b26aac391d1bc3987732af93')
 
 # Создание запроса API
-request = iop.IopRequest('aliexpress.affiliate.link.generate')
+request = iop.IopRequest('apiexpress.affiliate.link.generate')
 
 # Добавление параметров запроса
 request.add_api_param('promotion_link_type', '0')
-request.add_api_param('source_values', 'https://www.aliexpress.com/item/1005005058280371.html')
+request.add_api_param('source_values', 'https://www.aliexpress_com.com/item/1005005058280371.html')
 request.add_api_param('tracking_id', 'default')
 
 # Отправка запроса и получение ответа
@@ -150,13 +150,13 @@ print(response.request_id)
 
 ## Документация по IopClient
 
-- https://iop.aliexpress.com/
+- https://iop.aliexpress_com.com/
 
 ## Примеры вызова API
 
-- Получение списка категорий: `aliexpress.category.tree.list`
-- Получение информации о товаре: `aliexpress.solution.product.schema.get`
-- Генерация партнерской ссылки: `aliexpress.affiliate.link.generate`
+- Получение списка категорий: `aliexpress_com.category.tree.list`
+- Получение информации о товаре: `aliexpress_com.solution.product.schema.get`
+- Генерация партнерской ссылки: `apiexpress.affiliate.link.generate`
 
 ## Начало работы
 

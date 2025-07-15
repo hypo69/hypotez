@@ -18,7 +18,7 @@
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.affiliated_products_generator import AliAffiliatedProducts
+from src.suppliers.suppliers_list.apiexpress.affiliated_products_generator import AliAffiliatedProducts
 
 # Инициализация объекта AliAffiliatedProducts
 affiliated_products = AliAffiliatedProducts(language='EN', currency='USD')

@@ -46,6 +46,7 @@ import sys
 import asyncio
 import re
 import importlib
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Generator, List, Optional, Dict, Any
 from types import SimpleNamespace
@@ -56,8 +57,8 @@ from functools import wraps
 import header
 from header import __root__
 from src import gs
-from src.webdriver.driver import Driver
-from src.webdriver.firefox import Firefox
+# from src.webdriver.driver import Driver
+# from src.webdriver.firefox import Firefox
 from src.endpoints.prestashop.product_fields import ProductFields
 # from src.endpoints.prestashop.category_async import PrestaCategoryAsync
 # from src.suppliers.scenario.scenario_executor import run_scenario as _runscenario, run_scenarios as _runscenarios, run_scenario_file as _run_scenario_file, run_scenario_files as _run_scenario_files
@@ -77,30 +78,6 @@ from src.logger.logger import logger
 
 
 # Глобальные настройки через объект `Config`
-from dataclasses import dataclass, field
-
-@dataclass
-class Config:
-    """
-    Класс для хранения глобальных настроек.
-
-    Attributes:
-        driver (Optional['Driver']): Объект драйвера, используется для управления браузером или другим интерфейсом.
-        locator_for_decorator (Optional[SimpleNamespace]): Если будет установлен - выполнится декоратор `@close_pop_up`.
-            Устанавливается при инициализации поставщика, например: `Config.locator = self.product_locator.close_pop_up`.
-        supplier_prefix (Optional[str]): Префикс поставщика.
-
-    Example:
-        >>> Config = Config()
-        >>> Config.supplier_prefix = 'prefix'
-        >>> print(Config.supplier_prefix)
-        prefix
-    """
-
-    # Аттрибуты класса
-    locator_for_decorator: Optional[SimpleNamespace] = None  # <- Если будет установлен - выполнится декоратор `@close_pop_up`. Устанавливается при инициализации поставщика, например: `Config.locator = self.product_locator.close_pop_up`
-    supplier_prefix: Optional[str] = None
-    driver:'Driver' = None  # <- Экземпляр класса Driver. Если не передан - создается новый экземпляр класса Driver(Firefox) по умолчанию'
 
 
 
@@ -138,28 +115,98 @@ def close_pop_up() -> Callable:
 
 
 @dataclass(slots=True)
+class Config:
+    """! Класс для хранения глобальных настроек для поставщика.
+
+    Attributes:
+        supplier_prefix (str): Префикс поставщика (например, 'morlevi').
+        locator_for_decorator (Optional[SimpleNamespace]): Локатор, используемый декоратором `@close_pop_up`.
+        required_fields (list[str]): Список обязательных полей для сбора данных.
+    """
+
+    supplier_prefix: str
+    locator_for_decorator: Optional[SimpleNamespace] = None
+
+    supplier_alias: str = field(init=False)
+    ENDPOINT: Path = field(init=False)
+    SCENARIOS_DIR: Path = field(init=False)
+
+    required_fields: list[str] = field(default_factory=lambda: [
+        'id_supplier',
+        'name',
+        'price',
+        'reference',
+        'description',
+        'description_short',
+        'default_image_url',
+        'local_image_path',
+    ])
+
+    def __post_init__(self):
+        """! Инициализация путей и преобразование префикса в алиас."""
+        self.supplier_alias = self.supplier_prefix.replace('.', '_').replace('-', '_')
+        self.ENDPOINT = __root__ / 'src' / 'suppliers' / 'suppliers_list' / self.supplier_alias
+        self.SCENARIOS_DIR = self.ENDPOINT / 'scenarios'
+
+    @property
+    def product_locators(self) -> SimpleNamespace:
+        """! Локаторы для страницы продукта.
+
+        Returns:
+            SimpleNamespace: Объект с локаторами, либо пустой объект при ошибке.
+        """
+        try:
+            return j_loads_ns(self.ENDPOINT / 'locators' / 'product.json')
+        except FileNotFoundError:
+            logger.error(
+                f"Файл локаторов товара не найден для поставщика {self.supplier_prefix}: "
+                f"{self.ENDPOINT / 'locators' / 'product.json'}"
+            )
+            return SimpleNamespace()
+
+    @property
+    def category_locators(self) -> SimpleNamespace:
+        """! Локаторы для страницы категории.
+
+        Returns:
+            SimpleNamespace: Объект с локаторами, либо пустой объект при ошибке.
+        """
+        try:
+            return j_loads_ns(self.ENDPOINT / 'locators' / 'category.json')
+        except FileNotFoundError:
+            logger.error(
+                f"Файл локаторов категории не найден для поставщика {self.supplier_prefix}: "
+                f"{self.ENDPOINT / 'locators' / 'category.json'}"
+            )
+            return SimpleNamespace()
+
+@dataclass(slots=True)
 class Graber:
     """! Базовый класс сбора данных со страницы для всех поставщиков. """
 
     supplier_prefix: str
-    driver: Optional[Driver] = None
-    lang_index: Optional[int] = 2
+    driver: 'Driver'
+    lang_index: int
 
     # Эти поля будут инициализированы вручную в __post_init__
     product_locators: SimpleNamespace = field(init=False)
     category_locators: SimpleNamespace = field(init=False)
     product_fields: ProductFields = field(init=False)
 
+    # опционально: если locator_for_decorator используется
+    locator_for_decorator: Optional[dict] = None
+
     def __post_init__(self):
         """! Инициализация зависимостей после создания экземпляра dataclass."""
-        product_locators = self.product_locators
-        category_locators = self.category_locators
-        self.driver = self.driver #  or Driver(Firefox)
-        self.fields = ProductFields(self.lang_index)
+        config = Config(supplier_prefix=self.supplier_prefix)
+
+        self.product_locators = config.product_locators
+        self.category_locators = config.category_locators
+        self.product_fields = ProductFields(self.lang_index or 1)
 
         # ---------------------------- конфигурация для декоратора ------------------------------
-        Config.locator_for_decorator = self.locator_for_decorator or None
-        Config.supplier_prefix = self.supplier_prefix
+        config.locator_for_decorator = self.locator_for_decorator or None
+        config.supplier_prefix = self.supplier_prefix
 
 
 

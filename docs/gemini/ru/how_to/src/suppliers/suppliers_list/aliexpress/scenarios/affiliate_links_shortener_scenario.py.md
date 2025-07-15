@@ -21,13 +21,13 @@
 
 ```python
 from src.webdriver.driver import Driver
-from src.suppliers.aliexpress.scenarios.affiliate_links_shortener_scenario import get_short_affiliate_link
+from src.suppliers.aliexpress_com.scenarios.affiliate_links_shortener_scenario import get_short_affiliate_link
 
 # Инициализируйте веб-драйвер
 driver = Driver(Chrome) 
 
 # Введите полный URL товара
-url = 'https://www.aliexpress.com/item/4000000000000.html'  
+url = 'https://www.aliexpress_com.com/item/4000000000000.html'  
 
 # Вызовите функцию для получения короткой ссылки
 short_url = get_short_affiliate_link(driver, url)

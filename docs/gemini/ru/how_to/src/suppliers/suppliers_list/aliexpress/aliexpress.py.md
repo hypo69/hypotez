@@ -35,7 +35,7 @@
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.aliexpress import Aliexpress
+from src.suppliers.suppliers_list.aliexpress_com.aliexpress import Aliexpress
 
 # Run without a webdriver
 a = Aliexpress()

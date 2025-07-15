@@ -28,14 +28,14 @@ Usage Example
     # Example usage of the module:
     from src.suppliers.suppliers_list.aliexpress import Aliexpress
     aliexpress = Aliexpress()
-    product_details = aliexpress.get_product_details('product_id')
-    affiliate_link = aliexpress.get_affiliate_link('product_id')
+    product_details = aliexpress_com.get_product_details('product_id')
+    affiliate_link = aliexpress_com.get_affiliate_link('product_id')
 ```
 
 4. **Avoid Vague Terms** like "getting" or "doing". Be specific about what the code does, for example: "checks", "validates", or "sends".
 ```
 ```markdown
-## Module for Interactions with the `aliexpress.com` Supplier
+## Module for Interactions with the `aliexpress_com.com` Supplier
 
 This module provides access to supplier data through both the `HTTPS` (webdriver) and `API` protocols.
 

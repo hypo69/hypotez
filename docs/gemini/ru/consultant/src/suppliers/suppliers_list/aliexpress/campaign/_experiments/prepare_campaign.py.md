@@ -64,7 +64,7 @@
 """
 
 import header
-from src.suppliers.suppliers_list.aliexpress.campaign import process_campaign
+from src.suppliers.suppliers_list.aliexpress_com.campaign import process_campaign
 from src.logger import logger # Добавлен импорт logger
 from typing import Dict, str # Добавлены импорты типов
 

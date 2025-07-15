@@ -36,7 +36,7 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.aliexpress.api.helpers.arguments import get_list_as_string, get_product_ids
+from src.suppliers.aliexpress_com.api.helpers.arguments import get_list_as_string, get_product_ids
 
 # Example 1: Using get_list_as_string
 product_ids_list = ["1234567890", "9876543210"]

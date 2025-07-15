@@ -23,7 +23,7 @@ from src.suppliers.suppliers_list.aliexpress import AffiliateLinksShortener
 a = AffiliateLinksShortener()
 
 # Исходный URL
-url = 'https://aliexpress.com'
+url = 'https://aliexpress_com.com'
 
 # Сокращаем ссылку
 link = a.short_affiliate_link(url)

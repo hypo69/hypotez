@@ -12,11 +12,11 @@
 ### `process_all_campaigns`
 **Описание**: Функция запускает процесс проверки и создания аффилиатных ссылок для всех рекламных кампаний.
 **Как работает**:
-1. Импортирует модуль `header` и функцию `process_all_campaigns` из `src.suppliers.suppliers_list.aliexpress.campaign`.
+1. Импортирует модуль `header` и функцию `process_all_campaigns` из `src.suppliers.suppliers_list.aliexpress_com.campaign`.
 2. Вызывает функцию `process_all_campaigns()`.
 **Пример**:
 ```python
-from src.suppliers.suppliers_list.aliexpress.campaign import process_all_campaigns
+from src.suppliers.suppliers_list.aliexpress_com.campaign import process_all_campaigns
 
 process_all_campaigns()
 ```
@@ -29,7 +29,7 @@ process_all_campaigns()
 **Описание**: Функция проверяет и создает аффилиатные ссылки для рекламных кампаний на AliExpress.
 **Пример**:
 ```python
-from src.suppliers.suppliers_list.aliexpress.campaign import process_all_campaigns
+from src.suppliers.suppliers_list.aliexpress_com.campaign import process_all_campaigns
 
 process_all_campaigns()
 ```

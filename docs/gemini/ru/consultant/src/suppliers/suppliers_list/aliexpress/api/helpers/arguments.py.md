@@ -50,13 +50,13 @@
 Пример использования:
 ----------------------
 
->>> from src.suppliers.aliexpress.api.helpers.arguments import get_list_as_string, get_product_ids
+>>> from src.suppliers.aliexpress_com.api.helpers.arguments import get_list_as_string, get_product_ids
 >>> get_list_as_string(['a', 'b', 'c'])
 'a,b,c'
 >>> get_product_ids('12345,67890')
 ['12345', '67890']
 
-.. module:: src.suppliers.suppliers_list.aliexpress.api.helpers.arguments
+.. module:: src.suppliers.suppliers_list.aliexpress_com.api.helpers.arguments
 """
 
 from typing import List, Optional, Union

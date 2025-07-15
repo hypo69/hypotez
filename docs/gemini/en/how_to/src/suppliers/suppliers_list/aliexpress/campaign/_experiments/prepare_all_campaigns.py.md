@@ -20,7 +20,7 @@ Execution Steps
 -------------------------
 1. **Imports Modules**: 
     - Imports `header` module.
-    - Imports `process_all_campaigns` and `main_process` functions from `src.suppliers.suppliers_list.aliexpress.campaign.prepare_campaigns`.
+    - Imports `process_all_campaigns` and `main_process` functions from `src.suppliers.suppliers_list.aliexpress_com.campaign.prepare_campaigns`.
 2. **Defines Variables**: Defines variables for campaign parameters such as `locales`, `campaign_name`, `language`, `currency`, and `campaign_file`.
 3. **Calls Campaign Processing Function**: Calls `process_campaign` function with the defined campaign parameters.
 4. **Calls Main Processing Function**: Calls `main_process` function with arguments `'brands'` and `['mrgreen']`.
@@ -30,7 +30,7 @@ Usage Example
 -------------------------
 
 ```python
-    from src.suppliers.suppliers_list.aliexpress.campaign.prepare_campaigns import process_all_campaigns, main_process
+    from src.suppliers.suppliers_list.aliexpress_com.campaign.prepare_campaigns import process_all_campaigns, main_process
     
     # Defines campaign parameters
     campaign_name:str = 'rc'

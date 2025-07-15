@@ -51,10 +51,10 @@
 ## Example
 
 ```python
-from src.suppliers.aliexpress.api.models.product import Product
+from src.suppliers.aliexpress_com.api.models.product import Product
 
 product = Product()
 product.product_title = "Новое платье"
 product.product_id = 12345
-product.product_detail_url = "https://aliexpress.com/item/12345"
+product.product_detail_url = "https://aliexpress_com.com/item/12345"
 ```

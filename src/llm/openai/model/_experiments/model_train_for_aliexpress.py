@@ -1,4 +1,4 @@
-## \file /src/ai/openai/model/_experiments/model_train_for_aliexpress.py
+## \file /src/ai/openai/model/_experiments/model_train_for_aliexpress_com.py
 # -*- coding: utf-8 -*-
 
 #! .pyenv/bin/python3

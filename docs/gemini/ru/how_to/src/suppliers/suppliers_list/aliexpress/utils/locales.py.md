@@ -16,7 +16,7 @@
 -------------------------
 
 ```python
-    from src.suppliers.suppliers_list.aliexpress.utils.locales import get_locales
+    from src.suppliers.suppliers_list.aliexpress_com.utils.locales import get_locales
     from src import gs
 
     locales_path = gs.path.src / 'suppliers' / 'suppliers_list' / 'aliexpress' / 'utils' / 'locales.json'

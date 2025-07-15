@@ -51,7 +51,7 @@
 
    - Создание инстанса класса `Supplier` с названием поставщика `aliexpress`. 
    - Получение веб-драйвера `d` из инстанса класса `Supplier`.
-   - Открытие URL `https://aliexpress.com` в веб-драйвере.
+   - Открытие URL `https://aliexpress_com.com` в веб-драйвере.
 
 ## Параметры
 
@@ -62,7 +62,7 @@
 ```python
 from src import gs
 from src.utils.printer import pprint
-from src.suppliers.aliexpress.aliexpress import Supplier
+from src.suppliers.aliexpress_com.aliexpress import Supplier
 
 # Создание инстанса класса Supplier с названием поставщика aliexpress
 a = Supplier('aliexpress')
@@ -70,8 +70,8 @@ a = Supplier('aliexpress')
 # Получение веб-драйвера d из инстанса класса Supplier
 d = a.driver
 
-# Открытие URL https://aliexpress.com в веб-драйвере
-d.get_url('https://aliexpress.com')
+# Открытие URL https://aliexpress_com.com в веб-драйвере
+d.get_url('https://aliexpress_com.com')
 ```
 
 ## Твое поведение при анализе кода:

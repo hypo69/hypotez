@@ -7,7 +7,7 @@
 
 Шаги выполнения
 -------------------------
-1. **Импорт необходимых модулей:** Блок кода импортирует модуль `header` и модуль `process_campaign` из пакета `src.suppliers.suppliers_list.aliexpress.campaign`. 
+1. **Импорт необходимых модулей:** Блок кода импортирует модуль `header` и модуль `process_campaign` из пакета `src.suppliers.suppliers_list.aliexpress_com.campaign`. 
 2. **Инициализация параметров:** Определяются языковые настройки (`language = 'EN'`) и валюта (`currency = 'USD'`). 
 3. **Определение имени кампании:** Устанавливается имя рекламной кампании (`campaign_name = 'brands'`).
 4. **Вызов функции `process_campaign`:** Вызывается функция `process_campaign` с заданными параметрами, что запускает процесс создания или получения рекламной кампании.
@@ -23,7 +23,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.suppliers_list.aliexpress.campaign._experiments 
+.. module:: src.suppliers.suppliers_list.aliexpress_com.campaign._experiments 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -59,7 +59,7 @@
 """
   
 
-""" module: src.suppliers.suppliers_list.aliexpress.campaign._experiments """
+""" module: src.suppliers.suppliers_list.aliexpress_com.campaign._experiments """
 
 
 """ Проверка создания affiliate для рекламной кампании  
@@ -67,7 +67,7 @@
 
 ...
 import header
-from src.suppliers.suppliers_list.aliexpress.campaign import process_campaign
+from src.suppliers.suppliers_list.aliexpress_com.campaign import process_campaign
 
 locales = {'EN': 'USD', 'HE': 'ILS', 'RU': 'ILS'}
 language: str = 'EN'

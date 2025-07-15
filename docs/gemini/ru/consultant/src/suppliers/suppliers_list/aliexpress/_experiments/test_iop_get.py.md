@@ -58,10 +58,10 @@
     - iop
 
 Пример использования:
-    >>> from src.suppliers.aliexpress._experiments import test_iop_get
+    >>> from src.suppliers.aliexpress_com._experiments import test_iop_get
     >>> test_iop_get.run_example()
 
- .. module:: src.suppliers.suppliers_list.aliexpress._experiments
+ .. module:: src.suppliers.suppliers_list.aliexpress_com._experiments
 """
 
 import iop
@@ -71,7 +71,7 @@ class Config:
     """
     Конфигурация для работы с API Aliexpress.
     """
-    gateway_url: str = 'https://api-sg.aliexpress.com/sync'
+    gateway_url: str = 'https://api-sg.apiexpress.com/sync'
     app_key: str = '345846782'
     app_secret: str = 'e1b26aac391d1bc3987732af93eb26aabc391d187732af93'
 
@@ -92,7 +92,7 @@ def generate_affiliate_link(source_value: str) -> None:
     client = iop.IopClient(Config.gateway_url, Config.app_key, Config.app_secret)
     client.log_level = iop.P_LOG_LEVEL_DEBUG
 
-    request = iop.IopRequest('aliexpress.affiliate.link.generate')
+    request = iop.IopRequest('apiexpress.affiliate.link.generate')
     request.add_api_param('promotion_link_type', '0')
     request.add_api_param('source_values', source_value)
     request.add_api_param('tracking_id', 'default')
@@ -117,7 +117,7 @@ def run_example() -> None:
     Returns:
         None
     """
-    generate_affiliate_link('https://www.aliexpress.com/item/1005005058280371.html')
+    generate_affiliate_link('https://www.aliexpress_com.com/item/1005005058280371.html')
 
 
 if __name__ == '__main__':

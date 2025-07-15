@@ -511,7 +511,7 @@ from src.keepass import ProgramSettings
 settings = ProgramSettings()
 
 # Accessing credentials for different services
-aliexpress_api_key = settings.get_credentials().aliexpress.api_key
+aliexpress_api_key = settings.get_credentials().aliexpress_com.api_key
 openai_api_key = settings.get_credentials().openai.api_key
 gemini_api_key = settings.get_credentials().gemini.api_key
 telegram_token = settings.get_credentials().telegram.token

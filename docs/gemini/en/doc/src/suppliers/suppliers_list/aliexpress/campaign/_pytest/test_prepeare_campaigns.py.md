@@ -2,7 +2,7 @@
 
 ## Обзор
 
-Этот модуль содержит тестовые функции для модуля `src.suppliers.suppliers_list.aliexpress.campaign.prepare_campaigns`. 
+Этот модуль содержит тестовые функции для модуля `src.suppliers.suppliers_list.aliexpress_com.campaign.prepare_campaigns`. 
 Он проверяет функциональность функций, связанных с подготовкой кампаний AliExpress, таких как обновление категорий, обработка категорий кампаний и обработка кампаний. 
 
 ## Детали
@@ -66,7 +66,7 @@
 **Цель**: Проверить успешную обработку категории кампании.
 
 **Параметры**:
-- `mock_ali_promo_campaign`: Мокированный объект для `src.suppliers.suppliers_list.aliexpress.campaign.AliPromoCampaign`.
+- `mock_ali_promo_campaign`: Мокированный объект для `src.suppliers.suppliers_list.aliexpress_com.campaign.AliPromoCampaign`.
 - `mock_logger`: Мокированный объект для `src.logger.logger`.
 
 **Возвращает**:
@@ -90,7 +90,7 @@
 **Цель**: Проверить неудачную обработку категории кампании.
 
 **Параметры**:
-- `mock_ali_promo_campaign`: Мокированный объект для `src.suppliers.suppliers_list.aliexpress.campaign.AliPromoCampaign`.
+- `mock_ali_promo_campaign`: Мокированный объект для `src.suppliers.suppliers_list.aliexpress_com.campaign.AliPromoCampaign`.
 - `mock_logger`: Мокированный объект для `src.logger.logger`.
 
 **Возвращает**:
@@ -156,5 +156,5 @@
 
 ## Заключение
 
-Этот модуль тестов обеспечивает комплексное покрытие функциональности модуля `src.suppliers.suppliers_list.aliexpress.campaign.prepare_campaigns`, гарантируя, что код работает правильно. 
+Этот модуль тестов обеспечивает комплексное покрытие функциональности модуля `src.suppliers.suppliers_list.aliexpress_com.campaign.prepare_campaigns`, гарантируя, что код работает правильно. 
 Он включает в себя различные тестовые сценарии, которые проверяют как успешные, так и неудачные случаи, а также работу основных функций и скрипта.

@@ -2,7 +2,7 @@
 
 ## Обзор
 
-Данный модуль содержит скрипт, который парсит таблицу xls, сгенерированную в личном кабинете портала `portals.aliexpress.com`. 
+Данный модуль содержит скрипт, который парсит таблицу xls, сгенерированную в личном кабинете портала `portals.aliexpress_com.com`. 
 
 ## Подробнее
 
@@ -21,7 +21,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.suppliers_list.aliexpress.campaign._experiments 
+.. module:: src.suppliers.suppliers_list.aliexpress_com.campaign._experiments 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -58,11 +58,11 @@
   :synopsis:
 """
   
-""" module: src.suppliers.suppliers_list.aliexpress.campaign._experiments """
+""" module: src.suppliers.suppliers_list.aliexpress_com.campaign._experiments """
 
 
 
-""" Парсер таблицы xls, сгенегированной в личном кабинете portals.aliexpress.com"""
+""" Парсер таблицы xls, сгенегированной в личном кабинете portals.aliexpress_com.com"""
 ...
 import header
 from src.suppliers.suppliers_list.aliexpress import DealsFromXLS 
@@ -78,7 +78,7 @@ for deal in deals_parser.get_next_deal():
 
 ```
 
-**Назначение**: Скрипт парсит таблицу xls, полученную с портала `portals.aliexpress.com` и выводит данные на печать.
+**Назначение**: Скрипт парсит таблицу xls, полученную с портала `portals.aliexpress_com.com` и выводит данные на печать.
 
 **Параметры**:
 

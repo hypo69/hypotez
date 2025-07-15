@@ -24,8 +24,8 @@
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.gui.category import CategoryEditor
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress_com.gui.category import CategoryEditor
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignEditor
 
 # создание объект AliCampaignEditor
 editor = AliCampaignEditor(campaign_file='path/to/campaign.json')

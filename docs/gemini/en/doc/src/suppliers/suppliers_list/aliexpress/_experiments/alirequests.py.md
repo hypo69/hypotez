@@ -28,11 +28,11 @@ from src.webdriver.driver import Driver, Chrome, Firefox
 
 ```python
 d = Driver(Firefox)
-d.get_url(r"https://www.aliexpress.com")
+d.get_url(r"https://www.aliexpress_com.com")
 ```
 
 - A `Driver` instance is created using the `Firefox` browser.
-- The driver is directed to the AliExpress homepage (`https://www.aliexpress.com`).
+- The driver is directed to the AliExpress homepage (`https://www.aliexpress_com.com`).
 
 ## Function Usage Examples
 
@@ -48,10 +48,10 @@ d.get_url(r"https://www.aliexpress.com")
 ## Example: Retrieving Product Title
 
 ```python
-from src.suppliers.suppliers_list.aliexpress._experiments import alirequests
+from src.suppliers.suppliers_list.aliexpress_com._experiments import alirequests
 
 driver = alirequests.Driver(alirequests.Firefox)
-driver.get_url("https://www.aliexpress.com/item/100500123456789.html")  # Example product URL
+driver.get_url("https://www.aliexpress_com.com/item/100500123456789.html")  # Example product URL
 product_title = driver.execute_locator({
     "attribute": "text",
     "by": "XPATH",

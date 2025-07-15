@@ -39,10 +39,10 @@
 Пример использования:
 ----------------------
 
->>> extract_prod_ids("https://www.aliexpress.com/item/123456.html")
+>>> extract_prod_ids("https://www.aliexpress_com.com/item/123456.html")
 '123456'
 
->>> extract_prod_ids(["https://www.aliexpress.com/item/123456.html", "7891011.html"])
+>>> extract_prod_ids(["https://www.aliexpress_com.com/item/123456.html", "7891011.html"])
 ['123456', '7891011']
 """
 
@@ -66,10 +66,10 @@ def extract_prod_ids(urls: str | List[str]) -> Union[str, List[str], None]:
         re.error: Если регулярное выражение содержит ошибку.
 
     Example:
-        >>> extract_prod_ids("https://www.aliexpress.com/item/123456.html")
+        >>> extract_prod_ids("https://www.aliexpress_com.com/item/123456.html")
         '123456'
 
-        >>> extract_prod_ids(["https://www.aliexpress.com/item/123456.html", "7891011.html"])
+        >>> extract_prod_ids(["https://www.aliexpress_com.com/item/123456.html", "7891011.html"])
         ['123456', '7891011']
 
         >>> extract_prod_ids(["https://www.example.com/item/123456.html", "https://www.example.com/item/abcdef.html"])
@@ -95,7 +95,7 @@ def extract_prod_ids(urls: str | List[str]) -> Union[str, List[str], None]:
                 str | None: Извлеченный идентификатор товара или сам входной параметр, если это допустимый идентификатор, или `None`, если не найдено допустимого идентификатора.
 
             Example:
-                >>> extract_id("https://www.aliexpress.com/item/123456.html")
+                >>> extract_id("https://www.aliexpress_com.com/item/123456.html")
                 '123456'
 
                 >>> extract_id("7891011")

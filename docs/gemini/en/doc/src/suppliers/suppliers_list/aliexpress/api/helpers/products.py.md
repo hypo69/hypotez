@@ -1,8 +1,8 @@
-# Модуль: `src.suppliers.aliexpress.api.helpers.products`
+# Модуль: `src.suppliers.aliexpress_com.api.helpers.products`
 
 ## Обзор
 
-Модуль `src.suppliers.aliexpress.api.helpers.products` предоставляет функции для обработки данных о товарах, полученных из API AliExpress.
+Модуль `src.suppliers.aliexpress_com.api.helpers.products` предоставляет функции для обработки данных о товарах, полученных из API AliExpress.
 
 ## Детали
 

@@ -33,7 +33,7 @@ def get_graber_by_supplier_url(driver: 'Driver', url: str, lang_index: int) -> G
 
     """
     driver.get_url(url)
-    if url.startswith(('https://aliexpress.com', 'https://wwww.aliexpress.com')):\
+    if url.startswith(('https://aliexpress_com.com', 'https://wwww.aliexpress_com.com')):\
         # Функция возвращает грабер AliexpressGraber, если URL начинается с указанных префиксов AliExpress.
         return AliexpressGraber(driver, lang_index)
 
@@ -119,7 +119,7 @@ from src.webdriver import Driver
 driver = Driver(Chrome)
 
 # Пример 1: Получение грабера для AliExpress
-url = 'https://aliexpress.com/item/1234567890.html'
+url = 'https://aliexpress_com.com/item/1234567890.html'
 graber = get_graber_by_supplier_url(driver, url, '2')
 if graber:
     print(f'Нашли грабер: {graber.__class__.__name__}')

@@ -11,7 +11,7 @@
 -   Обработка новой кампании с заданным именем.
 
 Модуль использует другие модули и классы из проекта `hypotez`, такие как:
--   `AliCampaignEditor` из `src.suppliers.suppliers_list.aliexpress.campaign` для редактирования кампании.
+-   `AliCampaignEditor` из `src.suppliers.suppliers_list.aliexpress_com.campaign` для редактирования кампании.
 -   `get_filenames` и `get_directory_names` из `src.utils` для получения списка файлов и директорий.
 -   `pprint` из `src.utils.printer` для форматированного вывода в консоль.
 -   `logger` из `src.logger.logger` для логирования событий и ошибок.
@@ -58,7 +58,7 @@
 **Примеры**:
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignEditor
 
 campaign_name = 'test_campaign'
 aliexpress_editor = AliCampaignEditor(campaign_name)

@@ -35,7 +35,7 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.aliexpress.gui.campaign import CampaignEditor
+from src.suppliers.aliexpress_com.gui.campaign import CampaignEditor
 
 # Create a CampaignEditor instance
 editor = CampaignEditor()

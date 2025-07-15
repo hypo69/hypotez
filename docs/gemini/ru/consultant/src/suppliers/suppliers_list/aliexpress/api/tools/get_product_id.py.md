@@ -42,14 +42,14 @@
 
 Пример использования
 ----------------------
->>> from src.suppliers.suppliers_list.aliexpress.api.tools.get_product_id import get_product_id
->>> product_id = get_product_id('https://aliexpress.ru/item/1234567890.html')
+>>> from src.suppliers.suppliers_list.aliexpress_com.api.tools.get_product_id import get_product_id
+>>> product_id = get_product_id('https://aliexpress_com.ru/item/1234567890.html')
 >>> print(product_id)
 1234567890
 """
 
 from ..errors import ProductIdNotFoundException
-from src.suppliers.suppliers_list.aliexpress.utils.extract_product_id import extract_prod_ids
+from src.suppliers.suppliers_list.aliexpress_com.utils.extract_product_id import extract_prod_ids
 from src.logger import logger  # Import logger
 import re
 def get_product_id(raw_product_id: str) -> str:
@@ -70,8 +70,8 @@ def get_product_id(raw_product_id: str) -> str:
         ProductIdNotFoundException: Если ID товара не найден в предоставленном тексте.
 
     Example:
-        >>> from src.suppliers.suppliers_list.aliexpress.api.tools.get_product_id import get_product_id
-        >>> product_id = get_product_id('https://aliexpress.ru/item/1234567890.html')
+        >>> from src.suppliers.suppliers_list.aliexpress_com.api.tools.get_product_id import get_product_id
+        >>> product_id = get_product_id('https://aliexpress_com.ru/item/1234567890.html')
         >>> print(product_id)
         1234567890
     """

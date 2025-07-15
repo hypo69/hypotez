@@ -16,10 +16,10 @@
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.api.tools.get_product_id import get_product_id
+from src.suppliers.suppliers_list.aliexpress_com.api.tools.get_product_id import get_product_id
 
 # Пример текста с идентификатором товара
-raw_product_id = "https://www.aliexpress.com/item/10000000000000.html"
+raw_product_id = "https://www.aliexpress_com.com/item/10000000000000.html"
 
 # Вызов функции для получения идентификатора товара
 product_id = get_product_id(raw_product_id)

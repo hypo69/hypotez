@@ -2,7 +2,7 @@
 
 ## Обзор
 
-Модуль `src/ai/openai/model/_experiments/model_train_for_aliexpress.py` предназначен для обучения моделей машинного обучения на данных с AliExpress. Модуль использует модели OpenAI и Google Gemini для генерации описаний товаров.
+Модуль `src/ai/openai/model/_experiments/model_train_for_aliexpress_com.py` предназначен для обучения моделей машинного обучения на данных с AliExpress. Модуль использует модели OpenAI и Google Gemini для генерации описаний товаров.
 
 ## Подробнее
 

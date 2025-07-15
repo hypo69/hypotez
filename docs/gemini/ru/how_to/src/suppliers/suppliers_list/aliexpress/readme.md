@@ -3,7 +3,7 @@
 
 Описание
 -------------------------
-Данный модуль предоставляет информацию о взаимодействии с поставщиком `aliexpress.com`. Он обеспечивает доступ к данным поставщика через протоколы `HTTPS` (с использованием webdriver) и `API`.
+Данный модуль предоставляет информацию о взаимодействии с поставщиком `aliexpress_com.com`. Он обеспечивает доступ к данным поставщика через протоколы `HTTPS` (с использованием webdriver) и `API`.
 
 **webdriver**:
 - Предоставляет прямой доступ к `html` страницам товара через `Driver`. Позволяет выполнять скрипты сбора данных, включая навигацию по категориям.
@@ -35,7 +35,7 @@
 ```python
 from src.suppliers.suppliers_list.aliexpress import api
 from src.suppliers.suppliers_list.aliexpress import utils
-from src.suppliers.suppliers_list.aliexpress.webdriver import Driver
+from src.suppliers.suppliers_list.aliexpress_com.webdriver import Driver
 
 # Пример использования API для получения affiliate link
 product_id = '1234567890'
@@ -44,7 +44,7 @@ print(f"Affiliate link для товара {product_id}: {affiliate_link}")
 
 # Пример использования WebDriver для сбора данных со страницы товара
 driver = Driver(browser='chrome')
-product_url = 'https://aliexpress.com/item/1234567890.html'
+product_url = 'https://aliexpress_com.com/item/1234567890.html'
 product_data = driver.get_product_data(product_url)
 print(f"Данные о товаре: {product_data}")
 

@@ -31,7 +31,7 @@ process_campaign(campaign_name: str)
 
 **Как работает функция**:
 
-- Вызывает функцию `process_campaign` из модуля `src.suppliers.suppliers_list.aliexpress.campaign` с указанным именем кампании.
+- Вызывает функцию `process_campaign` из модуля `src.suppliers.suppliers_list.aliexpress_com.campaign` с указанным именем кампании.
 - Если кампания с указанным именем не существует, она будет создана.
 
 **Примеры**:

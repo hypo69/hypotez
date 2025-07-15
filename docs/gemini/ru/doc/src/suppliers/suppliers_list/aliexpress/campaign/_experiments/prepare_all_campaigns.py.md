@@ -67,7 +67,7 @@ main_process('mrgreen', ['category1', 'category2', 'category3'])
 
 ```python
 # Пример использования модуля
-from src.suppliers.suppliers_list.aliexpress.campaign.prepare_campaigns import process_all_campaigns, main_process
+from src.suppliers.suppliers_list.aliexpress_com.campaign.prepare_campaigns import process_all_campaigns, main_process
 
 locales = {'EN': 'USD', 'HE': 'ILS', 'RU': 'ILS'}
 campaign_name:str = 'rc'

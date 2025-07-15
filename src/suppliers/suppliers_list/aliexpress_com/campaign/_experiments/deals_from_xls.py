@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.suppliers_list.aliexpress.campaign._experiments 
+.. module:: src.suppliers.suppliers_list.aliexpress_com.campaign._experiments 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -33,11 +33,11 @@
   :synopsis:
 """
   
-""" module: src.suppliers.suppliers_list.aliexpress.campaign._experiments """
+""" module: src.suppliers.suppliers_list.aliexpress_com.campaign._experiments """
 
 
 
-""" Парсер таблицы xls, сгенегированной в личном кабинете portals.aliexpress.com"""
+""" Парсер таблицы xls, сгенегированной в личном кабинете portals.aliexpress_com.com"""
 ...
 import header
 from src.suppliers.suppliers_list.aliexpress import DealsFromXLS 

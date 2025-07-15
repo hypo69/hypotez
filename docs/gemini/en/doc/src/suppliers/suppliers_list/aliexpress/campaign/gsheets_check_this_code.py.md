@@ -205,7 +205,7 @@ The `AliCampaignGoogleSheet` class uses the `SpreadSheet` class to interact with
 
 ```python
 # Importing the required classes and modules
-from src.suppliers.suppliers_list.aliexpress.campaign.gsheets_check_this_code import AliCampaignGoogleSheet
+from src.suppliers.suppliers_list.aliexpress_com.campaign.gsheets_check_this_code import AliCampaignGoogleSheet
 
 # Creating an instance of AliCampaignGoogleSheet with the specified campaign name, language, and currency
 campaign_sheet = AliCampaignGoogleSheet(campaign_name='MyCampaign', language='ru', currency='RUB')
@@ -272,7 +272,7 @@ result = driver.execute_locator(locator)
 ### Creating a `AliCampaignGoogleSheet` instance
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.campaign.gsheets_check_this_code import AliCampaignGoogleSheet
+from src.suppliers.suppliers_list.aliexpress_com.campaign.gsheets_check_this_code import AliCampaignGoogleSheet
 
 campaign_sheet = AliCampaignGoogleSheet(campaign_name='MyCampaign', language='ru', currency='RUB')
 ```

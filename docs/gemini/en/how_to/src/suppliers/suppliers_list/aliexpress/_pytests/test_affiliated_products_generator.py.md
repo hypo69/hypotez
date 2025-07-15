@@ -26,13 +26,13 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.affiliated_products_generator import AliAffiliatedProducts
+from src.suppliers.suppliers_list.apiexpress.affiliated_products_generator import AliAffiliatedProducts
 
 # Create an instance of AliAffiliatedProducts
 ali_affiliated_products = AliAffiliatedProducts("sample_campaign", "sample_category", "EN", "USD")
 
 # Process a list of product URLs
-product_urls = ["https://www.aliexpress.com/item/123.html", "456"]
+product_urls = ["https://www.aliexpress_com.com/item/123.html", "456"]
 processed_products = ali_affiliated_products.process_affiliate_products(product_urls)
 
 # Access processed product information

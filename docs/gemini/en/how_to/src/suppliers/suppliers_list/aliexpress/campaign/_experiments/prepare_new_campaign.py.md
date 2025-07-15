@@ -40,7 +40,7 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignEditor
 
 campaign_name = 'my_new_campaign'
 aliexpress_editor = AliCampaignEditor(campaign_name)

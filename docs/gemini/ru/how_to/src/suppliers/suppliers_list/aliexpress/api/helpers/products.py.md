@@ -22,7 +22,7 @@
 -------------------------
 
 ```python
-from src.suppliers.aliexpress.api.helpers.products import parse_products
+from src.suppliers.aliexpress_com.api.helpers.products import parse_products
 
 # Предположим, у нас есть список объектов товаров:
 products = [

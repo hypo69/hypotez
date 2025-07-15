@@ -25,8 +25,8 @@
 -------------------------
 
 ```python
-from src.suppliers.aliexpress.api.helpers.categories import filter_parent_categories, filter_child_categories
-from src.suppliers.aliexpress.api import models
+from src.suppliers.aliexpress_com.api.helpers.categories import filter_parent_categories, filter_child_categories
+from src.suppliers.aliexpress_com.api import models
 
 # Пример списка категорий и подкатегорий
 categories = [

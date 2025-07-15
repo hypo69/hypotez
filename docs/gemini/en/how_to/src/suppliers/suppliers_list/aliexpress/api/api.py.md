@@ -30,8 +30,8 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.aliexpress.api.api import AliexpressApi
-from src.suppliers.aliexpress.api.models import Language, Currency, LinkType
+from src.suppliers.aliexpress_com.api.api import AliexpressApi
+from src.suppliers.aliexpress_com.api.models import Language, Currency, LinkType
 
 # Initialize the AliexpressApi object with your API credentials
 api = AliexpressApi(
@@ -47,7 +47,7 @@ product_details = api.retrieve_product_details(product_ids="1000000000000")
 pprint(product_details)
 
 # Generate an affiliate link for a product
-affiliate_links = api.get_affiliate_links(links="https://www.aliexpress.com/item/1000000000000.html", link_type=LinkType.NORMAL)
+affiliate_links = api.get_affiliate_links(links="https://www.aliexpress_com.com/item/1000000000000.html", link_type=LinkType.NORMAL)
 pprint(affiliate_links)
 
 # Search for hot products in a specific category

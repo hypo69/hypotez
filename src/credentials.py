@@ -212,11 +212,11 @@ class ProgramSettings:
         """
         try:
             entry = kp.find_groups(path=['suppliers', 'aliexpress', 'api']).entries[0]
-            self.credentials.aliexpress.api_key = entry.custom_properties.get('api_key', None)
-            self.credentials.aliexpress.secret = entry.custom_properties.get('secret', None)
-            self.credentials.aliexpress.tracking_id = entry.custom_properties.get('tracking_id', None)
-            self.credentials.aliexpress.email = entry.custom_properties.get('email', None)
-            self.credentials.aliexpress.password = entry.password
+            self.credentials.aliexpress_com.api_key = entry.custom_properties.get('api_key', None)
+            self.credentials.aliexpress_com.secret = entry.custom_properties.get('secret', None)
+            self.credentials.aliexpress_com.tracking_id = entry.custom_properties.get('tracking_id', None)
+            self.credentials.aliexpress_com.email = entry.custom_properties.get('email', None)
+            self.credentials.aliexpress_com.password = entry.password
             return True
         except Exception as ex:
             print(f"Failed to extract Aliexpress API key from KeePass {ex}" )

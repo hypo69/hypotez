@@ -20,7 +20,7 @@
 
 ```python
 # Инициализация кампании
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignEditor
 campaign_editor = AliCampaignEditor(campaign_name="Summer Sale", language="English", currency="USD")
 
 # Создание категорий

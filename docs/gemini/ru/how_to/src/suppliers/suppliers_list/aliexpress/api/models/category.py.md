@@ -19,7 +19,7 @@
 -------------------------
 
 ```python
-from src.suppliers.aliexpress.api.models.category import Category, ChildCategory
+from src.suppliers.aliexpress_com.api.models.category import Category, ChildCategory
 
 # Создание объекта Category
 category = Category(category_id=1234, category_name="Одежда")

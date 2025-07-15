@@ -236,7 +236,7 @@ credentials.kdbx
 
 1. **suppliers/aliexpress/api**:
    - Содержит учетные данные Aliexpress API.
-   - Пример записи: `self.credentials.aliexpress.api_key`, `self.credentials.aliexpress.secret`, `self.credentials.aliexpress.tracking_id`, `self.credentials.aliexpress.email`, `self.credentials.aliexpress.password`.
+   - Пример записи: `self.credentials.aliexpress_com.api_key`, `self.credentials.aliexpress_com.secret`, `self.credentials.aliexpress_com.tracking_id`, `self.credentials.aliexpress_com.email`, `self.credentials.aliexpress_com.password`.
 
 2. **openai**:
    - Содержит ключи OpenAI API.

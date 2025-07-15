@@ -2,7 +2,7 @@
 
 ## Overview
 
-The module `src.suppliers.suppliers_list.aliexpress.api.models.request_parameters.py` contains the definition of classes for different parameters used in AliExpress API requests. These parameters are crucial for specifying product types, sorting criteria, and link types, facilitating efficient and targeted data retrieval from the AliExpress platform.
+The module `src.suppliers.suppliers_list.aliexpress_com.api.models.request_parameters.py` contains the definition of classes for different parameters used in AliExpress API requests. These parameters are crucial for specifying product types, sorting criteria, and link types, facilitating efficient and targeted data retrieval from the AliExpress platform.
 
 ## Details
 

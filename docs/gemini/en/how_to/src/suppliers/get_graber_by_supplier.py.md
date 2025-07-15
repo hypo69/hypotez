@@ -7,7 +7,7 @@ The `get_graber_by_supplier_url` function identifies and returns the appropriate
 
 **Execution Steps**
 -------------------------
-1. **URL Validation**: The function checks the provided URL against a list of known supplier prefixes (e.g., `aliexpress.com`, `amazon.com`).
+1. **URL Validation**: The function checks the provided URL against a list of known supplier prefixes (e.g., `aliexpress_com.com`, `amazon.com`).
 2. **Graber Instantiation**: If a match is found, the function instantiates the corresponding `Graber` class (e.g., `AliexpressGraber`, `AmazonGraber`).
 3. **Graber Return**: The function returns the instantiated `Graber` object. If no match is found, it returns `None`.
 

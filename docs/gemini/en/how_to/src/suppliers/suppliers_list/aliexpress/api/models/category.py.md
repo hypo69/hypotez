@@ -25,7 +25,7 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.api.models.category import Category, ChildCategory
+from src.suppliers.suppliers_list.aliexpress_com.api.models.category import Category, ChildCategory
 
 # Create a Category object
 main_category = Category(category_id=123, category_name="Electronics")

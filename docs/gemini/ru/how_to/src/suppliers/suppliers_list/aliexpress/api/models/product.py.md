@@ -21,7 +21,7 @@
 -------------------------
 
 ```python
-from src.suppliers.aliexpress.api.models.product import Product
+from src.suppliers.aliexpress_com.api.models.product import Product
 
 product = Product(
     app_sale_price='10.99',

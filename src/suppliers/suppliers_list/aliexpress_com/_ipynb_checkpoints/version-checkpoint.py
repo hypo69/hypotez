@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-module: src.suppliers.aliexpress..ipynb_checkpoints 
+module: src.suppliers.aliexpress_com..ipynb_checkpoints 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -21,7 +21,7 @@ MODE = 'dev'
   :synopsis:
 """MODE = 'dev'
   
-""" module: src.suppliers.aliexpress..ipynb_checkpoints """
+""" module: src.suppliers.aliexpress_com..ipynb_checkpoints """
 
 
 __version__: str = 'v1.1'

@@ -49,7 +49,7 @@
         target_original_price=15.00,
         target_original_price_currency='USD',
         second_level_category_name='Категория товара',
-        promotion_link='https://www.aliexpress.com/item/123456789'
+        promotion_link='https://www.aliexpress_com.com/item/123456789'
     )
 
     category_path = Path('path/to/category')
@@ -101,7 +101,7 @@
             target_original_price=15.00,
             target_original_price_currency='USD',
             second_level_category_name='Категория товара',
-            promotion_link='https://www.aliexpress.com/item/123456789'
+            promotion_link='https://www.aliexpress_com.com/item/123456789'
         ),
         SimpleNamespace(
             product_id='987654321',
@@ -112,7 +112,7 @@
             target_original_price=25.00,
             target_original_price_currency='USD',
             second_level_category_name='Категория товара',
-            promotion_link='https://www.aliexpress.com/item/987654321'
+            promotion_link='https://www.aliexpress_com.com/item/987654321'
         )
     ]
 

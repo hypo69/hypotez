@@ -66,7 +66,7 @@
 """
 import pytest
 from unittest.mock import patch, MagicMock
-from src.suppliers.suppliers_list.aliexpress.affiliated_products_generator import AliAffiliatedProducts
+from src.suppliers.suppliers_list.apiexpress.affiliated_products_generator import AliAffiliatedProducts
 from types import SimpleNamespace
 from typing import List
 from src.logger import logger  # Import logger
@@ -76,7 +76,7 @@ campaign_name: str = 'sample_campaign'
 category_name: str = 'sample_category'
 language: str = 'EN'
 currency: str = 'USD'
-prod_urls: List[str] = ['https://www.aliexpress.com/item/123.html', '456']
+prod_urls: List[str] = ['https://www.aliexpress_com.com/item/123.html', '456']
 
 
 @pytest.fixture
@@ -123,10 +123,10 @@ def test_process_affiliate_products(ali_affiliated_products: AliAffiliatedProduc
     mock_product_details = [SimpleNamespace(product_id='123', promotion_link='promo_link', product_main_image_url='image_url', product_video_url='video_url')]
 
     with patch.object(ali_affiliated_products, 'retrieve_product_details', return_value=mock_product_details) as mock_retrieve, \
-            patch('src.suppliers.suppliers_list.aliexpress.affiliated_products_generator.ensure_https', return_value=prod_urls), \
-            patch('src.suppliers.suppliers_list.aliexpress.affiliated_products_generator.save_image_from_url'), \
-            patch('src.suppliers.suppliers_list.aliexpress.affiliated_products_generator.save_video_from_url'), \
-            patch('src.suppliers.suppliers_list.aliexpress.affiliated_products_generator.j_dumps', return_value=True):
+            patch('src.suppliers.suppliers_list.apiexpress.affiliated_products_generator.ensure_https', return_value=prod_urls), \
+            patch('src.suppliers.suppliers_list.apiexpress.affiliated_products_generator.save_image_from_url'), \
+            patch('src.suppliers.suppliers_list.apiexpress.affiliated_products_generator.save_video_from_url'), \
+            patch('src.suppliers.suppliers_list.apiexpress.affiliated_products_generator.j_dumps', return_value=True):
         try:
             processed_products = ali_affiliated_products.process_affiliate_products(prod_urls)
 

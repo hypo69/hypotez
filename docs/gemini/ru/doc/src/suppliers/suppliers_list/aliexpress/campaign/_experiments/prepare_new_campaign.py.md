@@ -7,7 +7,7 @@
 ## Подробности
 
 Модуль `prepare_new_campaign.py`  находится в каталоге `hypotez/src/suppliers/aliexpress/campaign/_experiments`. 
-Он отвечает за подготовку новой рекламной кампании на AliExpress, используя  класс `AliCampaignEditor` из модуля `src.suppliers.suppliers_list.aliexpress.campaign`. 
+Он отвечает за подготовку новой рекламной кампании на AliExpress, используя  класс `AliCampaignEditor` из модуля `src.suppliers.suppliers_list.aliexpress_com.campaign`. 
 Модуль использует стандартную библиотеку `Pathlib` для работы с файлами и каталогами, а также функции `get_filenames`, `get_directory_names` из модуля `src.utils` для получения имен файлов и каталогов.
 Он также использует `pprint` для вывода информации в удобочитаемом виде. 
 
@@ -47,7 +47,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.suppliers_list.aliexpress.campaign._experiments 
+.. module:: src.suppliers.suppliers_list.aliexpress_com.campaign._experiments 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -84,7 +84,7 @@
   :synopsis:
 """
   
-""" module: src.suppliers.suppliers_list.aliexpress.campaign._experiments """
+""" module: src.suppliers.suppliers_list.aliexpress_com.campaign._experiments """
 
 
 
@@ -96,7 +96,7 @@ from pathlib import Path
 
 from src import gs
 
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignEditor
 from src.utils import get_filenames, get_directory_names
 from src.utils.printer import pprint
 from src.logger.logger import logger
@@ -110,7 +110,7 @@ aliexpress_editor.process_new_campaign(campaign_name)
 
 ```python
 # Импорт необходимых модулей
-from src.suppliers.aliexpress.campaign._experiments.prepare_new_campaign import prepare_new_campaign
+from src.suppliers.aliexpress_com.campaign._experiments.prepare_new_campaign import prepare_new_campaign
 
 # Запуск процесса подготовки новой кампании с заданным именем
 prepare_new_campaign('rc')
@@ -124,7 +124,7 @@ prepare_new_campaign('rc')
 
 ##  Примечания:
 
--  Модуль `prepare_new_campaign.py`  использует класс `AliCampaignEditor` из модуля `src.suppliers.suppliers_list.aliexpress.campaign`.
+-  Модуль `prepare_new_campaign.py`  использует класс `AliCampaignEditor` из модуля `src.suppliers.suppliers_list.aliexpress_com.campaign`.
 -  Модуль использует функцию `pprint` для вывода информации в удобочитаемом виде.
 -  Модуль использует `logger` для записи информации в лог.
 

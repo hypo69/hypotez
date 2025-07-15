@@ -28,12 +28,12 @@ Usage Example
 
 ```python
     # Example 1: Single URL
-    url = "https://www.aliexpress.com/item/123456.html"
+    url = "https://www.aliexpress_com.com/item/123456.html"
     product_id = extract_prod_ids(url)
     print(product_id)  # Output: '123456'
 
     # Example 2: List of URLs
-    urls = ["https://www.aliexpress.com/item/123456.html", "7891011.html"]
+    urls = ["https://www.aliexpress_com.com/item/123456.html", "7891011.html"]
     product_ids = extract_prod_ids(urls)
     print(product_ids)  # Output: ['123456', '7891011']
 

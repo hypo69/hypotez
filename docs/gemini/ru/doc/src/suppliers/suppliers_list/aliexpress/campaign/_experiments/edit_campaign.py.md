@@ -99,7 +99,7 @@ editor.edit_campaign()
 
 ```python
 # Пример редактирования кампании
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignEditor
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignEditor
 
 # Создание объекта AliCampaignEditor
 editor = AliCampaignEditor('example_campaign_name', 'EN', 'USD')
@@ -107,13 +107,13 @@ editor = AliCampaignEditor('example_campaign_name', 'EN', 'USD')
 editor.edit_campaign()
 
 # Пример обработки категории
-from src.suppliers.suppliers_list.aliexpress.campaign import process_campaign_category
+from src.suppliers.suppliers_list.aliexpress_com.campaign import process_campaign_category
 
 # Вызов функции process_campaign_category для обработки категории
 process_campaign_category('example_category_name')
 
 # Пример обработки всех кампаний
-from src.suppliers.suppliers_list.aliexpress.campaign import process_all_campaigns
+from src.suppliers.suppliers_list.aliexpress_com.campaign import process_all_campaigns
 
 # Вызов функции process_all_campaigns для обработки всех кампаний
 process_all_campaigns()

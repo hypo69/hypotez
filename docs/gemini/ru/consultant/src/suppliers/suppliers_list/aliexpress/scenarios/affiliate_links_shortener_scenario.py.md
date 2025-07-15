@@ -46,10 +46,10 @@
 
 >>> from src.webdriver.driver import Driver, Chrome
 >>> driver = Driver(Chrome)
->>> url = 'https://www.aliexpress.com/item/...'
+>>> url = 'https://www.aliexpress_com.com/item/...'
 >>> short_url = get_short_affiliate_link(driver, url)
 >>> print(short_url)
-https://s.click.aliexpress.com/...
+https://s.click.aliexpress_com.com/...
 """
 
 from pathlib import Path

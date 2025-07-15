@@ -9,7 +9,7 @@
 -------------------------
 1. **Импортируй класс `Language`**:  
     ```python
-    from src.suppliers.aliexpress.api.models.languages import Language
+    from src.suppliers.aliexpress_com.api.models.languages import Language
     ```
 2. **Используй константы**:
     - Для доступа к коду языка, используй соответствующую константу. Например:
@@ -22,7 +22,7 @@
 -------------------------
 
 ```python
-from src.suppliers.aliexpress.api.models.languages import Language
+from src.suppliers.aliexpress_com.api.models.languages import Language
 
 # Получение данных на русском языке
 language_code = Language.RU

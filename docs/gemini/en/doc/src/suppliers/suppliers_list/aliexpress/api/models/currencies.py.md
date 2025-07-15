@@ -1,4 +1,4 @@
-# Модуль `src.suppliers.aliexpress.api.models.currencies`
+# Модуль `src.suppliers.aliexpress_com.api.models.currencies`
 
 ## Обзор
 
@@ -35,7 +35,7 @@
 
 **Пример**:
 ```python
-from src.suppliers.aliexpress.api.models.currencies import Currency
+from src.suppliers.aliexpress_com.api.models.currencies import Currency
 
 # Получаем доступ к валюте "Российский рубль"
 ruble = Currency.RUB

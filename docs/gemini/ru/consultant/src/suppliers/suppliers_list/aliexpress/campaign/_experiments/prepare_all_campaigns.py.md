@@ -58,7 +58,7 @@
 """
 
 import header
-from src.suppliers.suppliers_list.aliexpress.campaign.prepare_campaigns import process_campaign, main_process
+from src.suppliers.suppliers_list.aliexpress_com.campaign.prepare_campaigns import process_campaign, main_process
 from src.logger import logger  # Подключаем модуль логирования
 
 class Config:

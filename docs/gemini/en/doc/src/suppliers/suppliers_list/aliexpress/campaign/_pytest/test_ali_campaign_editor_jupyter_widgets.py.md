@@ -1,4 +1,4 @@
-# Module: src.suppliers.aliexpress.campaign._pytest.test_ali_campaign_editor_jupyter_widgets
+# Module: src.suppliers.aliexpress_com.campaign._pytest.test_ali_campaign_editor_jupyter_widgets
 
 ## Overview
 

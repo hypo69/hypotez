@@ -1,4 +1,4 @@
-## Module:  src.suppliers.suppliers_list.aliexpress.campaign._experiments
+## Module:  src.suppliers.suppliers_list.aliexpress_com.campaign._experiments
 
 ### Overview
 

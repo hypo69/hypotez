@@ -26,8 +26,8 @@ Usage Example
 -------------------------
 
 ```python
-    from src.suppliers.aliexpress.api.helpers.requests import api_request
-    from src.suppliers.aliexpress.api.api import AliexpressApi 
+    from src.suppliers.aliexpress_com.api.helpers.requests import api_request
+    from src.suppliers.aliexpress_com.api.api import AliexpressApi 
 
     api = AliexpressApi(token = 'your_token')
     request = api.get_product_details(product_id=1234567890)

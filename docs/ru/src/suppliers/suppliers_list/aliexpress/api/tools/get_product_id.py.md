@@ -40,8 +40,8 @@ def get_product_id(raw_product_id: str) -> str:
 **Примеры**:
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.api.tools.get_product_id import get_product_id
-from src.suppliers.suppliers_list.aliexpress.errors import ProductIdNotFoundException
+from src.suppliers.suppliers_list.aliexpress_com.api.tools.get_product_id import get_product_id
+from src.suppliers.suppliers_list.aliexpress_com.errors import ProductIdNotFoundException
 
 try:
     product_id = get_product_id("1234567890")
@@ -51,8 +51,8 @@ except ProductIdNotFoundException as ex:
 ```
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.api.tools.get_product_id import get_product_id
-from src.suppliers.suppliers_list.aliexpress.errors import ProductIdNotFoundException
+from src.suppliers.suppliers_list.aliexpress_com.api.tools.get_product_id import get_product_id
+from src.suppliers.suppliers_list.aliexpress_com.errors import ProductIdNotFoundException
 
 try:
     product_id = get_product_id("https://example.com/item/1234567890.html")
@@ -61,8 +61,8 @@ except ProductIdNotFoundException as ex:
     print(f"Error: {ex}")
 ```
 ```python
-from src.suppliers.suppliers_list.aliexpress.api.tools.get_product_id import get_product_id
-from src.suppliers.suppliers_list.aliexpress.errors import ProductIdNotFoundException
+from src.suppliers.suppliers_list.aliexpress_com.api.tools.get_product_id import get_product_id
+from src.suppliers.suppliers_list.aliexpress_com.errors import ProductIdNotFoundException
 
 try:
     product_id = get_product_id("Invalid product ID")

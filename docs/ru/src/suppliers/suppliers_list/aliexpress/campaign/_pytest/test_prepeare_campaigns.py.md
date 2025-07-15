@@ -100,7 +100,7 @@ def mock_get_directory_names():
 @pytest.fixture
 def mock_ali_promo_campaign():
     """
-    Фикстура для мокирования класса `AliPromoCampaign` из модуля `src.suppliers.suppliers_list.aliexpress.campaign`.
+    Фикстура для мокирования класса `AliPromoCampaign` из модуля `src.suppliers.suppliers_list.aliexpress_com.campaign`.
 
     Yields:
         mock: Мок-объект класса `AliPromoCampaign`.

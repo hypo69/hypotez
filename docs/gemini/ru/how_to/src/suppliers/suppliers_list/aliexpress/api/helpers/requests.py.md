@@ -19,7 +19,7 @@
 -------------------------
 
 ```python
-from src.suppliers.aliexpress.api.helpers.requests import api_request
+from src.suppliers.aliexpress_com.api.helpers.requests import api_request
 
 # Создать объект запроса к API
 request = ... # Инициализация объекта запроса

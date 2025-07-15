@@ -26,7 +26,7 @@ Usage Example
 
 ```python
 from PyQt6 import QtWidgets
-from src.suppliers.aliexpress.gui.styles import set_fixed_size
+from src.suppliers.aliexpress_com.gui.styles import set_fixed_size
 
 # Create a button widget
 button = QtWidgets.QPushButton("Click Me")

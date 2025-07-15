@@ -92,7 +92,7 @@ JSON-файлов с информацией о кампаниях, а также
 >>> campaign = AliPromoCampaign(campaign_name="new_campaign", language="EN", currency="USD")
 >>> campaign.process_llm_category("Electronics")
 
- .. module:: src.suppliers.suppliers_list.aliexpress.campaign
+ .. module:: src.suppliers.suppliers_list.aliexpress_com.campaign
 """
 
 import asyncio
@@ -105,11 +105,11 @@ from typing import List, Optional, Dict, Any, Tuple
 
 from src import gs
 from src.suppliers.suppliers_list.aliexpress import campaign
-from src.suppliers.suppliers_list.aliexpress.affiliated_products_generator import AliAffiliatedProducts
-from src.suppliers.suppliers_list.aliexpress.utils import locales
+from src.suppliers.suppliers_list.apiexpress.affiliated_products_generator import AliAffiliatedProducts
+from src.suppliers.suppliers_list.aliexpress_com.utils import locales
 from src.llm.gemini import GoogleGenerativeAi
 from src.llm.openai import OpenAIModel
-from src.suppliers.suppliers_list.aliexpress.campaign.html_generators import (
+from src.suppliers.suppliers_list.aliexpress_com.campaign.html_generators import (
     ProductHTMLGenerator,
     CategoryHTMLGenerator,
     CampaignHTMLGenerator,
@@ -126,7 +126,7 @@ from src.utils.convertors.csv import csv2dict
 from src.utils.file import save_text_file
 from src.utils.printer import pprint
 
-from src.suppliers.suppliers_list.aliexpress.utils.extract_product_id import extract_prod_ids
+from src.suppliers.suppliers_list.aliexpress_com.utils.extract_product_id import extract_prod_ids
 
 
 class AliPromoCampaign:

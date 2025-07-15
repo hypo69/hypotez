@@ -82,7 +82,7 @@ from typing import List
 from src.logger import logger # Import logger
 import header
 
-from src.suppliers.suppliers_list.aliexpress.scenarios import AliPromoDeal
+from src.suppliers.suppliers_list.aliexpress_com.scenarios import AliPromoDeal
 
 
 def promote_aliexpress_deal(deal_name: str) -> List[dict]:

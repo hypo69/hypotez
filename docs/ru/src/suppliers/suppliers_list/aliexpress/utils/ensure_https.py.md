@@ -28,10 +28,10 @@ def ensure_https(prod_ids: str | list[str]) -> str | list[str]:
 
     Examples:
         >>> ensure_https("example_product_id")
-        'https://www.aliexpress.com/item/example_product_id.html'
+        'https://www.aliexpress_com.com/item/example_product_id.html'
 
-        >>> ensure_https(["example_product_id1", "https://www.aliexpress.com/item/example_product_id2.html"])
-        ['https://www.aliexpress.com/item/example_product_id1.html', 'https://www.aliexpress.com/item/example_product_id2.html']
+        >>> ensure_https(["example_product_id1", "https://www.aliexpress_com.com/item/example_product_id2.html"])
+        ['https://www.aliexpress_com.com/item/example_product_id1.html', 'https://www.aliexpress_com.com/item/example_product_id2.html']
 
         >>> ensure_https("https://www.example.com/item/example_product_id")
         'https://www.example.com/item/example_product_id'
@@ -73,7 +73,7 @@ def ensure_https(prod_ids: str | list[str]) -> str | list[str]:
 
         Examples:
             >>> ensure_https_single("example_product_id")
-            'https://www.aliexpress.com/item/example_product_id.html'
+            'https://www.aliexpress_com.com/item/example_product_id.html'
 
             >>> ensure_https_single("https://www.example.com/item/example_product_id")
             'https://www.example.com/item/example_product_id'
@@ -81,7 +81,7 @@ def ensure_https(prod_ids: str | list[str]) -> str | list[str]:
         ...
         _prod_id = extract_prod_ids(prod_id)
         if _prod_id:
-            return f"https://www.aliexpress.com/item/{_prod_id}.html"
+            return f"https://www.aliexpress_com.com/item/{_prod_id}.html"
         else:
             logger.error(f"Invalid product ID or URL: {prod_id=}", exc_info=False)
             return prod_id
@@ -107,10 +107,10 @@ def ensure_https(prod_ids: str | list[str]) -> str | list[str]:
 
 ```python
 ensure_https("example_product_id")
-# => 'https://www.aliexpress.com/item/example_product_id.html'
+# => 'https://www.aliexpress_com.com/item/example_product_id.html'
 
-ensure_https(["example_product_id1", "https://www.aliexpress.com/item/example_product_id2.html"])
-# => ['https://www.aliexpress.com/item/example_product_id1.html', 'https://www.aliexpress.com/item/example_product_id2.html']
+ensure_https(["example_product_id1", "https://www.aliexpress_com.com/item/example_product_id2.html"])
+# => ['https://www.aliexpress_com.com/item/example_product_id1.html', 'https://www.aliexpress_com.com/item/example_product_id2.html']
 
 ensure_https("https://www.example.com/item/example_product_id")
 # => 'https://www.example.com/item/example_product_id'

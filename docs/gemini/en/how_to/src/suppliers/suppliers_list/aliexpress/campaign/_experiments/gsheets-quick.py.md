@@ -29,8 +29,8 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignGoogleSheet
-from src.suppliers.suppliers_list.aliexpress.campaign.ttypes import CampaignType, CategoryType, ProductType
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignGoogleSheet
+from src.suppliers.suppliers_list.aliexpress_com.campaign.ttypes import CampaignType, CategoryType, ProductType
 
 campaign_name = "lighting"
 category_name = "chandeliers"

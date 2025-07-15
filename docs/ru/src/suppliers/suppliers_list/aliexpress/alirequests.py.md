@@ -70,7 +70,7 @@ def _load_webdriver_cookies_file(self, webdriver_for_cookies: str = 'chrome') ->
     @param webdriver_for_cookies The name of the webdriver.
     @returns True if cookies loaded successfully, False otherwise.
     """
-    cookie_file_path = Path(gs.dir_cookies, 'aliexpress.com', webdriver_for_cookies, 'cookie')
+    cookie_file_path = Path(gs.dir_cookies, 'aliexpress_com.com', webdriver_for_cookies, 'cookie')
 
     try:
         with open(cookie_file_path, 'rb') as file:
@@ -126,7 +126,7 @@ else:
 ```python
 def _refresh_session_cookies(self):
     """ Refreshes session cookies."""
-    url = 'https://portals.aliexpress.com'
+    url = 'https://portals.aliexpress_com.com'
     try:
         if self.cookies_jar:
             resp = self.session.get(url, headers=self.headers, cookies=self.cookies_jar)
@@ -143,7 +143,7 @@ def _refresh_session_cookies(self):
 **Назначение**: Обновляет куки сессии, выполняя GET-запрос к AliExpress.
 
 **Как работает функция**:
-- Определяет URL для обновления куки сессии (`https://portals.aliexpress.com`).
+- Определяет URL для обновления куки сессии (`https://portals.aliexpress_com.com`).
 - Выполняет GET-запрос к указанному URL, используя `requests.session`.
 - Если `cookies_jar` не пустой, передает куки в запросе.
 - Вызывает метод `_handle_session_id` для обработки идентификатора сессии JSESSIONID из куки ответа.
@@ -268,7 +268,7 @@ def short_affiliate_link(self, link_url: str):
 
     @returns requests.Response object if successful, False otherwise.
     """
-    base_url = 'https://portals.aliexpress.com/affiportals/web/link_generator.htm'
+    base_url = 'https://portals.aliexpress_com.com/affiportals/web/link_generator.htm'
     track_id = 'default'
     url = f"{base_url}?trackId={track_id}&targetUrl={link_url}"
     return self.make_get_request(url)

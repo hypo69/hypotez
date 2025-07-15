@@ -38,7 +38,7 @@ Usage Example
     print(settings.config.project_name)  # Outputs the project name
 
     # Access credentials
-    print(settings.credentials.aliexpress.api_key)  # Outputs the AliExpress API key
+    print(settings.credentials.aliexpress_com.api_key)  # Outputs the AliExpress API key
 
     # Get the current timestamp
     current_timestamp = settings.now

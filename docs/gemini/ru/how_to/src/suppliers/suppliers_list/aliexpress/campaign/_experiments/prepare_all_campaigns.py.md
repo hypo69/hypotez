@@ -3,11 +3,11 @@
 
 Описание
 -------------------------
-Этот блок кода запускает все рекламные кампании для всех языков с поиском названий категорий из директорий. Он использует функции `process_all_campaigns` и `main_process` из модуля `src.suppliers.suppliers_list.aliexpress.campaign.prepare_campaigns` для обработки кампаний и поиска названий категорий.
+Этот блок кода запускает все рекламные кампании для всех языков с поиском названий категорий из директорий. Он использует функции `process_all_campaigns` и `main_process` из модуля `src.suppliers.suppliers_list.aliexpress_com.campaign.prepare_campaigns` для обработки кампаний и поиска названий категорий.
 
 Шаги выполнения
 -------------------------
-1. **Импорт модулей**: Импортируется модуль `header` и функции `process_all_campaigns` и `main_process` из модуля `src.suppliers.suppliers_list.aliexpress.campaign.prepare_campaigns`.
+1. **Импорт модулей**: Импортируется модуль `header` и функции `process_all_campaigns` и `main_process` из модуля `src.suppliers.suppliers_list.aliexpress_com.campaign.prepare_campaigns`.
 2. **Инициализация переменных**: Задаются переменные для хранения информации о кампании (имя, язык, валюта).
 3. **Запуск процесса обработки кампании**: Вызывается функция `process_campaign` с параметрами, заданными в переменных.
 4. **Запуск поиска названий категорий**: Вызывается функция `main_process` с параметрами, заданными в переменных.
@@ -16,7 +16,7 @@
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.campaign.prepare_campaigns import process_all_campaigns, main_process
+from src.suppliers.suppliers_list.aliexpress_com.campaign.prepare_campaigns import process_all_campaigns, main_process
 
 # Инициализация переменных
 campaign_name:str = 'rc'

@@ -30,7 +30,7 @@ from src.webdriver import Driver, Chrome  # Предполагается, что
 driver = Driver(Chrome)
 
 # Переход на страницу товара
-driver.get("https://aliexpress.ru/item/1234567890.html")
+driver.get("https://aliexpress_com.ru/item/1234567890.html")
 
 # Извлечение названия товара (пример, требуется определить точный локатор)
 title_locator = {"by": "CSS_SELECTOR", "strategy_for_multiple_selectors": "find_first_match","selector": ".product-title"}  # Укажите правильный селектор
@@ -42,7 +42,7 @@ print(f"Название товара: {title}")
 driver.close()
 
 # Пример использования API для получения партнерской ссылки
-from src.suppliers.suppliers_list.aliexpress.api import get_affiliate_link  # Пример функции, требуется реализация
+from src.suppliers.suppliers_list.aliexpress_com.api import get_affiliate_link  # Пример функции, требуется реализация
 
 product_id = "1234567890"
 affiliate_link = get_affiliate_link(product_id) # Функция вызывает API aliexpress и возвращает affiliate ссылку

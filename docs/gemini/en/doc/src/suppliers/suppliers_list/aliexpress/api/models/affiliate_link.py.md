@@ -22,10 +22,10 @@ The `AffiliateLink` class is used to manage and process affiliate links retrieve
 **Example**:
 
 ```python
-from hypotez.src.suppliers.aliexpress.api.models.affiliate_link import AffiliateLink
+from hypotez.src.suppliers.aliexpress_com.api.models.affiliate_link import AffiliateLink
 
 # Creating an AffiliateLink instance
-affiliate_link = AffiliateLink(promotion_link='https://www.aliexpress.com/item/1000000000000000.html', source_value='some_source_value')
+affiliate_link = AffiliateLink(promotion_link='https://www.aliexpress_com.com/item/1000000000000000.html', source_value='some_source_value')
 
 # Accessing attributes
 print(f"Promotion Link: {affiliate_link.promotion_link}")
@@ -40,10 +40,10 @@ print(f"Source Value: {affiliate_link.source_value}")
 ## Examples
 
 ```python
-from hypotez.src.suppliers.aliexpress.api.models.affiliate_link import AffiliateLink
+from hypotez.src.suppliers.aliexpress_com.api.models.affiliate_link import AffiliateLink
 
 # Example 1: Creating an AffiliateLink instance
-affiliate_link = AffiliateLink(promotion_link='https://www.aliexpress.com/item/1000000000000000.html', source_value='some_source_value')
+affiliate_link = AffiliateLink(promotion_link='https://www.aliexpress_com.com/item/1000000000000000.html', source_value='some_source_value')
 
 # Example 2: Accessing attributes
 print(f"Promotion Link: {affiliate_link.promotion_link}")

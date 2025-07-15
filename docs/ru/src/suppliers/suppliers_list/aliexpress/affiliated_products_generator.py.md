@@ -1,4 +1,4 @@
-# Модуль: src.suppliers.suppliers_list.aliexpress.affiliated_products_generator
+# Модуль: src.suppliers.suppliers_list.apiexpress.affiliated_products_generator
 
 ## Обзор
 
@@ -86,7 +86,7 @@ async def process_affiliate_products(self, prod_ids: list[str], category_root: P
 
 1.  **Инициализация**:
     *   Инициализирует пустые списки `_promotion_links` и `_prod_urls` для хранения партнерских ссылок и URL-адресов товаров соответственно.
-    *   Нормализует список `prod_ids`, приводя все URL-адреса к виду `https://aliexpress.com/item/<product_id>.html` с использованием функции `ensure_https`.
+    *   Нормализует список `prod_ids`, приводя все URL-адреса к виду `https://aliexpress_com.com/item/<product_id>.html` с использованием функции `ensure_https`.
     *   Устанавливает флаг `print_flag` для управления печатью в одну строку.
 
 2.  **Получение партнерских ссылок**:
@@ -127,7 +127,7 @@ async def process_affiliate_products(self, prod_ids: list[str], category_root: P
 Пример вызова функции:
 
 ```python
-    >>> prod_ids = ["https://aliexpress.com/item/1234567890.html", "https://aliexpress.com/item/0987654321.html"]
+    >>> prod_ids = ["https://aliexpress_com.com/item/1234567890.html", "https://aliexpress_com.com/item/0987654321.html"]
     >>> category_root = "/path/to/category"
     >>> products = await self.process_affiliate_products(prod_ids, category_root)
     >>> for product in products:

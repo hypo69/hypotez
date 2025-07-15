@@ -39,8 +39,8 @@
     },
     "scenario_aliexpress": {
       "supplier_prefix": "aliexpress",
-      "url": "https://www.aliexpress.com",
-      "train_product_url": "https://www.aliexpress.com/item/1005008108060545.html?spm=a2g0o.tm1000020483.d1.1.28f9474cPkErMV&sourceType=561&pvid=1a630f56-af44-4a5e-8fa6-ba39f7382734&pdp_ext_f=%7B%22ship_from%22:%22CN%22,%22sku_id%22:%2212000043799911402%22%7D&scm=1007.28480.422277.0&scm-url=1007.28480.422277.0&scm_id=1007.28480.422277.0&pdp_npi=4%40dis%21ILS%21%E2%82%AA%20119.48%21%E2%82%AA%2058.54%21%21%21231.15%21113.26%21%402141131717451712898942519ec7de%2112000043799911402%21gsd%21IL%213690978535%21&channel=sd&aecmd=true",
+      "url": "https://www.aliexpress_com.com",
+      "train_product_url": "https://www.aliexpress_com.com/item/1005008108060545.html?spm=a2g0o.tm1000020483.d1.1.28f9474cPkErMV&sourceType=561&pvid=1a630f56-af44-4a5e-8fa6-ba39f7382734&pdp_ext_f=%7B%22ship_from%22:%22CN%22,%22sku_id%22:%2212000043799911402%22%7D&scm=1007.28480.422277.0&scm-url=1007.28480.422277.0&scm_id=1007.28480.422277.0&pdp_npi=4%40dis%21ILS%21%E2%82%AA%20119.48%21%E2%82%AA%2058.54%21%21%21231.15%21113.26%21%402141131717451712898942519ec7de%2112000043799911402%21gsd%21IL%213690978535%21&channel=sd&aecmd=true",
       "condition": "new",
       "presta_categories": {
         "default_category": 4292,

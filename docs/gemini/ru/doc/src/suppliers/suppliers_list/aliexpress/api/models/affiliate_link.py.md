@@ -18,12 +18,12 @@
 **Пример**:
 
 ```python
-from src.suppliers.aliexpress.api.models.affiliate_link import AffiliateLink
+from src.suppliers.aliexpress_com.api.models.affiliate_link import AffiliateLink
 
 affiliate_link = AffiliateLink(
-    promotion_link='https://aliexpress.com/item/1234567890',
+    promotion_link='https://aliexpress_com.com/item/1234567890',
     source_value='my_affiliate_program'
 )
 
-print(affiliate_link.promotion_link)  # Вывод: https://aliexpress.com/item/1234567890
+print(affiliate_link.promotion_link)  # Вывод: https://aliexpress_com.com/item/1234567890
 print(affiliate_link.source_value)  # Вывод: my_affiliate_program

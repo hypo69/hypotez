@@ -25,7 +25,7 @@
 #! .pyenv/bin/python3
 
 """
-.. module:: src.suppliers.suppliers_list.aliexpress._experiments 
+.. module:: src.suppliers.suppliers_list.aliexpress_com._experiments 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -64,7 +64,7 @@
 """
   
 
-""" module: src.suppliers.suppliers_list.aliexpress._experiments """
+""" module: src.suppliers.suppliers_list.aliexpress_com._experiments """
 
 
 """ Deal, event

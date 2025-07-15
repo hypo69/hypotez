@@ -1,4 +1,4 @@
-# Модуль: src.suppliers.suppliers_list.aliexpress.campaign.ali_promo_campaign
+# Модуль: src.suppliers.suppliers_list.aliexpress_com.campaign.ali_promo_campaign
 
 ## Обзор
 

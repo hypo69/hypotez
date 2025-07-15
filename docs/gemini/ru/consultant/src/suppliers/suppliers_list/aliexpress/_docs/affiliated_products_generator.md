@@ -50,7 +50,7 @@
 Пример использования:
 ----------------------
     prod_urls = ['123','456',...]
-    prod_urls = ['https://www.aliexpress.com/item/123.html','456',...]
+    prod_urls = ['https://www.aliexpress_com.com/item/123.html','456',...]
 
     parser = AliAffiliatedProducts(
                                 campaign_name,
@@ -72,9 +72,9 @@ from urllib.parse import urlparse, parse_qs
 from src import gs
 from src.suppliers.suppliers_list.aliexpress import AliApi
 from src.suppliers.suppliers_list.aliexpress import Aliexpress
-from src.suppliers.suppliers_list.aliexpress.affiliate_links_shortener_via_webdriver import AffiliateLinksShortener
-from src.suppliers.suppliers_list.aliexpress.utils.extract_product_id import extract_prod_ids
-from src.suppliers.suppliers_list.aliexpress.utils.set_full_https import ensure_https
+from src.suppliers.suppliers_list.apiexpress.affiliate_links_shortener_via_webdriver import AffiliateLinksShortener
+from src.suppliers.suppliers_list.aliexpress_com.utils.extract_product_id import extract_prod_ids
+from src.suppliers.suppliers_list.aliexpress_com.utils.set_full_https import ensure_https
 from src.utils.convertor.csv2json import csv2dict
 from src.utils.jjson import j_dumps
 from src.utils import save_png_from_url, save_video_from_url
@@ -97,7 +97,7 @@ class AliAffiliatedProducts(AliApi):
 
     Example:
         prod_urls = ['123','456',...]
-        prod_urls = ['https://www.aliexpress.com/item/123.html','456',...]
+        prod_urls = ['https://www.aliexpress_com.com/item/123.html','456',...]
 
         parser = AliAffiliatedProducts(
                                     campaign_name,
@@ -187,7 +187,7 @@ class AliAffiliatedProducts(AliApi):
                 query_params = parse_qs(parsed_url.query)
                 aff_short_key = query_params.get('aff_short_key', [None])[0]
                 if aff_short_key:
-                    product.promotion_link = fr'https://s.click.aliexpress.com/e/{aff_short_key}'
+                    product.promotion_link = fr'https://s.click.aliexpress_com.com/e/{aff_short_key}'
                 else:
                     # Этот товар не является партнерским
                     self.delete_product(product.product_id)

@@ -107,7 +107,7 @@ This module provides functionality for managing categories on AliExpress. It all
 ## Usage Example
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.category import get_list_products_in_category, update_categories_in_scenario_file
+from src.suppliers.suppliers_list.aliexpress_com.category import get_list_products_in_category, update_categories_in_scenario_file
 
 # Example usage
 supplier_instance = Supplier()

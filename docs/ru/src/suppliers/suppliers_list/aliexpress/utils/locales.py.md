@@ -25,7 +25,7 @@ def get_locales(locales_path: Path | str) -> list[dict[str, str]] | None:
         list[dict[str, str]] | None: Список словарей с парами локаль и валюта.
 
     Examples:
-        >>> from src.suppliers.suppliers_list.aliexpress.utils.locales import load_locales_data
+        >>> from src.suppliers.suppliers_list.aliexpress_com.utils.locales import load_locales_data
         >>> locales = load_locales_data(Path('/path/to/locales.json'))
         >>> print(locales)
         [{'EN': 'USD'}, {'HE': 'ILS'}, {'RU': 'ILS'}, {'EN': 'EUR'}, {'EN': 'GBR'}, {'RU': 'EUR'}]
@@ -50,7 +50,7 @@ def get_locales(locales_path: Path | str) -> list[dict[str, str]] | None:
 
 ```python
 from pathlib import Path
-from src.suppliers.suppliers_list.aliexpress.utils.locales import get_locales
+from src.suppliers.suppliers_list.aliexpress_com.utils.locales import get_locales
 
 # Пример 1: Загрузка локалей из файла
 file_path = Path('путь/к/locales.json')  # Замените на актуальный путь к файлу
@@ -83,7 +83,7 @@ locales: list[dict[str, str]] | None = get_locales (gs.path.src / 'suppliers' / 
 **Примеры**:
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.utils.locales import locales
+from src.suppliers.suppliers_list.aliexpress_com.utils.locales import locales
 
 if locales:
     print("Доступные локали:")

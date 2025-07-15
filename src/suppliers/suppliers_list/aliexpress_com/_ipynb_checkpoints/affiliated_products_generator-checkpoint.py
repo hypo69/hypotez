@@ -4,7 +4,7 @@
 #! .pyenv/bin/python3
 
 """
-module: src.suppliers.aliexpress..ipynb_checkpoints 
+module: src.suppliers.aliexpress_com..ipynb_checkpoints 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -21,7 +21,7 @@ MODE = 'dev'
   :synopsis:
 """MODE = 'dev'
   
-""" module: src.suppliers.aliexpress..ipynb_checkpoints """
+""" module: src.suppliers.aliexpress_com..ipynb_checkpoints """
 
 
 """ Класс создает товары с ссылками 'promotion_link' для товара"""
@@ -43,9 +43,9 @@ import re  # For removing special characters
 from src import gs
 from src.suppliers.aliexpress import AliApi
 from src.suppliers.aliexpress import Aliexpress
-from src.suppliers.aliexpress.affiliate_links_shortener_via_webdriver import AffiliateLinksShortener
-from src.suppliers.aliexpress.utils.extract_product_id import extract_prod_ids
-from src.suppliers.aliexpress.utils.set_full_https import ensure_https
+from src.suppliers.apiexpress.affiliate_links_shortener_via_webdriver import AffiliateLinksShortener
+from src.suppliers.aliexpress_com.utils.extract_product_id import extract_prod_ids
+from src.suppliers.aliexpress_com.utils.set_full_https import ensure_https
 from src.utils import StringNormalizer as SN
 from src.utils.convertors.csv import csv2dict
 from src.utils import j_dumps, j_loads, j_loads_ns

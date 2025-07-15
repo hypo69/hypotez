@@ -32,8 +32,8 @@ from unicodedata import category
 import header
 from types import SimpleNamespace
 from gspread import Worksheet, Spreadsheet
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignGoogleSheet
-from src.suppliers.suppliers_list.aliexpress.campaign.ttypes import CampaignType, CategoryType, ProductType
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignGoogleSheet
+from src.suppliers.suppliers_list.aliexpress_com.campaign.ttypes import CampaignType, CategoryType, ProductType
 from src.utils.printer import pprint
 from src.logger.logger import logger
 
@@ -85,8 +85,8 @@ from unicodedata import category
 import header
 from types import SimpleNamespace
 from gspread import Worksheet, Spreadsheet
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignGoogleSheet
-from src.suppliers.suppliers_list.aliexpress.campaign.ttypes import CampaignType, CategoryType, ProductType
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignGoogleSheet
+from src.suppliers.suppliers_list.aliexpress_com.campaign.ttypes import CampaignType, CategoryType, ProductType
 from src.utils.printer import pprint
 from src.logger.logger import logger
 
@@ -103,7 +103,7 @@ gs.save_campaign_from_worksheet()
 ```
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignGoogleSheet
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignGoogleSheet
 
 # создание объект AliCampaignGoogleSheet
 gs = AliCampaignGoogleSheet(campaign_name='test_campaign', language='EN', currency='USD')

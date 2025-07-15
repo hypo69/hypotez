@@ -13,7 +13,7 @@
 Модуль использует следующие модули:
 
 - `header`: Содержит общие настройки и зависимости.
-- `src.suppliers.suppliers_list.aliexpress.campaign.process_all_campaigns`: Модуль, который выполняет основную логику по обработке и подготовке рекламных кампаний.
+- `src.suppliers.suppliers_list.aliexpress_com.campaign.process_all_campaigns`: Модуль, который выполняет основную логику по обработке и подготовке рекламных кампаний.
 
 ## Функции
 
@@ -33,7 +33,7 @@ def process_all_campaigns():
 
 **Как работает функция**:
 
-- Функция вызывает функцию `process_all_campaigns` из модуля `src.suppliers.suppliers_list.aliexpress.campaign`, которая выполняет всю необходимую логику для подготовки рекламных кампаний.
+- Функция вызывает функцию `process_all_campaigns` из модуля `src.suppliers.suppliers_list.aliexpress_com.campaign`, которая выполняет всю необходимую логику для подготовки рекламных кампаний.
 
 **Примеры**:
 

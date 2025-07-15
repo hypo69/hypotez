@@ -30,14 +30,14 @@ Usage Example
 -------------------------
 
 ```python
-from src.suppliers.aliexpress.scenarios.affiliate_links_shortener_scenario import get_short_affiliate_link
+from src.suppliers.aliexpress_com.scenarios.affiliate_links_shortener_scenario import get_short_affiliate_link
 from src.webdriver.driver import Driver
 from src.webdriver.driver import Chrome
 
 driver = Driver(Chrome)  # Initialize a web driver instance using Chrome
 
 # Example URL to shorten
-url = "https://www.aliexpress.com/item/10000000000000000.html"  # Replace with the actual URL
+url = "https://www.aliexpress_com.com/item/10000000000000000.html"  # Replace with the actual URL
 
 # Generate the shortened affiliate link
 short_url = get_short_affiliate_link(driver, url)

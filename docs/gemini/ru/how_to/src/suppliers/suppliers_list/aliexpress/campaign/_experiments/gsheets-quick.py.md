@@ -12,8 +12,8 @@
     - `header`: (Неопределено).
     - `types`: Используется для создания `SimpleNamespace`.
     - `gspread`: Основная библиотека для работы с гугл таблицами.
-    - `src.suppliers.suppliers_list.aliexpress.campaign.AliCampaignGoogleSheet`:  Класс для работы с гугл таблицей, связанной с AliExpress кампаниями.
-    - `src.suppliers.suppliers_list.aliexpress.campaign.ttypes`:  Класс, содержащий типы данных для AliExpress кампаний.
+    - `src.suppliers.suppliers_list.aliexpress_com.campaign.AliCampaignGoogleSheet`:  Класс для работы с гугл таблицей, связанной с AliExpress кампаниями.
+    - `src.suppliers.suppliers_list.aliexpress_com.campaign.ttypes`:  Класс, содержащий типы данных для AliExpress кампаний.
     - `src.utils.printer`:  Библиотека для вывода красивой информации в консоль.
     - `src.logger.logger`:  Библиотека для логирования.
 2. **Определение параметров**:
@@ -32,8 +32,8 @@
 -------------------------
 
 ```python
-from src.suppliers.suppliers_list.aliexpress.campaign import AliCampaignGoogleSheet
-from src.suppliers.suppliers_list.aliexpress.campaign.ttypes import CampaignType, CategoryType, ProductType
+from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignGoogleSheet
+from src.suppliers.suppliers_list.aliexpress_com.campaign.ttypes import CampaignType, CategoryType, ProductType
 from src.utils.printer import pprint
 from src.logger.logger import logger
 
