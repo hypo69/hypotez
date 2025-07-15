@@ -979,7 +979,7 @@
     "attribute": "innerText",
     "by": "XPATH",
     "strategy_for_multiple_selectors": "find_first_match",
-    "selector": "//div[ contains( @class, 'contentproducttable')]//li",
+    "selector": "//div[ contains( @class, 'contentproducttable') or contains( @class, 'product-params')]//ul",
     "if_list": "all",
 
     "mandatory": true,

@@ -249,14 +249,14 @@ class Graber:
             for scenarios in scenario_generator:
                 # logger.info(f"Запуск сценария для '{supplier_prefix}'...")
 
-                result = await self.process_scenarios(supplier_prefix, scenarios['scenarios'] if hasattr(scenarios, 'scenarios') else scenarios, id_lang )
+                result = await self.process_scenarios(self.supplier_prefix, scenarios['scenarios'] if hasattr(scenarios, 'scenarios') else scenarios, id_lang )
                 all_results.append(result) # Собираем результаты (опционально)
 
-            logger.info(f"Все сценарии для '{supplier_prefix}' обработаны.")
+            logger.info(f"Все сценарии для '{self.supplier_prefix}' обработаны.")
             return all_results # Возврат собранные результаты
 
         except Exception as ex:
-            logger.error(f"Ошибка при обработке сценариев для '{supplier_prefix}'", ex, exc_info=True)
+            logger.error(f"Ошибка при обработке сценариев для '{self.supplier_prefix}'", ex, exc_info=True)
             return None # Или другое обозначение ошибки
 
 
@@ -488,10 +488,10 @@ class Graber:
 
             self.driver.scroll(3)
 
-            for filed_name in required_fields:
-                function = getattr(self, filed_name, None)
+            for field_name in required_fields:
+                function = getattr(self, field_name, None)
                 if function:
-                    await function(kwargs.get(filed_name, '')) # Просто вызываем с await, так как все функции асинхронные
+                    await function(kwargs.get(field_name, '')) # Просто вызываем с await, так как все функции асинхронные
         try:
             await fetch_all_data(*args, **kwargs)
             return self.fields

@@ -147,9 +147,14 @@ class ProductFields:
             """
             if not text:
                 return ''
-            # Экранируем "'" и '"', заменяем ";" на "<br>", удаляем лишние пробелы
-            escaped_text = re.sub(r"['\"]", lambda match: '\\' + match.group(0), text.strip()).replace(';', '<br>')
-            return escaped_text
+            try:
+                # Экранирование "'" и '"', замена ";" на "<br>", удаление лишних пробелов
+                escaped_text = re.sub(r"['\"]", lambda match: '\\' + match.group(0), text.strip()).replace(';', '<br>')
+                return escaped_text
+            except Exception as ex:
+                logger.error(f'Error in `re`.\n{text=}' ,ex, True)
+                ...
+
         value = escape_and_strip(value)
 
         

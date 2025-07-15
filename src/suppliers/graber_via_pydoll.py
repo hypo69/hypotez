@@ -18,6 +18,7 @@ from header import __root__
 from src import gs
 #from src.webdriver.driverless import use_pydoll as driver # Этот импорт, похоже, не используется напрямую здесь
 from src.endpoints.prestashop.product_fields import ProductFields
+from src.suppliers.graber import Graber as GraberSupplier
 from src.utils.convertors.ns import ns2dict
 from src.utils.file import get_filenames_from_directory
 from src.utils.jjson import j_loads_ns
@@ -75,7 +76,7 @@ class Config:
 # --- graber.py ---
 
 @dataclass(slots=True)
-class Graber:
+class Graber(GraberSupplier):
     """Grabs product/category info for a given supplier."""
     supplier_prefix: str
     config: Config = field(init=False)
@@ -99,10 +100,9 @@ class Graber:
         Returns:
             A ProductFields object containing the extracted information.
         """
-        required_fields = required_fields or self.config.required_fields
         f: ProductFields = ProductFields()
-        product_locators = self.config.product_locators
-        
+        required_fields: list = required_fields or self.config.required_fields
+        product_locators: SimpleNamespace = self.config.product_locators
 
         
         try:
@@ -112,7 +112,7 @@ class Graber:
             logger.error(f'Failed to open product page: {product_url}\n', ex, True)
             return f # Возврат пустой объект в случае ошибки навигации
 
-        # Установка `id_supplier` если он определен в локаторах
+        # Установка `id_supplier` Он определен в локаторе `id_supplier.attribute` и содержит значение id поставщика из Prestashop.
         # Проверка, что `product_locators` существует и имеет `атрибут id_supplier`
         if product_locators and hasattr(product_locators, 'id_supplier') and product_locators.id_supplier:
             f.id_supplier = product_locators.id_supplier.attribute # <- передача параметра через локатор
@@ -123,10 +123,10 @@ class Graber:
             if field_name == 'id_supplier':
                 continue
 
-            # DEBUG
-            # if field_name == 'default_image_url':
-            #     ...
-            
+            function = getattr(self, field_name, None)
+            if function:
+                await function(kwargs.get(field_name, '')) # Просто вызываем с await, так как все функции асинхронные
+
 
             if product_locators and hasattr(product_locators, field_name):
                 locator = getattr(product_locators, field_name)

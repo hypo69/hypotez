@@ -239,6 +239,7 @@ class KazarinovBot:
                 response = requests.get(url, timeout=5)
                 if response.status_code != 200:
                     logger.warning(f"Статус ответа от сервера: {response.status_code}")
+                    ...
             except Exception:
                 logger.error("Обнаружена потеря соединения с сервером!", exc_info=True)
                 self.restart_bot()

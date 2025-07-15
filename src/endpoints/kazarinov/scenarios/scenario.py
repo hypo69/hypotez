@@ -149,6 +149,7 @@ class Scenario:
                 "reference",
                 "description",
                 "description_short",
+                "specification",
                 "default_image_url",
             ]
 

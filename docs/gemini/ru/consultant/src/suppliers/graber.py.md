@@ -510,10 +510,10 @@ class Graber:
                             'additional_category',
                             'default_image_url',
                             'price']
-            for filed_name in process_fields:
-                function = getattr(self, filed_name, None)
+            for field_name in process_fields:
+                function = getattr(self, field_name, None)
                 if function:
-                    await function(kwargs.get(filed_name, '')) # Просто вызываем с await, так как все функции асинхронные
+                    await function(kwargs.get(field_name, '')) # Просто вызываем с await, так как все функции асинхронные
         try:
             await fetch_all_data(*args, **kwargs)
             return self.fields
