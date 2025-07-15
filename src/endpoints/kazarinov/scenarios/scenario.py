@@ -33,6 +33,7 @@ from src.endpoints.kazarinov.scenarios.quotation_builder import QuotationBuilder
 from src.endpoints.prestashop.product_fields.product_fields import ProductFields
 from src.logger.logger import logger
 from src.suppliers.get_pydoll_graber_by_supplier import get_graber_by_supplier_url
+from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_url
 from src.utils.jjson import j_dumps
 from src.webdriver.driverless.use_pydoll import Driver
 
@@ -68,7 +69,7 @@ class Scenario:
     """
 
     #mexiron_name: str = field(default_factory=lambda: gs.now)
-    driver_kwargs: dict = field(default_factory=dict, repr=False)
+    #driver_kwargs: dict = field(default_factory=dict, repr=False)
 
     # Внутренние поля -------------------------------------------------------------
     driver: Driver = field(init=False, repr=False)
@@ -88,14 +89,13 @@ class Scenario:
                 window_mode=Config.WINDOW_MODE,
                 enable_user_profile=Config.enable_user_profile,
                 user_profile_path=Config.profile_path,
-                **self.driver_kwargs,
             )
-        except Exception as ex:  # pragma: no cover
+        except Exception as ex:
             logger.error("Ошибка создания Driver", ex, exc_info=True)
             raise RuntimeError("Driver initialization failed") from ex
 
     # -------------------------------------------------------------------------
-    #                            Публичный API
+    #                            Исполнение сценария 
     # -------------------------------------------------------------------------
     async def run_scenario_async(
         self,
@@ -135,12 +135,15 @@ class Scenario:
         for url in urls:
             logger.debug(f"Обработка URL: {url}", None, False)
 
-            graber = get_graber_by_supplier_url(url)
+            graber = get_graber_by_supplier_url(url, driver)
+
             if not graber:
                 logger.error(f"🤷‍♂️ Нет подходящего грабера для URL: {url}", None, True)
                 if bot:
                     bot.send_message(chat_id, f"❌ Нет обработчика для ссылки:\n{url}")
                 continue
+            
+            graber.lang_index = 2
 
             required_fields: list[str] = [
                 "id_supplier",
@@ -154,28 +157,28 @@ class Scenario:
             ]
 
             if bot:
-                bot.send_message(chat_id, f"⏳ Получение полей товара:\n{url}")
+                bot.send_message(chat_id, f"⏳ Сбор полей товара со страницы:\n{url}")
 
-            logger.info(f'⏳ Получение полей товара: {url}', ex=None, exc_info=False, text_color="light_gray")
+            logger.info(f'⏳ Сбор полей товара со страницы {url}', ex = None, exc_info = False, text_color = "light_gray")
             try:
-                product_fields: ProductFields = await graber.grab_product_page(
-                    driver=driver, product_url=url, required_fields=required_fields
-                )
+                self.driver.get_url(url)
+                product_fields: ProductFields = await graber.grab_page_async(required_fields = required_fields)
             except Exception as ex:  # pragma: no cover
-                logger.error(f"❌ Ошибка парсинга:\n{url}\n", ex, exc_info=True)
+                logger.error(f"❌ Ошибка парсинга страницы:{url}", ex, exc_info = True)
                 if bot:
-                    bot.send_message(chat_id, f"❌ Ошибка парсинга:\n{url}\n{ex}")
+                    bot.send_message(chat_id, f"❌ Ошибка парсинга страницы:\n{url}\n{ex}")
                 continue
 
             if not product_fields or not product_fields.name:
 
                 if bot:
                     bot.send_message(chat_id, f"❌ Ошибка парсинга товара:\n{url}\nПроверьте локаторы.")
-                logger.error(f"❌ Ошибка парсинга товара:\n{url}\nПроверьте локаторы.", None, exc_info=True, text_color="light_gray", bg_color="light_gray")
+                logger.error(f"""❌ Ошибка парсинга товара:{url}
+                Проверьте локаторы.""", None, False, text_color="light_gray", bg_color="light_gray")
                 continue
 
             try:
-                # Конвертиртаци поля из объекта `ProductFields` в простой словарь для модели llm
+                # Конвертиртация поля из объекта `ProductFields` в простой словарь для модели llm
                 product_data = self.convert_product_fields(product_fields)
 
                 # Индивидуальные настройки поставщиков

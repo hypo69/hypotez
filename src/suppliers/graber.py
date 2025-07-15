@@ -77,10 +77,6 @@ from src.utils.printer import pprint as print
 from src.logger.logger import logger
 
 
-# Глобальные настройки через объект `Config`
-
-
-
 # Определение декоратора для закрытия всплывающих окон
 # В каждом отдельном поставщике (`Supplier`) декоратор может использоваться в индивидуальных целях
 # Общее название декоратора `@close_pop_up` можно изменить 
@@ -114,6 +110,8 @@ def close_pop_up() -> Callable:
     return decorator
 
 
+# --- config.py ---
+
 @dataclass(slots=True)
 class Config:
     """! Класс для хранения глобальных настроек для поставщика.
@@ -138,6 +136,7 @@ class Config:
         'reference',
         'description',
         'description_short',
+        'specification',
         'default_image_url',
         'local_image_path',
     ])
@@ -180,33 +179,32 @@ class Config:
             )
             return SimpleNamespace()
 
+# --- config.py end ---
+
+# --- graber.py ---
 @dataclass(slots=True)
 class Graber:
     """! Базовый класс сбора данных со страницы для всех поставщиков. """
 
-    supplier_prefix: str
-    driver: 'Driver'
-    lang_index: int
-
+    # supplier_prefix: str
+    # driver: 'Driver'
+    
     # Эти поля будут инициализированы вручную в __post_init__
     product_locators: SimpleNamespace = field(init=False)
     category_locators: SimpleNamespace = field(init=False)
     product_fields: ProductFields = field(init=False)
+    lang_index:int = field(default=1, init=False)  # Индекс языка по умолчанию (1 - английский, 2 - иврит, 3 - русский)
 
-    # опционально: если locator_for_decorator используется
-    locator_for_decorator: Optional[dict] = None
 
     def __post_init__(self):
         """! Инициализация зависимостей после создания экземпляра dataclass."""
         config = Config(supplier_prefix=self.supplier_prefix)
-
         self.product_locators = config.product_locators
         self.category_locators = config.category_locators
         self.product_fields = ProductFields(self.lang_index or 1)
 
         # ---------------------------- конфигурация для декоратора ------------------------------
         config.locator_for_decorator = self.locator_for_decorator or None
-        config.supplier_prefix = self.supplier_prefix
 
 
 
@@ -548,7 +546,7 @@ class Graber:
             if 'url' in kwargs:
                 self.driver.get_url(kwargs['url'])
 
-            self.driver.scroll(3)
+            # self.driver.scroll(3) <- Перенести в сценарии поставщиков по надобности
 
             for field_name in required_fields:
                 function = getattr(self, field_name, None)
@@ -2370,3 +2368,6 @@ class Graber:
             logger.error(f'Ошибка сохранения видео в поле `local_video_path`', ex)
             ...
             return
+
+
+# --- graber.py end ---

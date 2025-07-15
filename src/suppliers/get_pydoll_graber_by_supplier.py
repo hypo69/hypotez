@@ -8,14 +8,12 @@
 
 import importlib
 from urllib.parse import urlparse
-from typing import Optional
-from src.suppliers.graber_via_pydoll import Graber
+from src.suppliers.graber import Graber
 from src.logger import logger
 
 
-def dynamic_import_graber(supplier_alias: str) -> Optional[type[Graber]]:
-    """
-    Динамически импортирует Graber класс по supplier_alias.
+def dynamic_import_graber(supplier_alias: str)  -> Graber | None:
+    """Динамически импортирует Graber класс по supplier_alias.
 
     Args:
         supplier_alias (str): Алиас поставщика, например "morlevi_co_il".
@@ -36,9 +34,8 @@ def dynamic_import_graber(supplier_alias: str) -> Optional[type[Graber]]:
     return None
 
 
-def get_graber_by_supplier_prefix(supplier_prefix: str) -> Graber:
-    """
-    Возвращает экземпляр `Graber` для данного префикса поставщика.
+def get_graber_by_supplier_prefix(supplier_prefix: str,  driver:'Driver') -> Graber | None:
+    """Возвращает экземпляр `Graber` для данного префикса поставщика.
 
     Args:
         supplier_prefix (str): Префикс поставщика, например "morlevi" или "morlevi.co.il".
@@ -50,13 +47,14 @@ def get_graber_by_supplier_prefix(supplier_prefix: str) -> Graber:
     GraberClass = dynamic_import_graber(supplier_alias)
     if GraberClass:
         try:
-            return GraberClass(supplier_prefix)
+            return GraberClass(supplier_prefix = supplier_prefix, driver = driver)
         except Exception as ex:
             logger.critical(f"Не удалось создать экземпляр Graber для {supplier_alias}", ex, True)
-    return Graber(supplier_prefix)
+            return None
+    return None
 
 
-def get_graber_by_supplier_url(url: str) -> Optional[Graber]:
+def get_graber_by_supplier_url(url: str, driver:'Driver') -> Graber | None:
     """
     Извлекает домен из URL и возвращает экземпляр соответствующего класса Graber.
 
@@ -77,7 +75,7 @@ def get_graber_by_supplier_url(url: str) -> Optional[Graber]:
     GraberClass = dynamic_import_graber(supplier_alias)
     if GraberClass:
         try:
-            return GraberClass(domain)
+            return GraberClass(supplier_prefix = domain, driver = driver)
         except Exception as ex:
             logger.critical(f"Не удалось создать экземпляр Graber для домена {domain}", ex, True)
             return None

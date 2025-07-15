@@ -20,24 +20,30 @@
 from pathlib import Path
 from typing import Optional, Any
 from types import SimpleNamespace
-from functools import wraps
+#from functools import wraps
+from dataclasses import dataclass, field
 
 import header
 from src import gs
-from src.suppliers.graber import Graber as Grbr, Config, close_pop_up
+from src.suppliers.graber import Graber as SupplierGraber
 from src.utils.image import save_image
 from src.logger.logger import logger
 
 
-
-class Graber(Grbr):
+@dataclass(slots=True)
+class Graber(SupplierGraber):
     """Класс для операций захвата Morlevi."""
-    supplier_prefix: str  = 'morlevi.co.il'
 
-    def __init__(self, driver: Optional['Driver'] = None, lang_index:Optional[int] = None):
+    def __post_init__(self):
         """Инициализация класса сбора полей товара."""
-        super().__init__(supplier_prefix=self.supplier_prefix, driver=driver, lang_index=lang_index)
-        Config.driver = self.driver
-        Config.locator_for_decorator = self.product_locator.close_pop_up 
+        
+        super().__post_init__(
+                            supplier_prefix = self.supplier_prefix, 
+                            driver = self.driver, 
+                            locator_for_decorator = self.locator_for_decorator or None,
+                            lang_index = self.lang_index or 1
+                            )
+        ...
+         
 
    
