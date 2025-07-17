@@ -345,7 +345,7 @@ def example_add_new_product() -> None:
         resource='products',
         method='POST',
         data=example_data if kwargs_example['io_format'] == 'JSON' else presta_product_xml,
-        **kwargs_example, # Передаем как именованные аргументы
+        **kwargs_example, # Передача как именованные аргументы
     )
     # response = p.create('products', data=presta_product_dict  if kwargs_example['io_format'] == 'JSON' else presta_product_xml, **kwargs_example)
     
@@ -390,7 +390,7 @@ def example_get_product(id_product: int, **kwargs: Any) -> None:
     # kwargs_get = {
     #     'display': 'full', # 'blank', 'synopsis'
     # }
-    presta_product_data = p.get_product(id_product, **kwargs) # Передаем внешние kwargs
+    presta_product_data = p.get_product(id_product, **kwargs) # Передача внешние kwargs
     
     # API может вернуть список товаров, даже при запросе по ID, хотя get_product ожидает один
     # Это поведение зависит от реализации self.read в PrestaShop API

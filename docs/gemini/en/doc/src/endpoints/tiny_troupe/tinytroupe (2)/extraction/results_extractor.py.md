@@ -217,7 +217,7 @@ from tinytroupe.extraction.results_extractor import ResultsExtractor
 # создание экземпляр класса ResultsExtractor
 results_extractor = ResultsExtractor()
 
-# Передаем значения параметров
+# Передача значения параметров
 extraction_objective = "Новая цель извлечения"
 situation = "Новая ситуация"
 fields = ["поле1", "поле2"]

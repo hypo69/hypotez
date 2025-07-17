@@ -102,7 +102,7 @@ def translate_to(text_to_translate: str,
             translations[lang_code] = f"{text_to_translate} (Оригинал)"
             continue
         try:
-            # В API всегда передаем src_lang, который пользователь задал (может быть 'auto')
+            # В API всегда Передача src_lang, который пользователь задал (может быть 'auto')
             # Библиотека сама справится с 'auto'
             translated_obj = translator.translate(text_to_translate, src=src_lang, dest=lang_code)
             translations[lang_code] = translated_obj.text

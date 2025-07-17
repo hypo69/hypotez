@@ -226,7 +226,7 @@ def yield_product_urls_from_files(
     for filename in filenames:
         try:
             # Загрузка данных из JSON файла
-            crawl_data = j_loads(filename) # Передаем Path объект
+            crawl_data = j_loads(filename) # Передача Path объект
 
             # Извлечение списка товаров
             if isinstance(crawl_data, dict) and 'products' in crawl_data:

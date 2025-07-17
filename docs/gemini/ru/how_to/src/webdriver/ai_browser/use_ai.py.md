@@ -315,7 +315,7 @@ class Driver:
             agent_runnable = create_react_agent(llm=llm, tools=self.tools, prompt=prompt)
             agent_executor = AgentExecutor(
                 agent=agent_runnable,
-                tools=self.tools,  # Передаем актуальный список инструментов
+                tools=self.tools,  # Передача актуальный список инструментов
                 verbose=True,
                 handle_parsing_errors=True
             )

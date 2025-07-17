@@ -258,7 +258,7 @@ class GoogleGenerativeAi:
                     if self.system_instruction and history_to_load and \
                        history_to_load[0].get('role') == 'user' and \
                        self.system_instruction in history_to_load[0].get('parts', []):
-                       # Удаляем системную инструкцию из истории, которую передаем в _start_chat,
+                       # Удаляем системную инструкцию из истории, которую Передача в _start_chat,
                        # так как _start_chat её добавит
                        history_to_load = history_to_load[1:]
                        logger.debug("Системная инструкция удалена из загруженной истории для корректного старта чата.")

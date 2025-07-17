@@ -40,7 +40,7 @@
         try:
             llm = GoogleGenerativeAi(
                 api_key=gs.credentials.gemini.api_key,
-                model_name=model_name,  # Передаем имя модели
+                model_name=model_name,  # Передача имя модели
                 system_instruction=system_instruction
             )
         except Exception as init_ex:

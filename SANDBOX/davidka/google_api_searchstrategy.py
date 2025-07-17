@@ -447,7 +447,7 @@ if __name__ == '__main__':
             print("Неверный ввод. Пожалуйста, введите число от 1 до 5.")
 
     # 4. Вызов выбранного метода стратегии
-    # Передаем аргументы в выбранный метод
+    # Передача аргументы в выбранный метод
     final_result_links = selected_strategy_method(
         category_name=category_input,
         target_links=target_link_count

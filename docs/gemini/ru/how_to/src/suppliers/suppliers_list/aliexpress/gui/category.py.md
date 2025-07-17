@@ -30,7 +30,7 @@ from src.suppliers.suppliers_list.aliexpress_com.campaign import AliCampaignEdit
 # создание объект AliCampaignEditor
 editor = AliCampaignEditor(campaign_file='path/to/campaign.json')
 
-# создание объект CategoryEditor и передаем ему экземпляр AliCampaignEditor
+# создание объект CategoryEditor и Передача ему экземпляр AliCampaignEditor
 category_editor = CategoryEditor(main_app=None, editor=editor)
 
 # Запускаем GUI

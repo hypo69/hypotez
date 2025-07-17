@@ -29,4 +29,4 @@ for chunk in _create_completion(model="gpt-3.5-turbo", messages=messages, stream
     print(chunk, end="")
 ```
 
-В этом примере мы создание список сообщений `messages` с одним запросом, передаем его функции `_create_completion` и получаем ответ в виде текстовых фрагментов.
+В этом примере мы создание список сообщений `messages` с одним запросом, Передача его функции `_create_completion` и получаем ответ в виде текстовых фрагментов.

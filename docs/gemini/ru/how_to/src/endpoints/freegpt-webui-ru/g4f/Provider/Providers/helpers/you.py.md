@@ -44,4 +44,4 @@
                         headers=headers, content_callback=output, impersonate='safari15_5')
 ```
 
-В этом примере мы передаем список сообщений `messages` и текст последнего вопроса `'What is the meaning of life?'` в функцию `transform`, формируем запрос к API и запускаем выполнение. Функция `output` будет выводить токен `youChatToken` в консоль по мере его получения.
+В этом примере мы Передача список сообщений `messages` и текст последнего вопроса `'What is the meaning of life?'` в функцию `transform`, формируем запрос к API и запускаем выполнение. Функция `output` будет выводить токен `youChatToken` в консоль по мере его получения.

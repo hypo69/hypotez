@@ -369,7 +369,7 @@ def main(args: argparse.Namespace) -> None:
         supplier_url: str | None = supplier_url_map.get(current_supplier_name_norm)
         
         process_supplier_data(
-            supplier_name=current_supplier_name_norm, # Передаем нормализованное имя
+            supplier_name=current_supplier_name_norm, # Передача нормализованное имя
             supplier_id=supplier_id,
             supplier_url=supplier_url
         )

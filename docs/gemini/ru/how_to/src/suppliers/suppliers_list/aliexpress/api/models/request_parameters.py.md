@@ -35,6 +35,6 @@ sort_by = SortBy.SALE_PRICE_DESC
 # Установка тип ссылки как "HOTLINK"
 link_type = LinkType.HOTLINK
 
-# Передаем эти параметры в функцию запроса API AliExpress
+# Передача эти параметры в функцию запроса API AliExpress
 response = get_aliexpress_products(product_type=product_type, sort_by=sort_by, link_type=link_type)
 ```
