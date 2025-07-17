@@ -163,7 +163,7 @@ class Scenario:
             try:
                 await self.driver.get_url(url)
                 product_fields: ProductFields = await graber.grab_page_async(required_fields = required_fields)
-            except Exception as ex:  # pragma: no cover
+            except Exception as ex: 
                 logger.error(f"❌ Ошибка парсинга страницы:{url}", ex, exc_info = True)
                 if bot:
                     bot.send_message(chat_id, f"❌ Ошибка парсинга страницы:\n{url}\n{ex}")

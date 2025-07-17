@@ -101,7 +101,7 @@ def close_pop_up() -> Callable:
         async def wrapper(*args, **kwargs):
             if Config.locator_for_decorator:
                 try:
-                    await Config.driver.execute_locator(Config.locator_for_decorator)  # Await async pop-up close  
+                    await driver.execute_locator(Config.locator_for_decorator)  # Await async pop-up close  
                     ... 
                 except ExecuteLocatorException as ex:
                     logger.debug(f'Ошибка выполнения локатора:', ex, False)
@@ -203,10 +203,83 @@ class GraberBase:
     locator_for_decorator: Optional[SimpleNamespace] = None
     lang_index: int = 1
 
-    # def __post_init__(self):
-    #     logger.info(f"Init graber for {self.supplier_prefix}")
 
+    async def set_field_value(
+        self,
+        value: Any,
+        locator_func: Callable[[], Any],
+        field_name: str,
+        default: Any = ''
+    ) -> Any:
+        """Универсальная функция для установки значений полей с обработкой ошибок.
 
+        Args:
+            value (Any): Значение для установки.
+            locator_func (Callable[[], Any]): Функция для получения значения из локатора.
+            field_name (str): Название поля.
+            default (Any): Значение по умолчанию. По умолчанию пустая строка.
+
+        Returns:
+            Any: Установленное значение.
+        """
+        locator_result = await asyncio.to_thread(locator_func)
+        if value:
+            return value
+        if locator_result:
+            return locator_result
+        await self.error(field_name)
+        return default
+
+    def grab_page(self, required_fields, page_url, *args, **kwargs) -> ProductFields|bool:
+        return asyncio.run(self.grab_page_async(required_fields, page_url, *args, **kwargs))
+
+    async def grab_page_async(self, required_fields: Optional[list], page_url: Optional[str] = '', *args, **kwargs) -> Optional[ProductFields]:
+        """ Асинхронная функция для сбора полей товара.
+
+        Args:
+            required_fields (Optional[list]): Список полей, которые нужно заполнить.
+            page_url (Optional[str]): URL страницы товара. Если не указан, используется текущий URL драйвера.
+            *args: Дополнительные аргументы.
+            **kwargs: Ключевые аргументы, значения которых могут быть переданы для конкретных полей.
+
+        Returns:
+            Optional[ProductFields]: Заполненный объект ProductFields или None в случае ошибки.
+        """
+
+        async def call_field_func(field_name: str) -> None:
+            """! Вызов функции сбора конкретного поля.
+
+            Args:
+                field_name (str): Название поля.
+            """
+            function = getattr(self, field_name, None)
+            if function:
+                try:
+                    await function(kwargs.get(field_name, ''))
+                except Exception as ex:
+                    logger.error(f"Ошибка при вызове функции для поля '{field_name}'", ex, exc_info=True)
+
+        try:
+            required_fields = required_fields or self.required_fields
+
+            if page_url:
+                await asyncio.to_thread(self.driver.get_url, page_url)
+
+            # self.driver.scroll(3) <- Перенести в сценарии поставщиков по надобности
+
+            await asyncio.gather(*[
+                call_field_func(field_name)
+                for field_name in required_fields
+                if hasattr(self, field_name)
+            ])
+
+            return self.fields
+
+        except Exception as ex:
+            logger.error(f"Ошибка в функции `grab_page_async`", ex, exc_info=True)
+            return None
+
+    
     def yield_scenarios_for_supplier(self, supplier_prefix: str, input_scenarios: Optional[List[Dict[str, Any]] | Dict[str, Any]] = None) -> Generator[Dict[str, Any], None, None]:
         """
         Генератор, который выдает (yields) словари сценариев для поставщика.
@@ -482,74 +555,7 @@ class GraberBase:
         # --- Конец функции ---
 
 
-    async def set_field_value(
-        self,
-        value: Any,
-        locator_func: Callable[[], Any],
-        field_name: str,
-        default: Any = ''
-    ) -> Any:
-        """Универсальная функция для установки значений полей с обработкой ошибок.
 
-        Args:
-            value (Any): Значение для установки.
-            locator_func (Callable[[], Any]): Функция для получения значения из локатора.
-            field_name (str): Название поля.
-            default (Any): Значение по умолчанию. По умолчанию пустая строка.
-
-        Returns:
-            Any: Установленное значение.
-        """
-        locator_result = await asyncio.to_thread(locator_func)
-        if value:
-            return value
-        if locator_result:
-            return locator_result
-        await self.error(field_name)
-        return default
-
-    def grab_page(self, required_fields, page_url, *args, **kwargs) -> ProductFields|bool:
-        return asyncio.run(self.grab_page_async(required_fields, page_url, *args, **kwargs))
-
-    async def grab_page_async(self, required_fields: Optional[list], page_url:Optional[str], *args, **kwargs) -> Optional[ProductFields]:
-        """ Асинхронная функция для сбора полей товара.
-        Ключевая функция класса.
-        Args: 
-            required_fields (Optional[list]): Список полей, которые нужно заполнить.
-            page_url (Optional[str]): URL страницы товара. Если не указан, используется текущий URL драйвера.
-        Returns:
-            Optional[ProductFields]: Заполненный объект ProductFields или None в случае ошибки.
-        """
-        async def fetch_all_data(required_fields: Optional[list], *args, **kwargs):
-            """ Динамическое вызовы функций для каждого поля из args.
-            Args:
-                required_fields (Optional[list]): Список полей, которые нужно заполнить.
-                *args: Список полей моьно передать кортежем или пустым.
-                **kwargs: Ключевые аргументы, которые могут быть переданы.
-            """
-
-            required_fields = required_fields or self.required_fields
-
-            if page_url:
-                self.driver.get_url(page_url)
-
-            # self.driver.scroll(3) <- Перенести в сценарии поставщиков по надобности
-
-            for field_name in required_fields:
-                function = getattr(self, field_name, None)
-                if function:
-                    await function(kwargs.get(field_name, '')) #<- Вызов релевантной функции для каждого поля
-
-        # --- end function fetch_all_data ---
-
-        try:
-            await fetch_all_data(required_fields = required_fields, *args, **kwargs)
-            return self.fields
-        except Exception as ex:
-            logger.error(f"Ошибка в функции `fetch_all_data`", ex)
-            return None
-
-    
     async def error(self, field: str):
         """Обработчик ошибок для полей."""
         # Этот метод не используется в process_scenarios, оставлен как есть

@@ -258,10 +258,12 @@ class KazarinovBot:
         try:
             logger.info("Initiating bot shutdown...")
             self.bot.stop_polling()
+            time.sleep(1)
             return True
         except Exception as ex:
-            logger.error(f"Error during bot shutdown: ", ex)
+            logger.error("Error during bot shutdown", ex)
             return False
+
 
 
     def bot_start(self, attempts: int = 3) -> bool:
