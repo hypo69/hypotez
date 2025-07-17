@@ -79,10 +79,10 @@ Here are the available commands:
 
 
 # --- handlers.py -----------------
-@dataclass(slots=True)
+@dataclass(slots=True, kw_only=True)
 class BotHandler:
     """! Обработчик команд Telegram-бота Kazarinov."""
-
+    _connection_checker_started: bool = field(default=False, init=False)
     questions_list: list[str] = field(default_factory=lambda: ['Я не понял?', 'Объясни пожалуйста'])
 
     def handle_message(self, bot: TeleBot, message: Message) -> None:
@@ -160,7 +160,7 @@ class BotHandler:
 
 # --- bot.py ---
 
-@dataclass(slots=True)
+@dataclass(slots=True, kw_only=True)
 class KazarinovBot:
     """! Telegram-бот для проекта Kazarinov."""
 
@@ -232,6 +232,7 @@ class KazarinovBot:
         self.bot.send_message(message.chat.id, self.config.UNKNOWN_COMMAND_MESSAGE)
 
 
+    
 
     def check_connection_status(self, url: str = "https://api.telegram.org") -> None:
         while True:
@@ -264,21 +265,18 @@ class KazarinovBot:
 
 
     def bot_start(self, attempts: int = 3) -> bool:
-        if attempts < 1:
-            raise Exception("Превышено количество попыток запуска")
+        while attempts > 0:
+            try:
+                logger.info("Starting bot polling...")
+                self.bot.infinity_polling()
+                return True
+            except Exception as ex:
+                logger.error("Error during polling", ex)
+                attempts -= 1
+                logger.debug(f"Retrying in 10 seconds... Attempts left: {attempts}")
+                time.sleep(10)
+        raise RuntimeError("Failed to start bot after multiple attempts.")
 
-        threading.Thread(target = self.check_connection_status, daemon=True).start()
-
-        try:
-            logger.info(f'\n\t -------------------------------------------- \n\t\t Just start bot in `{Config.MODE}` mode\n\t --------------------------------------------  \n', text_color = 'light_magenta', bg_color = 'black')
-            self.bot.infinity_polling()
-            
-            return True
-        except Exception as ex:
-            logger.error('Error during bot polling', ex, exc_info=True)
-            logger.debug('Повторный запуск через 10 секунд')
-            threading.Event().wait(10)
-            return self.restart_bot()
 
 
 if __name__ == '__main__':

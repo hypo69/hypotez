@@ -13,11 +13,18 @@
 
 
 import importlib
+from token import OP
 from urllib.parse import urlparse
-from src.logger import logger
-from src.suppliers.graber import Graber
+from typing import List, Optional
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from src.suppliers.graber import GraberBase
+    from src.webdriver.driverless.use_pydoll import Driver
 
-def dynamic_import_graber(supplier_alias: str) -> Graber | None:
+from src.logger import logger
+from src.suppliers.graber import GraberBase
+
+def dynamic_import_graber(supplier_alias: str) -> Optional['GraberBase']:
     """Динамически импортирует Graber класс по supplier_alias.
 
     Args:
@@ -38,7 +45,7 @@ def dynamic_import_graber(supplier_alias: str) -> Graber | None:
         logger.critical(f"Ошибка при импорте Graber из {module_path}", ex, True)
     return None
 
-def get_graber_by_supplier_prefix(supplier_prefix: str, driver:'Driver') -> Graber | None:
+def get_graber_by_supplier_prefix(supplier_prefix: str, driver:'Driver') -> Optional['GraberBase']:
     """ Возвращает экземпляр Graber для данного ключа поставщика.
 
     Args:
@@ -55,13 +62,13 @@ def get_graber_by_supplier_prefix(supplier_prefix: str, driver:'Driver') -> Grab
     GraberClass = dynamic_import_graber(supplier_alias)
     if GraberClass:
         try:
-            return GraberClass(supplier_prefix = supplier_prefix, driver = driver)
+            return GraberClass(driver = driver)
         except Exception as ex:
             logger.critical(f"Не удалось создать экземпляр Graber для {supplier_alias}", ex, True)
     return None
 
 
-def get_graber_by_supplier_url(url: str, driver:'Driver') -> Graber | None:
+def get_graber_by_supplier_url(url: str, driver:'Driver') -> Optional['GraberBase']:
     """ Возвращает экземпляр Graber по входному URL, соответствующий известному поставщику.
 
     Args:

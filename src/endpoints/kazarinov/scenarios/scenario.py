@@ -32,7 +32,7 @@ from src.endpoints.kazarinov.report_generator.report_generator import ReportGene
 from src.endpoints.kazarinov.scenarios.quotation_builder import QuotationBuilder
 from src.endpoints.prestashop.product_fields.product_fields import ProductFields
 from src.logger.logger import logger
-from src.suppliers.get_pydoll_graber_by_supplier import get_graber_by_supplier_url
+#from src.suppliers.get_pydoll_graber_by_supplier import get_graber_by_supplier_url
 from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_url
 from src.utils.jjson import j_dumps
 from src.webdriver.driverless.use_pydoll import Driver
@@ -161,7 +161,7 @@ class Scenario:
 
             logger.info(f'⏳ Сбор полей товара со страницы {url}', ex = None, exc_info = False, text_color = "light_gray")
             try:
-                self.driver.get_url(url)
+                await self.driver.get_url(url)
                 product_fields: ProductFields = await graber.grab_page_async(required_fields = required_fields)
             except Exception as ex:  # pragma: no cover
                 logger.error(f"❌ Ошибка парсинга страницы:{url}", ex, exc_info = True)

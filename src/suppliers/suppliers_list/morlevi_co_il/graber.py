@@ -3,10 +3,12 @@
 
 #! .pyenv/bin/python3
 
+
+
 """
-.. module:: src.suppliers.morlevi 
-	:platform: Windows, Unix
-	:synopsis: Класс собирает значение полей на странице  товара `morlevi.co.il`. 
+модуль для работы с Morlevi.co.il
+==================================
+Класс собирает значение полей на странице  товара `morlevi.co.il`. 
     Для каждого поля страницы товара сделана функция обработки поля в родительском классе.
     Если нужна нестандертная обработка, функция перегружается в этом классе.
     ------------------
@@ -14,36 +16,44 @@
     Декоратор по умолчанию находится в родительском классе. Для того, чтобы декоратор сработал надо передать значение 
     в `Context.locator`, Если надо реализовать свой декоратор - раскоментируйте строки с декоратором и переопределите его поведение
 
-
+```rst
+.. module:: src.suppliers.morlevi 
+	:platform: Windows, Unix
+	:synopsis: 
+```
 """
 
 from pathlib import Path
 from typing import Optional, Any
 from types import SimpleNamespace
-#from functools import wraps
 from dataclasses import dataclass, field
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from src.webdriver.driverless.use_pydoll import Driver
 
 import header
 from src import gs
-from src.suppliers.graber import Graber as SupplierGraber
+from src.suppliers.graber import GraberBase
 from src.utils.image import save_image
 from src.logger.logger import logger
 
 
-@dataclass(slots=True)
-class Graber(SupplierGraber):
-    """Класс для операций захвата Morlevi."""
+@dataclass(slots=True, kw_only=True)
+class Graber(GraberBase):
+    """ Класс для операций захвата полей со страниц Morlevi.
 
-    def __post_init__(self):
-        """Инициализация класса сбора полей товара."""
-        
-        super().__post_init__(
-                            supplier_prefix = self.supplier_prefix, 
-                            driver = self.driver, 
-                            locator_for_decorator = self.locator_for_decorator or None,
-                            lang_index = self.lang_index or 1
-                            )
-        ...
-         
+    Attrs:
+        supplier_prefix (str): Префикс поставщика. По умолчанию 'morlevi.co.il'.
+        driver (Driver): Экземпляр драйвера браузера.
+        locator_for_decorator (SimpleNamespace): Локаторы для использования в декораторах.
+        lang_index (int): Индекс языка для локализации (1 — англ, 2 — иврит, 3 — русский). По умолчанию 1.
+    """
 
-   
+    supplier_prefix: str = 'morlevi.co.il'
+    driver: 'Driver' = None
+    locator_for_decorator: Optional[SimpleNamespace] = None
+    lang_index: int = 1
+
+    # def __post_init__(self):
+    #     GraberBase.__post_init__()        

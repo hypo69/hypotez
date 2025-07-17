@@ -1,12 +1,9 @@
 ## \file /src/endpoints/kazarinov/react/report_generator.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
 
 """
-.. module:: src.endpoints.kazarinov.react 
-	:platform: Windows, Unix
-	:synopsis: Генератор HTML и PDF для мехиронов Казаринова
+Генератор HTML и PDF для мехиронов Казаринова
 
 Описание работы:
 - Конструктор `__init__`: Принимает шаблон, базовый путь, метку времени и язык.
@@ -16,6 +13,12 @@
 - Метод `generate_pdf`: Преобразует HTML в PDF.
 - Метод `create_report`: Запускает полный цикл генерации отчёта.
 
+rst```
+.. module:: src.endpoints.kazarinov.react.report_generator
+    :platform: Windows, Unix
+    :synopsis: Генератор HTML и PDF для мехиронов Казаринова
+```
+
 """
 
 
@@ -23,17 +26,14 @@
 
 
 
-from argparse import OPTIONAL
 import asyncio
 from dataclasses import dataclass, field
 import telebot
-from itertools import filterfalse
-from types import SimpleNamespace
 from typing import Optional
 import json
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
-import pdfkit
+# import pdfkit  # Не используется напрямую, используется pdf.save_pdf_pdfkit
 
 import header
 from header import __root__
@@ -41,7 +41,7 @@ from src import gs
 from src.utils.jjson import j_loads
 from src.utils.file import read_text_file, save_text_file    
 from src.utils.convertors.html import html2pdf
-#from src.utils.convertors.html  import html_to_docx
+# from src.utils.convertors.html  import html_to_docx  # Используется только в create_docx_report_async, но закомментирован вызов
 from src.utils.image import random_image
 from src.utils.printer import pprint
 from src.logger.logger import logger

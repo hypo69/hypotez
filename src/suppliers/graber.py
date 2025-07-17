@@ -54,6 +54,10 @@ from typing import Callable
 # from langdetect import detect
 from functools import wraps
 
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from src.webdriver.driverless.use_pydoll import Driver
+
 import header
 from header import __root__
 from src import gs
@@ -112,7 +116,7 @@ def close_pop_up() -> Callable:
 
 # --- config.py ---
 
-@dataclass(slots=True)
+@dataclass(slots=True, kw_only=True)
 class Config:
     """! Класс для хранения глобальных настроек для поставщика.
 
@@ -125,7 +129,7 @@ class Config:
     supplier_prefix: str
     locator_for_decorator: Optional[SimpleNamespace] = None
 
-    supplier_alias: str = field(init=False)
+    #supplier_alias: str = field(init=False)
     ENDPOINT: Path = field(init=False)
     SCENARIOS_DIR: Path = field(init=False)
 
@@ -143,9 +147,10 @@ class Config:
 
     def __post_init__(self):
         """! Инициализация путей и преобразование префикса в алиас."""
-        self.supplier_alias = self.supplier_prefix.replace('.', '_').replace('-', '_')
+        #self.supplier_alias = self.supplier_prefix.replace('.', '_').replace('-', '_')
         self.ENDPOINT = __root__ / 'src' / 'suppliers' / 'suppliers_list' / self.supplier_alias
         self.SCENARIOS_DIR = self.ENDPOINT / 'scenarios'
+        self.required_fields:list = self.required_fields or Config.required_fields
 
     @property
     def product_locators(self) -> SimpleNamespace:
@@ -181,31 +186,25 @@ class Config:
 
 # --- config.py end ---
 
-# --- graber.py ---
-@dataclass(slots=True)
-class Graber:
-    """! Базовый класс сбора данных со страницы для всех поставщиков. """
-
-    # supplier_prefix: str
-    # driver: 'Driver'
-    
-    # Эти поля будут инициализированы вручную в __post_init__
-    product_locators: SimpleNamespace = field(init=False)
-    category_locators: SimpleNamespace = field(init=False)
-    product_fields: ProductFields = field(init=False)
-    lang_index:int = field(default=1, init=False)  # Индекс языка по умолчанию (1 - английский, 2 - иврит, 3 - русский)
 
 
-    def __post_init__(self):
-        """! Инициализация зависимостей после создания экземпляра dataclass."""
-        config = Config(supplier_prefix=self.supplier_prefix)
-        self.product_locators = config.product_locators
-        self.category_locators = config.category_locators
-        self.product_fields = ProductFields(self.lang_index or 1)
+@dataclass(slots=True, kw_only=True)
+class GraberBase:
+    """! Базовый класс для грабера поставщика.
+    Attrs:
+        supplier_prefix (str): Префикс поставщика.
+        driver (Driver): Экземпляр драйвера браузера.
+        locator_for_decorator (SimpleNamespace): Локаторы для использования в декораторах.
+        lang_index (int): Индекс языка (1 — англ, 2 — иврит, 3 — русский).
+    """
 
-        # ---------------------------- конфигурация для декоратора ------------------------------
-        config.locator_for_decorator = self.locator_for_decorator or None
+    supplier_prefix: str
+    driver: 'Driver'
+    locator_for_decorator: Optional[SimpleNamespace] = None
+    lang_index: int = 1
 
+    # def __post_init__(self):
+    #     logger.info(f"Init graber for {self.supplier_prefix}")
 
 
     def yield_scenarios_for_supplier(self, supplier_prefix: str, input_scenarios: Optional[List[Dict[str, Any]] | Dict[str, Any]] = None) -> Generator[Dict[str, Any], None, None]:
@@ -448,17 +447,9 @@ class Graber:
                     logger.error(f'Ошибка навигации на страницу товара: {product_url}')
                     ...
                     continue
-                required_fields:tuple = ('id_product',
-                            'name',
-                            'price',
-                            'id_supplier',
-                            'description_short',
-                            'description',
-                            'specification',
-                            'local_image_path',
-                            'default_image_url')
 
-                f: Optional[ProductFields] = await self.grab_page_async(*required_fields, id_lang=id_lang)
+
+                f: Optional[ProductFields] = await self.grab_page_async(*self.required_fields, id_lang=id_lang)
                 if not f:
                     logger.error(f'Не удалось собрать поля товара со страницы {product_url}')
                     ...
@@ -517,12 +508,17 @@ class Graber:
         await self.error(field_name)
         return default
 
-    def grab_page(self, *args, **kwargs) -> ProductFields|bool:
-        return asyncio.run(self.grab_page_async(*args, **kwargs))
+    def grab_page(self, required_fields, page_url, *args, **kwargs) -> ProductFields|bool:
+        return asyncio.run(self.grab_page_async(required_fields, page_url, *args, **kwargs))
 
-    async def grab_page_async(self, required_fields: Optional[list], *args, **kwargs) -> ProductFields|bool:
+    async def grab_page_async(self, required_fields: Optional[list], page_url:Optional[str], *args, **kwargs) -> Optional[ProductFields]:
         """ Асинхронная функция для сбора полей товара.
         Ключевая функция класса.
+        Args: 
+            required_fields (Optional[list]): Список полей, которые нужно заполнить.
+            page_url (Optional[str]): URL страницы товара. Если не указан, используется текущий URL драйвера.
+        Returns:
+            Optional[ProductFields]: Заполненный объект ProductFields или None в случае ошибки.
         """
         async def fetch_all_data(required_fields: Optional[list], *args, **kwargs):
             """ Динамическое вызовы функций для каждого поля из args.
@@ -531,33 +527,26 @@ class Graber:
                 *args: Список полей моьно передать кортежем или пустым.
                 **kwargs: Ключевые аргументы, которые могут быть переданы.
             """
-            if not required_fields:
-                required_fields:list = list(args) or [
-                                'name',
-                                'reference',
-                                'id_supplier',
-                                'description_short',
-                                'description',
-                                'specification',
-                                'local_image_path',                      
-                                'default_image_url',
-                                'price']
 
-            if 'url' in kwargs:
-                self.driver.get_url(kwargs['url'])
+            required_fields = required_fields or self.required_fields
+
+            if page_url:
+                self.driver.get_url(page_url)
 
             # self.driver.scroll(3) <- Перенести в сценарии поставщиков по надобности
 
             for field_name in required_fields:
                 function = getattr(self, field_name, None)
                 if function:
-                    await function(kwargs.get(field_name, '')) # Просто вызываем с await, так как все функции асинхронные
+                    await function(kwargs.get(field_name, '')) #<- Вызов релевантной функции для каждого поля
+
+        # --- end function fetch_all_data ---
+
         try:
-            await fetch_all_data(*args, **kwargs)
+            await fetch_all_data(required_fields = required_fields, *args, **kwargs)
             return self.fields
         except Exception as ex:
             logger.error(f"Ошибка в функции `fetch_all_data`", ex)
-            ...
             return None
 
     
@@ -641,10 +630,10 @@ class Graber:
     @close_pop_up()
     async def advanced_stock_management(self, value:Optional[Any] = None) -> bool:
         """Fetch and set advanced stock management status.
-        DEPRECATED FIELD!
+        DEPRECATED FIELD! Не используется в престашоп 1.7.8 и выше.
         Args:
-        value (Any): это значение можно передать в словаре kwargs через ключ {advanced_stock_management = `value`} при определении класса.
-        Если `value` был передан, его значение подставляется в поле `ProductFields.advanced_stock_management`.
+            value (Any): это значение можно передать в словаре kwargs через ключ {advanced_stock_management = `value`} при определении класса.
+            Если `value` был передан, его значение подставляется в поле `ProductFields.advanced_stock_management`.
         """
         return False
 
