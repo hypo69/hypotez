@@ -60,7 +60,7 @@ class Config:
 #                               Класс‑сценарий                                      
 # ----------------------------------------------------------------------------------
 @dataclass(slots=True, kw_only=True)
-class Scenario:
+class Scenario(QuotationBuilder):
     """Исполнитель сценария для Казаринова.
 
     Args:
@@ -183,14 +183,14 @@ class Scenario:
 
                 # Индивидуальные настройки поставщиков
                 match(graber.supplier_prefix):
-                    case 'morlevi':
+                    case 'morlevi.co.il':
                         product_data['default_image_url'] = fr'https"://"morlevi.co.il/' + product_data['default_image_url'] 
-
-                    case 'grandadvance':
                         ...
-                    case 'ksp':
+                    case 'grandadvance.co.il':
                         ...
-                    case 'ivory':
+                    case 'ksp.co.il':
+                        ...
+                    case 'ivory.co.il':
                         ...
 
             except Exception as ex:  

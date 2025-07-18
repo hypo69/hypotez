@@ -62,9 +62,10 @@ def get_graber_by_supplier_prefix(supplier_prefix: str, driver:'Driver') -> Opti
     GraberClass = dynamic_import_graber(supplier_alias)
     if GraberClass:
         try:
-            return GraberClass(driver = driver)
+            return GraberClass(supplier_prefix = supplier_prefix, driver = driver)
         except Exception as ex:
             logger.critical(f"Не удалось создать экземпляр Graber для {supplier_alias}", ex, True)
+            ...
     return None
 
 

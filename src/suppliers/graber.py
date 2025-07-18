@@ -25,7 +25,7 @@ class G(Graber):
 
     @close_pop_up()
     async def name(self, value:Optional[Any] = None) -> bool:
-        self.fields.name = <Ваша реализация>
+        self.product_fields.name = <Ваша реализация>
         )
     ```
 ```rst
@@ -86,116 +86,86 @@ from src.logger.logger import logger
 # Общее название декоратора `@close_pop_up` можно изменить 
 # Если декоратор не используется в поставщике - Установи `Config.locator_for_decorator = None` 
 
+# --- decorator.py ---
+
 def close_pop_up() -> Callable:
-    """Создает декоратор для закрытия всплывающих окон перед выполнением основной логики функции.
-    Функция `driver.execute_locator()` будет вызвана только если был указан `Config.locator_for_decorator` при инициализации экземляра класса.
-
-    Args:
-        value ('Driver'): Дополнительное значение для декоратора.
-
-    Returns:
-        Callable: Декоратор, оборачивающий функцию.
-    """
     def decorator(func: Callable) -> Callable:
         @wraps(func)
         async def wrapper(*args, **kwargs):
-            if Config.locator_for_decorator:
+            instance = args[0]
+            
+            # Получаем локатор напрямую из экземпляра
+            locator = instance.locator_for_decorator
+            
+            if locator:
                 try:
-                    await driver.execute_locator(Config.locator_for_decorator)  # Await async pop-up close  
-                    ... 
-                except ExecuteLocatorException as ex:
-                    logger.debug(f'Ошибка выполнения локатора:', ex, False)
-
+                    await instance.driver.execute_locator(locator)
+                except Exception as ex:
+                    print(f'Ошибка выполнения локатора в декораторе: {ex}')
                 finally:
-                    Config.locator_for_decorator = None # Отмена после первого срабатывания
+                    # Очищаем локатор в экземпляре, а не в глобальном Config
+                    instance.locator_for_decorator = None 
 
-            return await func(*args, **kwargs)  # Await the main function
+            return await func(*args, **kwargs)
         return wrapper
     return decorator
 
+# --- decorator.py end ---
 
 # --- config.py ---
 
 @dataclass(slots=True, kw_only=True)
 class Config:
-    """! Класс для хранения глобальных настроек для поставщика.
-
-    Attributes:
-        supplier_prefix (str): Префикс поставщика (например, 'morlevi').
-        locator_for_decorator (Optional[SimpleNamespace]): Локатор, используемый декоратором `@close_pop_up`.
-        required_fields (list[str]): Список обязательных полей для сбора данных.
-    """
+    """! Класс конфигурации поставщика."""
 
     supplier_prefix: str
     locator_for_decorator: Optional[SimpleNamespace] = None
 
-    #supplier_alias: str = field(init=False)
     ENDPOINT: Path = field(init=False)
     SCENARIOS_DIR: Path = field(init=False)
 
     required_fields: list[str] = field(default_factory=lambda: [
-        'id_supplier',
-        'name',
-        'price',
-        'reference',
-        'description',
-        'description_short',
-        'specification',
-        'default_image_url',
-        'local_image_path',
+        'id_supplier', 'name', 'price', 'reference', 'description',
+        'description_short', 'specification', 'default_image_url', 'local_image_path',
     ])
 
     def __post_init__(self):
-        """! Инициализация путей и преобразование префикса в алиас."""
-        #self.supplier_alias = self.supplier_prefix.replace('.', '_').replace('-', '_')
-        self.ENDPOINT = __root__ / 'src' / 'suppliers' / 'suppliers_list' / self.supplier_alias
+        supplier_alias = self.supplier_prefix.replace('.', '_').replace('-', '_')
+        self.ENDPOINT = __root__ / 'src' / 'suppliers' / 'suppliers_list' / supplier_alias
         self.SCENARIOS_DIR = self.ENDPOINT / 'scenarios'
-        self.required_fields:list = self.required_fields or Config.required_fields
+
 
     @property
     def product_locators(self) -> SimpleNamespace:
-        """! Локаторы для страницы продукта.
-
-        Returns:
-            SimpleNamespace: Объект с локаторами, либо пустой объект при ошибке.
-        """
         try:
             return j_loads_ns(self.ENDPOINT / 'locators' / 'product.json')
         except FileNotFoundError:
-            logger.error(
-                f"Файл локаторов товара не найден для поставщика {self.supplier_prefix}: "
-                f"{self.ENDPOINT / 'locators' / 'product.json'}"
-            )
+            logger.error(f"Локаторы товара не найдены: {self.ENDPOINT / 'locators' / 'product.json'}")
             return SimpleNamespace()
 
     @property
     def category_locators(self) -> SimpleNamespace:
-        """! Локаторы для страницы категории.
-
-        Returns:
-            SimpleNamespace: Объект с локаторами, либо пустой объект при ошибке.
-        """
         try:
             return j_loads_ns(self.ENDPOINT / 'locators' / 'category.json')
         except FileNotFoundError:
-            logger.error(
-                f"Файл локаторов категории не найден для поставщика {self.supplier_prefix}: "
-                f"{self.ENDPOINT / 'locators' / 'category.json'}"
-            )
+            logger.error(f"Локаторы категории не найдены: {self.ENDPOINT / 'locators' / 'category.json'}")
             return SimpleNamespace()
 
 # --- config.py end ---
 
-
-
+# --- graber.py ---
 @dataclass(slots=True, kw_only=True)
 class GraberBase:
-    """! Базовый класс для грабера поставщика.
+    """! Базовый класс грабера поставщика.
+
     Attrs:
         supplier_prefix (str): Префикс поставщика.
         driver (Driver): Экземпляр драйвера браузера.
-        locator_for_decorator (SimpleNamespace): Локаторы для использования в декораторах.
-        lang_index (int): Индекс языка (1 — англ, 2 — иврит, 3 — русский).
+        locator_for_decorator (Optional[SimpleNamespace]): Локаторы для использования в декораторах.
+        lang_index (int): Индекс языка.
+        config (Config): Конфигурация, загружаемая по префиксу.
+        product_locator (SimpleNamespace): Локаторы для товара.
+        product_fields (ProductFields): Поля, собираемые с карточки товара.
     """
 
     supplier_prefix: str
@@ -203,41 +173,39 @@ class GraberBase:
     locator_for_decorator: Optional[SimpleNamespace] = None
     lang_index: int = 1
 
-    def grab_page(self, required_fields, page_url, *args, **kwargs) -> ProductFields|bool:
+    config: 'Config' = field(init=False)
+    product_locator: SimpleNamespace = field(init=False)
+    product_fields: ProductFields = field(default_factory=lambda: ProductFields())
+
+    def __post_init__(self):
+        self.config = Config(supplier_prefix=self.supplier_prefix)
+        #self.config.locator_for_decorator = self.locator_for_decorator
+        self.product_locator = self.config.product_locators
+
+
+    def grab_page(self, required_fields, page_url, *args, **kwargs) -> ProductFields | bool:
         return asyncio.run(self.grab_page_async(required_fields, page_url, *args, **kwargs))
 
-    async def grab_page_async(self, required_fields: Optional[list], page_url: Optional[str] = '', *args, **kwargs) -> Optional[ProductFields]:
-        """ Асинхронная функция для сбора полей товара.
-
-        Args:
-            required_fields (Optional[list]): Список полей, которые нужно заполнить.
-            page_url (Optional[str]): URL страницы товара. Если не указан, используется текущий URL драйвера.
-            *args: Дополнительные аргументы.
-            **kwargs: Ключевые аргументы, значения которых могут быть переданы для конкретных полей.
-
-        Returns:
-            Optional[ProductFields]: Заполненный объект ProductFields или None в случае ошибки.
-        """
+    async def grab_page_async(
+        self,
+        required_fields: Optional[list] = None,
+        page_url: Optional[str] = '',
+        *args,
+        **kwargs
+    ) -> Optional[ProductFields]:
 
         async def call_field_func(field_name: str) -> None:
-            """! Вызов функции сбора конкретного поля.
-
-            Args:
-                field_name (str): Название поля.
-            """
             function = getattr(self, field_name, None)
             if function:
                 try:
-                    await function(kwargs.get(field_name, '')) # <- Передача значения из kwargs, если оно есть
+                    await function(kwargs.get(field_name, ''))
                 except Exception as ex:
-                    logger.error(f"Ошибка при вызове функции для поля '{field_name}'", ex, exc_info=True)
+                    logger.error(f"Ошибка при вызове функции '{field_name}'", ex, exc_info=True)
 
         try:
-            required_fields = required_fields or self.required_fields
-
+            required_fields = required_fields or self.config.required_fields
             if page_url:
                 await asyncio.to_thread(self.driver.get_url, page_url)
-
 
             await asyncio.gather(*[
                 call_field_func(field_name)
@@ -245,11 +213,12 @@ class GraberBase:
                 if hasattr(self, field_name)
             ])
 
-            return self.fields
+            return self.product_fields
 
         except Exception as ex:
-            logger.error(f"Ошибка в функции `grab_page_async`", ex, exc_info=True)
+            logger.error("Ошибка в `grab_page_async`", ex, exc_info=True)
             return None
+
 
     
     def yield_scenarios_for_supplier(self, supplier_prefix: str, input_scenarios: Optional[List[Dict[str, Any]] | Dict[str, Any]] = None) -> Generator[Dict[str, Any], None, None]:
@@ -527,9 +496,6 @@ class GraberBase:
         # --- Конец функции ---
 
 
-
-
-
     @close_pop_up()
     async def additional_shipping_cost(self, value:Optional[Any] = None) -> bool:
         """Fetch and set additional shipping cost.
@@ -538,7 +504,7 @@ class GraberBase:
         если `value` был передан - его значение подставляется в поле `ProductFields.additional_shipping_cost
         """
         try:           
-            self.fields.additional_shipping_cost = normalize_string(value or  await self.driver.execute_locator(self.product_locator.additional_shipping_cost) or '')
+            self.product_fields.additional_shipping_cost = normalize_string(value or  await self.driver.execute_locator(self.product_locator.additional_shipping_cost) or '')
             return True
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `additional_shipping_cost`", ex)
@@ -555,7 +521,7 @@ class GraberBase:
         Если `value` был передан, его значение подставляется в поле `ProductFields.delivery_in_stock`.
         """
         try:            
-            self.fields.delivery_in_stock = normalize_string( value or  await self.driver.execute_locator(self.product_locator.delivery_in_stock) or '' )
+            self.product_fields.delivery_in_stock = normalize_string( value or  await self.driver.execute_locator(self.product_locator.delivery_in_stock) or '' )
             return True
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `delivery_in_stock`", ex)
@@ -573,7 +539,7 @@ class GraberBase:
         Принимаемое значениеЬ 1/0
         """
         try:            
-            self.fields.active = normalize_int( value or  await self.driver.execute_locator(self.product_locator.active) or 1)
+            self.product_fields.active = normalize_int( value or  await self.driver.execute_locator(self.product_locator.active) or 1)
             return True
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `active`", ex)
@@ -589,7 +555,7 @@ class GraberBase:
         Если `value` был передан, его значение подставляется в поле `ProductFields.additional_delivery_times`.
         """
         try:            
-            self.fields.additional_delivery_times = value or  await self.driver.execute_locator(self.product_locator.additional_delivery_times) or ''
+            self.product_fields.additional_delivery_times = value or  await self.driver.execute_locator(self.product_locator.additional_delivery_times) or ''
             return True
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `additional_delivery_times`", ex)
@@ -599,17 +565,13 @@ class GraberBase:
 
     @close_pop_up()
     async def advanced_stock_management(self, value:Optional[Any] = None) -> bool:
-        """Fetch and set advanced stock management status.
-        DEPRECATED FIELD! Не используется в престашоп 1.7.8 и выше.
+        """ -** DEPRECATED FIELD! **- Не используется в престашоп 1.7.8 и выше.
         Args:
             value (Any): это значение можно передать в словаре kwargs через ключ {advanced_stock_management = `value`} при определении класса.
             Если `value` был передан, его значение подставляется в поле `ProductFields.advanced_stock_management`.
         """
         return False
 
-        # # Записываем результат в поле `advanced_stock_management` объекта `ProductFields`
-        # self.fields.advanced_stock_management = value
-        # return True
 
     @close_pop_up()
     async def affiliate_short_link(self, value:Optional[str] = None) -> bool:
@@ -620,12 +582,13 @@ class GraberBase:
         Если `value` был передан, его значение подставляется в поле `ProductFields.affiliate_short_link`.
         """
         try:            
-            self.fields.affiliate_short_link = value or  await self.driver.execute_locator(self.product_locator.affiliate_short_link) or ''
-            return True
+            self.product_fields.affiliate_short_link = value or  await self.driver.execute_locator(self.product_locator.affiliate_short_link) or ''
+            
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `affiliate_short_link`", ex)
             ...
             return
+        return True
 
     @close_pop_up()
     async def affiliate_summary(self, value:Optional[str] = None) -> bool:
@@ -636,7 +599,7 @@ class GraberBase:
         Если `value` был передан, его значение подставляется в поле `ProductFields.affiliate_summary`.
         """
         try:            
-            self.fields.affiliate_summary = normalize_string( value or  await self.driver.execute_locator(self.product_locator.affiliate_summary) or '' )
+            self.product_fields.affiliate_summary = normalize_string( value or  await self.driver.execute_locator(self.product_locator.affiliate_summary) or '' )
             return True
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `affiliate_summary`", ex)
@@ -653,7 +616,7 @@ class GraberBase:
         Если `value` был передан, его значение подставляется в поле `ProductFields.affiliate_summary_2`.
         """
         try:            
-            self.fields.affiliate_summary_2 = normalize_string(value or  await self.driver.execute_locator(self.product_locator.affiliate_summary_2) or '')
+            self.product_fields.affiliate_summary_2 = normalize_string(value or  await self.driver.execute_locator(self.product_locator.affiliate_summary_2) or '')
             return True
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `affiliate_summary_2`", ex)
@@ -670,7 +633,7 @@ class GraberBase:
         Если `value` был передан, его значение подставляется в поле `ProductFields.affiliate_text`.
         """
         try:            
-            self.fields.affiliate_text = normalize_string( value or  await self.driver.execute_locator(self.product_locator.affiliate_text) or '')
+            self.product_fields.affiliate_text = normalize_string( value or  await self.driver.execute_locator(self.product_locator.affiliate_text) or '')
             return True
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `affiliate_text`", ex)
@@ -686,7 +649,7 @@ class GraberBase:
         Если `value` был передан, его значение подставляется в поле `ProductFields.affiliate_image_large`.
         """
         try:            
-            self.fields.affiliate_image_large  = value or  await self.driver.execute_locator(self.product_locator.affiliate_image_large) or ''
+            self.product_fields.affiliate_image_large  = value or  await self.driver.execute_locator(self.product_locator.affiliate_image_large) or ''
             return True
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `affiliate_image_large`", ex)
@@ -702,7 +665,7 @@ class GraberBase:
         Если `value` был передан, его значение подставляется в поле `ProductFields.affiliate_image_medium`.
         """
         try:            
-            self.fields.affiliate_image_medium = value or  await self.driver.execute_locator(self.product_locator.affiliate_image_medium) or ''
+            self.product_fields.affiliate_image_medium = value or  await self.driver.execute_locator(self.product_locator.affiliate_image_medium) or ''
             return True
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `affiliate_image_medium`", ex)
@@ -718,7 +681,7 @@ class GraberBase:
         Если `value` был передан, его значение подставляется в поле `ProductFields.affiliate_image_small`.
         """
         try:            
-            self.fields.affiliate_image_small = value or  await self.driver.execute_locator(self.product_locator.affiliate_image_small) or ''
+            self.product_fields.affiliate_image_small = value or  await self.driver.execute_locator(self.product_locator.affiliate_image_small) or ''
             return True
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `affiliate_image_small`", ex)
@@ -734,7 +697,7 @@ class GraberBase:
         Если `value` был передан, его значение подставляется в поле `ProductFields.available_date`.
         """
         try:            
-            self.fields.available_date = value or  await self.driver.execute_locator(self.product_locator.available_date) or ''
+            self.product_fields.available_date = value or  await self.driver.execute_locator(self.product_locator.available_date) or ''
             return True
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `available_date`", ex)
@@ -750,7 +713,7 @@ class GraberBase:
         Если `value` был передан, его значение подставляется в поле `ProductFields.available_for_order`.
         """
         try:            
-            self.fields.available_for_order = value or  await self.driver.execute_locator(self.product_locator.available_for_order) or ''
+            self.product_fields.available_for_order = value or  await self.driver.execute_locator(self.product_locator.available_for_order) or ''
             return True
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `available_for_order`", ex)
@@ -767,7 +730,7 @@ class GraberBase:
         Если `value` был передан, его значение подставляется в поле `ProductFields.available_later`.
         """
         try:            
-            self.fields.available_later = value or  await self.driver.execute_locator(self.product_locator.available_later) or ''
+            self.product_fields.available_later = value or  await self.driver.execute_locator(self.product_locator.available_later) or ''
             return True
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `available_later`", ex)
@@ -783,7 +746,7 @@ class GraberBase:
         Если `value` был передан, его значение подставляется в поле `ProductFields.available_now`.
         """
         try:            
-            self.fields.available_now = normalize_int(value or  await self.driver.execute_locator(self.product_locator.available_now) or 1)
+            self.product_fields.available_now = normalize_int(value or  await self.driver.execute_locator(self.product_locator.available_now) or 1)
             return True
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `available_now`", ex)
@@ -804,7 +767,7 @@ class GraberBase:
         Returns:
         dict: Словарь с ID категорий.
         """
-        self.fields.additional_categories = value 
+        self.product_fields.additional_categories = value 
         return True if value else False
         
 
@@ -817,7 +780,7 @@ class GraberBase:
         Если `value` был передан, его значение подставляется в поле `ProductFields.cache_default_attribute`.
         """
         try:
-            self.fields.cache_default_attribute = value or  await self.driver.execute_locator(self.product_locator.cache_default_attribute) or ''
+            self.product_fields.cache_default_attribute = value or  await self.driver.execute_locator(self.product_locator.cache_default_attribute) or ''
             return True
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `cache_default_attribute`", ex)
@@ -833,7 +796,7 @@ class GraberBase:
         Если `value` был передан, его значение подставляется в поле `ProductFields.cache_has_attachments`.
         """
         try:            
-            self.fields.cache_has_attachments = normalize_int(value or  await self.driver.execute_locator(self.product_locator.cache_has_attachments) or 0)
+            self.product_fields.cache_has_attachments = normalize_int(value or  await self.driver.execute_locator(self.product_locator.cache_has_attachments) or 0)
            
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `cache_has_attachments`", ex)
@@ -850,7 +813,7 @@ class GraberBase:
         Если `value` был передан, его значение подставляется в поле `ProductFields.cache_is_pack`.
         """
         try:            
-            self.fields.cache_is_pack = normalize_string(value or  await self.driver.execute_locator(self.product_locator.cache_is_pack) or '')
+            self.product_fields.cache_is_pack = normalize_string(value or  await self.driver.execute_locator(self.product_locator.cache_is_pack) or '')
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `cache_is_pack`", ex)
             ...
@@ -866,7 +829,7 @@ class GraberBase:
         Если `value` был передан, его значение подставляется в поле `ProductFields.condition`.
         """
         try:            
-            self.fields.condition = normalize_string(value or  await self.driver.execute_locator(self.product_locator.condition) or 'new')
+            self.product_fields.condition = normalize_string(value or  await self.driver.execute_locator(self.product_locator.condition) or 'new')
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `condition`", ex)
             ...
@@ -883,7 +846,7 @@ class GraberBase:
         Если `value` был передан, его значение подставляется в поле `ProductFields.customizable`.
         """
         try:            
-            self.fields.customizable = value or  await self.driver.execute_locator(self.product_locator.customizable) or ''
+            self.product_fields.customizable = value or  await self.driver.execute_locator(self.product_locator.customizable) or ''
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `customizable`", ex)
             ...
@@ -899,7 +862,7 @@ class GraberBase:
         Если `value` был передан, его значение подставляется в поле `ProductFields.date_add`.
         """
         try:            
-            self.fields.date_add = normalize_sql_date( value or  await self.driver.execute_locator(self.product_locator.date_add) or gs.now)
+            self.product_fields.date_add = normalize_sql_date( value or  await self.driver.execute_locator(self.product_locator.date_add) or gs.now)
             
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `date_add`", ex)
@@ -916,7 +879,7 @@ class GraberBase:
         Если `value` был передан, его значение подставляется в поле `ProductFields.date_upd`.
         """
         try:            
-            self.fields.date_upd = normalize_sql_date( value or  await self.driver.execute_locator(self.product_locator.date_upd) or gs.now )
+            self.product_fields.date_upd = normalize_sql_date( value or  await self.driver.execute_locator(self.product_locator.date_upd) or gs.now )
             
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `date_upd`", ex)
@@ -933,7 +896,7 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.delivery_out_stock`.
         """
         try:            
-            self.fields.delivery_out_stock = normalize_string( value or  await self.driver.execute_locator(self.product_locator.delivery_out_stock) or '')
+            self.product_fields.delivery_out_stock = normalize_string( value or  await self.driver.execute_locator(self.product_locator.delivery_out_stock) or '')
            
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `delivery_out_stock`", ex)
@@ -950,7 +913,7 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.depth`.
         """
         try:            
-            self.fields.depth = normalize_float( value or  await self.driver.execute_locator(self.product_locator.depth) or None )
+            self.product_fields.depth = normalize_float( value or  await self.driver.execute_locator(self.product_locator.depth) or None )
             return True
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `depth`", ex)
@@ -966,7 +929,7 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.description`.
         """
         try:
-            self.fields.description = normalize_string(value or  await self.driver.execute_locator(self.product_locator.description) )
+            self.product_fields.description = normalize_string(value or  await self.driver.execute_locator(self.product_locator.description) or None)
             return True
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `description` \n ", ex)
@@ -983,7 +946,7 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.description_short`.
         """
         try:
-            self.fields.description_short = normalize_string(value or await self.driver.execute_locator(self.product_locator.description_short) or '')
+            self.product_fields.description_short = normalize_string(value or await self.driver.execute_locator(self.product_locator.description_short) or '')
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `description_short`", ex)
             ...
@@ -1001,7 +964,7 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.id_category_default`.
         """
         try:
-            self.fields.id_category_default = normalize_int(value or await self.driver.execute_locator(self.product_locator.id_category_default) or None)
+            self.product_fields.id_category_default = normalize_int(value or await self.driver.execute_locator(self.product_locator.id_category_default) or None)
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `id_category_default`", ex)
             ...
@@ -1017,7 +980,7 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.id_default_combination`.
         """
         try:
-            self.fields.id_default_combination = normalize_int(value or await self.driver.execute_locator(self.product_locator.id_default_combination) or 0)
+            self.product_fields.id_default_combination = normalize_int(value or await self.driver.execute_locator(self.product_locator.id_default_combination) or 0)
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `id_default_combination`", ex)
             ...
@@ -1025,34 +988,16 @@ class GraberBase:
         return True
 
     @close_pop_up()
-    async def id_product(self, value:Optional[Any] = None) -> bool:
+    async def id_product(self, value:Optional[int] = None) -> bool:
         """Fetch and set product ID.
         
         Args:
         value (Any): это значение можно передать в словаре kwargs через ключ {id_product = `value`} при определении класса.
         Если `value` было передано, его значение подставляется в поле `ProductFields.id_product`.
         """
-        if value:
-            self.fields.id_product = value
-
-        if not self.fields.id_supplier:
-            await self.id_supplier()
         try:
             # Получаем значение id_supplier, если оно не передано
-            raw = await self.driver.execute_locator(self.product_locator.id_product)
-            if not raw:
-                logger.error(f"SKU not found! ", None, False)
-                ...
-                return
-            sku = normalize_sku(raw) 
-            if not sku:
-                logger.error(f"Invalid SKU ", None, False)
-                ...
-                return
-
-            self.fields.id_product = str( self.fields.id_supplier ) +'-'+ sku 
-            return True
-
+            self.product_fields.id_product = normalize_int(await self.driver.execute_locator(self.product_locator.id_product), None)
         except Exception as ex:
             logger.error(f"Ошибка значения поля `id_product`", ex)
             ...
@@ -1061,7 +1006,6 @@ class GraberBase:
 
 
     @close_pop_up()
-    @setter
     async def locale(self, value:Optional[Any] = None) -> bool:
         """Fetch and set locale.
         Args:
@@ -1072,12 +1016,12 @@ class GraberBase:
         # Если value не передано, Определение locale автоматически
         try:
             i18n = value or d.locale
-            if not i18n and self.fields.name['language'][0]['value']:
-                text = self.fields.name['language'][0]['value']
+            if not i18n and self.product_fields.name['language'][0]['value']:
+                text = self.product_fields.name['language'][0]['value']
                 i18n = detect(text)
 
             # Записываем результат в поле `locale` объекта `ProductFields`
-            self.fields.locale = i18n
+            self.product_fields.locale = i18n
 
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `locale`", ex)
@@ -1094,7 +1038,7 @@ class GraberBase:
         """
 
         try:            
-            self.fields.id_default_image = value or  await self.driver.execute_locator(self.product_locator.id_default_image) or 0
+            self.product_fields.id_default_image = value or  await self.driver.execute_locator(self.product_locator.id_default_image) or 0
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `id_default_image`", ex)
             ...
@@ -1111,7 +1055,7 @@ class GraberBase:
         """
 
         try:            
-            self.fields.ean13 = value or  await self.driver.execute_locator(self.product_locator.ean13) or ''
+            self.product_fields.ean13 = value or  await self.driver.execute_locator(self.product_locator.ean13) or ''
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `ean13`", ex)
             ...
@@ -1129,7 +1073,7 @@ class GraberBase:
 
         try:
 
-            self.fields.ecotax = value or  await self.driver.execute_locator(self.product_locator.ecotax) or 0
+            self.product_fields.ecotax = value or  await self.driver.execute_locator(self.product_locator.ecotax) or 0
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `ecotax`", ex)
             ...
@@ -1145,7 +1089,7 @@ class GraberBase:
         """
 
         try:            
-            self.fields.height = value or  await self.driver.execute_locator(self.product_locator.height) or 0.0
+            self.product_fields.height = value or  await self.driver.execute_locator(self.product_locator.height) or 0.0
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `height`", ex)
             ...
@@ -1160,7 +1104,7 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.how_to_use`.
         """
         try:            
-            self.fields.how_to_use = normalize_string(value or  await self.driver.execute_locator(self.product_locator.how_to_use) or '')
+            self.product_fields.how_to_use = normalize_string(value or  await self.driver.execute_locator(self.product_locator.how_to_use) or '')
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `how_to_use`", ex)
             ...
@@ -1175,7 +1119,7 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.id_manufacturer`.
         """
         try:            
-            self.fields.id_manufacturer = normalize_int(value or  await self.driver.execute_locator(self.product_locator.id_manufacturer) or None)
+            self.product_fields.id_manufacturer = normalize_int(value or  await self.driver.execute_locator(self.product_locator.id_manufacturer) or None)
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `id_manufacturer`", ex)
             ...
@@ -1208,7 +1152,7 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.id_supplier`.
         """
         try:            
-            self.fields.id_supplier = normalize_int(value or  self.product_locator.id_supplier.attribute)
+            self.product_fields.id_supplier = normalize_int(value or  self.product_locator.id_supplier.attribute)
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `id_supplier`", ex)
             ...
@@ -1224,7 +1168,7 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.id_tax_rules_group`.
         """
         try:            
-            self.fields.id_tax_rules_group = normalize_int(value or  await self.driver.execute_locator(self.product_locator.id_tax_rules_group ) or 1)
+            self.product_fields.id_tax_rules_group = normalize_int(value or  await self.driver.execute_locator(self.product_locator.id_tax_rules_group ) or 1)
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `id_tax_rules_group `", ex)
             ...
@@ -1239,7 +1183,7 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.id_type_redirected`.
         """
         try:            
-            self.fields.id_type_redirected = normalize_int(value or  await self.driver.execute_locator(self.product_locator.id_type_redirected) or 0)
+            self.product_fields.id_type_redirected = normalize_int(value or  await self.driver.execute_locator(self.product_locator.id_type_redirected) or 0)
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `id_type_redirected`", ex)
             ...
@@ -1255,7 +1199,7 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.images_urls`.
         """
         try:            
-            self.fields.images_urls = normalize_string(value or  await self.driver.execute_locator(self.product_locator.images_urls) or '')
+            self.product_fields.images_urls = normalize_string(value or  await self.driver.execute_locator(self.product_locator.images_urls) or '')
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `images_urls`", ex)
             ...
@@ -1271,7 +1215,7 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.indexed`.
         """
         try:            
-            self.fields.indexed = normalize_string(value or  await self.driver.execute_locator(self.product_locator.indexed) or '')
+            self.product_fields.indexed = normalize_string(value or  await self.driver.execute_locator(self.product_locator.indexed) or '')
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `indexed`", ex)
             ...
@@ -1287,7 +1231,7 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.ingredients`.
         """
         try:            
-            self.fields.ingredients = normalize_string(value or  await self.driver.execute_locator(self.product_locator.ingredients) or '')
+            self.product_fields.ingredients = normalize_string(value or  await self.driver.execute_locator(self.product_locator.ingredients) or '')
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `ingredients`", ex)
             ...
@@ -1303,7 +1247,7 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.meta_description`.
         """
         try:            
-            self.fields.meta_description = normalize_string(value or  await self.driver.execute_locator(self.product_locator.meta_description) or '')
+            self.product_fields.meta_description = normalize_string(value or  await self.driver.execute_locator(self.product_locator.meta_description) or '')
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `meta_description`", ex)
             ...
@@ -1319,7 +1263,7 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.meta_keywords`.
         """
         try:
-            self.fields.meta_keywords = normalize_string(value or  await self.driver.execute_locator(self.product_locator.meta_keywords) or '')
+            self.product_fields.meta_keywords = normalize_string(value or  await self.driver.execute_locator(self.product_locator.meta_keywords) or '')
             return True
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `meta_keywords`", ex)
@@ -1335,7 +1279,7 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.meta_title`.
         """
         try:
-            self.fields.meta_title = normalize_string(value or  await self.driver.execute_locator(self.product_locator.meta_title) or '')
+            self.product_fields.meta_title = normalize_string(value or  await self.driver.execute_locator(self.product_locator.meta_title) or '')
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `meta_title`", ex)
             return
@@ -1349,7 +1293,7 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.is_virtual`.
         """
         try:            
-            self.fields.is_virtual = normalize_int(value or  await self.driver.execute_locator(self.product_locator.is_virtual) or 0)  
+            self.product_fields.is_virtual = normalize_int(value or  await self.driver.execute_locator(self.product_locator.is_virtual) or 0)  
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `is_virtual`", ex)
             ...
@@ -1367,7 +1311,7 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.isbn`.
         """
         try:            
-            self.fields.isbn = normalize_string(value or  await self.driver.execute_locator(self.product_locator.isbn) or '')
+            self.product_fields.isbn = normalize_string(value or  await self.driver.execute_locator(self.product_locator.isbn) or '')
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `isbn`", ex)
             ...
@@ -1383,7 +1327,7 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.link_rewrite`.
         """
         try:            
-            self.fields.link_rewrite = normalize_string(value or  await self.driver.execute_locator(self.product_locator.link_rewrite) or '')
+            self.product_fields.link_rewrite = normalize_string(value or  await self.driver.execute_locator(self.product_locator.link_rewrite) or '')
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `link_rewrite`", ex)
             ...
@@ -1399,15 +1343,11 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.location`.
         """
         try:            
-            self.fields.location = normalize_string(value or  await self.driver.execute_locator(self.product_locator.location) or '')
+            self.product_fields.location = normalize_string(value or  await self.driver.execute_locator(self.product_locator.location) or '')
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `location`", ex)
             ...
             return
-
-        
-        # Записываем результат в поле `location` объекта `ProductFields`
-         = value
         return True
 
     @close_pop_up()
@@ -1419,8 +1359,7 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.low_stock_alert`.
         """
         try:
-
-            self.fields.low_stock_alert = normalize_string(value or  await self.driver.execute_locator(self.product_locator.low_stock_alert) or '') 
+            self.product_fields.low_stock_alert = normalize_string(value or  await self.driver.execute_locator(self.product_locator.low_stock_alert) or '') 
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `low_stock_alert`", ex)
             ...
@@ -1436,8 +1375,7 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.low_stock_threshold`.
         """
         try:
-            
-            self.fields.low_stock_threshold = normalize_string( value or  await self.driver.execute_locator(self.product_locator.low_stock_threshold) or '' )
+            self.product_fields.low_stock_threshold = normalize_string( value or  await self.driver.execute_locator(self.product_locator.low_stock_threshold) or '' )
             
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `low_stock_threshold`", ex)
@@ -1455,7 +1393,7 @@ class GraberBase:
         """
         try:
             
-            self.fields.minimal_quantity = normalize_int( value or  await self.driver.execute_locator(self.product_locator.minimal_quantity) or 1)
+            self.product_fields.minimal_quantity = normalize_int( value or  await self.driver.execute_locator(self.product_locator.minimal_quantity) or 1)
 
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `minimal_quantity`", ex)
@@ -1473,7 +1411,7 @@ class GraberBase:
         """
         try:
             
-            self.fields.mpn = normalize_string( value or  await self.driver.execute_locator(self.product_locator.mpn) or '')
+            self.product_fields.mpn = normalize_string( value or  await self.driver.execute_locator(self.product_locator.mpn) or '')
             
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `mpn`", ex)
@@ -1491,7 +1429,7 @@ class GraberBase:
         """
         value = value if value else await self.driver.execute_locator(self.product_locator.name)
         if value:
-            self.fields.name = normalize_string(value)[:127]
+            self.product_fields.name = normalize_string(value)[:127]
             return True       
         return False
 
@@ -1506,7 +1444,7 @@ class GraberBase:
         """
         try:
             
-            self.fields.online_only = normalize_int( value or  await self.driver.execute_locator(self.product_locator.online_only) or 0 )
+            self.product_fields.online_only = normalize_int( value or  await self.driver.execute_locator(self.product_locator.online_only) or 0 )
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `online_only`", ex)
             ...
@@ -1523,7 +1461,7 @@ class GraberBase:
         """
         try:
             
-            self.fields.on_sale = value or  await self.driver.execute_locator(self.product_locator.on_sale) or ''
+            self.product_fields.on_sale = value or  await self.driver.execute_locator(self.product_locator.on_sale) or ''
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `on_sale`", ex)
             ...
@@ -1541,7 +1479,7 @@ class GraberBase:
         """
         try:
             
-            self.fields.out_of_stock = normalize_string( value or  await self.driver.execute_locator(self.product_locator.out_of_stock) or '' )
+            self.product_fields.out_of_stock = normalize_string( value or  await self.driver.execute_locator(self.product_locator.out_of_stock) or '' )
             
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `out_of_stock`", ex)
@@ -1559,7 +1497,7 @@ class GraberBase:
         """
         try:
             
-            self.fields.pack_stock_type = normalize_string( value or  await self.driver.execute_locator(self.product_locator.pack_stock_type) or '')
+            self.product_fields.pack_stock_type = normalize_string( value or  await self.driver.execute_locator(self.product_locator.pack_stock_type) or '')
             
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `pack_stock_type`', ex)
@@ -1577,7 +1515,7 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.price`.
         """
         try:
-            self.fields.price = normalize_float( value if value else await self.driver.execute_locator(self.product_locator.price))
+            self.product_fields.price = normalize_float( value if value else await self.driver.execute_locator(self.product_locator.price))
             
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `price`', ex)
@@ -1595,7 +1533,7 @@ class GraberBase:
         """
         try:
             
-            self.fields.product_type = value or  await self.driver.execute_locator(self.product_locator.product_type) or ''
+            self.product_fields.product_type = value or  await self.driver.execute_locator(self.product_locator.product_type) or ''
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `product_type`', ex)
             ...
@@ -1612,8 +1550,7 @@ class GraberBase:
         Если `value` был передан - его значение подставляется в поле `ProductFields.quantity`.
         """
         try:
-            
-            self.fields.quantity = normalize_int( value or  await self.driver.execute_locator(self.product_locator.quantity) or 1 )
+            self.product_fields.quantity = normalize_int( value or  await self.driver.execute_locator(self.product_locator.quantity) or 1 )
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `quantity`', ex)
             ...
@@ -1629,8 +1566,8 @@ class GraberBase:
         Если `value` был передан - его значение подставляется в поле `ProductFields.quantity_discount`.
         """
         try:
-            
-            self.fields.quantity_discount = normalize_string( value or  await self.driver.execute_locator(self.product_locator.quantity_discount) or '' )
+            self.product_fields.quantity_discount = normalize_string( value or  await self.driver.execute_locator(self.product_locator.quantity_discount) or '' )
+            self.product_fields.quantity_discount = normalize_string( value or  await self.driver.execute_locator(self.product_locator.quantity_discount) or '' )
             
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `quantity_discount`', ex)
@@ -1647,7 +1584,7 @@ class GraberBase:
         Если `value` был передан - его значение подставляется в поле `ProductFields.redirect_type`.
         """
         try:            
-            self.fields.redirect_type = value or  await self.driver.execute_locator(self.product_locator.redirect_type) or ''
+            self.product_fields.redirect_type = value or  await self.driver.execute_locator(self.product_locator.redirect_type) or ''
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `redirect_type`', ex)
             ...
@@ -1664,7 +1601,7 @@ class GraberBase:
         Если `value` был передан - его значение подставляется в поле `ProductFields.reference`.
         """
         try:            
-            self.fields.reference = normalize_string( value or  await self.driver.execute_locator(self.product_locator.reference) or '')
+            self.product_fields.reference = normalize_string( value or  await self.driver.execute_locator(self.product_locator.reference) or '')
 
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `reference`', ex)
@@ -1681,7 +1618,7 @@ class GraberBase:
         Если `value` был передан - его значение подставляется в поле `ProductFields.show_condition`.
         """
         try:
-            self.fields.show_condition = normalize_int( value or  await self.driver.execute_locator(self.product_locator.show_condition) or 1 )
+            self.product_fields.show_condition = normalize_int( value or  await self.driver.execute_locator(self.product_locator.show_condition) or 1 )
             
         except Exception as ex:
             logger.error('Ошибка получения значения в поле `show_condition`', ex)
@@ -1698,7 +1635,7 @@ class GraberBase:
         Если `value` был передан - его значение подставляется в поле `ProductFields.show_price`.
         """
         try:
-            self.fields.show_price = normalize_int( value or  await self.driver.execute_locator(self.product_locator.show_price) or 1 )
+            self.product_fields.show_price = normalize_int( value or  await self.driver.execute_locator(self.product_locator.show_price) or 1 )
             
         except Exception as ex:
             logger.error('Ошибка получения значения в поле `show_price`', ex)
@@ -1717,7 +1654,7 @@ class GraberBase:
         """
         try:
             
-            self.fields.state = normalize_string( value or  await self.driver.execute_locator(self.product_locator.state))
+            self.product_fields.state = normalize_string( value or  await self.driver.execute_locator(self.product_locator.state))
         except Exception as ex:
             logger.error('Ошибка получения значения в поле `state`', ex)
             ...
@@ -1733,7 +1670,7 @@ class GraberBase:
         Если `value` был передан - его значение подставляется в поле `ProductFields.text_fields`.
         """
         try:
-            self.fields.text_fields = value or  await self.driver.execute_locator(self.product_locator.text_fields) or ''
+            self.product_fields.text_fields = value or  await self.driver.execute_locator(self.product_locator.text_fields) or ''
         except Exception as ex:
             logger.error('Ошибка получения значения в поле `text_fields`', ex)
             ...
@@ -1750,7 +1687,7 @@ class GraberBase:
         """
         try:
             
-            self.fields.unit_price_ratio = value or  await self.driver.execute_locator(self.product_locator.unit_price_ratio) or ''
+            self.product_fields.unit_price_ratio = value or  await self.driver.execute_locator(self.product_locator.unit_price_ratio) or ''
         except Exception as ex:
             logger.error('Ошибка получения значения в поле `unit_price_ratio`', ex)
             ...
@@ -1767,7 +1704,7 @@ class GraberBase:
             Если `value` был передан - его значение подставляется в поле `ProductFields.unity`.
         """
         try:
-            self.fields.unity = normalize_string( value or  await self.driver.execute_locator(self.product_locator.unity) or '')
+            self.product_fields.unity = normalize_string( value or  await self.driver.execute_locator(self.product_locator.unity) or '')
             
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `unity`', ex)
@@ -1784,7 +1721,7 @@ class GraberBase:
             Если `value` был передан - его значение подставляется в поле `ProductFields.upc`.
         """
         try:
-            self.fields.upc = normalize_string( value or  await self.driver.execute_locator(self.product_locator.upc) or '')
+            self.product_fields.upc = normalize_string( value or  await self.driver.execute_locator(self.product_locator.upc) or '')
             
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `upc`', ex)
@@ -1819,7 +1756,7 @@ class GraberBase:
             Если `value` был передан - его значение подставляется в поле `ProductFields.default_image_url`.
         """
         try:
-            self.fields.default_image_url = value or  await self.driver.execute_locator(self.product_locator.default_image_url) or ''
+            self.product_fields.default_image_url = value or  await self.driver.execute_locator(self.product_locator.default_image_url) or ''
 
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `default_image_url`', ex)
@@ -1844,7 +1781,7 @@ class GraberBase:
             Если `value` был передан - его значение подставляется в поле `ProductFields.visibility`.
         """
         try:
-            self.fields.visibility = value or  await self.driver.execute_locator(self.product_locator.visibility) or 'both'
+            self.product_fields.visibility = value or  await self.driver.execute_locator(self.product_locator.visibility) or 'both'
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `visibility`', ex)
             ...
@@ -1861,7 +1798,7 @@ class GraberBase:
             Если `value` был передан, его значение подставляется в поле `ProductFields.weight`.
         """
         try:           
-            self.fields.weight = normalize_int( value or  await self.driver.execute_locator(self.product_locator.weight) or 0  )
+            self.product_fields.weight = normalize_int( value or  await self.driver.execute_locator(self.product_locator.weight) or 0  )
             
         except Exception as ex:
             logger.error('Ошибка получения значения в поле `weight`', ex)
@@ -1879,7 +1816,7 @@ class GraberBase:
             Если `value` был передан, его значение подставляется в поле `ProductFields.wholesale_price`.
         """
         try:
-            self.fields.wholesale_price = normalize_float( value or  await self.driver.execute_locator(self.product_locator.wholesale_price) or 0)
+            self.product_fields.wholesale_price = normalize_float( value or  await self.driver.execute_locator(self.product_locator.wholesale_price) or 0)
 
         except Exception as ex:
             logger.error('Ошибка получения значения в поле `wholesale_price`', ex)
@@ -1896,7 +1833,7 @@ class GraberBase:
             Если `value` был передан, его значение подставляется в поле `ProductFields.width`.
         """
         try:
-           self.fields.width = normalize_float( value or  await self.driver.execute_locator(self.product_locator.width) or 0)
+           self.product_fields.width = normalize_float( value or  await self.driver.execute_locator(self.product_locator.width) or 0)
             
         except Exception as ex:
             logger.error('Ошибка получения значения в поле `width`', ex)
@@ -1915,7 +1852,7 @@ class GraberBase:
         """
         try:
             
-            self.fields.specification = normalize_string( value or  await self.driver.execute_locator(self.product_locator.specification) or '')
+            self.product_fields.specification = normalize_string( value or  await self.driver.execute_locator(self.product_locator.specification) or '')
             
         except Exception as ex:
             logger.error('Ошибка получения значения в поле `specification`', ex)
@@ -1932,7 +1869,7 @@ class GraberBase:
             Если `value` был передан, его значение подставляется в поле `ProductFields.link`.
         """
         try:            
-            self.fields.link = value or  await self.driver.execute_locator(self.product_locator.link) or ''
+            self.product_fields.link = value or  await self.driver.execute_locator(self.product_locator.link) or ''
 
         except Exception as ex:
             logger.error('Ошибка получения значения в поле `link`', ex)
@@ -1949,7 +1886,7 @@ class GraberBase:
         Если `value` был передан, его значение подставляется в поле `ProductFields.byer_protection`.
         """
         try:
-            self.fields.byer_protection = normalize_string( value or  await self.driver.execute_locator(self.product_locator.byer_protection) or '' )
+            self.product_fields.byer_protection = normalize_string( value or  await self.driver.execute_locator(self.product_locator.byer_protection) or '' )
             
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `byer_protection`', ex)
@@ -1966,7 +1903,7 @@ class GraberBase:
         Если `value` был передан, его значение подставляется в поле `ProductFields.customer_reviews`.
         """
         try:
-            self.fields.customer_reviews = normalize_string( value or  await self.driver.execute_locator(self.product_locator.customer_reviews) or ''  )
+            self.product_fields.customer_reviews = normalize_string( value or  await self.driver.execute_locator(self.product_locator.customer_reviews) or ''  )
             
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `customer_reviews`', ex)
@@ -1983,7 +1920,7 @@ class GraberBase:
         Если `value` был передан, его значение подставляется в поле `ProductFields.link_to_video`.
         """
         try:
-            self.fields.link_to_video = value or  await self.driver.execute_locator(self.product_locator.link_to_video) or ''
+            self.product_fields.link_to_video = value or  await self.driver.execute_locator(self.product_locator.link_to_video) or ''
             
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `link_to_video`', ex)
@@ -2012,15 +1949,15 @@ class GraberBase:
 
         """
         if value:
-            self.fields.local_image_path = value
+            self.product_fields.local_image_path = value
             return True
 
-        img_path:str = Path(gs.path.tmp / f'{self.fields.id_supplier}_{self.fields.id_product}.png')
+        img_path:str = Path(gs.path.tmp / f'{self.product_fields.id_supplier}_{self.product_fields.id_product}.png')
 
-        self.fields.local_image_path = img_path  # <- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DEBUG
+        self.product_fields.local_image_path = img_path  # <- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DEBUG
 
         try:
-            if not self.fields.id_supplier:
+            if not self.product_fields.id_supplier:
                 await self.id_supplier()
             # Получаем результат из локатора как `bytes` или `str`(url)
             raw_image = await self.driver.execute_locator(self.product_locator.default_image_url)

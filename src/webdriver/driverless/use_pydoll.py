@@ -2,6 +2,8 @@ import asyncio
 from tkinter import BitmapImage
 from typing import List, Any, Optional
 from types import SimpleNamespace
+from dataclasses import dataclass, field # <--- Импортируем dataclass и field
+
 from numpy import isin
 from pydoll.browser import Chrome 
 from pydoll.browser.options import ChromeOptions as Options
@@ -10,74 +12,76 @@ from pydoll.constants import By
 from pydoll.element import WebElement
 
 from header import __root__
-from src.credentials import j_loads_ns
+#from src.webdriver.executor import Executor
+from src.utils.jjson import j_loads_ns
 from src.utils.printer import pprint as print
 from src.logger import logger
 
+# --- Класс Config оставлен без изменений ---
+# Он не является классом для хранения данных экземпляра, а служит
+# статическим пространством имен для конфигурации, загружаемой при импорте.
+# Преобразование в dataclass здесь нецелесообразно.
 class Config:
-        """! Configuration class for Pydoll Chrome browser. """
-        # Default configuration values can be set here if needed
-        # For example, you can set default user agent, window size, etc.
-        config: SimpleNamespace = j_loads_ns(__root__ / 'src' / 'webdriver' / 'driverless' / 'use_pydoll.json')
-        if not config:
-            raise FileNotFoundError(f"Configuration file not found: {__root__ / 'src' / 'webdriver' / 'driverless' / 'use_pydoll.json'}")
-        user_profile_path: str = config.user_profile_path
-        binary_location: str = config.binary_location
-        WINDOW_MODE:str =  config.WINDOW_MODE
+    """! Configuration class for Pydoll Chrome browser. """
+    config: SimpleNamespace = j_loads_ns(__root__ / 'src' / 'webdriver' / 'driverless' / 'use_pydoll.json')
+    if not config:
+        raise FileNotFoundError(f"Configuration file not found: {__root__ / 'src' / 'webdriver' / 'driverless' / 'use_pydoll.json'}")
+    user_profile_path: str = config.user_profile_path
+    binary_location: str = config.binary_location
+    WINDOW_MODE: str = config.WINDOW_MODE
 
+# --- Класс Driver переписан в dataclass ---
+@dataclass(kw_only=True) # kw_only=True заставляет указывать все параметры по имени (например, Driver(window_mode=...))
 class Driver(Chrome):
-    """! Driver class for Pydoll Chrome browser. """
-
-    page: Page = None
-
-    def __init__(self, 
-                    window_mode: Optional[str] = 'headless', 
-                    enable_user_profile: Optional[bool] = True,
-                    user_profile_path: Optional[str] = None,
-                    binary_location: Optional[str] = None,
-                    options: Options = Options(),
-                    **kwargs
-                    
-                ):
-        """! Synchronous constructor; 
-        Use `await async_init_page()` for full setup!
-
-        Args:
-            profile_path (str, optional): Path to Chrome user profile directory
-            **kwargs: Arbitrary keyword arguments passed to Chrome constructor.
+    """! Driver class for Pydoll Chrome browser, refactored with dataclasses. """
+    
+    # --- 1. Объявление полей класса ---
+    # Все параметры из старого __init__ теперь объявляются здесь с типами и значениями по умолчанию.
+    
+    window_mode: Optional[str] = 'headless'
+    enable_user_profile: Optional[bool] = True
+    user_profile_path: Optional[str] = None
+    binary_location: Optional[str] = None
+    
+    # Используем field(default_factory=...) для изменяемых типов данных,
+    # чтобы для каждого экземпляра Driver создавался новый объект Options.
+    options: Options = field(default_factory=Options)
+    
+    # Атрибуты, которые не должны быть в __init__, но являются частью экземпляра
+    page: Optional[Page] = field(init=False, default=None)
+    # executor: Executor = field(init=False, default_factory=Executor)
+    
+    def __post_init__(self):
+        """! Выполняется после автоматически сгенерированного __init__.
+        Здесь размещается вся сложная логика инициализации.
         """
-        window_mode = window_mode or Config.WINDOW_MODE
-        # Configure browser options
-        options = Options()
+        # --- 2. Логика из старого __init__ ---
+        
+        # Заполняем значения из Config, если они не были переданы явно
+        self.window_mode = self.window_mode or Config.WINDOW_MODE
+        self.user_profile_path = self.user_profile_path or Config.user_profile_path
+        self.binary_location = self.binary_location or Config.binary_location
         
         # Настройка пользовательского профиля
-        if enable_user_profile:
-            # Способ 1: Указать директорию пользовательских данных
-            options.add_argument(f'--user-data-dir={user_profile_path or Config.user_profile_path}')
+        if self.enable_user_profile:
+            self.options.add_argument(f'--user-data-dir={self.user_profile_path}')
+            # self.options.add_argument(f'--profile-directory=Profile 1')
+            self.options.add_argument('--no-first-run')
+            self.options.add_argument('--no-default-browser-check')
+            self.options.add_argument('--disable-default-apps')
             
-            # Способ 2: Указать конкретный профиль (если нужен определенный профиль)
-            # options.add_argument(f'--profile-directory=Profile 1')  # или Default, Profile 2, etc.
-        
-        # Дополнительные опции для работы с профилем
-        if enable_user_profile:
-            # Отключить первый запуск и восстановление
-            options.add_argument('--no-first-run')
-            options.add_argument('--no-default-browser-check')
-            options.add_argument('--disable-default-apps')
-            
-        #options.add_argument('--proxy-server=username:password@ip:port')
-        #options.add_argument('--window-size=1920,1080')
-        options.add_argument('--start-maximized')
-        options.binary_location = binary_location or Config.binary_location
-        #options.add_argument('--disable-notifications')
+        self.options.add_argument('--start-maximized')
+        self.options.binary_location = self.binary_location
 
-        if window_mode == 'headless':
-            options.add_argument('--headless=new')
-
+        if self.window_mode == 'headless':
+            self.options.add_argument('--headless=new')
         
+        # --- 3. Вызов конструктора родительского класса ---
+        # Важно вызвать его в конце, после полной настройки options.
+        super().__init__(options=self.options)
 
-        super().__init__(options = options)
-        
+    # --- Остальные методы остаются без изменений ---
+
     async def async_init_page(self) -> Page:
         """! Asynchronous initialization to set up the page.
         

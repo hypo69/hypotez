@@ -6,7 +6,7 @@
       "webdriver_options": []
     },
     "pydoll": {
-      "WINDOW_MODE": "headless",
+      "WINDOW_MODE": "window",
       "profile_path": "C:\\Users\\user\\AppData\\Local\\Google\\Chrome\\User Data\\Default",
       "enable_user_profile": true
     },

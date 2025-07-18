@@ -51,9 +51,9 @@ class Graber(GraberBase):
     """
 
     supplier_prefix: str = 'morlevi.co.il'
-    driver: 'Driver' = None
-    locator_for_decorator: Optional[SimpleNamespace] = None
-    lang_index: int = 1
+    # driver: 'Driver' = None
+    # locator_for_decorator: Optional[SimpleNamespace] = None
+    # lang_index: int = 1
 
     # def __post_init__(self):
     #     GraberBase.__post_init__()        

@@ -130,9 +130,10 @@ class QuotationBuilder:
         Returns:
             dict: Formatted product data dictionary.
 
-        Note: Правила построения полей определяются в `ProductFields`
+        Note: 
+            Правила построения полей определяются в `ProductFields`
         """
-        if not f.id_product:
+        if not f.reference:
             logger.error(f"Сбой при получении полей товара. ")
             return {} # <- сбой при получении полей товара. Такое может произойти если вместо страницы товара попалась страница категории, при невнимательном составлении мехирона из комплектующих
         ...
@@ -165,7 +166,7 @@ class QuotationBuilder:
             tuple: Processed response in `ru` and `he` formats.
             bool: False if unable to get a valid response after retries.
 
-        .. note::
+        Note:
             Модель может возвращать невалидный результат.
             В таком случае я переспрашиваю модель разумное количество раз.
         """

@@ -903,7 +903,7 @@
     "locator_description": "morlevi - `description`"
   },
   "specification": {
-    "attribute": "innerText",
+    "attribute": "innerHTML",
     "by": "XPATH",
     "strategy_for_multiple_selectors": "find_first_match",
     "selector": "//div[contains(@class, 'product-params')]//li",
