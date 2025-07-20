@@ -35,13 +35,7 @@ from src.logger.logger import logger
 #from src.suppliers.get_pydoll_graber_by_supplier import get_graber_by_supplier_url
 from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_url
 from src.utils.jjson import j_dumps
-from src.webdriver.driverless.use_pydoll import Driver
-
-
-
-# ----------------------------------------------------------------------------------
-#                               Конфигурация                                        
-# ----------------------------------------------------------------------------------
+from src.webdriver.pydoll.driver import Driver
 
 class Config:
     """Конфигурация сценария."""
@@ -52,51 +46,13 @@ class Config:
         raise RuntimeError("Configuration not found for Kazarinov endpoint")
     _driver_cfg = getattr(config.webdriver, config.webdriver.active_driver, 'pydoll')
     WINDOW_MODE = getattr(_driver_cfg, "WINDOW_MODE", "window")
-    enable_user_profile = getattr(_driver_cfg, "enable_user_profile", False)
-    profile_path = getattr(_driver_cfg, "profile_path", None)
+    user_profile_path = getattr(_driver_cfg, "profile_path", None)
 
 
-# ----------------------------------------------------------------------------------
-#                               Класс‑сценарий                                      
-# ----------------------------------------------------------------------------------
 @dataclass(slots=True, kw_only=True)
 class Scenario(QuotationBuilder):
-    """Исполнитель сценария для Казаринова.
+    """Исполнитель сценария для Казаринова."""
 
-    Args:
-        mexiron_name: Метка сценария, используется при именовании файлов экспорта.
-        driver_kwargs: Дополнительные параметры конструктора :class:`Driver`.
-    """
-
-    #mexiron_name: str = field(default_factory=lambda: gs.now)
-    #driver_kwargs: dict = field(default_factory=dict, repr=False)
-
-    # Внутренние поля -------------------------------------------------------------
-    driver: Driver = field(init=False, repr=False)
-
-    # -------------------------------------------------------------------------
-    #                            Инициализация
-    # -------------------------------------------------------------------------
-    def __post_init__(self) -> None:
-        """Создаёт экземпляр драйвера и инициализирует базовый класс.
-
-        Raises:
-            RuntimeError: Ошибка инициализации драйвера.
-        """
-        
-        try:
-            self.driver = Driver(
-                window_mode=Config.WINDOW_MODE,
-                enable_user_profile=Config.enable_user_profile,
-                user_profile_path=Config.profile_path,
-            )
-        except Exception as ex:
-            logger.error("Ошибка создания Driver", ex, exc_info=True)
-            raise RuntimeError("Driver initialization failed") from ex
-
-    # -------------------------------------------------------------------------
-    #                            Исполнение сценария 
-    # -------------------------------------------------------------------------
     async def run_scenario_async(
         self,
         mexiron_name:str,
@@ -118,89 +74,98 @@ class Scenario(QuotationBuilder):
         Returns:
             bool: ``True`` при успешном завершении сценария.
         """
-        driver: Driver = self.driver
         products_list: list[dict] = []  # Список собранных товаров
-
-        # Запуск браузера ------------------------------------------------------
+        required_fields: list[str] = [
+            "id_supplier",
+            "name",
+            "price",
+            "reference",
+            "description",
+            "description_short",
+            "specification",
+            "default_image_url",
+        ]
         try:
-            await driver.start()
-            await driver.async_init_page()
-        except Exception as ex:  # pragma: no cover
-            if bot:
-                bot.send_message(chat_id, f"❌  Ошибка запуска pydoll драйвера")
-            logger.error("❌ Ошибка запуска pydoll драйвера", ex, exc_info=True)
-            return False
+            driver = Driver(
+                window_mode = Config.WINDOW_MODE,
+                user_profile_path = Config.user_profile_path,
+            )
+        except Exception as ex:
+            logger.error("Ошибка создания Driver", ex, exc_info=True)
+            raise RuntimeError("Driver initialization failed") from ex
 
-        # Сбор товаров ---------------------------------------------------------
-        for url in urls:
-            logger.debug(f"Обработка URL: {url}", None, False)
 
-            graber = get_graber_by_supplier_url(url, driver)
+        async with driver:
 
-            if not graber:
-                logger.error(f"🤷‍♂️ Нет подходящего грабера для URL: {url}", None, True)
+            # Запуск браузера ------------------------------------------------------
+            try:
+                await driver.start()
+                await driver.async_init_page()
+            except Exception as ex:  # pragma: no cover
                 if bot:
-                    bot.send_message(chat_id, f"❌ Нет обработчика для ссылки:\n{url}")
-                continue
+                    bot.send_message(chat_id, f"❌  Ошибка запуска pydoll драйвера")
+                logger.error("❌ Ошибка запуска pydoll драйвера", ex, exc_info=True)
+                return False
+
+            # Сбор товаров ---------------------------------------------------------
+            for url in urls:
+                logger.debug(f"Обработка URL: {url}", None, False)
+
+                graber = get_graber_by_supplier_url(url, driver)
+
+                if not graber:
+                    logger.error(f"🤷‍♂️ Нет подходящего грабера для URL: {url}", None, True)
+                    if bot:
+                        bot.send_message(chat_id, f"❌ Нет обработчика для ссылки:\n{url}")
+                    continue
             
-            graber.lang_index = 2
 
-            required_fields: list[str] = [
-                "id_supplier",
-                "name",
-                "price",
-                "reference",
-                "description",
-                "description_short",
-                "specification",
-                "default_image_url",
-            ]
-
-            if bot:
-                bot.send_message(chat_id, f"⏳ Сбор полей товара со страницы:\n{url}")
-
-            logger.info(f'⏳ Сбор полей товара со страницы {url}', ex = None, exc_info = False, text_color = "light_gray")
-            try:
-                await self.driver.get_url(url)
-                product_fields: ProductFields = await graber.grab_page_async(required_fields = required_fields)
-            except Exception as ex: 
-                logger.error(f"❌ Ошибка парсинга страницы:{url}", ex, exc_info = True)
-                if bot:
-                    bot.send_message(chat_id, f"❌ Ошибка парсинга страницы:\n{url}\n{ex}")
-                continue
-
-            if not product_fields or not product_fields.name:
 
                 if bot:
-                    bot.send_message(chat_id, f"❌ Ошибка парсинга товара:\n{url}\nПроверьте локаторы.")
-                logger.error(f"""❌ Ошибка парсинга товара:{url}
-                Проверьте локаторы.""", None, False, text_color="light_gray", bg_color="light_gray")
-                continue
+                    bot.send_message(chat_id, f"⏳ Сбор полей товара со страницы:\n{url}")
 
-            try:
-                # Конвертиртация поля из объекта `ProductFields` в простой словарь для модели llm
-                product_data = self.convert_product_fields(product_fields)
+                logger.info(f'⏳ Сбор полей товара со страницы {url}', ex = None, exc_info = False, text_color = "light_gray")
+                try:
+                    await self.driver.get_url(url)
+                    product_fields: ProductFields = await graber.grab_page_async(required_fields = required_fields)
+                except Exception as ex: 
+                    logger.error(f"❌ Ошибка парсинга страницы:{url}", ex, exc_info = True)
+                    if bot:
+                        bot.send_message(chat_id, f"❌ Ошибка парсинга страницы:\n{url}\n{ex}")
+                    continue
 
-                # Индивидуальные настройки поставщиков
-                match(graber.supplier_prefix):
-                    case 'morlevi.co.il':
-                        product_data['default_image_url'] = fr'https"://"morlevi.co.il/' + product_data['default_image_url'] 
-                        ...
-                    case 'grandadvance.co.il':
-                        ...
-                    case 'ksp.co.il':
-                        ...
-                    case 'ivory.co.il':
-                        ...
+                if not product_fields or not product_fields.name:
 
-            except Exception as ex:  
-                logger.error("Ошибка конвертации данных", ex, exc_info=True)
-                if bot:
-                    bot.send_message(chat_id, f"❌ Ошибка конвертации:\n{url}")
-                continue
+                    if bot:
+                        bot.send_message(chat_id, f"❌ Ошибка парсинга товара:\n{url}\nПроверьте локаторы.")
+                    logger.error(f"""❌ Ошибка парсинга товара:{url}
+                    Проверьте локаторы.""", None, False, text_color="light_gray", bg_color="light_gray")
+                    continue
 
-            await self.save_product_data(product_data)
-            products_list.append(product_data)
+                try:
+                    # Конвертиртация поля из объекта `ProductFields` в простой словарь для модели llm
+                    product_data = self.convert_product_fields(product_fields)
+
+                    # Индивидуальные настройки поставщиков
+                    match(graber.supplier_prefix):
+                        case 'morlevi.co.il':
+                            product_data['default_image_url'] = fr'https"://"morlevi.co.il/' + product_data['default_image_url'] 
+                            ...
+                        case 'grandadvance.co.il':
+                            ...
+                        case 'ksp.co.il':
+                            ...
+                        case 'ivory.co.il':
+                            ...
+
+                except Exception as ex:  
+                    logger.error("Ошибка конвертации данных", ex, exc_info=True)
+                    if bot:
+                        bot.send_message(chat_id, f"❌ Ошибка конвертации:\n{url}")
+                    continue
+
+                await self.save_product_data(product_data)
+                products_list.append(product_data)
 
         # AI‑обработка ---------------------------------------------------------
         if not products_list:
@@ -250,27 +215,57 @@ class Scenario(QuotationBuilder):
             logger.info(f"📈 Создание отчёта ({lang})...", ex=None, exc_info=False, text_color = "light_gray",)
 
             reporter = ReportGenerator(if_need_docx=False)
-            try:
-                await reporter.create_reports_async(
+            
+            if not await reporter.create_reports_async(
                     bot=bot,
                     chat_id=chat_id,
                     data=processed,
                     lang=lang,
                     mexiron_name = mexiron_name,
-                )
-            except Exception as ex:  # pragma: no cover
+                ):
+
                 logger.error("Ошибка генерации отчёта", ex, exc_info=True)
                 if bot:
                     bot.send_message(chat_id, f"❌ Ошибка отчёта ({lang}):\n{ex}")
-
-        # Завершение работы драйвера ------------------------------------------
-        try:
-            await driver.stop()
-            logger.info("pydoll драйвер остановлен")
-        except Exception as ex:  # pragma: no cover
-            logger.error("Ошибка остановки драйвера", ex, exc_info=True)
+                return 
 
         return True
+
+    def convert_product_fields(self, f: ProductFields) -> dict:
+        """
+        Converts product fields into a dictionary. 
+        Функция конвертирует поля из объекта `ProductFields` в простой словарь для модели llm.
+
+        Args:
+            f (ProductFields): Object containing parsed product data.
+
+        Returns:
+            dict: Formatted product data dictionary.
+
+        Note: 
+            Правила построения полей определяются в `ProductFields`
+        """
+        if not f.reference:
+            logger.error(f"Сбой при получении полей товара. ")
+            return {} # <- сбой при получении полей товара. Такое может произойти если вместо страницы товара попалась страница категории, при невнимательном составлении мехирона из комплектующих
+        ...
+
+        product_name = f.name['language']['value'] if f.name else ''
+        description = f.description['language']['value'] if f.description else ''
+        description_short = f.description_short['language']['value'] if f.description_short else ''
+        specification = f.specification['language']['value']  if f.specification else ''
+        
+        if not product_name:
+            return {}
+        return {
+            'product_name':product_name,
+            'reference': f.reference,
+            'description_short':description_short,
+            'description': description,
+            'specification': specification,
+            'local_image_path': str(f.local_image_path),
+        }
+
 
 
 # ----------------------------------------------------------------------------------
@@ -289,15 +284,17 @@ def run_sample_scenario() -> None:
     scenario = Scenario()
     logger.info("Запуск тестового сценария…")
 
-    async def _runner() -> None:
-        await scenario.run_scenario_async(
+    async def _runner() -> bool:
+        if await scenario.run_scenario_async(
             urls=urls_list,
             mexiron_name="test_kazarinov_run",
             price="100.50",
             # bot=your_telebot_instance,
             # chat_id=your_chat_id,
-        )
-        logger.info("Тестовый сценарий завершён")
+            ):
+            logger.info("Тестовый сценарий завершён")
+            return True
+        return
 
     asyncio.run(_runner())
 

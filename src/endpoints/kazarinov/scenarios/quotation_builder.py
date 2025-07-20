@@ -55,6 +55,8 @@ from src.utils.image import save_image_from_url_async, save_image
 from src.utils.printer import pprint as print
 from src.logger.logger import logger
 
+if TYPE_CHECKING:
+    from src.webdriver.pydoll import Driver
 
 class Config:
     ENDPOINT:str = 'kazarinov'
@@ -94,7 +96,7 @@ class QuotationBuilder:
     timestamp: str
     products_list: List = field(default_factory=list)
     model: 'GoogleGenerativeAi'
-    
+
     def __init__(self,  **kwargs):
         """
         Initializes Mexiron class with required components.
@@ -119,40 +121,7 @@ class QuotationBuilder:
             
 
 
-    def convert_product_fields(self, f: ProductFields) -> dict:
-        """
-        Converts product fields into a dictionary. 
-        Функция конвертирует поля из объекта `ProductFields` в простой словарь для модели llm.
 
-        Args:
-            f (ProductFields): Object containing parsed product data.
-
-        Returns:
-            dict: Formatted product data dictionary.
-
-        Note: 
-            Правила построения полей определяются в `ProductFields`
-        """
-        if not f.reference:
-            logger.error(f"Сбой при получении полей товара. ")
-            return {} # <- сбой при получении полей товара. Такое может произойти если вместо страницы товара попалась страница категории, при невнимательном составлении мехирона из комплектующих
-        ...
-
-        product_name = f.name['language']['value'] if f.name else ''
-        description = f.description['language']['value'] if f.description else ''
-        description_short = f.description_short['language']['value'] if f.description_short else ''
-        specification = f.specification['language']['value']  if f.specification else ''
-        
-        if not product_name:
-            return {}
-        return {
-            'product_name':product_name,
-            'reference': f.reference,
-            'description_short':description_short,
-            'description': description,
-            'specification': specification,
-            'local_image_path': str(f.local_image_path),
-        }
 
     def process_llm(self, products_list: List[str], lang:str,  attempts: int = 3) -> tuple | bool:
         """

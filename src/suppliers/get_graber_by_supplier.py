@@ -19,7 +19,7 @@ from typing import List, Optional
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from src.suppliers.graber import GraberBase
-    from src.webdriver.driverless.use_pydoll import Driver
+    from src.webriver.pydoll import Driver
 
 from src.logger import logger
 from src.suppliers.graber import GraberBase

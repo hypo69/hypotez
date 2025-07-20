@@ -56,7 +56,7 @@ from functools import wraps
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from src.webdriver.driverless.use_pydoll import Driver
+    from src.webdriver.pydoll import Driver
 
 import header
 from header import __root__
@@ -81,10 +81,6 @@ from src.utils.printer import pprint as print
 from src.logger.logger import logger
 
 
-# Определение декоратора для закрытия всплывающих окон
-# В каждом отдельном поставщике (`Supplier`) декоратор может использоваться в индивидуальных целях
-# Общее название декоратора `@close_pop_up` можно изменить 
-# Если декоратор не используется в поставщике - Установи `Config.locator_for_decorator = None` 
 
 # --- decorator.py ---
 
@@ -114,43 +110,53 @@ def close_pop_up() -> Callable:
 
 # --- config.py ---
 
-@dataclass(slots=True, kw_only=True)
+
 class Config:
     """! Класс конфигурации поставщика."""
+    
+    # Оптимизация памяти, которую давал slots=True в dataclass
+    __slots__ = ('supplier_prefix', 'locator_for_decorator', 'required_fields', 'ENDPOINT', 'SCENARIOS_DIR')
 
-    supplier_prefix: str
-    locator_for_decorator: Optional[SimpleNamespace] = None
+    def __init__(self, *, supplier_prefix: str, locator_for_decorator: Optional[SimpleNamespace] = None):
+        """
+        Инициализатор класса.
+        Звездочка (*) в аргументах делает все последующие параметры keyword-only,
+        что является аналогом kw_only=True в dataclass.
+        """
+        # 1. Присваиваем атрибуты, которые раньше генерировал dataclass
+        self.supplier_prefix: str = supplier_prefix
+        self.locator_for_decorator: Optional[SimpleNamespace] = locator_for_decorator
 
-    ENDPOINT: Path = field(init=False)
-    SCENARIOS_DIR: Path = field(init=False)
+        # 2. Инициализируем поле со значением по умолчанию (аналог default_factory)
+        self.required_fields: List[str] = [
+            'id_supplier', 'name', 'price', 'reference', 'description',
+            'description_short', 'specification', 'default_image_url', 'local_image_path',
+        ]
 
-    required_fields: list[str] = field(default_factory=lambda: [
-        'id_supplier', 'name', 'price', 'reference', 'description',
-        'description_short', 'specification', 'default_image_url', 'local_image_path',
-    ])
-
-    def __post_init__(self):
-        supplier_alias = self.supplier_prefix.replace('.', '_').replace('-', '_')
-        self.ENDPOINT = __root__ / 'src' / 'suppliers' / 'suppliers_list' / supplier_alias
-        self.SCENARIOS_DIR = self.ENDPOINT / 'scenarios'
-
+        _supplier_alias = self.supplier_prefix.replace('.', '_').replace('-', '_')
+        # Предполагается, что __root__ определен глобально
+        self.ENDPOINT: Path = __root__ / 'src' / 'suppliers' / 'suppliers_list' / _supplier_alias
+        self.SCENARIOS_DIR: Path = self.ENDPOINT / 'scenarios'
 
     @property
     def product_locators(self) -> SimpleNamespace:
+        """Свойство для ленивой загрузки локаторов товара."""
         try:
             return j_loads_ns(self.ENDPOINT / 'locators' / 'product.json')
         except FileNotFoundError:
-            logger.error(f"Локаторы товара не найдены: {self.ENDPOINT / 'locators' / 'product.json'}")
+            # logger.error(f"Локаторы товара не найдены: {self.ENDPOINT / 'locators' / 'product.json'}")
+            print(f"ERROR: Локаторы товара не найдены: {self.ENDPOINT / 'locators' / 'product.json'}")
             return SimpleNamespace()
 
     @property
     def category_locators(self) -> SimpleNamespace:
+        """Свойство для ленивой загрузки локаторов категории."""
         try:
             return j_loads_ns(self.ENDPOINT / 'locators' / 'category.json')
         except FileNotFoundError:
-            logger.error(f"Локаторы категории не найдены: {self.ENDPOINT / 'locators' / 'category.json'}")
+            # logger.error(f"Локаторы категории не найдены: {self.ENDPOINT / 'locators' / 'category.json'}")
+            print(f"ERROR: Локаторы категории не найдены: {self.ENDPOINT / 'locators' / 'category.json'}")
             return SimpleNamespace()
-
 # --- config.py end ---
 
 # --- graber.py ---
@@ -178,8 +184,7 @@ class GraberBase:
     product_fields: ProductFields = field(default_factory=lambda: ProductFields())
 
     def __post_init__(self):
-        self.config = Config(supplier_prefix=self.supplier_prefix)
-        self.config.locator_for_decorator = self.locator_for_decorator # локатор для закрытия попапов и т.п. Если пустой, то декоратор ничего не делает
+        self.config = Config(supplier_prefix=self.supplier_prefix, locator_for_decorator=self.locator_for_decorator or None)
         self.product_locator = self.config.product_locators
 
 
@@ -505,7 +510,7 @@ class GraberBase:
         """
         try:           
             self.product_fields.additional_shipping_cost = normalize_string(value or  await self.driver.execute_locator(self.product_locator.additional_shipping_cost) or '')
-            return True
+            return True if self.product_fields.additional_shipping_cost else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `additional_shipping_cost`", ex)
             ...
@@ -522,7 +527,7 @@ class GraberBase:
         """
         try:            
             self.product_fields.delivery_in_stock = normalize_string( value or  await self.driver.execute_locator(self.product_locator.delivery_in_stock) or '' )
-            return True
+            return True if self.product_fields.delivery_in_stock else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `delivery_in_stock`", ex)
             ...
@@ -540,11 +545,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.active = normalize_int( value or  await self.driver.execute_locator(self.product_locator.active) or 1)
-            return True
+            return True if self.product_fields.active in (1, True) else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `active`", ex)
             ...
-            return
+            return False
 
     @close_pop_up()
     async def additional_delivery_times(self, value:Optional[str] = None) -> bool:
@@ -556,11 +561,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.additional_delivery_times = value or  await self.driver.execute_locator(self.product_locator.additional_delivery_times) or ''
-            return True
+            return True if self.product_fields.additional_delivery_times else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `additional_delivery_times`", ex)
             ...
-            return
+            return False
 
 
     @close_pop_up()
@@ -583,12 +588,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.affiliate_short_link = value or  await self.driver.execute_locator(self.product_locator.affiliate_short_link) or ''
-            
+            return True if self.product_fields.affiliate_short_link else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `affiliate_short_link`", ex)
             ...
-            return
-        return True
+            return False
 
     @close_pop_up()
     async def affiliate_summary(self, value:Optional[str] = None) -> bool:
@@ -600,11 +604,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.affiliate_summary = normalize_string( value or  await self.driver.execute_locator(self.product_locator.affiliate_summary) or '' )
-            return True
+            return True if self.product_fields.affiliate_summary else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `affiliate_summary`", ex)
             ...
-            return
+            return False
 
 
     @close_pop_up()
@@ -617,11 +621,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.affiliate_summary_2 = normalize_string(value or  await self.driver.execute_locator(self.product_locator.affiliate_summary_2) or '')
-            return True
+            return True if self.product_fields.affiliate_summary_2 else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `affiliate_summary_2`", ex)
             ...
-            return
+            return False
 
 
     @close_pop_up()
@@ -634,11 +638,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.affiliate_text = normalize_string( value or  await self.driver.execute_locator(self.product_locator.affiliate_text) or '')
-            return True
+            return True if self.product_fields.affiliate_text else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `affiliate_text`", ex)
             ...
-            return
+            return False
         
     @close_pop_up()
     async def affiliate_image_large(self, value:Optional[str] = None) -> bool:
@@ -650,11 +654,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.affiliate_image_large  = value or  await self.driver.execute_locator(self.product_locator.affiliate_image_large) or ''
-            return True
+            return True if self.product_fields.affiliate_image_large else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `affiliate_image_large`", ex)
             ...
-            return
+            return False
 
     @close_pop_up()
     async def affiliate_image_medium(self, value:Optional[str] = None) -> bool:
@@ -666,11 +670,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.affiliate_image_medium = value or  await self.driver.execute_locator(self.product_locator.affiliate_image_medium) or ''
-            return True
+            return True if self.product_fields.affiliate_image_medium else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `affiliate_image_medium`", ex)
             ...
-            return
+            return False
 
     @close_pop_up()
     async def affiliate_image_small(self, value:Optional[str] = None) -> bool:
@@ -682,11 +686,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.affiliate_image_small = value or  await self.driver.execute_locator(self.product_locator.affiliate_image_small) or ''
-            return True
+            return True if self.product_fields.affiliate_image_small else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `affiliate_image_small`", ex)
             ...
-            return
+            return False
 
     @close_pop_up()
     async def available_date(self, value:Optional[Any] = None) -> bool:
@@ -698,11 +702,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.available_date = value or  await self.driver.execute_locator(self.product_locator.available_date) or ''
-            return True
+            return True if self.product_fields.available_date else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `available_date`", ex)
             ...
-            return
+            return False
 
     @close_pop_up()
     async def available_for_order(self, value:Optional[str] = None) -> bool:
@@ -714,11 +718,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.available_for_order = value or  await self.driver.execute_locator(self.product_locator.available_for_order) or ''
-            return True
+            return True if self.product_fields.available_for_order else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `available_for_order`", ex)
             ...
-            return
+            return False
 
 
     @close_pop_up()
@@ -731,11 +735,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.available_later = value or  await self.driver.execute_locator(self.product_locator.available_later) or ''
-            return True
+            return True  if self.product_fields.available_later else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `available_later`", ex)
             ...
-            return
+            return False
 
     @close_pop_up()
     async def available_now(self, value:Optional[str] = 1) -> bool:
@@ -747,11 +751,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.available_now = normalize_int(value or  await self.driver.execute_locator(self.product_locator.available_now) or 1)
-            return True
+            return True if self.product_fields.available_now else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `available_now`", ex)
             ...
-            return
+            return False
 
 
     @close_pop_up()
@@ -781,11 +785,11 @@ class GraberBase:
         """
         try:
             self.product_fields.cache_default_attribute = value or  await self.driver.execute_locator(self.product_locator.cache_default_attribute) or ''
-            return True
+            return True if self.product_fields.cache_default_attribute else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `cache_default_attribute`", ex)
             ...
-            return
+            return False
 
     @close_pop_up()
     async def cache_has_attachments(self, value:Optional[int] = 0) -> bool:
@@ -797,12 +801,12 @@ class GraberBase:
         """
         try:            
             self.product_fields.cache_has_attachments = normalize_int(value or  await self.driver.execute_locator(self.product_locator.cache_has_attachments) or 0)
-           
+            return True if self.product_fields.cache_has_attachments else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `cache_has_attachments`", ex)
             ...
-            return
-        return True
+            return False
+
 
     @close_pop_up()
     async def cache_is_pack(self, value:Optional[str] = None) -> bool:
@@ -814,11 +818,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.cache_is_pack = normalize_string(value or  await self.driver.execute_locator(self.product_locator.cache_is_pack) or '')
+            return True if self.product_fields.cache_is_pack else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `cache_is_pack`", ex)
             ...
-            return
-        return True
+            return False
 
     @close_pop_up()
     async def condition(self, value:Optional[Any] = None) -> bool:
@@ -830,11 +834,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.condition = normalize_string(value or  await self.driver.execute_locator(self.product_locator.condition) or 'new')
+            return True if self.product_fields.condition else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `condition`", ex)
             ...
-            return
-        return True
+            return False
 
 
     @close_pop_up()
@@ -847,11 +851,12 @@ class GraberBase:
         """
         try:            
             self.product_fields.customizable = value or  await self.driver.execute_locator(self.product_locator.customizable) or ''
+            return True if self.product_fields.customizable else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `customizable`", ex)
             ...
-            return
-        return True
+            return False
+
 
     @close_pop_up()
     async def date_add(self, value:Optional[str | datetime.date] = None) -> bool:
@@ -863,12 +868,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.date_add = normalize_sql_date( value or  await self.driver.execute_locator(self.product_locator.date_add) or gs.now)
-            
+            return True if self.product_fields.date_add else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `date_add`", ex)
             ...
-            return
-        return True
+            return False
 
     @close_pop_up()
     async def date_upd(self, value:Optional[str | datetime.date] = None) -> bool:
@@ -880,12 +884,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.date_upd = normalize_sql_date( value or  await self.driver.execute_locator(self.product_locator.date_upd) or gs.now )
-            
+            return True if self.product_fields.date_upd else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `date_upd`", ex)
             ...
-            return
-        return True
+            return False
 
     @close_pop_up()
     async def delivery_out_stock(self, value:Optional[str] = None) -> bool:
@@ -897,11 +900,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.delivery_out_stock = normalize_string( value or  await self.driver.execute_locator(self.product_locator.delivery_out_stock) or '')
-           
+            return True if self.product_fields.delivery_out_stock else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `delivery_out_stock`", ex)
             ...
-            return
+            return False
         return True
 
     @close_pop_up()
@@ -914,11 +917,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.depth = normalize_float( value or  await self.driver.execute_locator(self.product_locator.depth) or None )
-            return True
+            return True if self.product_fields.depth else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `depth`", ex)
             ...
-            return
+            return False
 
     @close_pop_up()
     async def description(self, value:Optional[str] = None) -> bool:
@@ -930,11 +933,11 @@ class GraberBase:
         """
         try:
             self.product_fields.description = normalize_string(value or  await self.driver.execute_locator(self.product_locator.description) or None)
-            return True
+            return True if self.product_fields.description else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `description` \n ", ex)
             ...
-            return
+            return False
         return True
 
     @close_pop_up()
@@ -947,10 +950,11 @@ class GraberBase:
         """
         try:
             self.product_fields.description_short = normalize_string(value or await self.driver.execute_locator(self.product_locator.description_short) or '')
+            return True if self.product_fields.description_short else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `description_short`", ex)
             ...
-            return
+            return False
         return True
 
 
@@ -965,6 +969,7 @@ class GraberBase:
         """
         try:
             self.product_fields.id_category_default = normalize_int(value or await self.driver.execute_locator(self.product_locator.id_category_default) or None)
+            return True if self.product_fields.id_category_default else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `id_category_default`", ex)
             ...
@@ -981,6 +986,7 @@ class GraberBase:
         """
         try:
             self.product_fields.id_default_combination = normalize_int(value or await self.driver.execute_locator(self.product_locator.id_default_combination) or 0)
+            return True if self.product_fields.id_default_combination else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `id_default_combination`", ex)
             ...
@@ -998,10 +1004,11 @@ class GraberBase:
         try:
             # Получаем значение id_supplier, если оно не передано
             self.product_fields.id_product = normalize_int(await self.driver.execute_locator(self.product_locator.id_product), None)
+            return True if self.product_fields.id_product else False
         except Exception as ex:
             logger.error(f"Ошибка значения поля `id_product`", ex)
             ...
-            return
+            return False
     
 
 
@@ -1022,12 +1029,12 @@ class GraberBase:
 
             # Записываем результат в поле `locale` объекта `ProductFields`
             self.product_fields.locale = i18n
-
+            return True if self.product_fields.locale else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `locale`", ex)
             ...
-            return
-        return True
+            return False
+        
 
 
     @close_pop_up()
@@ -1039,12 +1046,11 @@ class GraberBase:
 
         try:            
             self.product_fields.id_default_image = value or  await self.driver.execute_locator(self.product_locator.id_default_image) or 0
+            return True if self.product_fields.id_default_image else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `id_default_image`", ex)
             ...
-            return
-        return True
-
+            return False
 
     @close_pop_up()
     async def ean13(self, value:Optional[str] = None) -> bool:
@@ -1056,12 +1062,11 @@ class GraberBase:
 
         try:            
             self.product_fields.ean13 = value or  await self.driver.execute_locator(self.product_locator.ean13) or ''
+            return True if self.product_fields.ean13 else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `ean13`", ex)
             ...
-            return
-        return True
-
+            return False
 
     @close_pop_up()
     async def ecotax(self, value:Optional[int] = None) -> bool:
@@ -1074,10 +1079,11 @@ class GraberBase:
         try:
 
             self.product_fields.ecotax = value or  await self.driver.execute_locator(self.product_locator.ecotax) or 0
+            return True if self.product_fields.ecotax else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `ecotax`", ex)
             ...
-        return True
+            return False
 
 
     @close_pop_up()
@@ -1090,11 +1096,11 @@ class GraberBase:
 
         try:            
             self.product_fields.height = value or  await self.driver.execute_locator(self.product_locator.height) or 0.0
+            return True if self.product_fields.height else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `height`", ex)
             ...
-            return
-        return True
+            return  False
 
     @close_pop_up()
     async def how_to_use(self, value:Optional[str] = None) -> bool:
@@ -1105,11 +1111,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.how_to_use = normalize_string(value or  await self.driver.execute_locator(self.product_locator.how_to_use) or '')
+            return True if self.product_fields.how_to_use else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `how_to_use`", ex)
             ...
-            return
-        return True
+            return False
 
     @close_pop_up()
     async def id_manufacturer(self, value:Optional[int] = None) -> bool:
@@ -1120,11 +1126,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.id_manufacturer = normalize_int(value or  await self.driver.execute_locator(self.product_locator.id_manufacturer) or None)
+            return True if self.product_fields.id_manufacturer else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `id_manufacturer`", ex)
             ...
-            return
-        return True
+            return False
 
 
     @close_pop_up()
@@ -1153,12 +1159,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.id_supplier = normalize_int(value or  self.product_locator.id_supplier.attribute)
+            return True if self.product_fields.id_supplier else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `id_supplier`", ex)
             ...
-            return
-        return True
-
+            return False
 
     @close_pop_up()
     async def id_tax_rules_group (self, value:Optional[Any] = None) -> bool:
@@ -1168,12 +1173,12 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.id_tax_rules_group`.
         """
         try:            
-            self.product_fields.id_tax_rules_group = normalize_int(value or  await self.driver.execute_locator(self.product_locator.id_tax_rules_group ) or 1)
+            self.product_fields.id_tax_rules_group = normalize_int(value or  await self.driver.execute_locator(self.product_locator.id_tax_rules_group) or 1)
+            return True if self.product_fields.id_tax_rules_group else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `id_tax_rules_group `", ex)
             ...
-            return
-        return True
+            return False
 
     @close_pop_up()
     async def id_type_redirected(self, value:Optional[Any] = None) -> bool:
@@ -1184,11 +1189,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.id_type_redirected = normalize_int(value or  await self.driver.execute_locator(self.product_locator.id_type_redirected) or 0)
+            return True if self.product_fields.id_type_redirected else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `id_type_redirected`", ex)
             ...
-            return
-        return True
+            return  False
 
 
     @close_pop_up()
@@ -1200,12 +1205,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.images_urls = normalize_string(value or  await self.driver.execute_locator(self.product_locator.images_urls) or '')
+            return True if self.product_fields.images_urls else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `images_urls`", ex)
             ...
-            return
-        return True    
-
+            return False
 
     @close_pop_up()
     async def indexed(self, value:Optional[Any] = None) -> bool:
@@ -1216,11 +1220,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.indexed = normalize_string(value or  await self.driver.execute_locator(self.product_locator.indexed) or '')
+            return True if self.product_fields.indexed else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `indexed`", ex)
             ...
-            return
-        return True
+            return False    
 
 
     @close_pop_up()
@@ -1232,12 +1236,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.ingredients = normalize_string(value or  await self.driver.execute_locator(self.product_locator.ingredients) or '')
+            return True if self.product_fields.ingredients else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `ingredients`", ex)
             ...
-            return
-        return True
-
+            return False    
 
     @close_pop_up()
     async def meta_description(self, value:Optional[Any] = None) -> bool:
@@ -1248,11 +1251,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.meta_description = normalize_string(value or  await self.driver.execute_locator(self.product_locator.meta_description) or '')
+            return True if self.product_fields.meta_description else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `meta_description`", ex)
             ...
-            return
-        return True
+            return  False
 
 
     @close_pop_up()
@@ -1264,11 +1267,11 @@ class GraberBase:
         """
         try:
             self.product_fields.meta_keywords = normalize_string(value or  await self.driver.execute_locator(self.product_locator.meta_keywords) or '')
-            return True
+            return True if self.product_fields.meta_keywords else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `meta_keywords`", ex)
             ...
-            return
+            return False
 
 
     @close_pop_up()
@@ -1280,10 +1283,10 @@ class GraberBase:
         """
         try:
             self.product_fields.meta_title = normalize_string(value or  await self.driver.execute_locator(self.product_locator.meta_title) or '')
+            return True if self.product_fields.meta_title else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `meta_title`", ex)
-            return
-        return True
+            return False
 
     @close_pop_up()
     async def is_virtual(self, value:Optional[Any] = None) -> bool:
@@ -1294,13 +1297,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.is_virtual = normalize_int(value or  await self.driver.execute_locator(self.product_locator.is_virtual) or 0)  
+            return True if self.product_fields.is_virtual else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `is_virtual`", ex)
             ...
-            return
-        return True
-
-
+            return False
         
     @close_pop_up()
     async def isbn(self, value:Optional[Any] = None) -> bool:
@@ -1312,11 +1313,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.isbn = normalize_string(value or  await self.driver.execute_locator(self.product_locator.isbn) or '')
+            return True if self.product_fields.isbn else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `isbn`", ex)
             ...
-            return
-        return True
+            return False
 
     @close_pop_up()
     async def link_rewrite(self, value:Optional[Any] = None) -> bool:
@@ -1328,11 +1329,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.link_rewrite = normalize_string(value or  await self.driver.execute_locator(self.product_locator.link_rewrite) or '')
+            return True if self.product_fields.link_rewrite else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `link_rewrite`", ex)
             ...
-            return
-        return True
+            return False 
 
     @close_pop_up()
     async def location(self, value:Optional[Any] = None) -> bool:
@@ -1344,11 +1345,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.location = normalize_string(value or  await self.driver.execute_locator(self.product_locator.location) or '')
+            return True if self.product_fields.location else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `location`", ex)
             ...
-            return
-        return True
+            return False
 
     @close_pop_up()
     async def low_stock_alert(self, value:Optional[Any] = None) -> bool:
@@ -1360,12 +1361,12 @@ class GraberBase:
         """
         try:
             self.product_fields.low_stock_alert = normalize_string(value or  await self.driver.execute_locator(self.product_locator.low_stock_alert) or '') 
+            return True if self.product_fields.low_stock_alert else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `low_stock_alert`", ex)
             ...
-            return
-        return True
-
+            return False
+ 
     @close_pop_up()
     async def low_stock_threshold(self, value:Optional[Any] = None) -> bool:
         """Fetch and set low stock threshold.
@@ -1376,12 +1377,11 @@ class GraberBase:
         """
         try:
             self.product_fields.low_stock_threshold = normalize_string( value or  await self.driver.execute_locator(self.product_locator.low_stock_threshold) or '' )
-            
+            return True if self.product_fields.low_stock_threshold else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `low_stock_threshold`", ex)
             ...
-            return
-        return True
+            return False
 
     @close_pop_up()
     async def minimal_quantity(self, value:Optional[Any] = None) -> bool:
@@ -1392,14 +1392,12 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.minimal_quantity`.
         """
         try:
-            
             self.product_fields.minimal_quantity = normalize_int( value or  await self.driver.execute_locator(self.product_locator.minimal_quantity) or 1)
-
+            return True if self.product_fields.minimal_quantity else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `minimal_quantity`", ex)
             ...
-            return
-        return True
+            return False
 
     @close_pop_up()
     async def mpn(self, value:Optional[Any] = None) -> bool:
@@ -1412,12 +1410,11 @@ class GraberBase:
         try:
             
             self.product_fields.mpn = normalize_string( value or  await self.driver.execute_locator(self.product_locator.mpn) or '')
-            
+            return True if self.product_fields.mpn else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `mpn`", ex)
             ...
-            return
-        return True
+            return False
 
     @close_pop_up()
     async def name(self, value:Optional[str] = '') -> bool:
@@ -1429,12 +1426,11 @@ class GraberBase:
         """
         try:
             self.product_fields.name = normalize_string(value if value else await self.driver.execute_locator(self.product_locator.name))
+            return True if self.product_fields.name else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `mpn`", ex)
             ...
-            return
-        return True
-
+            return False
 
     @close_pop_up()
     async def online_only(self, value:Optional[Any] = None) -> bool:
@@ -1447,11 +1443,11 @@ class GraberBase:
         try:
             
             self.product_fields.online_only = normalize_int( value or  await self.driver.execute_locator(self.product_locator.online_only) or 0 )
+            return True if self.product_fields.online_only else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `online_only`", ex)
             ...
-            return
-        return True
+            return False
 
     @close_pop_up()
     async def on_sale(self, value:Optional[Any] = None) -> bool:
@@ -1462,14 +1458,12 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.on_sale`.
         """
         try:
-            
             self.product_fields.on_sale = value or  await self.driver.execute_locator(self.product_locator.on_sale) or ''
+            return True if self.product_fields.on_sale else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `on_sale`", ex)
             ...
-            return
-        return True
-
+            return False
 
     @close_pop_up()
     async def out_of_stock(self, value:Optional[Any] = None) -> bool:
@@ -1482,12 +1476,11 @@ class GraberBase:
         try:
             
             self.product_fields.out_of_stock = normalize_string( value or  await self.driver.execute_locator(self.product_locator.out_of_stock) or '' )
-            
+            return True if self.product_fields.out_of_stock else False
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `out_of_stock`", ex)
             ...
-            return
-        return True
+            return  False
 
     @close_pop_up()
     async def pack_stock_type(self, value:Optional[Any] = None) -> bool:
@@ -1500,13 +1493,11 @@ class GraberBase:
         try:
             
             self.product_fields.pack_stock_type = normalize_string( value or  await self.driver.execute_locator(self.product_locator.pack_stock_type) or '')
-            
+            return True if self.product_fields.pack_stock_type else False
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `pack_stock_type`', ex)
             ...
-            return
-        return True
-
+            return False
 
     @close_pop_up()
     async def price(self, value:Optional[Any] = None) -> bool:
@@ -1518,12 +1509,11 @@ class GraberBase:
         """
         try:
             self.product_fields.price = normalize_float( value if value else await self.driver.execute_locator(self.product_locator.price))
-            
+            return True if self.product_fields.price else False
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `price`', ex)
             ...
-            return
-        return True
+            return False
 
     @close_pop_up()
     async def product_type(self, value:Optional[Any] = None) -> bool:
@@ -1536,12 +1526,11 @@ class GraberBase:
         try:
             
             self.product_fields.product_type = value or  await self.driver.execute_locator(self.product_locator.product_type) or ''
+            return True if self.product_fields.product_type else False
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `product_type`', ex)
             ...
-            return
-        return True
-
+            return False
 
     @close_pop_up()
     async def quantity(self, value:Optional[Any] = None) -> bool:
@@ -1553,11 +1542,11 @@ class GraberBase:
         """
         try:
             self.product_fields.quantity = normalize_int( value or  await self.driver.execute_locator(self.product_locator.quantity) or 1 )
+            return True if self.product_fields.quantity else False
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `quantity`', ex)
             ...
-            return
-        return True
+            return False
 
     @close_pop_up()
     async def quantity_discount(self, value:Optional[Any] = None) -> bool:
@@ -1569,13 +1558,11 @@ class GraberBase:
         """
         try:
             self.product_fields.quantity_discount = normalize_string( value or  await self.driver.execute_locator(self.product_locator.quantity_discount) or '' )
-            self.product_fields.quantity_discount = normalize_string( value or  await self.driver.execute_locator(self.product_locator.quantity_discount) or '' )
-            
+            return True if self.product_fields.quantity_discount else False
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `quantity_discount`', ex)
             ...
-            return
-        return True
+            return False
 
     @close_pop_up()
     async def redirect_type(self, value:Optional[Any] = None) -> bool:
@@ -1587,12 +1574,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.redirect_type = value or  await self.driver.execute_locator(self.product_locator.redirect_type) or ''
+            return True if self.product_fields.redirect_type else False
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `redirect_type`', ex)
             ...
-            return
-        return True
-
+            return False
 
     @close_pop_up()
     async def reference(self, value:Optional[Any] = None) -> bool:
@@ -1604,12 +1590,11 @@ class GraberBase:
         """
         try:            
             self.product_fields.reference = normalize_string( value or  await self.driver.execute_locator(self.product_locator.reference) or '')
-
+            return True if self.product_fields.reference else False
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `reference`', ex)
             ...
-            return
-        return True
+            return False
 
     @close_pop_up()
     async def show_condition(self, value:Optional[int] = None) -> bool:
@@ -1621,12 +1606,11 @@ class GraberBase:
         """
         try:
             self.product_fields.show_condition = normalize_int( value or  await self.driver.execute_locator(self.product_locator.show_condition) or 1 )
-            
+            return True if self.product_fields.show_condition else False
         except Exception as ex:
             logger.error('Ошибка получения значения в поле `show_condition`', ex)
             ...
-            return
-        return True
+            return False
 
     @close_pop_up()
     async def show_price(self, value:Optional[int] = None) -> bool:
@@ -1638,13 +1622,11 @@ class GraberBase:
         """
         try:
             self.product_fields.show_price = normalize_int( value or  await self.driver.execute_locator(self.product_locator.show_price) or 1 )
-            
+            return True if self.product_fields.show_price else False
         except Exception as ex:
             logger.error('Ошибка получения значения в поле `show_price`', ex)
             ...
-            return
-        return True
-
+            return False
 
     @close_pop_up()
     async def state(self, value:Optional[str] = None) -> bool:
@@ -1654,14 +1636,14 @@ class GraberBase:
         value (Any): это значение можно передать в словаре kwargs через ключ {state = `value`} при определении класса.
         Если `value` был передан - его значение подставляется в поле `ProductFields.state`.
         """
-        try:
-            
+        try:           
             self.product_fields.state = normalize_string( value or  await self.driver.execute_locator(self.product_locator.state))
+            return True if self.product_fields.state else False
         except Exception as ex:
             logger.error('Ошибка получения значения в поле `state`', ex)
             ...
-            return
-        return True
+            return False
+
 
     @close_pop_up()
     async def text_fields(self, value:Optional[Any] = None) -> bool:
@@ -1673,11 +1655,11 @@ class GraberBase:
         """
         try:
             self.product_fields.text_fields = value or  await self.driver.execute_locator(self.product_locator.text_fields) or ''
+            return True if self.product_fields.text_fields else False
         except Exception as ex:
             logger.error('Ошибка получения значения в поле `text_fields`', ex)
             ...
-            return
-        return True
+            return False
 
     @close_pop_up()
     async def unit_price_ratio(self, value:Optional[Any] = None) -> bool:
@@ -1690,12 +1672,11 @@ class GraberBase:
         try:
             
             self.product_fields.unit_price_ratio = value or  await self.driver.execute_locator(self.product_locator.unit_price_ratio) or ''
+            return True if self.product_fields.unit_price_ratio else False
         except Exception as ex:
             logger.error('Ошибка получения значения в поле `unit_price_ratio`', ex)
             ...
-            return
-        return True
-
+            return False
 
     @close_pop_up()
     async def unity(self, value:Optional[str] = None) -> bool:
@@ -1707,12 +1688,11 @@ class GraberBase:
         """
         try:
             self.product_fields.unity = normalize_string( value or  await self.driver.execute_locator(self.product_locator.unity) or '')
-            
+            return True if self.product_fields.unity else False
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `unity`', ex)
             ...
-            return
-        return True
+            return False
 
     @close_pop_up()
     async def upc(self, value:Optional[str] = None) -> bool:
@@ -1724,12 +1704,11 @@ class GraberBase:
         """
         try:
             self.product_fields.upc = normalize_string( value or  await self.driver.execute_locator(self.product_locator.upc) or '')
-            
+            return True if self.product_fields.upc else False
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `upc`', ex)
             ...
-            return
-        return True
+            return False
 
     @close_pop_up()
     async def uploadable_files(self, value:Optional[Any] = None) -> bool:
@@ -1742,12 +1721,11 @@ class GraberBase:
         try:
             
             self.uploadable_files.upc = value or  await self.driver.execute_locator(self.product_locator.uploadable_files) or ''
-            
+            return True if self.uploadable_files.upc else False
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `uploadable_files`', ex)
             ...
-            return
-        return True
+            return False
 
     @close_pop_up()
     async def default_image_url(self, value:Optional[str] = None) -> bool:
@@ -1759,12 +1737,11 @@ class GraberBase:
         """
         try:
             self.product_fields.default_image_url = value or  await self.driver.execute_locator(self.product_locator.default_image_url) or ''
-
+            return True if self.product_fields.default_image_url else False
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `default_image_url`', ex)
             ...
-            return
-        return True
+            return False
 
     @close_pop_up()
     async def visibility(self, value:Optional[str] = None) -> bool:
@@ -1784,11 +1761,12 @@ class GraberBase:
         """
         try:
             self.product_fields.visibility = value or  await self.driver.execute_locator(self.product_locator.visibility) or 'both'
+            return True if self.product_fields.visibility else False
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `visibility`', ex)
             ...
-            return
-        return True
+            return False
+
 
 
     @close_pop_up()
@@ -1801,12 +1779,11 @@ class GraberBase:
         """
         try:           
             self.product_fields.weight = normalize_int( value or  await self.driver.execute_locator(self.product_locator.weight) or 0  )
-            
+            return True if self.product_fields.weight else False
         except Exception as ex:
             logger.error('Ошибка получения значения в поле `weight`', ex)
             ...
-            return
-        return True
+            return False
 
 
     @close_pop_up()
@@ -1819,12 +1796,12 @@ class GraberBase:
         """
         try:
             self.product_fields.wholesale_price = normalize_float( value or  await self.driver.execute_locator(self.product_locator.wholesale_price) or 0)
-
+            return True if self.product_fields.wholesale_price else False
         except Exception as ex:
             logger.error('Ошибка получения значения в поле `wholesale_price`', ex)
             ...
-            return
-        return True
+            return False
+
 
     @close_pop_up()
     async def width(self, value:Optional[float] = None) -> bool:
@@ -1836,12 +1813,11 @@ class GraberBase:
         """
         try:
            self.product_fields.width = normalize_float( value or  await self.driver.execute_locator(self.product_locator.width) or 0)
-            
+           return True if self.product_fields.width else False 
         except Exception as ex:
             logger.error('Ошибка получения значения в поле `width`', ex)
             ...
-            return
-        return True
+            return False
 
 
     @close_pop_up()
@@ -1855,12 +1831,12 @@ class GraberBase:
         try:
             
             self.product_fields.specification = normalize_string( value or  await self.driver.execute_locator(self.product_locator.specification) or '')
-            
+            return True if self.product_fields.specification else False
         except Exception as ex:
             logger.error('Ошибка получения значения в поле `specification`', ex)
             ...
-            return
-        return True
+            return False
+
 
     @close_pop_up()
     async def link(self, value:Optional[str] = None) -> bool:
@@ -1872,12 +1848,12 @@ class GraberBase:
         """
         try:            
             self.product_fields.link = value or  await self.driver.execute_locator(self.product_locator.link) or ''
-
+            return True if self.product_fields.link else False
         except Exception as ex:
             logger.error('Ошибка получения значения в поле `link`', ex)
             ...
-            return
-        return True
+            return False
+
 
     @close_pop_up()
     async def byer_protection(self, value:Optional[str] = None) -> bool:
@@ -1889,12 +1865,11 @@ class GraberBase:
         """
         try:
             self.product_fields.byer_protection = normalize_string( value or  await self.driver.execute_locator(self.product_locator.byer_protection) or '' )
-            
+            return True if self.product_fields.byer_protection else False
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `byer_protection`', ex)
             ...
-            return
-        return True
+            return False
 
     @close_pop_up()
     async def customer_reviews(self, value:Optional[Any] = None) -> bool:
@@ -1906,29 +1881,24 @@ class GraberBase:
         """
         try:
             self.product_fields.customer_reviews = normalize_string( value or  await self.driver.execute_locator(self.product_locator.customer_reviews) or ''  )
-            
+            return True if self.product_fields.customer_reviews else False
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `customer_reviews`', ex)
             ...
-            return
-        return True
+            return False
+
 
     @close_pop_up()
     async def link_to_video(self, value:Optional[Any] = None) -> bool:
         """Fetch and set link to video.
-        
-        Args:
-        value (Any): это значение можно передать в словаре kwargs через ключ {link_to_video = `value`} при определении класса.
-        Если `value` был передан, его значение подставляется в поле `ProductFields.link_to_video`.
         """
         try:
             self.product_fields.link_to_video = value or  await self.driver.execute_locator(self.product_locator.link_to_video) or ''
-            
+            return True if self.product_fields.link_to_video else False
         except Exception as ex:
             logger.error(f'Ошибка получения значения в поле `link_to_video`', ex)
             ...
-            return
-        return True
+            return False
 
     @close_pop_up()
     async def local_image_path(self, value: Optional[str] = None) -> bool:
@@ -1980,13 +1950,13 @@ class GraberBase:
             else:
                 logger.debug("Неизвестный тип данных для изображения", None, False)
                 ...
-                return
+                return False
 
         except Exception as ex:
             logger.error(f'Ошибка сохранения изображения в поле `local_image_path`', ex)
             ...
-            return
-        return True
+            return False
+        return True if self.product_fields.local_image_path else False
 
     @close_pop_up()
     async def local_video_path(self, value:Optional[Any] = None) -> bool:

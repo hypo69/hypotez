@@ -51,65 +51,46 @@ class Config:
     ENDPOINT = 'kazarinov'
 
 
+@dataclass(slots=True, kw_only=True)
 class ReportGenerator:
     """
     Класс для генерации HTML- и PDF-отчётов на основе данных из JSON.
+    (Версия на датаклассе)
     """
-    if_need_html: bool
-    if_need_pdf: bool
-    if_need_docx: bool
-    storage_path:Path =  Path(gs.path.external_storage, Config.ENDPOINT)
-    html_path: Path|str
-    pdf_path: Path|str
-    docs_path: Path|str
-    html_content:str
-    data:dict
-    lang:str
-    mexiron_name:str
-    env: Environment = Environment(loader=FileSystemLoader('.'))
+    # --- Поля, определяемые при создании объекта (аргументы для __init__) ---
+    generate_html: bool = True
+    generate_pdf: bool = True
+    generate_docx: bool = False
 
-    def __init__(self, 
-                 if_need_pdf:Optional[bool] = True, 
-                 if_need_docx:Optional[bool] = True, 
-            ):
-        """Определение, какие форматы данных требуется вернуть"""
-        self.if_need_pdf = if_need_pdf
-        self.if_need_docx = if_need_docx
+    # --- Поля со значениями по умолчанию, которые не являются аргументами __init__ ---
+    
+    # storage_path: Path = field(
+    #     init=False, 
+    #     default=Path(gs.path.external_storage, Config.ENDPOINT)
+    # )
+    
+    # # Важно: для изменяемых объектов (как Environment) нужно использовать
+    # # default_factory, чтобы у каждого экземпляра класса был свой уникальный объект.
+    # env: Environment = field(
+    #     init=False, 
+    #     default_factory=lambda: Environment(loader=FileSystemLoader('.'))
+    # )
+
+    # --- Поля, которые будут заполняться позже (не в __init__) ---
+    # Им присвоены значения по умолчанию, чтобы было ясно их начальное состояние.
+    data: dict | None = field(init=False, default=None)
+    html_content: str | None = field(init=False, default=None)
+    lang: str | None = field(init=False, default=None)
+    mexiron_name: str | None = field(init=False, default=None)
+    
+    html_path: Path | str | None = field(init=False, default=None)
+    pdf_path: Path | str | None = field(init=False, default=None)
+    docs_path: Path | str | None = field(init=False, default=None)
+    storage_path: Path | str | None = field(init=False, default=None)
         
 
-    async def create_reports_async(self,
-                             bot: telebot.TeleBot,
-                             chat_id: int,
-                             data:dict,
-                             lang:str,
-                             mexiron_name:str,
-                             ) -> tuple:
-        """Create ALL types: HTML, PDF, DOCX"""
-        ...
-        self.mexiron_name = mexiron_name 
-        export_path = self.storage_path / 'mexironim' / self.mexiron_name
-
-        self.html_path = export_path / f"{self.mexiron_name}_{lang}.html"
-        self.pdf_path = export_path / f"{self.mexiron_name}_{lang}.pdf"
-        self.docx_path = export_path / f"{self.mexiron_name}_{lang}.docx"
-        self.bot = bot
-        self.chat_id = chat_id
-
-        self.html_content = await self.create_html_report_async(data, lang, self.html_path)
-
-        if not self.html_content:
-            return False
-
-
-        if self.if_need_pdf:
-            await self.create_pdf_report_async(self.html_content, lang, self.pdf_path)
-
-        if self.if_need_docx:
-            await self.create_pdf_report_async(self.html_content, lang, self.pdf_path)
-
-      
-         
     def service_apendix(self, lang:str) -> dict:
+        """Футер"""
         return  {
                 "product_id":"00000",
                 "product_name":"Сервис" if lang == 'ru' else "שירות",
@@ -148,7 +129,7 @@ class ReportGenerator:
             #     return self.html_content
                 
 
-            # logger.info(f"Файл HTML удачно сохранен в {html_path}")
+            logger.info(f"Файл HTML удачно сохранен в {html_path}")
             return self.html_content
 
         except Exception as ex:
@@ -200,24 +181,68 @@ class ReportGenerator:
         return True
 
 
+    async def create_reports_async(self,
+
+                             data:dict,
+                             lang:str,
+                             mexiron_name:str,
+                             bot: Optional[telebot.TeleBot] = None,
+                             chat_id: Optional[int] = None,
+                             ) -> tuple:
+        """Create ALL types: HTML, PDF, DOCX"""
+        ...
+        self.storage_path: Path = gs.path.external_storage / Config.ENDPOINT
+        self.mexiron_name = mexiron_name 
+        export_path = self.storage_path / 'mexironim' / self.mexiron_name
+
+        self.html_path = export_path / f"{self.mexiron_name}_{lang}.html"
+        self.pdf_path = export_path / f"{self.mexiron_name}_{lang}.pdf"
+        self.docx_path = export_path / f"{self.mexiron_name}_{lang}.docx"
+        self.bot = bot
+        self.chat_id = chat_id
+
+        self.html_content = await self.create_html_report_async(data, lang, self.html_path)
+
+        if not self.html_content:
+            return False
+
+
+        if self.generate_pdf:
+            await self.create_pdf_report_async(self.html_content, lang, self.pdf_path)
+
+        if self.generate_docx:
+            await self.create_pdf_report_async(self.html_content, lang, self.pdf_path)
+
+        return True
+
+      
+         
+
+
+
+# ++++++++++++++++++++++++++ Примеры использования ++++++++++++++++++++++++++++++++
+
 def main(maxiron_name:str, lang:str) ->bool:
     
     external_storage: Path =  gs.path.external_storage / Config.ENDPOINT / 'mexironim' /  maxiron_name
-    data: dict = j_loads(external_storage / f'{maxiron_name}_{lang}.json')
+    
     html_path: Path =  external_storage / f'{maxiron_name}_{lang}.html' 
     pdf_path: Path = external_storage / f'{maxiron_name}_{lang}.pdf'
     docx_path: Path = external_storage / f'{maxiron_name}_{lang}.docx'
-    if_need_html: bool = True
-    if_need_pdf: bool = True
-    if_need_docx: bool = True 
-    r = ReportGenerator(if_need_html, if_need_pdf, if_need_docx, html_path, pdf_path, docx_path)
+    generate_html: bool = True
+    generate_pdf: bool = True
+    generate_docx: bool = True 
+    data: dict = j_loads(external_storage / f'{maxiron_name}_{lang}.json')
+    r = ReportGenerator( generate_html = generate_html,  
+                        generate_pdf = generate_pdf, 
+                        generate_docx = generate_docx, 
+                        html_path = html_path, 
+                        pdf_path = pdf_path, 
+                        docx_path = docx_path)
 
     asyncio.run( r.create_reports_async( data,
                                     maxiron_name,
-                                    lang, 
-                                    html_path, 
-                                    pdf_path, 
-                                    docx_path, )   
+                                    lang, )   
                 )
 
 if __name__ == "__main__":

@@ -20,9 +20,9 @@ from pathlib import Path
 from types import SimpleNamespace
 from typing import Optional, Dict, Any, List
 
-from pydoll.browser.chrome import Chrome
-from pydoll.constants import By
-from pydoll.browser.page import Page
+from src.webdriver.pydoll.llib.pydoll.browser.chrome import Chrome
+from src.webdriver.pydoll.llib.pydoll.constants import By
+from src.webdriver.pydoll.llib.pydoll.browser.page import Page
 
 from header import __root__
 from src import gs
