@@ -1,0 +1,587 @@
+﻿Telegram-бот, который умеет слушать: разработка на grammY
+Простой
+12 мин
+5.2K
+Блог компании Selectel
+JavaScript
+*
+NestJS
+*
+Мессенджеры
+*
+Программирование
+*
+Туториал
+
+
+Представьте: собеседник отправляет голосовое сообщение на пять минут, а вы не можете отвлечься и прослушать все от начала до конца? Что делать? Максим, ведущий канала RED Group, подошел к вопросу творчески и показал, как на базе grammY и SpeechService в NestJS разработать бота, который будет слушать и структурировать по таймкодам голосовые сообщения.
+
+Инструкция будет полезна новичкам, которые только погружаются в работу с Telegram Bot API с помощью JavaScript. Кроме того, в конце материала мы разберем, как задеплоить готового бота на сервер, чтобы он работал вне зависимости от локальной машины. Подробности под катом!
+
+Инициализация проекта
+
+Для начала переходим в терминал и пишем команду:
+
+nest new test_voice_bot
+
+Далее выбираете пакетный менеджер или оставляете тот, что по умолчанию.
+
+
+
+После создания проекта откройте его в удобном редакторе коде — например, в VSCode.
+
+
+
+Разработка бота
+
+Регистрация API
+
+1. Открываем Telegram и в поиске вбиваем @BotFather. Отправляем ему команду /newbot.
+
+2. Вписываем уникальный username и получаем ключ — токен для управления ботом. Далее вы можете кастомизировать его профиль: установить имя, аватарку и описание. Как это делать — можно понять, если ознакомитесь с доступным в чате списком команд.
+
+3. Далее необходимо получить доступ к сервисам OpenAI. Для этого переходим на официальную страницу и регистрируемся. Процесс подробно описан в документации.
+
+4. Создаем в корне проекта файл .env с переменными окружения, куда вписываем токен от Telegram-бота и ключ от API-сервисов OpenAI:
+
+
+
+5. Открываем терминал и устанавливаем необходимые зависимости:
+
+bun add @grammyjs/nestjs grammy axios @nestjs/config
+
+bun add -D @types/express
+
+Первая команда устанавливает основные библиотеки для работы с Telegram-ботами и конфигурацией. Среди них:
+
+@grammyjs/nestjs — интеграция библиотеки Grammy (для создания Telegram-ботов) с фреймворком NestJS;
+grammy — основная библиотека для работы с Telegram Bot API;
+axios — популярная библиотека для выполнения HTTP-запросов;
+@nestjs/config — модуль для управления конфигурациями в приложениях на NestJS.
+
+Вторая — добавляет типы для Express.js как зависимость для разработки. Это нужно для поддержки TypeScript и автодополнения при работе с Express.
+
+Создание базовых вспомогательных файлов
+
+src/constants.ts
+
+В данном файле будут размещены пути до внешних API.
+
+export const TELEGRAM_API = 'https://api.telegram.org'
+export const OPENAI_API = 'https://api.openai.com/v1'
+
+src/prompts/timestamp.prompts.ts
+
+Далее нам необходимо подготовить шаблон промтов, которые будет использовать Telegram-бот для расшифровки поступающих голосовых сообщений через сервисы OpenAI.
+
+/**
+* System-промпт: описывает поведение и правила для модели
+*/
+export const TIMESTAMP_SYSTEM_PROMPT = `
+Ты — ассистент, который составляет тайм-коды к голосовым сообщениям.
+У тебя есть расшифровка текста, разбитая на временные блоки.
+Твоя задача — выбрать из каждого блока ОДНУ ключевую идею (если она есть)
+и указать её с точным тайм-кодом начала блока.
+
+Правила:
+- Не выдумывай тем, которых не было в тексте.
+- Не объединяй идеи из разных блоков.
+- Не используй больше 10 пунктов.
+- Не добавляй "Заключение", "Финал", если этого не было в речи.
+- Сохраняй реальный тайминг — не позже времени блока.
+- Пропускай блок, если в нём нет ничего важного.
+
+Формат:
+00:00 - Введение
+00:35 - Почему важно планировать день
+01:10 - Проблема прокрастинации
+`
+
+/**
+* Генерирует пользовательский промпт на основе подготовленного текста
+*/
+export const buildTimestampUserPrompt = (preparedText: string): string => `
+Вот текст, расшифрованный из голосового сообщения. Каждый блок соответствует примерно 30-40 секундам речи.
+Для каждого блока выдели ключевую идею (если она есть), строго по времени начала блока.
+
+Текст:
+${preparedText}
+`
+
+В файлах далее при вставке могут возникать ошибки, так как мы еще не создали самые ключевые файлы и они их просто не найдут.
+
+src/telegram/telegram.module.ts
+
+Здесь мы подключаем библиотеки для работы с Telegram и для доступа к .env.
+
+import { NestjsGrammyModule } from '@grammyjs/nestjs'
+import { Module } from '@nestjs/common'
+import { ConfigModule, ConfigService } from '@nestjs/config'
+import { AIService } from 'src/services/ai.service'
+import { SpeechService } from 'src/services/speech.service'
+import { TelegramUpdate } from './telegram.update'
+
+@Module({
+	imports: [
+		ConfigModule,
+		NestjsGrammyModule.forRootAsync({
+			imports: [ConfigModule],
+			inject: [ConfigService],
+			useFactory: async (configService: ConfigService) => ({
+				token: configService.get<string>('TELEGRAM_BOT_TOKEN')
+			})
+		})
+	],
+	providers: [TelegramUpdate, SpeechService, AIService]
+})
+export class TelegramModule {}
+
+src/app.module.ts
+
+Теперь отредактируем текущий корневой файл. В нем мы просто подключаем дочерние модули. Среди них есть и те, что мы ранее создали.
+
+import { Module } from '@nestjs/common'
+import { ConfigModule } from '@nestjs/config'
+import { TelegramModule } from './telegram/telegram.module'
+
+@Module({
+	imports: [ConfigModule.forRoot(), TelegramModule]
+})
+export class AppModule {}
+
+Реализация распознавания аудио и речи
+
+Создадим новый файл src/services/speech.service.ts — он будет содержать SpeechService в NestJS. Если коротко, то он делает всю сложную работу за нас и умеет расшифровывать голосовые сообщения из Telegram с помощью OpenAI Whisper. Для этого сервис:
+
+загружает голосовой файл с Telegram по переданному пути;
+создает FormData с этим файлом для API OpenAI;
+отправляет запрос на whisper-1 модель OpenAI для транскрибации;
+возвращает полученный текст.
+
+Все ключи (TELEGRAM_BOT_TOKEN, OPENAI_API_KEY) берутся из переменных окружения через ConfigService (файла .env).
+
+import { Injectable } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
+import axios from 'axios'
+import * as FormData from 'form-data'
+import { OPENAI_API, TELEGRAM_API } from '../constants'
+
+@Injectable()
+export class SpeechService {
+	private readonly botToken: string
+	private readonly openaiApiKey: string
+
+	constructor(private readonly configService: ConfigService) {
+		this.botToken = this.configService.get<string>('TELEGRAM_BOT_TOKEN')
+		this.openaiApiKey = this.configService.get<string>('OPENAI_API_KEY')
+	}
+
+	async transcribeVoice(filePath: string): Promise<string> {
+		const fileUrl = `${TELEGRAM_API}/file/bot${this.botToken}/${filePath}`
+		const fileResponse = await axios.get(fileUrl, { responseType: 'stream' })
+
+		const formData = new FormData()
+		formData.append('file', fileResponse.data, { filename: 'audio.ogg' })
+		formData.append('model', 'whisper-1')
+
+		const response = await axios.post<{ text: string }>(
+			`${OPENAI_API}/audio/transcriptions`,
+			formData,
+			{
+				headers: {
+					Authorization: `Bearer ${this.openaiApiKey}`,
+					...formData.getHeaders()
+				}
+			}
+		)
+
+		return response.data.text
+	}
+}
+
+Генерация таймкодов
+
+Далее создадим новый файл src/services/ai.service.ts — он будет содержать сервис AIService из NestJS, который с помощью OpenAI GPT-4o генерирует улучшенные таймкоды по тексту и длительности аудио. И снова: все уже сделано за нас!
+
+Если коротко, сервис:
+
+делит текст на десять равных блоков по словам и времени;
+формирует вид [MM:SS] текст для каждого блока;
+отправляет эти блоки в GPT с системным промтом;
+получает улучшенные таймкоды от модели;
+считает примерную стоимость запроса (по токенам);
+возвращает результат и стоимость.
+
+import { Injectable } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
+import axios from 'axios'
+import { OPENAI_API } from '../constants'
+import {
+	TIMESTAMP_SYSTEM_PROMPT,
+	buildTimestampUserPrompt
+} from '../prompts/timestamp.prompts'
+
+interface IOpenAIResponse {
+	choices: {
+		message: {
+			content: string
+		}
+	}[]
+	usage: {
+		prompt_tokens: number
+		completion_tokens: number
+	}
+}
+
+@Injectable()
+export class AIService {
+	private readonly openaiApiKey: string
+
+	constructor(private readonly configService: ConfigService) {
+		this.openaiApiKey = this.configService.get<string>('OPENAI_API_KEY')
+	}
+
+	async generateTimestamps(
+		text: string,
+		audioDurationSec: number
+	): Promise<{ timestamps: string; cost: string }> {
+		const maxSegments = 10 // Максимум логических блоков для разметки
+
+		// Разбиваем весь текст на отдельные слова
+		const words = text.split(/\s+/)
+
+		// Сколько слов и секунд должно быть в каждом блоке
+		// Округление вверх — чтобы не потерять слова: 9.6 → 10
+		const wordsPerSegment = Math.ceil(words.length / maxSegments)
+		// Округление вниз — чтобы не «вывалиться» за длину аудио: 96.5 → 96
+		const secondsPerSegment = Math.floor(audioDurationSec / maxSegments)
+
+		// Собираем массив временных блоков текста
+		const segments: { time: string; content: string }[] = []
+
+		for (let i = 0; i < maxSegments; i++) {
+			// Вычисляем метку времени начала блока
+			const fromSec = i * secondsPerSegment
+			// padStart - Форматирует числа вида 5 → 05
+			// Чтобы мы всегда получали формат MM:SS, а не M:S.
+			const fromMin = String(Math.floor(fromSec / 60)).padStart(2, '0')
+			const fromSecRest = String(fromSec % 60).padStart(2, '0')
+			const time = `${fromMin}:${fromSecRest}`
+
+			// Вырезаем часть текста, относящуюся к текущему блоку
+			const start = i * wordsPerSegment
+			const end = start + wordsPerSegment
+			const content = words.slice(start, end).join(' ')
+
+			// Добавляем только непустые блоки
+			if (content.trim()) {
+				segments.push({ time, content })
+			}
+		}
+
+		// Объединяем блоки в формат вида: [00:00] текст
+		const preparedText = segments
+			.map(s => `[${s.time}] ${s.content}`)
+			.join('\n\n')
+
+		// Готовим сообщения для GPT: правила и ввод
+		const systemMessage = TIMESTAMP_SYSTEM_PROMPT
+		const userMessage = buildTimestampUserPrompt(preparedText)
+
+		// Отправляем запрос в OpenAI Chat API
+		const response = await axios.post<IOpenAIResponse>(
+			`${OPENAI_API}/chat/completions`,
+			{
+				model: 'gpt-4o-mini',
+				messages: [
+					{ role: 'system', content: systemMessage }, // задаёт поведение
+					{ role: 'user', content: userMessage } // передаёт текст с блоками
+				],
+				temperature: 0.3, // Насколько "свободно" думает модель (0 — строго, 1 — креативно)
+				max_tokens: 300 // Ограничиваем объем ответа, чтобы не получить слишком длинный список
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${this.openaiApiKey}`
+				}
+			}
+		)
+
+		// Извлекаем ответ GPT
+		const result = response.data.choices[0].message.content
+
+		// Статистика использования токенов (нужна для расчёта стоимости)
+		const usage = response.data.usage
+
+		// Подсчет примерной стоимости запроса
+		const inputCost = (usage.prompt_tokens / 1_000_000) * 0.15
+		const outputCost = (usage.completion_tokens / 1_000_000) * 0.6
+		const total = inputCost + outputCost
+
+		const costText = `💸 Стоимость генерации: ~\$${total.toFixed(4)}`
+
+		return {
+			timestamps: result, // Сами тайм-коды
+			cost: costText // Стоимость генерации
+		}
+	}
+}
+
+Разработка основных функций
+
+Заведем новый файл src/telegram/telegram.update.ts — в нем будет реализован Telegram-обработчик TelegramUpdate на базе @grammyjs/nestjs. Он ожидает и принимает голосовые сообщения. После — отвечает с расшифровкой и таймкодами. А именно:
+
+Обрабатывает команду /start и голосовые сообщения от пользователя в Telegram.
+Показывает красивый прогресс обработки (обновляется каждые 2–3 секунды).
+Получает аудио из Telegram и расшифровывает его через SpeechService.
+Отправляет текст в AIService для генерации тайм-кодов.
+Возвращает результат и стоимость генерации пользователю.
+
+import { Ctx, InjectBot, On, Start, Update } from '@grammyjs/nestjs'
+import { Injectable } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
+import { Api, Bot, Context } from 'grammy'
+import { AIService } from '../services/ai.service'
+import { SpeechService } from '../services/speech.service'
+
+@Update() // Этот декоратор указывает, что класс слушает события от Telegram
+@Injectable()
+export class TelegramUpdate {
+	private readonly botToken: string
+
+	constructor(
+		@InjectBot() private readonly bot: Bot<Context>, // Внедрение Telegram-бота
+		private readonly speechService: SpeechService, // Сервис для расшифровки речи
+		private readonly aiService: AIService, // Сервис для генерации тайм-кодов
+		private readonly configService: ConfigService
+	) {
+		this.botToken = this.configService.get<string>('TELEGRAM_BOT_TOKEN')
+	}
+
+	@Start() // Обрабатывает команду /start
+	async onStart(@Ctx() ctx: Context): Promise<void> {
+		await ctx.reply(
+			'👋 Привет! Отправь мне голосовое сообщение, и я расставлю тайм-коды.'
+		)
+	}
+
+	@On('message:voice') // Обработка голосовых сообщений
+	async onVoiceMessage(@Ctx() ctx: Context): Promise<void> {
+		let progressMessageId: number | undefined
+		let interval: NodeJS.Timeout | undefined
+		let percent = 10 // Начальный процент прогресса
+
+		try {
+			const voice = ctx.msg.voice
+			const duration = voice.duration
+
+			// Получаем путь к файлу голосового сообщения
+			const file = await ctx.getFile()
+
+			// Показываем длительность голосового
+			await ctx.reply(`🎤 Длина голосового сообщения: ${duration} сек.`)
+
+			// Отправляем первое сообщение с прогрессом
+			const progressMsg = await ctx.reply(this.renderProgress(percent))
+			progressMessageId = progressMsg.message_id
+
+			// ⏱ Эмулируем "оживший" прогресс — обновляем каждые 2 секунды
+			interval = setInterval(
+				async () => {
+					if (percent < 90) {
+						percent += 5
+						await this.updateProgress(
+							ctx.api,
+							ctx.chat.id,
+							progressMessageId,
+							percent
+						)
+					}
+				},
+				duration > 300 ? 3000 : 2000
+			)
+
+			// Расшифровываем речь с помощью Whisper
+			const transcription = await this.speechService.transcribeVoice(
+				file.file_path
+			)
+
+			// Отправляем текст в OpenAI и получаем тайм-коды + стоимость
+			const { timestamps, cost } = await this.aiService.generateTimestamps(
+				transcription,
+				duration
+			)
+
+			// Останавливаем обновление прогресса
+			clearInterval(interval)
+			await this.updateProgress(ctx.api, ctx.chat.id, progressMessageId, 100)
+
+			// Отправляем результат
+			await ctx.reply(
+				`⏳ Тайм-коды:\n\n${timestamps}\n\n<i>🤖 Таймы генерирует нейросеть, через наш бот</i>`,
+				{
+					parse_mode: 'HTML'
+				}
+			)
+			await ctx.reply(cost)
+		} catch (error) {
+			clearInterval(interval) // Останавливаем прогресс даже при ошибке
+			console.error('Ошибка при обработке голосового:', error.message)
+			await ctx.reply('⚠️ Ошибка при обработке голосового сообщения.')
+		}
+	}
+
+	// Обновление прогресса (редактирует предыдущее сообщение)
+	private async updateProgress(
+		api: Api,
+		chatId: number,
+		messageId: number,
+		percent: number
+	) {
+		await api.editMessageText(chatId, messageId, this.renderProgress(percent))
+	}
+
+	// Отрисовка прогресс-бара с заданным процентом
+	private renderProgress(percent: number): string {
+		const totalBlocks = 10 // Всего 10 ячеек в прогресс-баре
+		const blockChar = '▒' // Символ, обозначающий "заполненную" ячейку прогресса
+
+		// Вычисляем количество заполненных блоков на шкале
+		const filledBlocks = Math.max(1, Math.round((percent / 100) * totalBlocks))
+
+		/**
+		 * 👉 Math.round(...) — округляет до ближайшего целого (например, 3.6 → 4)
+		 * 👉 (percent / 100) * totalBlocks — переводим процент в количество блоков
+		 * 👉 Math.max(1, ...) — гарантируем, что хотя бы 1 блок всегда будет показан (даже при 0%)
+		 */
+
+		const emptyBlocks = totalBlocks - filledBlocks // Остальные блоки считаем как "пустые"
+
+		/**
+		 * 👉 String.prototype.repeat(n) — повторяет символ n раз
+		 * Пример: '▒'.repeat(4) = '▒▒▒▒'
+		 * Таким образом формируем заполненную и пустую часть визуального прогресса
+		 */
+
+		// Собираем строку вида: 🔄 Прогресс: [▒▒▒▒░░░░░░] 40%
+		return `🔄 Прогресс: [${blockChar.repeat(filledBlocks)}${'░'.repeat(emptyBlocks)}] ${percent}%`
+	}
+}
+
+Отлично! Бота уже можно протестировать, запустив его одной из следующих команд:
+bun start:dev
+
+npm run start:dev
+
+Чтобы бот работал круглосуточно и без перебоев, его необходимо развернуть на сервере. Один из удобных вариантов — облачная платформа Selectel, которая предоставляет виртуальные серверы в понятной панели управления.
+
+Загрузка кода в репозиторий
+
+Код готов, его можно перенести на облачный сервер с помощью утилиты scp, но более удобный вариант — загрузить через Git-репозиторий. Вы можете выбрать любую платформу, принципы везде одни и те же. Но мы коротко разберем процесс на примере самого популярного варианта — GitHub. Подробные инструкции — в отдельной статье.
+
+1. Зарегистрируйтесь на платформе GitHub.
+
+2. Нажмите на кнопку New, чтобы создать новый репозиторий.
+
+3. Назовите репозиторий удобным образом. Рекомендуем поставить галочку напротив Add on README file, чтобы репозиторий не был пустым и вы сразу получили доступ к его файловой системе. Нажмите кнопку Create repository.
+
+4. Мышкой перетащите файлы своего бота в область репозитория — и все загрузится в облако GitHub. Обратите внимание, что .env переносить нельзя — в нем записаны ключи для работы с API вашего бота.
+
+Подготовка сервера
+
+Создание сервера в панели управления
+
+1. Первым шагом нужно зарегистрироваться в панели управления Selectel.
+
+2. Далее в верхнем меню переходим во вкладку Продукты → Облачные серверы. Нажимаем на кнопку Создать сервер.
+
+
+
+3. Теперь нужно настроить конфигурацию. Регион, пул и название указывайте, исходя из своих предпочтений. Остальные параметры рекомендуем устанавливать следующим образом.
+
+1 vCPU и 2 GB RAM — этого достаточно для стабильной работы NestJS-приложения и обработки голосовых сообщений в фоне. Больше не нужно, так как бот не выполняет ресурсоемких задач постоянно.
+10 GB SSD — минимально необходимый объем для хранения ОС, логов, временных аудиофайлов и кэша.
+Ubuntu 24 — этот дистрибутив легко настраивается и отлично совместим с большинством библиотек.
+Публичный IP — нужен, чтобы Telegram мог отправлять запросы на наш сервер. Без него бот не будет получать сообщения.
+
+4. Поскольку в качестве ОС мы выбрали Ubuntu 24, для подключения к серверу обязательно использовать SSH-ключ. О том, как его сгенерировать, можно узнать в инструкции.
+
+5. Нажимаем на кнопку Создать сервер и ждем пару минут, пока статус не сменится на ACTIVE.
+
+
+
+6. Далее подключаемся к серверу по SSH. Для этого открываем терминал и вводим следующую команду:
+
+ssh root@<ip-адрес>
+
+Базовая настройка Ubuntu
+
+1. После подключения к серверу, необходимо обновить список доступных пакетов и их версий из репозиториев, указанных в конфигурации системы. Это позволяет системе знать о последних версиях программ и обновлениях.
+
+apt update && apt upgrade -y
+
+2. Далее установим необходимые пакеты и Node.js:
+
+apt install -y curl git unzip htop nano nginx
+
+curl -L <a href="https://raw.githubusercontent.com/tj/n/master/bin/n">https://raw.githubusercontent.com/tj/n/master/bin/n</a> -o /usr/local/bin/n
+
+chmod +x /usr/local/bin/n
+
+3. Ставим Node.js latest version. Если вы не используете Docker, нужно установить такую же версию, как на вашем компьютере. Иначе могут возникнуть конфликты.
+
+n lts
+
+node -v npm -v
+
+4. Устанавливаем Bun. Напомним, что это современный быстрый менеджер пакетов, инструмент для разработки и выполнения JavaScript- и TypeScript-проектов.
+
+curl -fsSL https://bun.sh/install | bash
+export BUN_INSTALL="$HOME/.bun”
+export PATH="$BUN_INSTALL/bin:$PATH”
+
+5. Также однозначно понадобится установить PM2 — это популярный менеджер процессов для Node.js-приложений. Он помогает обеспечить стабильную работу серверных приложений и упрощает их администрирование.
+
+npm install -g pm2
+
+На этом этапе все готово и установлено для деплоя.
+
+Деплой бота на готовый сервер
+
+1. Начнем с клонирования нашего GitHub-репозитория. Это довольно легко сделать, если сам репозиторий публичный. Достаточно ввести одну команду:
+
+git clone <ссылка на репозиторий>
+
+Если репозиторий приватный, понадобится ввести данные от своего аккаунта или предварительно добавить в профиль на GitHub ранее сгенерированный SSH-ключ. Процесс подробно описан в документации.
+
+
+
+2. Следующим шагом устанавливаем зависимости с помощью Bun:
+
+bun install --production
+
+3. Создаем в корне проекта файл .env и прописываем в нем полученные ранее TELEGRAM_BOT_TOKEN и OPENAI_API_KEY.
+
+nano .env
+
+4. Собираем проект с помощью Bun:
+
+bun run build
+
+5. Проект можно запустить. Но перед этим важно остановить бота на локальной машине, если он работает.
+
+pm2 start dist/main.js --name="telegram-bot”
+
+
+
+6. Включаем автозапуск бота. Это полезно, например, на случай перезагрузки сервера.
+
+pm2 save
+
+Готово! Теперь наш бот круглосуточно работает на сервере. В любой момент можно отправить голосовое сообщение и получить расшифровку с таймкодами.
+
+Заключение
+
+В этой инструкции мы разобрали, как создать простого Telegram-бота с использованием API OpenAI и NestJS в качестве стека. А еще — научились деплоить проекты на облачный сервер и настраивать автозапуск на случай перезагрузки сервера.
+
+Материал объемный. Если вам проще изучить тему в формате видео, смотрите выпуск на канале REG Group.

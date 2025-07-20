@@ -173,13 +173,13 @@ class GraberBase:
     locator_for_decorator: Optional[SimpleNamespace] = None
     lang_index: int = 1
 
-    config: 'Config' = field(init=False)
+    config: Config = field(init=False)
     product_locator: SimpleNamespace = field(init=False)
     product_fields: ProductFields = field(default_factory=lambda: ProductFields())
 
     def __post_init__(self):
         self.config = Config(supplier_prefix=self.supplier_prefix)
-        #self.config.locator_for_decorator = self.locator_for_decorator
+        self.config.locator_for_decorator = self.locator_for_decorator # локатор для закрытия попапов и т.п. Если пустой, то декоратор ничего не делает
         self.product_locator = self.config.product_locators
 
 
@@ -1427,11 +1427,13 @@ class GraberBase:
         value (Any): это значение можно передать в словаре kwargs через ключ {name = `value`} при определении класса.
         Если `value` было передано, его значение подставляется в поле `ProductFields.name`.
         """
-        value = value if value else await self.driver.execute_locator(self.product_locator.name)
-        if value:
-            self.product_fields.name = normalize_string(value)[:127]
-            return True       
-        return False
+        try:
+            self.product_fields.name = normalize_string(value if value else await self.driver.execute_locator(self.product_locator.name))
+        except Exception as ex:
+            logger.error(f"Ошибка получения значения в поле `mpn`", ex)
+            ...
+            return
+        return True
 
 
     @close_pop_up()

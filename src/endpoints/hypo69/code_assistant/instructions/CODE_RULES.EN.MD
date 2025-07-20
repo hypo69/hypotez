@@ -1,7 +1,3 @@
-Okay, here is the English translation of the provided system instructions for the `hypotez` project:
-
----
-
 ### **System Instructions for Processing `hypotez` Project Code**
 
 =========================================================================================

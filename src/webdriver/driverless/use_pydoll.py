@@ -430,7 +430,7 @@ class Driver(Chrome):
                             elements = await self._wait_for_condition(locator, selector)
                         else:
                             elements = await self.page.find_elements(By[locator.by.upper()], selector)
-                            
+                            ...
                         if elements:
                             break
                         else:
