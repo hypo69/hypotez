@@ -19,7 +19,7 @@
   "timeout": 0,
   "timeout_for_event": "presence_of_element_located",
   "event": "click()",
-  "locator_description": "Закрываю pop-up окно, если оно не появилось - не страшно (`mandatory`:`false`)"
+  "text_to_be_present_in_element":"","locator_description": "Закрываю pop-up окно, если оно не появилось - не страшно (`mandatory`:`false`)"
 }
 ```
 
@@ -70,7 +70,7 @@ close_banner = {
   "timeout": 0,
   "timeout_for_event": "presence_of_element_located",
   "event": "click()",
-  "locator_description": "Закрываю pop-up окно, если оно не появилось - не страшно (`mandatory`:`false`)"
+  "text_to_be_present_in_element":"","locator_description": "Закрываю pop-up окно, если оно не появилось - не страшно (`mandatory`:`false`)"
 }
 
 result = driver.execute_locator(close_banner)
@@ -89,7 +89,7 @@ result = driver.execute_locator(close_banner)
   "timeout": 0,
   "timeout_for_event": "presence_of_element_located",
   "event": null,
-  "locator_description": "id_manufacturer"
+  "text_to_be_present_in_element":"","locator_description": "id_manufacturer"
 }
 ```
 
@@ -140,7 +140,7 @@ id_manufacturer = {
   "timeout": 0,
   "timeout_for_event": "presence_of_element_located",
   "event": null,
-  "locator_description": "id_manufacturer"
+  "text_to_be_present_in_element":"","locator_description": "id_manufacturer"
 }
 
 result = driver.execute_locator(id_manufacturer)
@@ -228,7 +228,7 @@ result = driver.execute_locator(additional_images_urls)
   "timeout_for_event": "presence_of_element_located",
   "event": "screenshot()",
   "mandatory": true,
-  "locator_description": "Внимание! в морлеви картинка получается через screenshot и возвращается как png (`bytes`)"
+  "text_to_be_present_in_element":"","locator_description": "Внимание! в морлеви картинка получается через screenshot и возвращается как png (`bytes`)"
 }
 ```
 
@@ -279,7 +279,7 @@ default_image_url = {
   "timeout_for_event": "presence_of_element_located",
   "event": "screenshot()",
   "mandatory": true,
-  "locator_description": "Внимание! в морлеви картинка получается через screenshot и возвращается как png (`bytes`)"
+  "text_to_be_present_in_element":"","locator_description": "Внимание! в морлеви картинка получается через screenshot и возвращается как png (`bytes`)"
 }
 
 result = driver.execute_locator(default_image_url)
@@ -299,7 +299,7 @@ result = driver.execute_locator(default_image_url)
   "timeout": 0,
   "timeout_for_event": "presence_of_element_located",
   "event": null,
-  "locator_description": "SKU morlevi"
+  "text_to_be_present_in_element":"","locator_description": "SKU morlevi"
 }
 ```
 
@@ -350,7 +350,7 @@ id_supplier = {
   "timeout": 0,
   "timeout_for_event": "presence_of_element_located",
   "event": null,
-  "locator_description": "SKU morlevi"
+  "text_to_be_present_in_element":"","locator_description": "SKU morlevi"
 }
 
 result = driver.execute_locator(id_supplier)

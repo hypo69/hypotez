@@ -19,20 +19,14 @@ from types import SimpleNamespace
 from typing import List, Optional
 
 import telebot
-from bs4 import BeautifulSoup  # noqa: F401  # BeautifulSoup может понадобиться при расширении сценария
-import requests  # noqa: F401  # requests может понадобиться при расширении сценария
 
-# Всегда загружаются по умолчанию -------------------------------------------------
 from header import __root__
 from src import gs, USE_ENV
-
-# Внутренние модули проекта --------------------------------------------------------
 from src.credentials import j_loads_ns
 from src.endpoints.kazarinov.report_generator.report_generator import ReportGenerator
 from src.endpoints.kazarinov.scenarios.quotation_builder import QuotationBuilder
 from src.endpoints.prestashop.product_fields.product_fields import ProductFields
 from src.logger.logger import logger
-#from src.suppliers.get_pydoll_graber_by_supplier import get_graber_by_supplier_url
 from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_url
 from src.utils.jjson import j_dumps
 from src.webdriver.pydoll.driver import Driver
@@ -46,13 +40,69 @@ class Config:
         raise RuntimeError("Configuration not found for Kazarinov endpoint")
     _driver_cfg = getattr(config.webdriver, config.webdriver.active_driver, 'pydoll')
     WINDOW_MODE = getattr(_driver_cfg, "WINDOW_MODE", "window")
-    user_profile_path = getattr(_driver_cfg, "profile_path", None)
+    user_data_dir = getattr(_driver_cfg, "user_data_dir", None)
 
 
 @dataclass(slots=True, kw_only=True)
-class Scenario(QuotationBuilder):
+class Scenario:
     """Исполнитель сценария для Казаринова."""
 
+    async def process_llm_async(self, products_list: List[str], lang:str,  attempts: int = 3) -> tuple | bool:
+        """
+        Processes the product list through the AI model.
+
+        Args:
+            products_list (str): List of product data dictionaries as a string.
+            attempts (int, optional): Number of attempts to retry in case of failure. Defaults to 3.
+
+        Returns:
+            tuple: Processed response in `ru` and `he` formats.
+            bool: False if unable to get a valid response after retries.
+
+        .. note::
+            Модель может возвращать невалидный результат.
+            В таком случае я переспрашиваю модель разумное количество раз.
+        """
+        if attempts < 1:
+            ...
+            return {}  # return early if no attempts are left
+
+        model_command = Path(gs.path.endpoints / Config.ENDPOINT / 'instructions' / f'command_instruction_mexiron_{lang}.md').read_text(encoding='UTF-8')
+        # Request response from the AI model
+        q = model_command + '\n' + str(products_list)
+
+        response = await self.model.ask_async(q) # CORRECT
+
+        if not response:
+            logger.error(f"Нет ответа от модели")
+            ...
+            return {}
+
+        response_dict:dict = j_loads(response) # <- если будет ошибка , то вернется пустой словарь
+
+        if not response_dict:
+            logger.error(f'Ошибка {attempts} парсинга ответа модели', None, False)
+            if attempts > 1:
+                ...
+                return await self.process_llm_async(products_list, lang, attempts - 1) 
+            return {}
+        return  response_dict
+
+    async def save_product_data(self, product_data: dict) -> bool:
+        """
+        Saves individual product data to a file.
+
+        Args:
+            product_data (dict): Formatted product data.
+        """
+        file_path = self.export_path / 'products' / f"{product_data['product_id']}.json"
+        if not j_dumps(product_data, file_path, ensure_ascii=False):
+            logger.error(f'Ошибка сохранения словаря {print(product_data)}\n Путь: {file_path}')
+            ...
+            return
+        return True
+
+ 
     async def run_scenario_async(
         self,
         mexiron_name:str,
@@ -88,20 +138,20 @@ class Scenario(QuotationBuilder):
         try:
             driver = Driver(
                 window_mode = Config.WINDOW_MODE,
-                user_profile_path = Config.user_profile_path,
+                user_data_dir = Config.user_data_dir,
             )
         except Exception as ex:
             logger.error("Ошибка создания Driver", ex, exc_info=True)
             raise RuntimeError("Driver initialization failed") from ex
 
-
+        # Парсинг страниц товаров ------------------------------------------------
         async with driver:
 
             # Запуск браузера ------------------------------------------------------
             try:
                 await driver.start()
-                await driver.async_init_page()
-            except Exception as ex:  # pragma: no cover
+                # await driver.async_init_page() # <- В случае использования конекстного менеджера определяется в методе `__aenter__` драйвера 
+            except Exception as ex:  
                 if bot:
                     bot.send_message(chat_id, f"❌  Ошибка запуска pydoll драйвера")
                 logger.error("❌ Ошибка запуска pydoll драйвера", ex, exc_info=True)
@@ -126,7 +176,7 @@ class Scenario(QuotationBuilder):
 
                 logger.info(f'⏳ Сбор полей товара со страницы {url}', ex = None, exc_info = False, text_color = "light_gray")
                 try:
-                    await self.driver.get_url(url)
+                    await driver.get_url(url)
                     product_fields: ProductFields = await graber.grab_page_async(required_fields = required_fields)
                 except Exception as ex: 
                     logger.error(f"❌ Ошибка парсинга страницы:{url}", ex, exc_info = True)

@@ -9,7 +9,7 @@
     "timeout_for_event": "presence_of_element_located",
     "event": "click()",
     "mandatory": false,
-    "locator_description": "Кнопка закрытия попап окна"
+    "text_to_be_present_in_element":"","locator_description": "Кнопка закрытия попап окна"
   },
   "id_product": {
     "attribute": null,
@@ -21,7 +21,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "id_product morlevi"
+    "text_to_be_present_in_element":"","locator_description": "id_product morlevi"
   },
   "id_manufacturer": {
     "attribute": "innerText",
@@ -33,7 +33,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "SKU morlevi"
+    "text_to_be_present_in_element":"","locator_description": "SKU morlevi"
   },
   "id_supplier": {
     "attribute": 2784,
@@ -45,7 +45,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "morlevi - id_suppler"
+    "text_to_be_present_in_element":"","locator_description": "morlevi - id_suppler"
   },
 
   "id_category_default": {
@@ -58,7 +58,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "morlevi `id_category_default`"
+    "text_to_be_present_in_element":"","locator_description": "morlevi `id_category_default`"
   },
   "new": {
     "attribute": null,
@@ -70,7 +70,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "morlevi - `new`"
+    "text_to_be_present_in_element":"","locator_description": "morlevi - `new`"
   },
   "cache_default_attribute": {
     "attribute": null,
@@ -82,7 +82,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "morlevi - `cache_default_attribute`"
+    "text_to_be_present_in_element":"","locator_description": "morlevi - `cache_default_attribute`"
   },
   "id_default_image": {
     "attribute": null,
@@ -94,7 +94,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "morlevi `id_default_image`"
+    "text_to_be_present_in_element":"","locator_description": "morlevi `id_default_image`"
   },
   "default_image_url": {
     "attribute": "href",
@@ -106,7 +106,7 @@
     "timeout_for_event": "presence_of_element_located",
     "event": null,
     "mandatory": true,
-    "locator_description": "morlevi - `default_image_url`"
+    "text_to_be_present_in_element":"","locator_description": "morlevi - `default_image_url`"
   },
   "id_default_combination": {
     "attribute": null,
@@ -118,7 +118,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "id_default_combination morlevi"
+    "text_to_be_present_in_element":"","locator_description": "id_default_combination morlevi"
   },
   "id_tax_rules_group": {
     "attribute": null,
@@ -130,7 +130,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "id_tax_rules_group morlevi"
+    "text_to_be_present_in_element":"","locator_description": "id_tax_rules_group morlevi"
   },
   "position_in_category": {
     "attribute": null,
@@ -142,7 +142,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "position_in_category morlevi"
+    "text_to_be_present_in_element":"","locator_description": "position_in_category morlevi"
   },
   "type": {
     "attribute": null,
@@ -155,7 +155,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "type morlevi"
+    "text_to_be_present_in_element":"","locator_description": "type morlevi"
   },
   "id_shop_default": {
     "attribute": null,
@@ -168,7 +168,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "id_shop_default morlevi"
+    "text_to_be_present_in_element":"","locator_description": "id_shop_default morlevi"
   },
   "reference": {
     "attribute": "innerText",
@@ -180,7 +180,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "product reference morlevi"
+    "text_to_be_present_in_element":"","locator_description": "product reference morlevi"
 
   },
   "supplier_reference": {
@@ -193,7 +193,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "supplier_reference morlevi. Собирается по шаблону `<id_supplier>_<reference>` "
+    "text_to_be_present_in_element":"","locator_description": "supplier_reference morlevi. Собирается по шаблону `<id_supplier>_<reference>` "
   },
   "location": {
     "attribute": null,
@@ -205,7 +205,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "product location morlevi"
+    "text_to_be_present_in_element":"","locator_description": "product location morlevi"
   },
   "width": {
     "attribute": null,
@@ -526,7 +526,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "product price morlevi"
+    "text_to_be_present_in_element":"","locator_description": "product price morlevi"
 
   },
   "wholesale_price": {
@@ -874,7 +874,7 @@
     "timeout_for_event": "presence_of_element_located",
     "event": null,
     "mandatory": true,
-    "locator_description": "morlevi - `name`"
+    "text_to_be_present_in_element":"","locator_description": "morlevi - `name`"
   },
   "description_short": {
     "attribute": "innerText",
@@ -887,7 +887,7 @@
     "timeout_for_event": "presence_of_element_located",
     "event": null,
     "mandatory": false,
-    "locator_description": "Morlevi - `description_short` "
+    "text_to_be_present_in_element":"","locator_description": "Morlevi - `description_short` "
   },
   "description": {
     "attribute": null,
@@ -900,7 +900,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "morlevi - `description`"
+    "text_to_be_present_in_element":"","locator_description": "morlevi - `description`"
   },
   "specification": {
     "attribute": "innerHTML",
@@ -913,7 +913,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "morlevi - `specification`"
+    "text_to_be_present_in_element":"","locator_description": "morlevi - `specification`"
   },
   "affiliate_short_link": {
     "attribute": null,
@@ -1699,7 +1699,7 @@
     "timeout_for_event": "presence_of_element_located",
     "event": null,
     "mandatory": true,
-    "locator_description": "Ссылка на главную картинку"
+    "text_to_be_present_in_element":"","locator_description": "Ссылка на главную картинку"
   },
 
   "additional_images_urls": {

@@ -70,6 +70,6 @@
     "aliexpress_stores_phones_repair_computers.json"
   ],
   "last_runned_scenario": "aliexpress_stores_6600_911935962_Cellphone_discount_Store.json",
-  "locator_description": "",
+  "text_to_be_present_in_element":"","locator_description": "",
   "scenario_interrupted": "iPhone 13 & 13 MINI"
 }

@@ -21,7 +21,7 @@
   "timeout": 0,
   "timeout_for_event": "presence_of_element_located",
   "event": null,
-  "locator_description": "SKU morlevi"
+  "text_to_be_present_in_element":"","locator_description": "SKU morlevi"
 }
 ```
 
@@ -53,7 +53,7 @@
   "timeout": 0,
   "timeout_for_event": "presence_of_element_located",
   "event": "click()",
-  "locator_description": "Закрыть всплывающее окно, если оно не появится - не страшно (`mandatory`:`false`)"
+  "text_to_be_present_in_element":"","locator_description": "Закрыть всплывающее окно, если оно не появится - не страшно (`mandatory`:`false`)"
 }
 ```
 
@@ -77,7 +77,7 @@
   "timeout": 0,
   "timeout_for_event": "presence_of_element_located",
   "event": null,
-  "locator_description": "id_manufacturer"
+  "text_to_be_present_in_element":"","locator_description": "id_manufacturer"
 }
 ```
 
@@ -125,7 +125,7 @@
   "timeout_for_event": "presence_of_element_located",
   "event": "screenshot()",
   "mandatory": true,
-  "locator_description": "Attention! In Morlevi, the image is obtained via screenshot and returned as png (`bytes`)"
+  "text_to_be_present_in_element":"","locator_description": "Attention! In Morlevi, the image is obtained via screenshot and returned as png (`bytes`)"
 }
 ```
 
@@ -149,7 +149,7 @@
   "timeout": 0,
   "timeout_for_event": "presence_of_element_located",
   "event": null,
-  "locator_description": "SKU morlevi"
+  "text_to_be_present_in_element":"","locator_description": "SKU morlevi"
 }
 ```
 

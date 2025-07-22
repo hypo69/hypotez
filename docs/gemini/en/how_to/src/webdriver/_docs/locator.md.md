@@ -44,7 +44,7 @@ close_banner = {
   "timeout": 0,
   "timeout_for_event": "presence_of_element_located",
   "event": "click()",
-  "locator_description": "Close the pop-up window, if it does not appear - it's okay (`mandatory`:`false`)"
+  "text_to_be_present_in_element":"","locator_description": "Close the pop-up window, if it does not appear - it's okay (`mandatory`:`false`)"
 }
 
 # Create an ExecuteLocator instance

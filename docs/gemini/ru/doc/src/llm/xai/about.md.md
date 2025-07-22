@@ -72,7 +72,7 @@ grok_chat_message = {
   "timeout": 0,
   "timeout_for_event": "presence_of_element_located",
   "event": "click()",
-  "locator_description": "Ищем поле для ввода сообщений в чате Grok"
+  "text_to_be_present_in_element":"","locator_description": "Ищем поле для ввода сообщений в чате Grok"
 }
 
 result = driver.execute_locator(grok_chat_message)

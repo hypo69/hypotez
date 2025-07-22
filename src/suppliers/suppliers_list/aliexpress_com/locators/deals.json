@@ -6,6 +6,6 @@
     "if_list":"first","use_mouse": false,
     "mandatory": false,
     "timeout":0,"timeout_for_event":"presence_of_element_located","event": null,
-    "locator_description": "Товары со страницы deals"
+    "text_to_be_present_in_element":"","locator_description": "Товары со страницы deals"
   }
 }

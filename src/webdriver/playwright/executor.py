@@ -139,7 +139,7 @@ class PlaywrightExecutor:
                                 "event": event,
                                 "timeout": timeout,
                                 "timeout_for_event": timeout_for_event,
-                                "locator_description": locator_description,
+                                "text_to_be_present_in_element":"","locator_description": locator_description,
                             }
                         )
                         elements_pairs.append(await _parse_locator(l, message))

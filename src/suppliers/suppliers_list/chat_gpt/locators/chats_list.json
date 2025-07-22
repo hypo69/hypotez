@@ -7,6 +7,6 @@
     "if_list": "all",
 
     "mandatory": true,
-    "locator_description": "Ссылки на состоявюиеся беседы"
+    "text_to_be_present_in_element":"","locator_description": "Ссылки на состоявюиеся беседы"
   }
 }

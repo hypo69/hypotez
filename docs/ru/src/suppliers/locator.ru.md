@@ -25,7 +25,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": "click()",
-    "locator_description": "Закрываю pop-up окно. Если оно не появилось — не страшно (`mandatory`: `false`)."
+    "text_to_be_present_in_element":"","locator_description": "Закрываю pop-up окно. Если оно не появилось — не страшно (`mandatory`: `false`)."
   }
 ```
 
@@ -89,7 +89,7 @@ f = ProductFields(
       "true",
       "true"
     ],
-    "locator_description": [
+    "text_to_be_present_in_element":"","locator_description": [
       "Нажимаю на вкладку для открытия поля description.",
       "Читаю данные из div."
     ]

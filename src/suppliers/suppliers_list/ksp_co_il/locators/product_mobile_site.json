@@ -9,7 +9,7 @@
     "timeout_for_event": "presence_of_element_located",
     "event": "click()",
     "mandatory": true,
-    "locator_description": "Закрыти попап окна"
+    "text_to_be_present_in_element":"","locator_description": "Закрыти попап окна"
   },
   "id": {
     "attribute": null,
@@ -32,7 +32,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "SKU manufacturer"
+    "text_to_be_present_in_element":"","locator_description": "SKU manufacturer"
   },
   "id_supplier": {
     "attribute": "2787",
@@ -44,7 +44,7 @@
     "timeout": 2,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "KSP 2787"
+    "text_to_be_present_in_element":"","locator_description": "KSP 2787"
   },
   "id_product": {
     "attribute": "innerText",
@@ -56,7 +56,7 @@
     "timeout": 2,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "mobile version SKU ksp"
+    "text_to_be_present_in_element":"","locator_description": "mobile version SKU ksp"
   },
   "id_category_default": {
     "attribute": null,
@@ -120,7 +120,7 @@
     "timeout_for_event": "presence_of_element_located",
     "event": "screenshot()",
     "mandatory": true,
-    "locator_description": ""
+    "text_to_be_present_in_element":"","locator_description": ""
   },
   "id_default_combination": {
     "attribute": null,
@@ -873,7 +873,7 @@
     "timeout_for_event": "presence_of_element_located",
     "event": null,
     "mandatory": true,
-    "locator_description": "KSP mobile version - Название товара"
+    "text_to_be_present_in_element":"","locator_description": "KSP mobile version - Название товара"
   },
   "description_short": {
     "attribute": "innerText",
@@ -885,7 +885,7 @@
     "timeout_for_event": "presence_of_element_located",
     "event": null,
     "mandatory": true,
-    "locator_description": "KSP mobile version краткое Описание товара. "
+    "text_to_be_present_in_element":"","locator_description": "KSP mobile version краткое Описание товара. "
   },
   "description": {
     "attribute": null,
@@ -897,7 +897,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "На сайте нет полного описания товара, поэтому я повторяю локатор `specification`"
+    "text_to_be_present_in_element":"","locator_description": "На сайте нет полного описания товара, поэтому я повторяю локатор `specification`"
   },
   "specification": {
     "attribute": "innerText",
@@ -910,7 +910,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "KSP mobile Технические характеристики. Собирает с двух элементов и сортирует по парам "
+    "text_to_be_present_in_element":"","locator_description": "KSP mobile Технические характеристики. Собирает с двух элементов и сортирует по парам "
   },
   "affiliate_short_link": {
     "attribute": null,
@@ -1616,7 +1616,7 @@
     "timeout_for_event": "presence_of_element_located",
     "event": null,
     "mandatory": true,
-    "locator_description": "Ссылка на главную картинку"
+    "text_to_be_present_in_element":"","locator_description": "Ссылка на главную картинку"
   },
 
   "additional_images_urls": {

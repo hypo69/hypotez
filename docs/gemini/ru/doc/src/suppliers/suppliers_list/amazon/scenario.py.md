@@ -48,7 +48,7 @@ locators = {
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": "get_attribute('href')",
-    "locator_description": "Получаем список ссылок на товары"
+    "text_to_be_present_in_element":"","locator_description": "Получаем список ссылок на товары"
   }
 }
 products_urls = get_list_products_in_category(driver, locators)
@@ -95,7 +95,7 @@ locator = {
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": "get_attribute('href')",
-    "locator_description": "Получаем значение атрибута href первого найденного элемента."
+    "text_to_be_present_in_element":"","locator_description": "Получаем значение атрибута href первого найденного элемента."
 }
 element_value = driver.execute_locator(locator)
 print(element_value)
@@ -179,7 +179,7 @@ locators = {
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": "get_attribute('href')",
-    "locator_description": "Получаем список ссылок на товары"
+    "text_to_be_present_in_element":"","locator_description": "Получаем список ссылок на товары"
   }
 }
 

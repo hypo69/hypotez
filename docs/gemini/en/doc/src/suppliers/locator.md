@@ -22,7 +22,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": "click()",
-    "locator_description": "Закрываю pop-up окно, если оно не появилось - не страшно (`mandatory`: `false`)"
+    "text_to_be_present_in_element":"","locator_description": "Закрываю pop-up окно, если оно не появилось - не страшно (`mandatory`: `false`)"
   },
   "additional_images_urls": {
     "attribute": "src",
@@ -34,7 +34,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "Получаю список `urls` для дополнительных изображений."
+    "text_to_be_present_in_element":"","locator_description": "Получаю список `urls` для дополнительных изображений."
   },
   "id_supplier": {
     "attribute": "innerText",
@@ -46,7 +46,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "SKU Morlevi."
+    "text_to_be_present_in_element":"","locator_description": "SKU Morlevi."
   },
   "default_image_url": {
     "attribute": null,
@@ -58,7 +58,7 @@
     "timeout_for_event": "presence_of_element_located",
     "event": "screenshot()",
     "mandatory": true,
-    "locator_description": "Внимание! В Morlevi изображение получается через screenshot и возвращается в виде PNG (`bytes`)."
+    "text_to_be_present_in_element":"","locator_description": "Внимание! В Morlevi изображение получается через screenshot и возвращается в виде PNG (`bytes`)."
   }
 ```
 
@@ -171,7 +171,7 @@
       true,
       true
     ],
-    "locator_description": [
+    "text_to_be_present_in_element":"","locator_description": [
       "Клик по табу, чтобы открыть поле description.",
       "Чтение данных из div."
     ]

@@ -44,7 +44,7 @@ locator = {
         "mandatory": True,
         "timeout": 10,
         "timeout_for_event": "presence_of_element_located",
-        "locator_description": "Извлекает название товара.",
+        "text_to_be_present_in_element":"","locator_description": "Извлекает название товара.",
     },
     "price": {
         "attribute": "innerText",
@@ -55,7 +55,7 @@ locator = {
         "mandatory": True,
         "timeout": 10,
         "timeout_for_event": "presence_of_element_located",
-        "locator_description": "Извлекает цену товара.",
+        "text_to_be_present_in_element":"","locator_description": "Извлекает цену товара.",
     },
 }
 

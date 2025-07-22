@@ -73,7 +73,7 @@ await self.price() # self.fields.price = await self.driver.execute_locator(self.
       true,       // Первый шаг обязателен
       true        // Второй шаг обязателен
     ],
-    "locator_description": [
+    "text_to_be_present_in_element":"","locator_description": [
       "Нажимаю на вкладку \'Описание\'.", // Описание первого шага
       "Читаю текст из блока описания."  // Описание второго шага
     ]

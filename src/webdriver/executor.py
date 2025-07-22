@@ -163,7 +163,7 @@ class ExecuteLocator:
                                 "event": _event,
                                 "timeout": _timeout,
                                 "timeout_for_event": _timeout_for_event,
-                                "locator_description": locator.locator_description,
+                                "text_to_be_present_in_element":"","locator_description": locator.locator_description,
                             }
                         )
                         elements_pairs.append(await _parse_locator(l, message, timeout, timeout_for_event, typing_speed))

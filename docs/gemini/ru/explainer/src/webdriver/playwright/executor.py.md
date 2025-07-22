@@ -275,7 +275,7 @@ close_banner = {
   "timeout": 0,
   "timeout_for_event": "presence_of_element_located",
   "event": "click()",
-  "locator_description": "Закрываю pop-up окно, если оно не появилось - не страшно (`mandatory`:`false`)"
+  "text_to_be_present_in_element":"","locator_description": "Закрываю pop-up окно, если оно не появилось - не страшно (`mandatory`:`false`)"
 }
 
 result = driver.execute_locator(close_banner)
@@ -585,7 +585,7 @@ class PlaywrightExecutor:
                                 "event": event,
                                 "timeout": timeout,
                                 "timeout_for_event": timeout_for_event,
-                                "locator_description": locator_description,
+                                "text_to_be_present_in_element":"","locator_description": locator_description,
                             }\
                         )
                         elements_pairs.append(await _parse_locator(l, message))

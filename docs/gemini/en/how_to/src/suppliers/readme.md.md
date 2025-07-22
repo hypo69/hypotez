@@ -209,7 +209,7 @@ from types import SimpleNamespace
 
 # Define the locator (dictionary or SimpleNamespace)
 login_button_locator = {
-    "locator_description": "Login Button",
+    "text_to_be_present_in_element":"","locator_description": "Login Button",
     "by": "id",
     "strategy_for_multiple_selectors": "find_first_match","selector": "login-button",
     "event": "click()", # Action - click

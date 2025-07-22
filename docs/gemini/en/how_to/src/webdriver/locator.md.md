@@ -48,7 +48,7 @@ await self.price() # self.fields.price = await self.driver.execute_locator(self.
     "timeout": 0,       // Element wait timeout (0 - do not wait)
     "timeout_for_event": "presence_of_element_located", // Wait condition before the event
     "event": "click()", // Action - click on the element
-    "locator_description": "Close the pop-up window. If it doesn't appear, it's not a problem (`mandatory`: `false`). "
+    "text_to_be_present_in_element":"","locator_description": "Close the pop-up window. If it doesn't appear, it's not a problem (`mandatory`: `false`). "
   },
 ```
 
@@ -153,7 +153,7 @@ For example, the `name` locator will be used to get the product name, the `price
       true,       // The first step is mandatory
       true        // The second step is mandatory
     ],
-    "locator_description": [
+    "text_to_be_present_in_element":"","locator_description": [
       "Clicking on the 'Description' tab.", // Description of the first step
       "Reading the text from the description block."  // Description of the second step
     ]
@@ -180,7 +180,7 @@ This text will be the final result of executing this locator.
   "timeout": 2,
   "timeout_for_event": "presence_of_element_located",
   "event": null,
-  "locator_description": "Gets key-value pairs from the specifications list <dl>"
+  "text_to_be_present_in_element":"","locator_description": "Gets key-value pairs from the specifications list <dl>"
 }
 ```
 

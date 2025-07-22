@@ -33,7 +33,6 @@ class G(Graber):
 ``` 
 
 Список полей: https://github.com/hypo69/hypotez/blob/master/src/endpoints/prestashop/product_fields/fields_list.txt
-Модуль `graber`: https://github.com/hypo69/hypotez/blob/master/docs/ru/src/suppliers/graber.py.md
 Локатор https://github.com/hypo69/hypotez/blob/master/docs/ru/src/suppliers/locator.md
 Подробно о локаторе https://github.com/hypo69/hypotez/blob/master/src/webdriver/locator.md
 
@@ -109,7 +108,6 @@ def close_pop_up() -> Callable:
 # --- decorator.py end ---
 
 # --- config.py ---
-
 
 class Config:
     """! Класс конфигурации поставщика."""
@@ -514,7 +512,7 @@ class GraberBase:
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `additional_shipping_cost`", ex)
             ...
-            return
+            return False
 
 
     @close_pop_up()
@@ -531,7 +529,7 @@ class GraberBase:
         except Exception as ex:
             logger.error(f"Ошибка получения значения в поле `delivery_in_stock`", ex)
             ...
-            return
+            return False
 
 
     @close_pop_up()
@@ -1148,7 +1146,7 @@ class GraberBase:
                 "timeout": 2,
                 "timeout_for_event": "presence_of_element_located",
                 "event": null,
-                "locator_description": "SKU ksp"
+                "text_to_be_present_in_element":"","locator_description": "SKU ksp"
               },
 
               Таблица поставщиков:

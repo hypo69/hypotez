@@ -149,7 +149,7 @@ if html:
 ```python
 # Example of a locator dictionary for the Google search button
 search_button_locator = {
-    "locator_description": "The 'Search Google' button", # Description for logs
+    "text_to_be_present_in_element":"","locator_description": "The 'Search Google' button", # Description for logs
     "by": "xpath",
     "strategy_for_multiple_selectors": "find_first_match","selector": "(//input[@name=\'btnK\'])[2]", # Element selector
     "event": "click()", # Action: click
@@ -174,7 +174,7 @@ search_input_locator = SimpleNamespace(
 
 # Locator for getting an attribute (e.g., the value value)
 some_value_locator = {
-    "locator_description": "Get the value value of the button",
+    "text_to_be_present_in_element":"","locator_description": "Get the value value of the button",
     "by": "xpath",
     "strategy_for_multiple_selectors": "find_first_match","selector": "(//input[@name=\'btnK\'])[2]",
     "event": None, # No action
@@ -187,7 +187,7 @@ some_value_locator = {
 # Locator for getting the text of all links in the results
 # (example is hypothetical, the selector may differ)
 results_links_locator = {
-    "locator_description": "Search results links",
+    "text_to_be_present_in_element":"","locator_description": "Search results links",
     "by": "css selector",
     "strategy_for_multiple_selectors": "find_first_match","selector": "div.g a h3", # Approximate selector for link headings
     "event": None,

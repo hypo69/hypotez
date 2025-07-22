@@ -9,7 +9,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": "click()",
-    "locator_description": "Закрываю pop-up окно, если оно не появилось - не страшно (`mandatory`:`false`)"
+    "text_to_be_present_in_element":"","locator_description": "Закрываю pop-up окно, если оно не появилось - не страшно (`mandatory`:`false`)"
   },
   "id": {
     "attribute": null,
@@ -21,7 +21,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "id"
+    "text_to_be_present_in_element":"","locator_description": "id"
   },
   "id_manufacturer": {
     "attribute": 11290,
@@ -33,7 +33,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "id_manufacturer"
+    "text_to_be_present_in_element":"","locator_description": "id_manufacturer"
   },
   "id_supplier": {
     "attribute": 11267,
@@ -45,7 +45,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "HB id_supplier"
+    "text_to_be_present_in_element":"","locator_description": "HB id_supplier"
   },
   "id_product": {
     "attribute": "",
@@ -57,7 +57,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "HB id_product"
+    "text_to_be_present_in_element":"","locator_description": "HB id_product"
   },
   "id_category_default": {
     "attribute": null,
@@ -69,7 +69,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "id_category_default"
+    "text_to_be_present_in_element":"","locator_description": "id_category_default"
   },
   "condition": {
     "attribute": "new",
@@ -81,7 +81,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "condition"
+    "text_to_be_present_in_element":"","locator_description": "condition"
   },
   "cache_default_attribute": {
     "attribute": null,
@@ -93,7 +93,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "cache_default_attribute"
+    "text_to_be_present_in_element":"","locator_description": "cache_default_attribute"
   },
   "default_image_url": {
     "attribute": "src",
@@ -105,7 +105,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "HB default_image_url"
+    "text_to_be_present_in_element":"","locator_description": "HB default_image_url"
   },
   "id_default_combination": {
     "attribute": null,
@@ -117,7 +117,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "id_default_combination"
+    "text_to_be_present_in_element":"","locator_description": "id_default_combination"
   },
   "id_tax_rules_group": {
     "attribute": null,
@@ -129,7 +129,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "id_tax_rules_group HB.co.il"
+    "text_to_be_present_in_element":"","locator_description": "id_tax_rules_group HB.co.il"
   },
   "position_in_category": {
     "attribute": null,
@@ -141,7 +141,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "position_in_category"
+    "text_to_be_present_in_element":"","locator_description": "position_in_category"
   },
   "type": {
     "attribute": null,
@@ -153,7 +153,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "type"
+    "text_to_be_present_in_element":"","locator_description": "type"
   },
   "id_shop_default": {
     "attribute": null,
@@ -165,7 +165,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "id_shop_default"
+    "text_to_be_present_in_element":"","locator_description": "id_shop_default"
   },
   "product_reference_and_volume_and_price_for_100": {
     "attribute": null,
@@ -177,7 +177,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "На сайте кривой HTML, поэтому одним локатором вытескиваю 3 значения, а потом делаю парсинг. Приходит список из четырех объектов: объем, цена за 100 гр, артикул, пустой div"
+    "text_to_be_present_in_element":"","locator_description": "На сайте кривой HTML, поэтому одним локатором вытескиваю 3 значения, а потом делаю парсинг. Приходит список из четырех объектов: объем, цена за 100 гр, артикул, пустой div"
   },
   "reference": {
     "attribute": null,
@@ -189,7 +189,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "reference Собирается в коде из supplier.supplier_id + f.supplier_reference"
+    "text_to_be_present_in_element":"","locator_description": "reference Собирается в коде из supplier.supplier_id + f.supplier_reference"
   },
   "supplier_reference": {
     "attribute": null,
@@ -202,7 +202,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "supplier_reference Получаю через локатор product_reference_and_volume_and_price_for_100"
+    "text_to_be_present_in_element":"","locator_description": "supplier_reference Получаю через локатор product_reference_and_volume_and_price_for_100"
   },
   "additional_images_urls": {
     "attribute": "src",
@@ -236,7 +236,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "location"
+    "text_to_be_present_in_element":"","locator_description": "location"
   },
   "width": {
     "attribute": null,
@@ -248,7 +248,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "width"
+    "text_to_be_present_in_element":"","locator_description": "width"
   },
   "height": {
     "attribute": null,
@@ -260,7 +260,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "height"
+    "text_to_be_present_in_element":"","locator_description": "height"
   },
   "depth": {
     "attribute": null,
@@ -272,7 +272,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "depth"
+    "text_to_be_present_in_element":"","locator_description": "depth"
   },
   "weight": {
     "attribute": null,
@@ -285,7 +285,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "weight"
+    "text_to_be_present_in_element":"","locator_description": "weight"
   },
   "quantity_discount": {
     "attribute": null,
@@ -297,7 +297,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "quantity_discount"
+    "text_to_be_present_in_element":"","locator_description": "quantity_discount"
   },
   "ean13": {
     "attribute": null,
@@ -309,7 +309,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "ean13"
+    "text_to_be_present_in_element":"","locator_description": "ean13"
   },
   "isbn": {
     "attribute": null,
@@ -321,7 +321,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "isbn"
+    "text_to_be_present_in_element":"","locator_description": "isbn"
   },
   "upc": {
     "attribute": null,
@@ -333,7 +333,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "upc"
+    "text_to_be_present_in_element":"","locator_description": "upc"
   },
   "mpn": {
     "attribute": null,
@@ -345,7 +345,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "mpn"
+    "text_to_be_present_in_element":"","locator_description": "mpn"
   },
   "cache_is_pack": {
     "attribute": null,
@@ -357,7 +357,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "cache_is_pack"
+    "text_to_be_present_in_element":"","locator_description": "cache_is_pack"
   },
   "cache_has_attachments": {
     "attribute": null,
@@ -369,7 +369,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "cache_has_attachments"
+    "text_to_be_present_in_element":"","locator_description": "cache_has_attachments"
   },
   "is_virtual": {
     "attribute": "0",
@@ -381,7 +381,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "is_virtual"
+    "text_to_be_present_in_element":"","locator_description": "is_virtual"
   },
   "out_of_stock": {
     "attribute": null,
@@ -393,7 +393,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "out_of_stock"
+    "text_to_be_present_in_element":"","locator_description": "out_of_stock"
   },
   "state": {
     "attribute": null,
@@ -405,7 +405,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "state"
+    "text_to_be_present_in_element":"","locator_description": "state"
   },
   "additional_delivery_times": {
     "attribute": null,
@@ -417,7 +417,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "additional_delivery_times"
+    "text_to_be_present_in_element":"","locator_description": "additional_delivery_times"
   },
   "delivery_in_stock": {
     "attribute": "Israel Post",
@@ -429,7 +429,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "delivery_in_stock (Israel Post)"
+    "text_to_be_present_in_element":"","locator_description": "delivery_in_stock (Israel Post)"
   },
   "delivery_out_stock": {
     "attribute": null,
@@ -441,7 +441,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "delivery_out_stock"
+    "text_to_be_present_in_element":"","locator_description": "delivery_out_stock"
   },
   "product_type": {
     "attribute": null,
@@ -453,7 +453,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "product_type"
+    "text_to_be_present_in_element":"","locator_description": "product_type"
   },
   "on_sale": {
     "attribute": 0,
@@ -465,7 +465,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "on_sale"
+    "text_to_be_present_in_element":"","locator_description": "on_sale"
   },
   "online_only": {
     "attribute": 1,
@@ -477,7 +477,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "online_only"
+    "text_to_be_present_in_element":"","locator_description": "online_only"
   },
   "ecotax": {
     "attribute": null,
@@ -489,7 +489,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "ecotax"
+    "text_to_be_present_in_element":"","locator_description": "ecotax"
   },
   "minimal_quantity": {
     "attribute": 1,
@@ -501,7 +501,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "minimal_quantity"
+    "text_to_be_present_in_element":"","locator_description": "minimal_quantity"
   },
   "low_stock_threshold": {
     "attribute": null,
@@ -513,7 +513,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "low_stock_threshold"
+    "text_to_be_present_in_element":"","locator_description": "low_stock_threshold"
   },
   "low_stock_alert": {
     "attribute": null,
@@ -525,7 +525,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "low_stock_alert"
+    "text_to_be_present_in_element":"","locator_description": "low_stock_alert"
   },
   "price": {
     "attribute": "innerText",
@@ -537,7 +537,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "HB price"
+    "text_to_be_present_in_element":"","locator_description": "HB price"
   },
   "wholesale_price": {
     "attribute": null,
@@ -549,7 +549,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "HB wholesale_price"
+    "text_to_be_present_in_element":"","locator_description": "HB wholesale_price"
   },
   "unity": {
     "attribute": null,
@@ -561,7 +561,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "unity"
+    "text_to_be_present_in_element":"","locator_description": "unity"
   },
   "unit_price_ratio": {
     "attribute": null,
@@ -573,7 +573,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "unit_price_ratio"
+    "text_to_be_present_in_element":"","locator_description": "unit_price_ratio"
   },
   "additional_shipping_cost": {
     "attribute": 30,
@@ -585,7 +585,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "Стоимость отправки. 30 шек. by: VALUE означает, что я беру значение из attribute"
+    "text_to_be_present_in_element":"","locator_description": "Стоимость отправки. 30 шек. by: VALUE означает, что я беру значение из attribute"
   },
   "customizable": {
     "attribute": null,
@@ -597,7 +597,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "customizable"
+    "text_to_be_present_in_element":"","locator_description": "customizable"
   },
   "text_fields": {
     "attribute": null,
@@ -609,7 +609,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "text_fields"
+    "text_to_be_present_in_element":"","locator_description": "text_fields"
   },
   "uploadable_files": {
     "attribute": null,
@@ -621,7 +621,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "uploadable_files"
+    "text_to_be_present_in_element":"","locator_description": "uploadable_files"
   },
   "active": {
     "attribute": null,
@@ -633,7 +633,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "active"
+    "text_to_be_present_in_element":"","locator_description": "active"
   },
   "redirect_type": {
     "attribute": null,
@@ -645,7 +645,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "redirect_type"
+    "text_to_be_present_in_element":"","locator_description": "redirect_type"
   },
   "id_type_redirected": {
     "attribute": null,
@@ -657,7 +657,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "id_type_redirected"
+    "text_to_be_present_in_element":"","locator_description": "id_type_redirected"
   },
   "available_for_order": {
     "attribute": null,
@@ -669,7 +669,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "available_for_order - Если вернулся не пустой локатор - флаг выставляется в 1, иначе 0. Текст на сайте עזל ממלאי"
+    "text_to_be_present_in_element":"","locator_description": "available_for_order - Если вернулся не пустой локатор - флаг выставляется в 1, иначе 0. Текст на сайте עזל ממלאי"
   },
   "available_date": {
     "attribute": null,
@@ -681,7 +681,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "available_date"
+    "text_to_be_present_in_element":"","locator_description": "available_date"
   },
   "show_price": {
     "attribute": 1,
@@ -693,7 +693,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "show_price"
+    "text_to_be_present_in_element":"","locator_description": "show_price"
   },
   "indexed": {
     "attribute": null,
@@ -705,7 +705,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": ""
+    "text_to_be_present_in_element":"","locator_description": ""
   },
   "visibility": {
     "attribute": "both",
@@ -717,7 +717,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "visibility"
+    "text_to_be_present_in_element":"","locator_description": "visibility"
   },
   "advanced_stock_management": {
     "attribute": null,
@@ -729,7 +729,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "advanced_stock_management"
+    "text_to_be_present_in_element":"","locator_description": "advanced_stock_management"
   },
   "date_add": {
     "attribute": null,
@@ -741,7 +741,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "date_add"
+    "text_to_be_present_in_element":"","locator_description": "date_add"
   },
   "date_upd": {
     "attribute": null,
@@ -753,7 +753,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "date_upd"
+    "text_to_be_present_in_element":"","locator_description": "date_upd"
   },
   "pack_stock_type": {
     "attribute": null,
@@ -765,7 +765,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "pack_stock_type"
+    "text_to_be_present_in_element":"","locator_description": "pack_stock_type"
   },
   "meta_description": {
     "attribute": null,
@@ -777,7 +777,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "meta_description"
+    "text_to_be_present_in_element":"","locator_description": "meta_description"
   },
   "meta_keywords": {
     "attribute": null,
@@ -789,7 +789,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "meta_keywords"
+    "text_to_be_present_in_element":"","locator_description": "meta_keywords"
   },
   "meta_title": {
     "attribute": null,
@@ -801,7 +801,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "meta_title"
+    "text_to_be_present_in_element":"","locator_description": "meta_title"
   },
   "link_rewrite": {
     "attribute": null,
@@ -813,7 +813,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "link_rewrite"
+    "text_to_be_present_in_element":"","locator_description": "link_rewrite"
   },
   "name": {
     "attribute": "innerText",
@@ -825,7 +825,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "name"
+    "text_to_be_present_in_element":"","locator_description": "name"
   },
   "description_short": {
     "attribute": "innerText",
@@ -837,7 +837,7 @@
     "if_list": "all",
 
     "mandatory": true,
-    "locator_description": "HB description"
+    "text_to_be_present_in_element":"","locator_description": "HB description"
   },
   "specification": {
     "attribute": "",
@@ -849,7 +849,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "Технические характеристики. "
+    "text_to_be_present_in_element":"","locator_description": "Технические характеристики. "
   },
 
   "description": {
@@ -862,7 +862,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "description_short - на сайте HB есть только description"
+    "text_to_be_present_in_element":"","locator_description": "description_short - на сайте HB есть только description"
   },
 
   "affiliate_short_link": {
@@ -875,7 +875,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "Исполняю формулу и отдаю результат через `value`"
+    "text_to_be_present_in_element":"","locator_description": "Исполняю формулу и отдаю результат через `value`"
   },
   "affiliate_text": {
     "attribute": null,
@@ -887,7 +887,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "affiliate_text"
+    "text_to_be_present_in_element":"","locator_description": "affiliate_text"
   },
   "affiliate_summary": {
     "attribute": null,
@@ -899,7 +899,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "affiliate_summary"
+    "text_to_be_present_in_element":"","locator_description": "affiliate_summary"
   },
   "affiliate_summary_2": {
     "attribute": null,
@@ -911,7 +911,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "affiliate_summary_2"
+    "text_to_be_present_in_element":"","locator_description": "affiliate_summary_2"
   },
   "affiliate_image_small": {
     "attribute": null,
@@ -923,7 +923,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "affiliate_image_small"
+    "text_to_be_present_in_element":"","locator_description": "affiliate_image_small"
   },
   "affiliate_image_medium": {
     "attribute": null,
@@ -935,7 +935,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "affiliate_image_medium"
+    "text_to_be_present_in_element":"","locator_description": "affiliate_image_medium"
   },
   "affiliate_image_large": {
     "attribute": null,
@@ -947,7 +947,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "affiliate_image_large"
+    "text_to_be_present_in_element":"","locator_description": "affiliate_image_large"
   },
   "ingredients": {
     "attribute": [
@@ -977,7 +977,7 @@
       "click()",
       null
     ],
-    "locator_description": "ingredients"
+    "text_to_be_present_in_element":"","locator_description": "ingredients"
   },
   "how_to_use": {
     "attribute": [
@@ -1007,7 +1007,7 @@
       "click()",
       null
     ],
-    "locator_description": "how_to_use"
+    "text_to_be_present_in_element":"","locator_description": "how_to_use"
   },
   "specification": {
     "attribute": null,
@@ -1019,7 +1019,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "specification"
+    "text_to_be_present_in_element":"","locator_description": "specification"
   },
   "available_now": {
     "attribute": null,
@@ -1031,7 +1031,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "available_now"
+    "text_to_be_present_in_element":"","locator_description": "available_now"
   },
   "available_later": {
     "attribute": null,
@@ -1043,7 +1043,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "available_later"
+    "text_to_be_present_in_element":"","locator_description": "available_later"
   },
   "quantity": {
     "attribute": null,
@@ -1055,7 +1055,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": ""
+    "text_to_be_present_in_element":"","locator_description": ""
   },
   "link_to_video": {
     "attribute": null,
@@ -1067,7 +1067,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "link_to_video"
+    "text_to_be_present_in_element":"","locator_description": "link_to_video"
   },
   "associations": {
     "attribute": null,
@@ -1079,7 +1079,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "@deprecated associations - Поле используется для добавления картинок, категорий итп. Заполняется в коде"
+    "text_to_be_present_in_element":"","locator_description": "@deprecated associations - Поле используется для добавления картинок, категорий итп. Заполняется в коде"
   },
   "Active (0/1)": {
     "attribute": null,
@@ -1091,7 +1091,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "@deprecated Active (0/1) - товар показывается или нет в магазине клиента"
+    "text_to_be_present_in_element":"","locator_description": "@deprecated Active (0/1) - товар показывается или нет в магазине клиента"
   },
   "Categories (x,y,z...)": {
     "attribute": 2,
@@ -1103,7 +1103,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "@deprecated Categories (x,y,z...) - дополнительные категории. Поле используется при ручном импорте csv"
+    "text_to_be_present_in_element":"","locator_description": "@deprecated Categories (x,y,z...) - дополнительные категории. Поле используется при ручном импорте csv"
   },
   "Price tax excluded": {
     "attribute": null,
@@ -1115,7 +1115,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "@deprecated Price tax excluded -  Поле используется при ручном импорте csv . В коде преташоп известен как pex?"
+    "text_to_be_present_in_element":"","locator_description": "@deprecated Price tax excluded -  Поле используется при ручном импорте csv . В коде преташоп известен как pex?"
   },
   "Price tax included": {
     "attribute": null,
@@ -1127,7 +1127,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "@deprecated Price tax included -  Поле используется при ручном импорте csv"
+    "text_to_be_present_in_element":"","locator_description": "@deprecated Price tax included -  Поле используется при ручном импорте csv"
   },
   "Tax rule ID": {
     "attribute": null,
@@ -1139,7 +1139,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "@deprecated Tax rule ID -  Поле используется при ручном импорте csv"
+    "text_to_be_present_in_element":"","locator_description": "@deprecated Tax rule ID -  Поле используется при ручном импорте csv"
   },
   "Cost price": {
     "attribute": null,
@@ -1151,7 +1151,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "@deprecated Cost price -  Поле используется при ручном импорте csv"
+    "text_to_be_present_in_element":"","locator_description": "@deprecated Cost price -  Поле используется при ручном импорте csv"
   },
   "On sale (0/1)": {
     "attribute": null,
@@ -1163,7 +1163,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "@deprecated On sale (0/1) -  Поле используется при ручном импорте csv"
+    "text_to_be_present_in_element":"","locator_description": "@deprecated On sale (0/1) -  Поле используется при ручном импорте csv"
   },
   "Discount amount": {
     "attribute": null,
@@ -1175,7 +1175,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "@deprecated Discount amount -  Поле используется при ручном импорте csv"
+    "text_to_be_present_in_element":"","locator_description": "@deprecated Discount amount -  Поле используется при ручном импорте csv"
   },
   "Discount percent": {
     "attribute": null,
@@ -1187,7 +1187,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "@deprecated Discount amount -  Поле используется при ручном импорте csv"
+    "text_to_be_present_in_element":"","locator_description": "@deprecated Discount amount -  Поле используется при ручном импорте csv"
   },
   "Discount from (yyyy-mm-dd)": {
     "attribute": null,
@@ -1199,7 +1199,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "@deprecated Discount from (yyyy-mm-dd) -  Поле используется при ручном импорте csv"
+    "text_to_be_present_in_element":"","locator_description": "@deprecated Discount from (yyyy-mm-dd) -  Поле используется при ручном импорте csv"
   },
   "Discount to (yyyy-mm-dd)": {
     "attribute": null,
@@ -1211,7 +1211,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "@deprecated Discount to (yyyy-mm-dd) -  Поле используется при ручном импорте csv"
+    "text_to_be_present_in_element":"","locator_description": "@deprecated Discount to (yyyy-mm-dd) -  Поле используется при ручном импорте csv"
   },
   "Brand": {
     "attribute": "hb",
@@ -1223,7 +1223,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "@deprecated Brand -  Поле используется при ручном импорте csv"
+    "text_to_be_present_in_element":"","locator_description": "@deprecated Brand -  Поле используется при ручном импорте csv"
   },
   "Low stock level": {
     "attribute": null,
@@ -1235,7 +1235,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "@deprecated Low stock level -  Поле используется при ручном импорте csv"
+    "text_to_be_present_in_element":"","locator_description": "@deprecated Low stock level -  Поле используется при ручном импорте csv"
   },
   "Send me an email when the quantity is under this level": {
     "attribute": null,
@@ -1247,7 +1247,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "@deprecated Send me an email when the quantity is under this level -  Поле используется при ручном импорте csv"
+    "text_to_be_present_in_element":"","locator_description": "@deprecated Send me an email when the quantity is under this level -  Поле используется при ручном импорте csv"
   },
   "Tags (x,y,z...)": {
     "attribute": null,
@@ -1259,7 +1259,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "@deprecated Tags (x,y,z...) -  Поле используется при ручном импорте csv"
+    "text_to_be_present_in_element":"","locator_description": "@deprecated Tags (x,y,z...) -  Поле используется при ручном импорте csv"
   },
   "Label when in stock": {
     "attribute": null,
@@ -1271,7 +1271,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "@deprecated Label when in stock -  Поле используется при ручном импорте csv"
+    "text_to_be_present_in_element":"","locator_description": "@deprecated Label when in stock -  Поле используется при ручном импорте csv"
   },
   "Label when backorder allowed": {
     "attribute": null,
@@ -1283,7 +1283,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "@deprecated Label when backorder allowed -  Поле используется при ручном импорте csv"
+    "text_to_be_present_in_element":"","locator_description": "@deprecated Label when backorder allowed -  Поле используется при ручном импорте csv"
   },
   "Delete existing images (0 = No, 1 = Yes)": {
     "attribute": null,

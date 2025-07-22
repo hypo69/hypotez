@@ -34,7 +34,7 @@ locator = {
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "Ищу ссылки на товары"
+    "text_to_be_present_in_element":"","locator_description": "Ищу ссылки на товары"
 }
 
 # Загрузка страницы категории

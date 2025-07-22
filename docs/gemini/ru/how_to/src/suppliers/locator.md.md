@@ -47,7 +47,7 @@ value = d.execute_locator(locator['name'])  # Получите значение 
   "timeout": 0,       # Время ожидания поиска элемента
   "timeout_for_event": "presence_of_element_located",  # Время ожидания для события
   "event": "click()",  # Событие, которое будет выполнено с элементом
-  "locator_description": "Описание локатора"  # Описание цели локатора
+  "text_to_be_present_in_element":"","locator_description": "Описание локатора"  # Описание цели локатора
 }
 ```
 

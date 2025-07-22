@@ -91,7 +91,7 @@ login_button_locator = {
     "mandatory": True,
     "timeout": 10,
     "timeout_for_event": "element_to_be_clickable",
-    "locator_description": "Login Submit Button"
+    "text_to_be_present_in_element":"","locator_description": "Login Submit Button"
 }
 ```
 
@@ -103,7 +103,7 @@ search_bar_locator = {
     "selector": "//input[@aria-label='Search']",
     "event": "type(Automated Web Scraping)",
     "mandatory": True,
-    "locator_description": "Main Search Input"
+    "text_to_be_present_in_element":"","locator_description": "Main Search Input"
 }
 ```
 
@@ -116,6 +116,6 @@ product_titles_locator = {
     "attribute": "innerText",
     "if_list": "all",
     "mandatory": False,
-    "locator_description": "List of Product Titles"
+    "text_to_be_present_in_element":"","locator_description": "List of Product Titles"
 }
 ```

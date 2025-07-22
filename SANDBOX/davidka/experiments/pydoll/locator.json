@@ -1,0 +1,15 @@
+{
+  "test_locator": {
+    "attribute": null,
+    "by": "XPATH",
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": "//div[@class='modal-content']//button",
+    "if_list": "first",
+    "timeout": 0,
+    "timeout_for_event": "presence_of_element_located",
+    "event": "click()",
+    "mandatory": false,
+    "text_to_be_present_in_element": "",
+    "locator_description": "Тестовый локатор. Можно установить значения для проверки конкретной страницы"
+  }
+}

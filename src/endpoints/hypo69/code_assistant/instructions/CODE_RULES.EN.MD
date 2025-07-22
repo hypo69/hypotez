@@ -520,7 +520,7 @@ close_banner = {
   "timeout": 0, # Explicit wait timeout for this specific locator (0 might mean use default)
   "timeout_for_event": "presence_of_element_located", # Expected condition for the timeout
   "event": "click()", # The action to perform on the element (as a string method call)
-  "locator_description": "Closing the pop-up window, it's okay if it didn't appear (`mandatory`:`false`)" # Human-readable description
+  "text_to_be_present_in_element":"","locator_description": "Closing the pop-up window, it's okay if it didn't appear (`mandatory`:`false`)" # Human-readable description
 }
 
 result = driver.execute_locator(close_banner)

@@ -10,7 +10,7 @@
     "timeout_for_event": "presence_of_element_located",
     "event": "click()",
     "mandatory": true,
-    "locator_description": "ivory - Закрытиe попап окна"
+    "text_to_be_present_in_element":"","locator_description": "ivory - Закрытиe попап окна"
   },
   "id": {
     "attribute": null,
@@ -23,7 +23,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "ivory - `id`"
+    "text_to_be_present_in_element":"","locator_description": "ivory - `id`"
   },
   "id_manufacturer": {
     "attribute": "innerText",
@@ -36,7 +36,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "ivory - `id_manufacturer`"
+    "text_to_be_present_in_element":"","locator_description": "ivory - `id_manufacturer`"
   },
   "id_supplier": {
     "attribute": 11343,
@@ -49,7 +49,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "11343 ivory - `id_supplier`"
+    "text_to_be_present_in_element":"","locator_description": "11343 ivory - `id_supplier`"
   },
   "id_product": {
     "attribute": "innerText",
@@ -62,7 +62,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "ivory - `id_product` returned form prestashop"
+    "text_to_be_present_in_element":"","locator_description": "ivory - `id_product` returned form prestashop"
   },
   "id_category_default": {
     "attribute": null,
@@ -77,7 +77,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "ivory - `id_category_default`"
+    "text_to_be_present_in_element":"","locator_description": "ivory - `id_category_default`"
   },
   "new": {
     "attribute": null,
@@ -92,7 +92,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "ivory - `new`"
+    "text_to_be_present_in_element":"","locator_description": "ivory - `new`"
   },
   "cache_default_attribute": {
     "attribute": null,
@@ -107,7 +107,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "ivory - `cache_default_attribute`"
+    "text_to_be_present_in_element":"","locator_description": "ivory - `cache_default_attribute`"
   },
   "id_default_image": {
     "attribute": null,
@@ -122,7 +122,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "ivory - `id_default_image`"
+    "text_to_be_present_in_element":"","locator_description": "ivory - `id_default_image`"
   },
   "default_image_url": {
     "attribute": "src",
@@ -135,7 +135,7 @@
     "timeout_for_event": "presence_of_element_located",
     "event": null,
     "mandatory": true,
-    "locator_description": "ivory - `default_image_url`"
+    "text_to_be_present_in_element":"","locator_description": "ivory - `default_image_url`"
   },
   "id_default_combination": {
     "attribute": null,
@@ -947,7 +947,7 @@
     "timeout_for_event": "presence_of_element_located",
     "event": null,
     "mandatory": true,
-    "locator_description": "Название товара"
+    "text_to_be_present_in_element":"","locator_description": "Название товара"
   },
   "description_short": {
     "attribute": "innerText",
@@ -960,7 +960,7 @@
     "timeout_for_event": "presence_of_element_located",
     "event": null,
     "mandatory": true,
-    "locator_description": "краткое Описание товара. "
+    "text_to_be_present_in_element":"","locator_description": "краткое Описание товара. "
   },
   "description": {
     "attribute": null,
@@ -973,7 +973,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "IVORY Описание товара. У IVORY нет описания. Только краткое описание и спецификация "
+    "text_to_be_present_in_element":"","locator_description": "IVORY Описание товара. У IVORY нет описания. Только краткое описание и спецификация "
   },
   "specification": {
     "attribute": "innerText",
@@ -986,7 +986,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "IVORY Технические характеристики. "
+    "text_to_be_present_in_element":"","locator_description": "IVORY Технические характеристики. "
   },
   "affiliate_short_link": {
     "attribute": null,
@@ -1772,7 +1772,7 @@
     "timeout_for_event": "presence_of_element_located",
     "event": null,
     "mandatory": true,
-    "locator_description": "Ссылка на главную картинку"
+    "text_to_be_present_in_element":"","locator_description": "Ссылка на главную картинку"
   },
 
   "additional_images_urls": {

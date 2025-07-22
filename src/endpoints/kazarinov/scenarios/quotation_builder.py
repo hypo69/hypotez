@@ -5,13 +5,12 @@
 """
 The module handles data preparation, AI processing, and integration with Facebook for product posting.
 ==================================================================
+Provides functionality for extracting, parsing, and processing product data from 
+various suppliers. The module handles data preparation, AI processing, 
+and integration with Facebook for product posting.
 
 ```rst
 .. module:: src.endpoints.kazarinov.scenarios.quotation_builder 
-	:platform: Windows, Unix
-	:synopsis: Provides functionality for extracting, parsing, and processing product data from 
-various suppliers. The module handles data preparation, AI processing, 
-and integration with Facebook for product posting.
 ```
 
 """
@@ -24,7 +23,7 @@ import asyncio
 import random
 import shutil
 from pathlib import Path
-from typing import Optional, List, Any
+from typing import Optional, List, Any, TYPE_CHECKING
 from types import SimpleNamespace
 from dataclasses import field
 import telebot
@@ -32,23 +31,15 @@ import telebot
 import header
 from header import __root__
 from src import gs, USE_ENV
-from src.endpoints.prestashop.product_fields import ProductFields
+# from src.endpoints.prestashop.product_fields import ProductFields
 
-# from src.webdriver.driver import Driver
-# from src.webdriver.firefox import Firefox
-# from src.webdriver.playwright import Playwrid
-
-from src.llm.gemini import GoogleGenerativeAi
+# from src.llm.gemini import GoogleGenerativeAi
 
 from src.endpoints.advertisement.facebook.scenarios import (
     post_message_title, upload_post_media, message_publish
 )
-# from src.suppliers.suppliers_list.morlevi.graber import Graber as MorleviGraber
-# from src.suppliers.suppliers_list.ksp.graber import Graber as KspGraber
-# from src.suppliers.suppliers_list.ivory.graber import Graber as IvoryGraber
-# from src.suppliers.suppliers_list.grandadvance.graber import Graber as GrandadvanceGraber
-from src.endpoints.kazarinov.report_generator import ReportGenerator 
 
+from src.endpoints.kazarinov.report_generator import ReportGenerator 
 from src.utils.jjson import j_loads, j_loads_ns, j_dumps
 from src.utils.file import read_text_file, save_text_file, recursively_get_file_path
 from src.utils.image import save_image_from_url_async, save_image
@@ -120,105 +111,47 @@ class QuotationBuilder:
             ...
             
 
+    # def process_llm(self, products_list: List[str], lang:str,  attempts: int = 3) -> tuple | bool:
+    #     """
+    #     Processes the product list through the AI model.
+
+    #     Args:
+    #         products_list (str): List of product data dictionaries as a string.
+    #         attempts (int, optional): Number of attempts to retry in case of failure. Defaults to 3.
+
+    #     Returns:
+    #         tuple: Processed response in `ru` and `he` formats.
+    #         bool: False if unable to get a valid response after retries.
+
+    #     Note:
+    #         Модель может возвращать невалидный результат.
+    #         В таком случае я переспрашиваю модель разумное количество раз.
+    #     """
+    #     if attempts < 1:
+    #         ...
+    #         return {}  # return early if no attempts are left
+
+    #     model_command = Path(gs.path.endpoints / Config.ENDPOINT / 'instructions' / f'command_instruction_mexiron_{lang}.md').read_text(encoding='UTF-8')
+    #     # Request response from the AI model
+    #     q = model_command + '\n' + str(products_list)
+    #     response = self.model.ask(q)
+    #     if not response:
+    #         logger.error(f"Нет ответа от модели")
+    #         ...
+    #         return {}
 
 
+    #     response_dict:dict = j_loads(response) # <- если будет ошибка , то вернется пустой словарь
 
-    def process_llm(self, products_list: List[str], lang:str,  attempts: int = 3) -> tuple | bool:
-        """
-        Processes the product list through the AI model.
-
-        Args:
-            products_list (str): List of product data dictionaries as a string.
-            attempts (int, optional): Number of attempts to retry in case of failure. Defaults to 3.
-
-        Returns:
-            tuple: Processed response in `ru` and `he` formats.
-            bool: False if unable to get a valid response after retries.
-
-        Note:
-            Модель может возвращать невалидный результат.
-            В таком случае я переспрашиваю модель разумное количество раз.
-        """
-        if attempts < 1:
-            ...
-            return {}  # return early if no attempts are left
-
-        model_command = Path(gs.path.endpoints / Config.ENDPOINT / 'instructions' / f'command_instruction_mexiron_{lang}.md').read_text(encoding='UTF-8')
-        # Request response from the AI model
-        q = model_command + '\n' + str(products_list)
-        response = self.model.ask(q)
-        if not response:
-            logger.error(f"Нет ответа от модели")
-            ...
-            return {}
+    #     if not response_dict:
+    #         logger.error(f"Ошибка парсинга ответа модели", None, False)
+    #         if attempts > 1:
+    #             ...
+    #             self.process_llm(products_list, lang, attempts -1 )
+    #         return {}
+    #     return  response_dict
 
 
-        response_dict:dict = j_loads(response) # <- если будет ошибка , то вернется пустой словарь
-
-        if not response_dict:
-            logger.error(f"Ошибка парсинга ответа модели", None, False)
-            if attempts > 1:
-                ...
-                self.process_llm(products_list, lang, attempts -1 )
-            return {}
-        return  response_dict
-
-    async def process_llm_async(self, products_list: List[str], lang:str,  attempts: int = 3) -> tuple | bool:
-        """
-        Processes the product list through the AI model.
-
-        Args:
-            products_list (str): List of product data dictionaries as a string.
-            attempts (int, optional): Number of attempts to retry in case of failure. Defaults to 3.
-
-        Returns:
-            tuple: Processed response in `ru` and `he` formats.
-            bool: False if unable to get a valid response after retries.
-
-        .. note::
-            Модель может возвращать невалидный результат.
-            В таком случае я переспрашиваю модель разумное количество раз.
-        """
-        if attempts < 1:
-            ...
-            return {}  # return early if no attempts are left
-
-        model_command = Path(gs.path.endpoints / Config.ENDPOINT / 'instructions' / f'command_instruction_mexiron_{lang}.md').read_text(encoding='UTF-8')
-        # Request response from the AI model
-        q = model_command + '\n' + str(products_list)
-
-        response = await self.model.ask_async(q) # CORRECT
-
-        if not response:
-            logger.error(f"Нет ответа от модели")
-            ...
-            return {}
-
-        response_dict:dict = j_loads(response) # <- если будет ошибка , то вернется пустой словарь
-
-        if not response_dict:
-            logger.error(f'Ошибка {attempts} парсинга ответа модели', None, False)
-            if attempts > 1:
-                ...
-                return await self.process_llm_async(products_list, lang, attempts - 1) 
-            return {}
-        return  response_dict
-
-    async def save_product_data(self, product_data: dict) -> bool:
-        """
-        Saves individual product data to a file.
-
-        Args:
-            product_data (dict): Formatted product data.
-        """
-        file_path = self.export_path / 'products' / f"{product_data['product_id']}.json"
-        if not j_dumps(product_data, file_path, ensure_ascii=False):
-            logger.error(f'Ошибка сохранения словаря {print(product_data)}\n Путь: {file_path}')
-            ...
-            return
-        return True
-
- 
     async def post_facebook_async(self, mexiron:SimpleNamespace) -> bool:
         """Функция исполняет сценарий рекламного модуля `facvebook`."""
         ...

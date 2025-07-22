@@ -64,7 +64,7 @@ f = ProductFields(**product_data)
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": "click()",
-    "locator_description": "Closes the pop-up window. If the window is not present, it's not a problem (`mandatory`: `false`)."
+    "text_to_be_present_in_element":"","locator_description": "Closes the pop-up window. If the window is not present, it's not a problem (`mandatory`: `false`)."
   },
   "additional_images_urls": {
     "attribute": "src",
@@ -76,7 +76,7 @@ f = ProductFields(**product_data)
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "Retrieves a list of URLs for additional images."
+    "text_to_be_present_in_element":"","locator_description": "Retrieves a list of URLs for additional images."
   },
   "id_supplier": {
     "attribute": "innerText",
@@ -88,7 +88,7 @@ f = ProductFields(**product_data)
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "SKU Morlevi."
+    "text_to_be_present_in_element":"","locator_description": "SKU Morlevi."
   },
   "default_image_url": {
     "attribute": null,
@@ -100,7 +100,7 @@ f = ProductFields(**product_data)
     "timeout_for_event": "presence_of_element_located",
     "event": "screenshot()",
     "mandatory": true,
-    "locator_description": "Note! In Morlevi, the image is obtained using `screenshot` and returned as PNG (`bytes`)."
+    "text_to_be_present_in_element":"","locator_description": "Note! In Morlevi, the image is obtained using `screenshot` and returned as PNG (`bytes`)."
   }
 ```
 
@@ -233,7 +233,7 @@ Lists, tuples, or dictionaries can be passed into the locator keys.
       true,
       true
     ],
-    "locator_description": [
+    "text_to_be_present_in_element":"","locator_description": [
       "Click on the tab to open the description field.",
       "Read data from the div."
     ]

@@ -19,7 +19,7 @@ Locators provide a flexible tool for automating interaction with web elements, w
   "timeout": 0,
   "timeout_for_event": "presence_of_element_located",
   "event": "click()",
-  "locator_description": "Close the pop-up window, if it doesn't appear - it's not scary (`mandatory`:`false`)"
+  "text_to_be_present_in_element":"","locator_description": "Close the pop-up window, if it doesn't appear - it's not scary (`mandatory`:`false`)"
 }
 ```
 
@@ -54,7 +54,7 @@ Locators provide a flexible tool for automating interaction with web elements, w
   "timeout": 0,
   "timeout_for_event": "presence_of_element_located",
   "event": null,
-  "locator_description": "id_manufacturer"
+  "text_to_be_present_in_element":"","locator_description": "id_manufacturer"
 }
 ```
 
@@ -122,7 +122,7 @@ Locators provide a flexible tool for automating interaction with web elements, w
   "timeout_for_event": "presence_of_element_located",
   "event": "screenshot()",
   "mandatory": true,
-  "locator_description": "Attention! In morlevi, the picture is obtained through a screenshot and returned as png (`bytes`)"
+  "text_to_be_present_in_element":"","locator_description": "Attention! In morlevi, the picture is obtained through a screenshot and returned as png (`bytes`)"
 }
 ```
 
@@ -157,7 +157,7 @@ Locators provide a flexible tool for automating interaction with web elements, w
   "timeout": 0,
   "timeout_for_event": "presence_of_element_located",
   "event": null,
-  "locator_description": "SKU morlevi"
+  "text_to_be_present_in_element":"","locator_description": "SKU morlevi"
 }
 ```
 

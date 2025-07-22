@@ -76,7 +76,7 @@ async def main():
         "timeout_for_event": "presence_of_element_located",
         "event": None,
         "mandatory": True,
-        "locator_description": "Название товара"
+        "text_to_be_present_in_element":"","locator_description": "Название товара"
     }
 
     name = await browser.execute_locator(locator_name)
@@ -93,7 +93,7 @@ async def main():
         "timeout_for_event": "presence_of_element_located",
         "event": "click()",
         "mandatory": True,
-        "locator_description": "название товара"
+        "text_to_be_present_in_element":"","locator_description": "название товара"
     }
     await browser.execute_locator(locator_click)
     await asyncio.sleep(3)

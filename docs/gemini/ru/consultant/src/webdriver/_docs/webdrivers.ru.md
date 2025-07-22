@@ -285,7 +285,7 @@ locator = {
   "timeout": 10,
   "timeout_for_event": "presence_of_element_located",
   "event": null,
-  "locator_description": "Заголовок страницы"
+  "text_to_be_present_in_element":"","locator_description": "Заголовок страницы"
 }
 
 # Извлечение элемента с использованием локатора

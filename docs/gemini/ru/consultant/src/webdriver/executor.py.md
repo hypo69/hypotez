@@ -222,7 +222,7 @@ class ExecuteLocator:
                                 "timeout_for_event": locator.timeout_for_event
                                 if isinstance(locator.timeout_for_event, str)
                                 else locator.timeout_for_event[n],
-                                "locator_description": locator.locator_description,
+                                "text_to_be_present_in_element":"","locator_description": locator.locator_description,
                             }
                         )
                         elements_pairs.append(

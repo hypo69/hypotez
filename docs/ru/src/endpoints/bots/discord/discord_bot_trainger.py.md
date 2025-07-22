@@ -492,7 +492,7 @@ async def text_to_speech_and_play(text, channel):
 
     voice_channel.play(discord.FFmpegPCMAudio(audio_file_path), after=lambda ex: logger.info(f'Finished playing: {ex}'))
 
-    while voice_channel.is_playing():  # Ждем пока играет звук
+    while voice_channel.is_playing():  # Ожидание пока играет звук
         await asyncio.sleep(1)
 
     await voice_channel.disconnect()  # Отключаемся

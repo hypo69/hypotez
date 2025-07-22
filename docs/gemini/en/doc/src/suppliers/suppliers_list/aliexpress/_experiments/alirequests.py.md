@@ -62,7 +62,7 @@ product_title = driver.execute_locator({
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": None,
-    "locator_description": "Extract product title from the webpage"
+    "text_to_be_present_in_element":"","locator_description": "Extract product title from the webpage"
 })
 
 print(product_title)

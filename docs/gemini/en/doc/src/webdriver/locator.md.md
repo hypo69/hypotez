@@ -27,7 +27,7 @@
     "timeout": 0, 
     "timeout_for_event": "presence_of_element_located", 
     "event": "click()",
-    "locator_description": "Закрываю pop-up окно. Если оно не появилось — не страшно (`mandatory`: `false`)."\n
+    "text_to_be_present_in_element":"","locator_description": "Закрываю pop-up окно. Если оно не появилось — не страшно (`mandatory`: `false`)."\n
   }
 ```
 
@@ -122,7 +122,7 @@
       true,       // Первый шаг обязателен
       true        // Второй шаг обязателен
     ],
-    "locator_description": [
+    "text_to_be_present_in_element":"","locator_description": [
       "Нажимаю на вкладку 'Описание'.", // Описание первого шага
       "Читаю текст из блока описания."  // Описание второго шага
     ]
@@ -141,7 +141,7 @@
   "timeout": 2,
   "timeout_for_event": "presence_of_element_located",
   "event": null,
-  "locator_description": "Получает пары ключ-значение из списка спецификаций <dl>"
+  "text_to_be_present_in_element":"","locator_description": "Получает пары ключ-значение из списка спецификаций <dl>"
 }
 ```
 

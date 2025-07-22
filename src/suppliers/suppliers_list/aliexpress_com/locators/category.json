@@ -9,7 +9,7 @@
     "timeout_for_event": "presence_of_element_located",
     "event": null,
     "mandatory": true,
-    "locator_description": "ссылки на страницы товаров"
+    "text_to_be_present_in_element":"","locator_description": "ссылки на страницы товаров"
   },
 
 
@@ -20,7 +20,7 @@
       "strategy_for_multiple_selectors": "find_first_match","selector": "//ul[@class='pagination']",
       "timeout":0,"timeout_for_event":"presence_of_element_located","event": "click()",
       "mandatory":  false,
-      "locator_description": "если некуда двигаться - драйвер вернет False"
+      "text_to_be_present_in_element":"","locator_description": "если некуда двигаться - драйвер вернет False"
     },
     "->": {
       "attribute": null,
@@ -29,7 +29,7 @@
       "timeout":0,"timeout_for_event":"presence_of_element_located","event": "click()",
       "if_list":"first","use_mouse": false, 
       "mandatory": true,
-      "locator_description": ""
+      "text_to_be_present_in_element":"","locator_description": ""
     }
   }
 

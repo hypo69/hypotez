@@ -61,7 +61,7 @@ driver = MockDriver() # Using a mock for example purposes
 
 # --- Locator Structure (Detailed) ---
 # locator_example = {
-#     "locator_description": "Login button on the main page", # Optional description for logging
+#     "text_to_be_present_in_element":"","locator_description": "Login button on the main page", # Optional description for logging
 #     "by": By.XPATH,                  # Required: Search method (from selenium.webdriver.common.by.By) or string "url", "value"
 #     "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@id='login']", # Required (except for by='value'/'url'): Selector for searching
 #     "attribute": None,               # Optional: Name of the attribute to extract ('href', 'value', 'src', 'textContent', 'data-id', "{'key_attr':'value_attr'}")

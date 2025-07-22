@@ -91,7 +91,7 @@
             search_box.clear()
             search_box.send_keys(query)
             search_box.send_keys(Keys.RETURN)
-            # Ждем загрузки результатов
+            # Ожидание загрузки результатов
             wait.until(EC.presence_of_element_located((By.ID, "search")))
             # time.sleep(1) # Пауза не рекомендуется, лучше ждать конкретный элемент
 

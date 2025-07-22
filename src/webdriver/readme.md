@@ -149,7 +149,7 @@ if html:
 ```python
 # Пример словаря-локатора для кнопки поиска Google
 search_button_locator = {
-    "locator_description": "Кнопка 'Поиск в Google'", # Описание для логов
+    "text_to_be_present_in_element":"","locator_description": "Кнопка 'Поиск в Google'", # Описание для логов
     "by": "xpath",
     "strategy_for_multiple_selectors": "find_first_match","selector": "(//input[@name='btnK'])[2]", # Селектор элемента
     "event": "click()", # Действие: клик
@@ -174,7 +174,7 @@ search_input_locator = SimpleNamespace(
 
 # Локатор для получения атрибута (например, значение value)
 some_value_locator = {
-    "locator_description": "Получение значения value у кнопки",
+    "text_to_be_present_in_element":"","locator_description": "Получение значения value у кнопки",
     "by": "xpath",
     "strategy_for_multiple_selectors": "find_first_match","selector": "(//input[@name='btnK'])[2]",
     "event": None, # Действия нет
@@ -187,7 +187,7 @@ some_value_locator = {
 # Локатор для получения текста всех ссылок в результатах
 # (пример гипотетический, селектор может отличаться)
 results_links_locator = {
-    "locator_description": "Ссылки результатов поиска",
+    "text_to_be_present_in_element":"","locator_description": "Ссылки результатов поиска",
     "by": "css selector",
     "strategy_for_multiple_selectors": "find_first_match","selector": "div.g a h3", # Примерный селектор заголовков ссылок
     "event": None,

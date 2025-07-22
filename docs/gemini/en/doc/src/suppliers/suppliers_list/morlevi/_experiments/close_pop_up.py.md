@@ -61,7 +61,7 @@ locator = {
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": "click()",
-    "locator_description": "Закрываю pop-up окно, если оно не появилось - не страшно (`mandatory`:`false`)"
+    "text_to_be_present_in_element":"","locator_description": "Закрываю pop-up окно, если оно не появилось - не страшно (`mandatory`:`false`)"
 }
 result = close_pop_up(locator)
 print(result) # Вывод: True
@@ -77,7 +77,7 @@ locator = {
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": "click()",
-    "locator_description": "Закрываю pop-up окно, если оно не появилось - не страшно (`mandatory`:`false`)"
+    "text_to_be_present_in_element":"","locator_description": "Закрываю pop-up окно, если оно не появилось - не страшно (`mandatory`:`false`)"
 }
 try:
     result = close_pop_up(locator)
@@ -106,7 +106,7 @@ close_banner = {
   "timeout": 0,
   "timeout_for_event": "presence_of_element_located",
   "event": "click()",
-  "locator_description": "Закрываю pop-up окно, если оно не появилось - не страшно (`mandatory`:`false`)"
+  "text_to_be_present_in_element":"","locator_description": "Закрываю pop-up окно, если оно не появилось - не страшно (`mandatory`:`false`)"
 }
 close_pop_up(close_banner)
 
@@ -121,7 +121,7 @@ check_banner = {
   "timeout": 0,
   "timeout_for_event": "presence_of_element_located",
   "event": null,
-  "locator_description": "Проверка наличия элемента"
+  "text_to_be_present_in_element":"","locator_description": "Проверка наличия элемента"
 }
 is_banner_present = close_pop_up(check_banner)
 print(f"Баннер присутствует: {is_banner_present}")

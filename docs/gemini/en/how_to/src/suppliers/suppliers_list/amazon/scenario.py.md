@@ -44,7 +44,7 @@ locator = {
         "timeout": 0,
         "timeout_for_event": "presence_of_all_elements_located",
         "event": "get_attribute('href')",
-        "locator_description": "Выбираю все ссылки на товары, если они не появятся - не страшно (`mandatory`:`false`)"
+        "text_to_be_present_in_element":"","locator_description": "Выбираю все ссылки на товары, если они не появятся - не страшно (`mandatory`:`false`)"
     }
 }
 

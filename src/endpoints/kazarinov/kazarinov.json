@@ -7,7 +7,7 @@
     },
     "pydoll": {
       "WINDOW_MODE": "window",
-      "profile_path": "C:\\Users\\user\\AppData\\Local\\Google\\Chrome\\User Data\\Default",
+      "user_data_dir": "C:\\Users\\user\\AppData\\Local\\Google\\Chrome\\User Data\\Default",
       "enable_user_profile": true
     },
     "active_driver": "pydoll"

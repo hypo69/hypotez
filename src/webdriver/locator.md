@@ -25,7 +25,7 @@
     "timeout": 0,       // Таймаут ожидания элемента (0 - не ждать)
     "timeout_for_event": "presence_of_element_located", // Условие ожидания перед событием
     "event": "click()", // Действие - кликнуть по элементу
-    "locator_description": "Закрываю pop-up окно. Если оно не появилось — не страшно (`mandatory`: `false`)."
+    "text_to_be_present_in_element":"","locator_description": "Закрываю pop-up окно. Если оно не появилось — не страшно (`mandatory`: `false`)."
   },
   "additional_images_urls": {
     "attribute": "src", // Получить значение атрибута 'src'
@@ -37,7 +37,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,      // Действий нет, только получение атрибута
-    "locator_description": "Получает список `url` дополнительных изображений."
+    "text_to_be_present_in_element":"","locator_description": "Получает список `url` дополнительных изображений."
   },
   "id_supplier": {
     "attribute": "innerText", // Получить текстовое содержимое
@@ -49,7 +49,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "SKU Morlevi."
+    "text_to_be_present_in_element":"","locator_description": "SKU Morlevi."
   },
   "default_image_url": {
     "attribute": null, // Атрибут не получаем, т.к. есть событие screenshot()
@@ -61,7 +61,7 @@
     "timeout_for_event": "presence_of_element_located",
     "event": "screenshot()", // Действие - сделать скриншот элемента
     "mandatory": true,
-    "locator_description": "Внимание! В Morlevi картинка получается через screenshot и возвращается как PNG (`bytes`)."
+    "text_to_be_present_in_element":"","locator_description": "Внимание! В Morlevi картинка получается через screenshot и возвращается как PNG (`bytes`)."
   }
 ```
 
@@ -175,7 +175,7 @@ await self.price() # self.fields.price = await self.driver.execute_locator(self.
       true,       // Первый шаг обязателен
       true        // Второй шаг обязателен
     ],
-    "locator_description": [
+    "text_to_be_present_in_element":"","locator_description": [
       "Нажимаю на вкладку 'Описание'.", // Описание первого шага
       "Читаю текст из блока описания."  // Описание второго шага
     ]
@@ -200,7 +200,7 @@ await self.price() # self.fields.price = await self.driver.execute_locator(self.
   "timeout": 2,
   "timeout_for_event": "presence_of_element_located",
   "event": null,
-  "locator_description": "Получает пары ключ-значение из списка спецификаций <dl>"
+  "text_to_be_present_in_element":"","locator_description": "Получает пары ключ-значение из списка спецификаций <dl>"
 }
 ```
 Этот формат используется для извлечения связанных данных, например, пар "Характеристика: Значение". Метод `get_attribute_by_locator` в `ExecuteLocator` содержит логику для обработки такого словаря: он находит родительский элемент (`//dl`), затем внутри него ищет элементы по селекторам из ключа (`dt`) и значения (`dd`) словаря `attribute` и формирует словарь Python `{ключ: значение}`.

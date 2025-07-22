@@ -170,7 +170,7 @@ from types import SimpleNamespace
 
 # Определение локатор (словарь или SimpleNamespace)
 login_button_locator = {
-    "locator_description": "Кнопка входа",
+    "text_to_be_present_in_element":"","locator_description": "Кнопка входа",
     "by": "id",
     "strategy_for_multiple_selectors": "find_first_match","selector": "login-button",
     "event": "click()", # Действие - клик

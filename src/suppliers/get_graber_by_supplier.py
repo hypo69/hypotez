@@ -15,14 +15,12 @@
 import importlib
 from token import OP
 from urllib.parse import urlparse
-from typing import List, Optional
-from typing import TYPE_CHECKING
+from typing import List, Optional, TYPE_CHECKING
+
 if TYPE_CHECKING:
     from src.suppliers.graber import GraberBase
-    from src.webriver.pydoll import Driver
-
+    from src.webdriver.pydoll import Driver
 from src.logger import logger
-from src.suppliers.graber import GraberBase
 
 def dynamic_import_graber(supplier_alias: str) -> Optional['GraberBase']:
     """Динамически импортирует Graber класс по supplier_alias.

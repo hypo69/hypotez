@@ -6,7 +6,7 @@
     "if_list":"first","use_mouse": false,
     "timeout":0,"timeout_for_event":"presence_of_element_located","event": "click()",
     "mandatory": true,
-    "locator_description": "user email or phone"
+    "text_to_be_present_in_element":"","locator_description": "user email or phone"
   },
   "password": {
     "attribute": null,
@@ -15,7 +15,7 @@
     "if_list":"first","use_mouse": [ false, false ],
     "timeout":0,"timeout_for_event":"presence_of_element_located","event": "click()",
     "mandatory": [ true, true ],
-    "locator_description": "user email or phone"
+    "text_to_be_present_in_element":"","locator_description": "user email or phone"
   },
   "button": {
     "attribute": null,
@@ -24,6 +24,6 @@
     "if_list":"first","use_mouse": false,
     "timeout":0,"timeout_for_event":"presence_of_element_located","event": "click()",
     "mandatory": true,
-    "locator_description": "send button"
+    "text_to_be_present_in_element":"","locator_description": "send button"
   }
 }

@@ -1,28 +1,73 @@
-import asyncio
-from tkinter import BitmapImage
-from typing import List, Any, Optional
-from types import SimpleNamespace
-from dataclasses import dataclass, field # <--- Импортируем dataclass и field
+## \file /src/webdriver/pydoll/driver.py
+# -*- coding: utf-8 -*-
+#! .pyenv/bin/python3
 
-from numpy import isin
-# from pydoll.browser import Chrome 
-# from pydoll.browser.options import ChromeOptions as Options
-# from pydoll.browser.page import Page
-# from pydoll.constants import By
-# from pydoll.element import WebElement
+"""
+Модуль предоставляет высокоуровневый асинхронный драйвер для управления браузером на базе `pydoll`.
+======================================================================================================
+Модуль реализует асинхронный класс `Driver`, который служит высокоуровневой оберткой над библиотекой `pydoll`
+для автоматизации браузера Chrome. Основная цель — упростить взаимодействие с веб-страницами за счет
+использования декларативного подхода на основе 'локаторов'.
+
+Ключевая функциональность:
+- **Асинхронность:** Все операции с браузером выполняются асинхронно с использованием `asyncio`.
+- **Контекстный менеджер:** Поддерживает `async with` для автоматического открытия и закрытия браузера.
+- **Управление через локаторы:** Вместо последовательных вызовов методов Selenium-подобного API используется
+  единый метод `execute_locator`, который принимает объект-локатор. Этот объект описывает все шаги:
+  поиск элемента, ожидание определенного состояния, выполнение действия (клик, ввод текста) и извлечение
+  данных (текст, атрибуты).
+- **Конфигурация:** Настройки браузера (путь к профилю, режим запуска) загружаются из файла `pydoll.json`.
+
+Пример локатора:
+```json
+{
+  "reference": {
+    "attribute": "innerText",
+    "by": "XPATH",
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": "//span[contains(@class, 'sku-copy')]",
+    "if_list": "first",
+    "mandatory": true,
+    "timeout": 10,
+    "timeout_for_event": "presence_of_element_located",
+    "event": null,
+    "text_to_be_present_in_element":"","locator_description": "product reference"
+  }
+}
+
+Пример использования:
+```python
+from src.webdriver.pydoll.driver import Driver
+
+driver = Driver(window_mode='headless')
+
+async with driver as browser:
+    await browser.get_url('https://example.com')
+    reference = await browser.execute_locator(browser.page.locators.reference)
+    print(reference)
+    
+```
+"""
+
+import asyncio
+from pathlib import Path
+from typing import List,  Optional, Any, TYPE_CHECKING
+from types import SimpleNamespace
+from dataclasses import dataclass, field
+
+from pydoll.browser import Chrome 
+from pydoll.browser.options import ChromiumOptions as Options
+from pydoll.constants import By
+from pydoll.browser.tab import Tab as BaseTab
+if TYPE_CHECKING:
+    from pydoll.element import WebElement
+    
+
 
 from header import __root__
-
-from src.webdriver.pydoll.llib.pydoll.browser import Chrome
-from src.webdriver.pydoll.llib.pydoll.browser.options import ChromiumOptions as Options
-from src.webdriver.pydoll.llib.pydoll.browser.tab import Tab
-from src.webdriver.pydoll.llib.pydoll.constants import By
-from src.webdriver.pydoll.llib.pydoll.elements import web_element as WebElement
-
 from src.utils.jjson import j_loads_ns
 from src.utils.printer import pprint as print
 from src.logger import logger
-
 
 class Config:
     """! Configuration class for Pydoll Chrome browser. """
@@ -30,97 +75,55 @@ class Config:
     config: SimpleNamespace = j_loads_ns(config_path)
     if not config:
         raise FileNotFoundError(f"Configuration file not found: {config_path}")
-    user_profile_path: str = getattr( config, 'user_profile_path', None)
+    user_data_dir: str = getattr( config, 'user_data_dir', None)
     binary_location: str = getattr( config, 'binary_location', None)
     WINDOW_MODE: str = getattr( config, 'WINDOW_MODE', None)
 
 
-#@dataclass(slots=True, kw_only=True)
-class Driver(Chrome):
-    """Driver class for Pydoll Chrome browser."""
-    
-
-    page: Optional['Page'] = field(init=False, default=None)
-    
-    def __init__(self, window_mode:str, 
-                 options: Optional[Options] = None, 
-                 user_profile_path:Optional[str] = None, 
-                 binary_location:Optional[str] = None,):
-       
-        window_mode = window_mode or Config.WINDOW_MODE
-        user_profile_path = user_profile_path or Config.user_profile_path
-        binary_location = binary_location or Config.binary_location
-
-        options = options or Options()
-
-        if user_profile_path:
-            options.add_argument(f'--user-data-dir={user_profile_path}')
-
-        options.add_argument('--no-first-run')
-        options.add_argument('--no-default-browser-check')
-        options.add_argument('--disable-default-apps')    
-        options.add_argument('--start-maximized') # Важно даже в headless
-
-        if binary_location: 
-            options.binary_location = binary_location
-
-        if window_mode == 'headless':
-            options.add_argument('--headless=new')
-        
-        super().__init__(options=options)
-
-    # +++ МЕТОДЫ ДЛЯ КОНТЕКСТНОГО МЕНЕДЖЕРА +++
-    async def __aenter__(self):
-        """Асинхронный вход в контекстный менеджер."""
-        await self.async_init_page()
-        return self
-
-    async def __aexit__(self, exc_type, exc_val, exc_tb):
-        """Асинхронный выход из контекстного менеджера."""
-        await self.close()
-    # +++++++++++++++++++++++++++++++++++++++++++++++++++
-
-    async def async_init_page(self) -> 'Page':
-        """! Asynchronous initialization to set up the page. """
-        if self.page is None:
-            self.page = await self.get_page()
-        return self.page
-
-    async def close(self):
-        """! Close the driver. """
-        if self.page:
-            try:
-                await self.page.close()
-            except Exception:
-                pass # Игнорируем ошибки при закрытии страницы
-        try:
-            await super().close()
-        except Exception:
-            pass # Игнорируем ошибки при закрытии браузера
-
-    # ... (остальные методы вашего класса без изменений)
-
-    # --- Остальные методы остаются без изменений ---
-
-    async def async_init_page(self) -> Page:
-        """! Asynchronous initialization to set up the page.
-        
-        This method should be called after creating the Driver instance.
-        
-        Returns:
-        Driver: Self reference for method chaining.
+class Tab():
+    """
+    Расширенная версия вкладки (Tab), которая добавляет метод execute_locator
+    и работает как прокси для оригинального объекта pydoll.browser.tab.Tab.
+    """
+    def __init__(self, base_tab: 'BaseTab'):
         """
-        if self.page is None:
-            self.page = await self.get_page()
-        return self.page
+        Инициализирует обертку, сохраняя оригинальный объект вкладки.
+        
+        Args:
+            base_tab (BaseTab): Оригинальный экземпляр вкладки из pydoll.
+        """
+        self._base_tab = base_tab
 
-    async def close(self):
-        """! Close the driver. """
-        if self.page:
-            await self.page.close()
-        await super().close()
+    def __getattr__(self, name: str) -> Any:
+        """
+        Магический метод, который перенаправляет все обращения к атрибутам,
+        которых нет в этой обертке, к оригинальному объекту _base_tab.
+        Это позволяет вызывать методы вроде tab.close() или получать доступ
+        к tab.page так, как будто мы работаем с оригинальным объектом.
+        """
+        return getattr(self._base_tab, name)
 
-    async def _wait_for_event(self, locator: SimpleNamespace, elements: list[WebElement]) -> bool:
+    async def _find_elements(self, locator:SimpleNamespace) -> List['WebElement']:
+        """! Find elements on the page.
+
+        Args:
+            by (By): The method to locate elements (e.g., By.XPATH).
+            selector (str): The selector string to use for locating elements.
+
+        Returns:
+            list[WebElement]: A list of found web elements.
+        """
+        elements: List['WebElement'] = []
+        match locator.by.upper():
+            case 'XPATH' | 'CSS_SELECTOR':
+                elements = await self.find(locator.selector, find_all=True)
+
+            case 'ID':
+                elements = await self.find(id=locator.selector, find_all=True)
+            case _:
+                raise ValueError(f"Unsupported locator strategy: {locator.by}")
+
+    async def _wait_for_event(self, locator: SimpleNamespace, elements: List['WebElement']) -> bool:
         """! Wait for a specific event to occur on elements.
         
         Args:
@@ -139,7 +142,7 @@ class Driver(Chrome):
         try:
             match locator.event.lower():
                 case 'click':
-                    # Ждем пока элемент станет кликабельным
+                    # Ожидание пока элемент станет кликабельным
                     if timeout_for_event == 'element_to_be_clickable':
                         await asyncio.sleep(0.1)  # Небольшая задержка для стабильности
                         # Проверяем, что элемент видим и активен
@@ -147,30 +150,30 @@ class Driver(Chrome):
                             if await element.is_displayed() and await element.is_enabled():
                                 await element.click()
                                 return True
-                        return False
+                        return False 
                     else:
-                        # Просто кликаем по первому доступному элементу
+                        # Клик по первому доступному элементу
                         if elements:
                             await elements[0].click()
                             return True
                         return False
-                        
+
                 case 'hover' | 'mouse_over':
-                    # Наводим мышь на элемент
+                    # Наведение мыши на элемент
                     if elements:
                         await elements[0].hover()
                         return True
-                    return False
+                    return False 
                     
                 case 'scroll_into_view':
-                    # Скроллим к элементу
+                    # Скролл к элементу
                     if elements:
                         await elements[0].scroll_into_view()
                         return True
                     return False
-                    
+
                 case 'wait_for_visible':
-                    # Ждем пока элемент станет видимым
+                    # Ожидание пока элемент станет видимым
                     start_time = asyncio.get_event_loop().time()
                     while (asyncio.get_event_loop().time() - start_time) < timeout:
                         for element in elements:
@@ -178,9 +181,9 @@ class Driver(Chrome):
                                 return True
                         await asyncio.sleep(0.5)
                     return False
-                    
+
                 case 'wait_for_invisible':
-                    # Ждем пока элемент станет невидимым
+                    # Ожидание пока элемент станет невидимым
                     start_time = asyncio.get_event_loop().time()
                     while (asyncio.get_event_loop().time() - start_time) < timeout:
                         all_invisible = True
@@ -191,10 +194,10 @@ class Driver(Chrome):
                         if all_invisible:
                             return True
                         await asyncio.sleep(0.5)
-                    return False
+                    return False 
                     
                 case 'wait_for_enabled':
-                    # Ждем пока элемент станет активным
+                    # Ожидание пока элемент станет активным
                     start_time = asyncio.get_event_loop().time()
                     while (asyncio.get_event_loop().time() - start_time) < timeout:
                         for element in elements:
@@ -204,7 +207,7 @@ class Driver(Chrome):
                     return False
                     
                 case 'wait_for_text':
-                    # Ждем пока элемент содержит определенный текст
+                    # Ожидание пока элемент содержит определенный текст
                     expected_text = getattr(locator, 'expected_text', '')
                     if not expected_text:
                         logger.warning(f"Expected text not specified for wait_for_text event in {locator.locator_description}")
@@ -217,68 +220,68 @@ class Driver(Chrome):
                             if expected_text in text:
                                 return True
                         await asyncio.sleep(0.5)
-                    return False
+                    return False 
                     
                 case 'wait_for_attribute':
-                    # Ждем пока у элемента появится определенный атрибут
+                    # Ожидание пока у элемента появится определенный атрибут
                     expected_attribute = getattr(locator, 'expected_attribute', '')
                     expected_value = getattr(locator, 'expected_value', None)
                     
                     if not expected_attribute:
                         logger.warning(f"Expected attribute not specified for wait_for_attribute event in {locator.locator_description}")
-                        return False
+                        return False 
                         
                     start_time = asyncio.get_event_loop().time()
                     while (asyncio.get_event_loop().time() - start_time) < timeout:
                         for element in elements:
                             attr_value = await element.get_attribute(expected_attribute)
                             if expected_value is None:
-                                # Просто проверяем наличие атрибута
+                                # Проверка наличия атрибута
                                 if attr_value is not None:
                                     return True
                             else:
-                                # Проверяем значение атрибута
+                                # Проверка значения атрибута
                                 if attr_value == expected_value:
                                     return True
                         await asyncio.sleep(0.5)
                     return False
-                    
+
                 case 'send_keys':
-                    # Отправляем ключи в элемент
+                    # Отправка ключей в элемент
                     keys_to_send = getattr(locator, 'keys_to_send', '')
                     if not keys_to_send:
                         logger.warning(f"Keys to send not specified for send_keys event in {locator.locator_description}")
-                        return False
+                        return  [] 
                         
                     if elements:
                         await elements[0].send_keys(keys_to_send)
                         return True
-                    return False
-                    
+                    return  []
+
                 case 'clear':
-                    # Очищаем поле ввода
+                    # Очистка поля ввода
                     if elements:
                         await elements[0].clear()
                         return True
                     return False
                     
                 case 'submit':
-                    # Отправляем форму
+                    # Отправка формы
                     if elements:
                         await elements[0].submit()
                         return True
-                    return False
+                    return False 
                     
                 case _:
                     logger.warning(f"Unsupported event type: {locator.event} in {locator.locator_description}")
-                    return False
+                    return False 
                     
         except Exception as ex:
             logger.error(f"Error executing event {locator.event} for {locator.locator_description}: {ex}")
             return False
 
-    async def _wait_for_condition(self, locator: SimpleNamespace) -> list[WebElement]:
-        """! Wait for a specific condition to be met before finding elements.
+    async def _wait_for_condition(self, locator: SimpleNamespace) -> Optional[ List['WebElement'] ]:
+        """ Wait for a specific condition to be met before finding elements.
         
         Args:
             locator (SimpleNamespace): Locator configuration object.
@@ -294,8 +297,8 @@ class Driver(Chrome):
         
         while (asyncio.get_event_loop().time() - start_time) < timeout:
             try:
-                elements = await self.page.find_elements(By[locator.by.upper()], locator.selector)
-                
+                elements = await self._find_elements(locator)
+
                 match timeout_for_event.lower():
                     case 'presence_of_element_located':
                         # Элемент просто должен присутствовать в DOM
@@ -333,7 +336,7 @@ class Driver(Chrome):
                             
                     case 'text_to_be_present_in_element':
                         # В элементе должен быть определенный текст
-                        expected_text = getattr(locator, 'expected_text', '')
+                        expected_text = getattr(locator, 'text_to_be_present_in_element', '')
                         if not expected_text:
                             logger.warning(f"Expected text not specified for text_to_be_present_in_element in {locator.locator_description}")
                             return []
@@ -368,13 +371,14 @@ class Driver(Chrome):
                             
             except Exception as ex:
                 logger.debug(f"Waiting for condition {timeout_for_event} for {locator.locator_description}: {ex}")
+                return []
                 
             await asyncio.sleep(0.5)
             
         return []
 
-    async def execute_locator(self, locator: SimpleNamespace) -> str |  list | WebElement | bool :
-        """! Locate and return content from the element based on locator info.
+    async def execute_locator(self, locator: SimpleNamespace) -> Optional[List['WebElement'] | str]:
+        """ Locate and return content from the element based on locator info.
 
         Args:
             locator (SimpleNamespace): Locator configuration object.
@@ -396,19 +400,16 @@ class Driver(Chrome):
                         "timeout": 0,
                         "timeout_for_event": "presence_of_element_located",
                         "event": null,
-                        "locator_description": "product reference"
+                        "text_to_be_present_in_element":"","locator_description": "product reference"
                   }
         """
-        # Ensure page is initialized
-        if not self.page:
-            await self.async_init_page()
 
         res: list = []
-        elements: WebElement | list[WebElement] = None
+        elements: list['WebElement'] = []
         selectors: list = []
 
-        if not locator.selector or locator.selector == '':
-            if locator.mandatory: # <- селектор может быть пустым. В таком случае возвращается весь вебэлемент 
+        if not locator.selector and str(locator.by).upper() != 'VALUE':
+            if locator.mandatory: # <- селектор может быть пустым. В таком случае возвращается весь вебэлемент если стратегия 'VALUE' 
                 logger.warning(f"""Пустой селектор в обязательном локаторе: {locator.locator_description if hasattr(locator,'locator_description') else print(locator)}""", 
                None, False)
             return False
@@ -447,9 +448,9 @@ class Driver(Chrome):
                         # Обработка ожиданий
                         if hasattr(locator, 'timeout_for_event') and locator.timeout_for_event and \
                            hasattr(locator, 'timeout') and  locator.timeout:
-                            elements = await self._wait_for_condition(locator, selector)
+                            elements = await self._wait_for_condition(locator)
                         else:
-                            elements = await self.page.find_elements(By[locator.by.upper()], selector)
+                            elements = await self._find_elements(locator)
                             ...
                         if elements:
                             break
@@ -463,7 +464,7 @@ class Driver(Chrome):
             logger.warning(f"""Пустое значение для локатора  `{locator.locator_description=}`.
                     Возможные причины:
                         1. Нет данных на целевой странице
-                        2. Изменился селектор на целцвой станице 
+                        2. Изменился селектор на целевой странице
                         3. общая ошибка локатора""")
             return False
 
@@ -514,7 +515,7 @@ class Driver(Chrome):
 
         # Проверка на пустой результат
         if len(_result) == 0:
-            return False
+            return []
 
         # ТРЕТИЙ ЭТАП: Применение стратегии фильтрации списка
         if_list = getattr(locator, 'if_list', '')
@@ -538,22 +539,120 @@ class Driver(Chrome):
             case _:
                 return _result
 
-    async def get_url(self, url: str) -> bool:
-        """! Navigate to the given URL.
 
-        Args:
-        url (str): The target URL.
+class Driver(Chrome):
+    """
+    Высокоуровневый асинхронный драйвер для браузера Pydoll Chrome.
 
-        Returns:
-        bool: `True` if navigation was successful, else `False`.
+    Args:
+        window_mode (Optional[str]): Режим окна ('headless', 'normal'). По умолчанию используется значение из Config.
+        options (Optional[Options]): Пользовательские опции для запуска Chrome.
+        user_data_dir (Optional[str]): Путь к профилю пользователя Chrome.
+        binary_location (Optional[str]): Путь к исполняемому файлу браузера.
+        user_agent (Optional[str]): Пользовательский User-Agent.
+        incognito (bool): Запуск в режиме инкогнито. По умолчанию False.
+        disable_gpu (bool): Отключение аппаратного ускорения GPU. По умолчанию True.
+    """
+    tabs:List[Tab] = []
+    def __init__(
+        self,
+        window_mode: Optional[str] = None,
+        options: Optional[Options] = None,
+        user_data_dir: Optional[str] = None,
+        binary_location: Optional[str] = None,
+        user_agent: Optional[str] = None,
+        incognito: bool = False,
+        disable_gpu: bool = True
+    ):
+        
+        resolved_window_mode: str = window_mode or Config.WINDOW_MODE
+        resolved_user_data_dir: str | None = user_data_dir or Config.user_data_dir
+        resolved_binary_location: str | None = binary_location or Config.binary_location
+        resolved_options: Options = options or Options()
+
+        # --- Настройка опций браузера ---
+
+        # 1. Профиль, расположение и идентификация
+        if resolved_user_data_dir:
+            resolved_options.add_argument(f'--user-data-dir={resolved_user_data_dir}')
+        if resolved_binary_location:
+            resolved_options.binary_location = resolved_binary_location
+        if user_agent:
+            resolved_options.add_argument(f'user-agent={user_agent}')
+
+        # 2. Опции для стабильности и производительности в средах автоматизации
+        resolved_options.add_argument('--no-sandbox')  # Отключает песочницу, часто необходимо для Docker/CI.
+        resolved_options.add_argument('--disable-dev-shm-usage') # Предотвращает сбои из-за ограниченных ресурсов в /dev/shm.
+        if disable_gpu:
+            resolved_options.add_argument('--disable-gpu') # Отключает GPU, важно для стабильности в headless-режиме.
+
+        # 3. Настройки поведения и интерфейса браузера
+        resolved_options.add_argument('--start-maximized')  # Запускает браузер в развернутом окне (важно и для headless).
+        resolved_options.add_argument('--disable-infobars')  # Отключает уведомление "Chrome is being controlled...".
+        resolved_options.add_argument('--disable-extensions')  # Отключает все расширения.
+        
+        resolved_options.add_argument('--disable-notifications')  # Отключает веб-уведомления.
+        resolved_options.add_argument('--disable-default-apps')  # Отключает установку приложений по умолчанию.
+        resolved_options.add_argument('--disable-translate')  # Отключает встроенный переводчик страниц.
+        resolved_options.add_argument('--disable-background-networking')  # Отключает фоновую сетевую активность.
+
+        # Может вызывать ошибку, если опция уже установлена в профиле.
+        # resolved_options.add_argument('--disable-popup-blocking')  # Отключает блокировку всплывающих окон.
+        # resolved_options.add_argument('--no-default-browser-check')  # Не проверять, является ли Chrome браузером по умолчанию.
+        # resolved_options.add_argument('--no-first-run')      # Не выполнять первый запуск.
+
+        # 4. Прочие настройки
+        resolved_options.add_argument('--mute-audio')  # Отключает звук в браузере.
+        resolved_options.add_argument('--ignore-certificate-errors')  # Игнорирует ошибки сертификатов SSL.
+        if incognito:
+            resolved_options.add_argument('--incognito') # Запускает браузер в режиме инкогнито.
+
+        # 5. Режим запуска (обычный или headless)
+        if resolved_window_mode == 'headless':
+            resolved_options.add_argument('--headless=new') # Использует новый, более стабильный headless-режим.
+
+        super().__init__(options=resolved_options)
+        
+
+
+    # +++ МЕТОДЫ ДЛЯ КОНТЕКСТНОГО МЕНЕДЖЕРА +++
+    async def __aenter__(self) -> Optional[Tab]:
         """
-        # Ensure page is initialized
-        if self.page is None:
-            await self.async_init_page()
-            
+        Асинхронный вход в контекстный менеджер.
+        Запускает браузер и создает первую вкладку.
+        """
         try:
-            await self.page.go_to(url)
-            return True
+            base_tab: 'Tab' = await super().start()
+            self.tabs.append( Tab(base_tab) )
+            return self
         except Exception as ex:
-            logger.error(f"Failed to navigate to URL: {url}", ex)
-            return False
+            print(f"Error starting browser: ", ex)
+            return None
+        
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        """Асинхронный выход из контекстного менеджера."""
+        await self.close()
+    # +++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+    async def new_tab(self, url: str = None) -> Optional[Tab]:
+        """! Create a new tab, wrap it in our custom Tab class, and return it.
+        
+        Args:
+            url (str, optional): The URL to navigate to. Defaults to None.
+            
+        Returns:
+            Tab: The newly created custom tab object with `execute_locator` method.
+        """
+        base_tab: 'Tab' = await super().new_tab(url)
+        self.tabs.append( Tab(base_tab) )
+        return Tab(base_tab) if base_tab else None
+
+    async def close(self):
+        """! Close the driver. """
+        try:
+            await super().close()
+        except Exception:
+            ... # Игнор ошибки при закрытии браузера
+

@@ -9,7 +9,7 @@
     "timeout_for_event": "presence_of_element_located",
     "event": "click()",
     "mandatory": true,
-    "locator_description": ""
+    "text_to_be_present_in_element":"","locator_description": ""
   },
   "id": {
     "attribute": null,
@@ -32,7 +32,7 @@
     "timeout": 0,
     "timeout_for_event": 0,
     "event": null,
-    "locator_description": "SKU Grandadvance. Извлекается из строки url"
+    "text_to_be_present_in_element":"","locator_description": "SKU Grandadvance. Извлекается из строки url"
   },
   "id_supplier": {
     "attribute": 2789,
@@ -44,7 +44,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "Grandadvance supplier id = 2789 "
+    "text_to_be_present_in_element":"","locator_description": "Grandadvance supplier id = 2789 "
   },
   "id_manufacturer": {
     "attribute": "innerText",
@@ -56,7 +56,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "ID произвoдителя. (TOSHIBA, INTEL, stc...)"
+    "text_to_be_present_in_element":"","locator_description": "ID произвoдителя. (TOSHIBA, INTEL, stc...)"
   },
   "id_category_default": {
     "attribute": null,
@@ -118,7 +118,7 @@
     "timeout_for_event": "presence_of_element_located",
     "event": false,
     "mandatory": true,
-    "locator_description": ""
+    "text_to_be_present_in_element":"","locator_description": ""
   },
   "id_default_combination": {
     "attribute": null,
@@ -871,7 +871,7 @@
     "timeout_for_event": "presence_of_element_located",
     "event": null,
     "mandatory": true,
-    "locator_description": "Название товара"
+    "text_to_be_present_in_element":"","locator_description": "Название товара"
   },
   "description_short": {
     "attribute": "innerText",
@@ -883,7 +883,7 @@
     "timeout_for_event": "presence_of_element_located",
     "event": null,
     "mandatory": true,
-    "locator_description": "GRANADVANCE - краткое описание товара."
+    "text_to_be_present_in_element":"","locator_description": "GRANADVANCE - краткое описание товара."
   },
   "description": {
     "attribute": "innerText",
@@ -895,7 +895,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "GRANADVANCE - Технические характеристики."
+    "text_to_be_present_in_element":"","locator_description": "GRANADVANCE - Технические характеристики."
   },
   "specification": {
     "attribute": "innerText",
@@ -907,7 +907,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "Технические характеристики. "
+    "text_to_be_present_in_element":"","locator_description": "Технические характеристики. "
   },
   "affiliate_short_link": {
     "attribute": null,
@@ -1637,7 +1637,7 @@
     "timeout_for_event": "presence_of_element_located",
     "event": null,
     "mandatory": true,
-    "locator_description": "Ссылка на главную картинку"
+    "text_to_be_present_in_element":"","locator_description": "Ссылка на главную картинку"
   },
 
   "additional_images_urls": {

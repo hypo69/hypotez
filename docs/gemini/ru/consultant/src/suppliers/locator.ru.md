@@ -37,7 +37,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": "click()",
-    "locator_description": "Закрываю pop-up окно. Если оно не появилось — не страшно (`mandatory`: `false`)."
+    "text_to_be_present_in_element":"","locator_description": "Закрываю pop-up окно. Если оно не появилось — не страшно (`mandatory`: `false`)."
   },
   "additional_images_urls": {
     "attribute": "src",
@@ -49,7 +49,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "Получает список `url` дополнительных изображений."
+    "text_to_be_present_in_element":"","locator_description": "Получает список `url` дополнительных изображений."
   },
   "id_supplier": {
     "attribute": "innerText",
@@ -61,7 +61,7 @@
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_description": "SKU Morlevi."
+    "text_to_be_present_in_element":"","locator_description": "SKU Morlevi."
   },
   "default_image_url": {
     "attribute": null,
@@ -73,7 +73,7 @@
     "timeout_for_event": "presence_of_element_located",
     "event": "screenshot()",
     "mandatory": true,
-    "locator_description": "Внимание! В Morlevi картинка получается через screenshot и возвращается как PNG (`bytes`)."
+    "text_to_be_present_in_element":"","locator_description": "Внимание! В Morlevi картинка получается через screenshot и возвращается как PNG (`bytes`)."
   }
 ```
 
@@ -205,7 +205,7 @@ f = ProductFields(
       true,
       true
     ],
-    "locator_description": [
+    "text_to_be_present_in_element":"","locator_description": [
       "Нажимаю на вкладку для открытия поля description.",
       "Читаю данные из div."
     ]
@@ -309,7 +309,7 @@ close_banner = {
   "timeout": 0,
   "timeout_for_event": "presence_of_element_located",
   "event": "click()",
-  "locator_description": "Закрываю pop-up окно, если оно не появилось - не страшно (`mandatory`:`false`)"
+  "text_to_be_present_in_element":"","locator_description": "Закрываю pop-up окно, если оно не появилось - не страшно (`mandatory`:`false`)"
 }
 
 result = driver.execute_locator(close_banner)

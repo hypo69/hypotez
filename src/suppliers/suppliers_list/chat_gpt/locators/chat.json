@@ -7,7 +7,7 @@
     "timeout":0,"timeout_for_event":"presence_of_element_located","event": null,
     "if_list":"first","use_mouse": false,
     "mandatory": true,
-    "locator_description": "Я получаю весь контейнер и в коде вытескиваю .text"
+    "text_to_be_present_in_element":"","locator_description": "Я получаю весь контейнер и в коде вытескиваю .text"
   },
   "user": {
     "attribute": null,
@@ -16,6 +16,6 @@
     "timeout":0,"timeout_for_event":"presence_of_element_located","event": null,
     "if_list":"first","use_mouse": false,
     "mandatory": true,
-    "locator_description": "Я получаю весь контейнер и в коде вытескиваю .text"
+    "text_to_be_present_in_element":"","locator_description": "Я получаю весь контейнер и в коде вытескиваю .text"
   }
 }
