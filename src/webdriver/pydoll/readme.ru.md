@@ -176,51 +176,64 @@ sequenceDiagram
 
 Эта диаграмма показывает по шагам, что происходит внутри самого важного метода вашего прокси-класса.
 
+Понял. Эта ошибка (`Expecting ..., got 'PS'`) — классический признак того, что парсер не справляется с двоеточием (`:`) внутри метки узла. Это довольно распространенное ограничение в старых или строгих реализациях Mermaid.
+
+Давайте полностью переработаем синтаксис, чтобы сделать его максимально "безопасным" и совместимым. Мы уберем все потенциально проблемные символы из меток.
+
+### Исправленная и упрощенная диаграмма (версия 3)
+
 ```mermaid
 graph TD
     subgraph execute_locator
-        A[Start: execute_locator(locator)] --> B{Has multiple selectors (';')?}
-        B -- Yes --> C[Split into multiple selectors]
-        B -- No --> D[Use single selector]
-        C --> E[Loop through selectors]
-        D --> F[Process single selector]
-        E --> F
+        A["Start execute_locator(locator)"] --> B{"Has multiple selectors 'semicolon'?"};
+        B --"Yes"--> C["Split into multiple selectors"];
+        B --"No"--> D["Use single selector"];
+        C --> E["Loop through selectors"];
+        D --> F["Process selector"];
+        E --> F;
         
-        F --> G{Wait for condition (timeout_for_event)?}
-        G -- Yes --> H(Call _wait_for_condition)
-        G -- No --> I(Call _find_elements)
-        H --> J[Get elements]
-        I --> J
+        F --> G{"Wait for condition?"};
+        G --"Yes"--> H["Call _wait_for_condition"];
+        G --"No"--> I["Call _find_elements"];
+        H --> J["Get elements list"];
+        I --> J;
         
-        J --> K{Elements found?}
-        K -- Yes --> L{Is 'find_first_match' strategy and more selectors exist?}
-        K -- No --> M{More selectors exist?}
+        J --> K{"Elements found?"};
+        K --"Yes"--> L{"Is 'find_first_match' and more selectors to check?"};
+        K --"No"--> M{"More selectors to check?"};
         
-        M -- Yes --> E
-        M -- No --> N[Return False if mandatory]
+        M --"Yes"--> E;
+        M --"No"--> N["Return False if mandatory"];
         
-        L -- Yes --> O{Execute event (locator.event)?}
-        L -- No --> O
+        L --"Yes"--> O{"Execute event?"};
+        L --"No"--> O;
         
-        O -- Yes --> P(Call _wait_for_event)
-        O -- No --> Q{Extract attribute (locator.attribute)?}
-        P --> Q
+        O --"Yes"--> P["Call _wait_for_event"];
+        O --"No"--> Q{"Extract attribute?"};
+        P --> Q;
         
-        Q -- Yes --> R[Extract attribute value (innerText, src...)]
-        Q -- No --> S[Return WebElement(s)]
+        Q --"Yes"--> R["Extract attribute value"];
+        Q --"No"--> S["Return list of WebElements"];
         
-        R --> T{Apply list filter (if_list)?}
-        S --> T
+        R --> T{"Apply list filter 'if_list'?"};
+        S --> T;
         
-        T -- Yes --> U[Filter the result]
-        T -- No --> V[Return result as is]
+        T --"Yes"--> U["Filter the result list"];
+        T --"No"--> V["Return result as is"];
         
-        U --> W[End: return filtered result]
-        V --> W
-        N --> W
+        U --> W["End - return filtered result"];
+        V --> W;
+        N --> W;
     end
 ```
 
+### Что было изменено:
+
+1.  **Убраны двоеточия:** Все метки узлов теперь заключены в двойные кавычки и не содержат двоеточий. Вместо `A[Start: ...]` используется `A["Start ..."]`.
+2.  **Кавычки для меток рёбер:** Метки для рёбер (`Yes`, `No`) также заключены в двойные кавычки: ` --"Yes"--> `.
+3.  **Упрощены описания:** Все описания сделаны максимально простыми, чтобы избежать любых других потенциальных синтаксических конфликтов. Например, `';'` заменено на `semicolon`.
+
+Эта версия является самой "пуленепробиваемой" и должна работать практически в любой среде, поддерживающей Mermaid, включая GitHub и различные плагины для VS Code.
 ### 3. Диаграмма наследования и композиции (Class Diagram)
 
 Эта диаграмма показывает, как ваши классы связаны друг с другом и с миксином.
