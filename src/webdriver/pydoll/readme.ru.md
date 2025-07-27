@@ -237,17 +237,14 @@ classDiagram
 
     class FindElementsMixin {
         <<Mixin>>
-        +find(..)*WebElement
-        +query(..)*WebElement
-        #_find_element()
-        #_find_elements()
+        +find(..)
+        +query(..)
     }
 
     class BaseTab {
         <<pydoll.tab.Tab>>
         +go_to(url)
         +close()
-        +get_cookies()
         +execute_script(script)
     }
     BaseTab --|> FindElementsMixin : inherits
@@ -255,7 +252,6 @@ classDiagram
     class WebElement {
         +click()
         +type_text(text)
-        +get_attribute(name)*str
     }
     WebElement --|> FindElementsMixin : inherits
 
@@ -263,14 +259,14 @@ classDiagram
         <<Proxy>>
         - _base_tab: BaseTab
         +execute_locator(locator)
-        +get_url(url)
         +__aenter__()
         +__aexit__()
     }
 
     TabProxy o-- BaseTab : contains/proxies
     
-    note for TabProxy "Uses __getattr__ to forward<br>calls to the BaseTab instance"
+    note "Implements __getattr__ to<br>forward calls to BaseTab" as N1
+    TabProxy .. N1
 ```
 
 ### Как использовать эти диаграммы:
