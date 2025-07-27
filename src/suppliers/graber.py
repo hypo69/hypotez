@@ -60,7 +60,7 @@ if TYPE_CHECKING:
 import header
 from header import __root__
 from src import gs
-# from src.webdriver.driver import Driver
+# from src.webdriver.selenium.driver import Driver
 # from src.webdriver.firefox import Firefox
 from src.endpoints.prestashop.product_fields import ProductFields
 # from src.endpoints.prestashop.category_async import PrestaCategoryAsync

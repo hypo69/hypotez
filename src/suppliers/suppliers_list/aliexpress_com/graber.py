@@ -17,7 +17,7 @@ from typing import Any, Callable
 from functools import wraps
 # from src.utils.jjson import j_loads, j_loads_ns
 from src.suppliers.graber import Graber as Grbr, Config, close_pop_up
-from src.webdriver.driver import Driver
+from src.webdriver.selenium.driver import Driver
 from src.logger.logger import logger
 from src.logger.exceptions import ExecuteLocatorException
 

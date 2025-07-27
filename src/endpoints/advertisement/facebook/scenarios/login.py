@@ -14,7 +14,7 @@
 from pathlib import Path
 from typing import Dict
 from src import gs
-from src.webdriver.driver import Driver
+from src.webdriver.selenium.driver import Driver
 from src.utils.jjson import j_loads, j_loads_ns, j_dumps
 from src.logger.logger import logger
 

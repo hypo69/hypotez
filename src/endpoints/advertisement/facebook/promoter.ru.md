@@ -28,7 +28,7 @@
 
 ```python
 from src.endpoints.advertisement.facebook.promoter import FacebookPromoter
-from src.webdriver.driver import Driver
+from src.webdriver.selenium.driver import Driver
 from src.utils.jjson import j_loads_ns
 
 # Настройка экземпляра WebDriver (замените на реальный WebDriver)

@@ -31,7 +31,7 @@ from header import __root__
 from src import gs
 from src.suppliers.graber import Graber as Grbr, Config, close_pop_up
 from src.utils.jjson import j_loads_ns
-from src.webdriver.driver import Driver
+from src.webdriver.selenium.driver import Driver
 from types import SimpleNamespace
 from src.logger.logger import logger
 

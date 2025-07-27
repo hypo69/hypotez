@@ -18,7 +18,7 @@ import time
 from src import gs
 from src.utils.jjson import j_loads_ns, j_loads_ns
 from src.logger.logger import logger
-from src.webdriver.driver import Driver
+from src.webdriver.selenium.driver import Driver
 
 # Загрузка локаторов из JSON-файла
 locator = j_loads_ns(Path(gs.path.src, 'suppliers', 'aliexpress', 'locators', 'affiliate_links_shortener.json'))

@@ -53,7 +53,7 @@ import re
 
 
 #from settings import gs
-from src.webdriver.driver import Driver
+from src.webdriver.selenium.driver import Driver
 
 from src.product import Product, ProductFields
 from src.category import Category

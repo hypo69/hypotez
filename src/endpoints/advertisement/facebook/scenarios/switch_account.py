@@ -13,7 +13,7 @@
 from pathlib import Path
 from types import SimpleNamespace
 from src import gs
-from src.webdriver.driver import Driver
+from src.webdriver.selenium.driver import Driver
 from src.utils.jjson import j_loads_ns
 
 # Load locators from JSON file.

@@ -101,7 +101,7 @@ To use this script, follow these steps:
 #### Example
 
 ```python
-from src.webdriver.driver import Driver
+from src.webdriver.selenium.driver import Driver
 from types import SimpleNamespace
 
 # Initialize Driver

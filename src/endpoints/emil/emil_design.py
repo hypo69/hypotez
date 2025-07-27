@@ -34,7 +34,7 @@ from src import gs
 from src.suppliers.suppliers_list import *
 from src.suppliers.get_graber_by_supplier  import get_graber_by_supplier_prefix, get_graber_by_supplier_url
 from src.suppliers.graber import Graber
-from src.webdriver.driver import Driver
+from src.webdriver.selenium.driver import Driver
 from src.webdriver.firefox import Firefox
 from src.webdriver.chrome import Chrome
 from src.llm.gemini import GoogleGenerativeAi

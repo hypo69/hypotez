@@ -58,7 +58,7 @@ from src import gs
 from src.product import Product, ProductFields
 
 from src.logger.logger import logger, ExecuteLocatorException
-from src.webdriver.driver import Driver
+from src.webdriver.selenium.driver import Driver
 from src.utils import StringFormatter, StringNormalizer
 
 # Функция grabber() собирает поля товара. Для каждого товара есть своя функия - заполнитель поля

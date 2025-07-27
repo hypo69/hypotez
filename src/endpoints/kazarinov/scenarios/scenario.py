@@ -29,7 +29,7 @@ from src.endpoints.prestashop.product_fields.product_fields import ProductFields
 from src.logger.logger import logger
 from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_url
 from src.utils.jjson import j_dumps
-from src.webdriver.pydoll.driver import Driver
+from src.webdriver.pydoll.driver import Driver, Tab
 
 class Config:
     """Конфигурация сценария."""
@@ -146,37 +146,25 @@ class Scenario:
 
         # Парсинг страниц товаров ------------------------------------------------
         async with driver:
-
-            # Запуск браузера ------------------------------------------------------
-            try:
-                await driver.start()
-                # await driver.async_init_page() # <- В случае использования конекстного менеджера определяется в методе `__aenter__` драйвера 
-            except Exception as ex:  
-                if bot:
-                    bot.send_message(chat_id, f"❌  Ошибка запуска pydoll драйвера")
-                logger.error("❌ Ошибка запуска pydoll драйвера", ex, exc_info=True)
-                return False
-
+            tab: Tab = driver.tabs[0]
             # Сбор товаров ---------------------------------------------------------
             for url in urls:
                 logger.debug(f"Обработка URL: {url}", None, False)
 
-                graber = get_graber_by_supplier_url(url, driver)
+                graber = get_graber_by_supplier_url(url, tab)
 
                 if not graber:
                     logger.error(f"🤷‍♂️ Нет подходящего грабера для URL: {url}", None, True)
                     if bot:
                         bot.send_message(chat_id, f"❌ Нет обработчика для ссылки:\n{url}")
                     continue
-            
-
 
                 if bot:
                     bot.send_message(chat_id, f"⏳ Сбор полей товара со страницы:\n{url}")
 
                 logger.info(f'⏳ Сбор полей товара со страницы {url}', ex = None, exc_info = False, text_color = "light_gray")
                 try:
-                    await driver.get_url(url)
+                    await tab.get_url(url)
                     product_fields: ProductFields = await graber.grab_page_async(required_fields = required_fields)
                 except Exception as ex: 
                     logger.error(f"❌ Ошибка парсинга страницы:{url}", ex, exc_info = True)

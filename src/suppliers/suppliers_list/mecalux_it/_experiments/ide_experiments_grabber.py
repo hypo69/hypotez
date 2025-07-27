@@ -66,7 +66,7 @@ from src.product import Product, ProductFields
 from src.scenario import run_scenarios
 
 from src.logger.logger import logger, ExecuteLocatorException
-from src.webdriver.driver import Driver
+from src.webdriver.selenium.driver import Driver
 from src.utils import StringFormatter, StringNormalizer
 
 

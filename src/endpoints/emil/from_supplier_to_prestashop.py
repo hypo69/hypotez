@@ -34,7 +34,7 @@ from src import gs, USE_ENV
 from src.endpoints.prestashop.product_fields import ProductFields
 from src.endpoints.prestashop.product import PrestaProduct
 
-from src.webdriver.driver import Driver
+from src.webdriver.selenium.driver import Driver
 from src.webdriver.firefox import Firefox
 from src.llm.gemini import GoogleGenerativeAi
 from src.endpoints.emil.report_generator import ReportGenerator

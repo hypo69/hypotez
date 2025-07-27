@@ -20,7 +20,7 @@ from typing import Optional
 
 from src import gs
 from src.endpoints.advertisement import facebook
-from src.webdriver.driver import Driver
+from src.webdriver.selenium.driver import Driver
 
 from src.endpoints.advertisement.facebook.scenarios import (post_message, 
                                                   post_event, 

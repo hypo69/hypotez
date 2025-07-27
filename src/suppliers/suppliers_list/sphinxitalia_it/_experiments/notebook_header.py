@@ -54,7 +54,7 @@ import re
 
 
 from src import gs
-from src.webdriver.driver import Driver, executor
+from src.webdriver.selenium.driver import Driver, executor
 
 from src.product import Product, ProductFields
 from src.category import Category

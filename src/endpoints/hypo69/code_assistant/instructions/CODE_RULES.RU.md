@@ -8,7 +8,9 @@
 
 ### **Основные принципы**
 
+
 #### **1. Общие указания**:
+- используй  Python 3.10+.
 - Соблюдай четкий и понятный стиль кодирования.
 - Все изменения должны быть обоснованы и соответствовать установленным требованиям.
 
@@ -19,31 +21,32 @@
 ```python
 # Неправильно:
 def function(param: str, param1: Optional[str | dict | str] = None) -> dict | None:
-    # Получаем значение параметра
+    # Получаем значение параметра  <- `Получаем` НЕ верно
     ...
 # Правильно:
 
 def function(param: str, param1: Optional[str | dict | str] = None) -> dict | None:
-    # Функция извлекает значение параметра
+    # Функция извлекает значение параметра <- `Функция извлекает значение параметра` ВЕРНО
     ...
 # Неправильно:
 if not process_directory.exists():
     logger.error(f"Директория не существует: {process_directory}")
-    continue  # Переходим к следующей директории, если текущая не существует
+    continue  # Переходим к следующей директории, если текущая не существует <- `Переходим` НЕ верно
 
 if not process_directory.is_dir():
     logger.error(f"Это не директория: {process_directory}", None, False)
-    continue  # Переходим к следующей директории, если текущая не является директорией
+    continue  # Переход к следующей директории, если текущая не является директорией <- `Переход` ВЕРНО!
 # Правильно:
 
 if not process_directory.exists():
     logger.error(f"Директория не существует: {process_directory}")
-    continue  # Переход к следующей директории, если текущая не существует
+    continue  # Переход к следующей директории, если текущая не существует  <- `Переход` ВЕРНО!
 if not process_directory.is_dir():
     logger.error(f"Это не директория: {process_directory}", None, False)
-    continue  # Переходим к следующей директории, если текущая не является директорией
+    continue  # Переходим к следующей директории, если текущая не является директорией <- `Переходим` НЕ верно
 
 ```
+#### **3. docstrings**:
 - Документация всех функций, методов и классов должна следовать такому формату: 
     ```python
         def function(param: str, param1: Optional[str | dict | str] = None) -> dict | None:
@@ -64,6 +67,125 @@ if not process_directory.is_dir():
             """
     ```
 - Комментарии и документация должны быть четкими, лаконичными и точными.
+#### **4. Анотация типов**:
+- Весь код должен быть анотирован.
+Вот несколько примеров хороших аннотаций типов в Python с пояснениями:
+
+### 1. Функция с аннотацией типов параметров и возвращаемого значения
+```python
+from typing import List, Dict, Optional, Union
+
+def calculate_statistics(
+    numbers: List[float],
+    weights: Optional[List[float]] = None,
+    settings: Dict[str, Union[int, float, bool]] = None
+) -> Dict[str, float]:
+    """
+    Вычисляет статистические показатели для списка чисел.
+    
+    Args:
+        numbers: Список чисел для анализа
+        weights: Опциональный список весовых коэффициентов
+        settings: Настройки вычислений (по умолчанию None)
+    
+    Returns:
+        Словарь с результатами (среднее, дисперсия и т.д.)
+    """
+    if settings is None:
+        settings = {}
+    # Реализация функции...
+    return {"mean": 0.0, "variance": 1.0}  # Пример возвращаемого значения
+```
+
+### 2. Аннотации переменных
+```python
+# Простые типы
+name: str = "John Doe"
+age: int = 30
+temperature: float = 36.6
+is_active: bool = True
+
+# Коллекции
+from typing import Tuple, Set
+
+coordinates: Tuple[float, float] = (55.7522, 37.6156)
+unique_ids: Set[int] = {101, 102, 103}
+user_roles: List[str] = ["admin", "editor"]
+
+# Сложные типы
+from datetime import datetime
+from typing import Any
+
+timestamp: datetime = datetime.now()
+metadata: Dict[str, Any] = {"version": 1.0, "debug": False}
+```
+
+### 3. Различные варианты параметров
+```python
+from typing import Callable, TypeVar, Generic
+
+T = TypeVar('T')  # Обобщенный тип
+
+# Функция с callback
+def process_data(
+    data: List[T],
+    callback: Callable[[T], bool],
+    timeout: int = 30
+) -> List[T]:
+    return [item for item in data if callback(item)]
+
+# Класс с обобщенным типом
+class Container(Generic[T]):
+    def __init__(self, value: T) -> None:
+        self.value = value
+    
+    def get(self) -> T:
+        return self.value
+
+# Union и Optional
+from typing import Union, Optional
+
+def format_value(
+    value: Union[int, float, str],
+    precision: Optional[int] = None
+) -> str:
+    if precision is not None and isinstance(value, (int, float)):
+        return f"{value:.{precision}f}"
+    return str(value)
+```
+
+### 4. Более сложные аннотации
+```python
+from typing import Iterable, AsyncIterator, TypeAlias
+
+# Псевдоним типа
+UserId: TypeAlias = int
+
+# Асинхронная функция
+async def fetch_users() -> AsyncIterator[Dict[str, Union[str, int]]]:
+    # Имитация асинхронного получения данных
+    users = [{"id": 1, "name": "Alice"}, {"id": 2, "name": "Bob"}]
+    for user in users:
+        yield user
+
+# Функция с *args и **kwargs
+def join_items(
+    *items: str,
+    separator: str = ", ",
+    **format_options: str
+) -> str:
+    return separator.join(items)
+```
+
+### Советы по хорошим аннотациям:
+1. Используйте конкретные типы вместо `Any` где это возможно
+2. Для опциональных параметров используйте `Optional[T]` или `T | None` (Python 3.10+)
+3. Для сложных возвращаемых типов создавайте `TypeAlias`
+4. Документируйте специальные случаи в docstring
+
+6.  Для Python 3.10+ можно использовать более короткий синтаксис (`list[T]` вместо `List[T]`)
+
+
 
 
 ### **3. Заголовок файла**:

@@ -15,7 +15,7 @@ from math import log
 import header
 import time
 import copy
-from src.webdriver.driver import Driver, Chrome
+from src.webdriver.selenium.driver import Driver, Chrome
 from src.endpoints.advertisement.facebook import FacebookPromoter
 from src.logger.logger import logger
 

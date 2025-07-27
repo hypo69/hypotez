@@ -29,7 +29,7 @@ from typing import List, Dict, Any
 from pathlib import Path # Path не используется в предоставленном фрагменте, но оставлен на случай расширения
 
 from src.logger.logger import logger
-from src.webdriver.driver import Driver # Импорт класса Driver
+from src.webdriver.selenium.driver import Driver # Импорт класса Driver
 
 
 async def get_list_products_in_category(d: Driver, l: Dict[str, Any]) -> List[str] | None:    

@@ -25,7 +25,7 @@ from pathlib import Path
 
 from src import gs
 from src.logger.logger import logger
-from src.webdriver.driver import Driver
+from src.webdriver.selenium.driver import Driver
 
 
 

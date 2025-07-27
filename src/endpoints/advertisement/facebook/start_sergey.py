@@ -19,7 +19,7 @@ from pathlib import Path
 
 from src import gs
 from src.utils.file import get_directory_names, get_filenames
-from src.webdriver.driver import Driver, Chrome
+from src.webdriver.selenium.driver import Driver, Chrome
 from src.endpoints.advertisement.facebook import FacebookPromoter
 from src.logger.logger import logger
 from src.utils.date_time import interval

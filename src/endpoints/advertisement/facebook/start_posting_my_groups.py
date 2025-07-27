@@ -14,7 +14,7 @@
 
 import header 
 import copy
-from src.webdriver.driver import Driver, Chrome
+from src.webdriver.selenium.driver import Driver, Chrome
 from src.endpoints.advertisement.facebook.promoter import FacebookPromoter
 from src.logger.logger import logger
 

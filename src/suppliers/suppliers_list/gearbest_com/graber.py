@@ -26,7 +26,7 @@ from typing import Optional, Any
 from types import SimpleNamespace
 import header
 from src.suppliers.graber import Graber as Grbr, Config, close_pop_up
-from src.webdriver.driver import Driver
+from src.webdriver.selenium.driver import Driver
 from src.logger.logger import logger
 
 

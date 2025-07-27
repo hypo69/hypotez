@@ -14,7 +14,7 @@
 
 import time
 from types import SimpleNamespace
-from src.webdriver.driver import Driver, Chrome, Firefox, Edge
+from src.webdriver.selenium.driver import Driver, Chrome, Firefox, Edge
 from gspread.worksheet import Worksheet
 from src.goog.spreadsheet.spreadsheet import SpreadSheet
 from src.suppliers.suppliers_list.aliexpress_com.campaign.ali_campaign_editor import AliCampaignEditor
@@ -37,7 +37,7 @@ from gspread_formatting import (
     Color
 )
 from src.goog.spreadsheet.spreadsheet import SpreadSheet
-from src.webdriver.driver import Driver, Chrome
+from src.webdriver.selenium.driver import Driver, Chrome
 from src.utils.printer import pprint
 from src.logger.logger import logger
 
