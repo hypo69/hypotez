@@ -1,295 +1,195 @@
+
 # `Tab` Class Reference
 
-Класс `Tab` — это основной интерфейс для автоматизации веб-страницы. Он управляет одной вкладкой браузера через Chrome DevTools Protocol (CDP), позволяя выполнять навигацию, манипулировать DOM, выполнять JavaScript, обрабатывать события, отслеживать сетевую активность и многое другое.
+Класс `Tab` — это основной и наиболее важный интерфейс для автоматизации веб-страницы. Он управляет одной вкладкой браузера через Chrome DevTools Protocol (CDP), позволяя выполнять навигацию, манипулировать DOM, выполнять JavaScript, обрабатывать события, отслеживать сетевую активность и многое другое.
 
-Экземпляры `Tab` управляются как синглтоны на основе `target_id`, гарантируя, что для каждой вкладки браузера существует только один объект `Tab`.
-
-**Примечание по поиску элементов:** Этот класс наследуется от `FindElementsMixin`, что предоставляет ему методы для поиска элементов в DOM, такие как `find_element`, `find_elements`, `wait_for_element`, `find_or_wait_element` и другие.
+**Важно:** Класс `Tab` наследует всю функциональность от `FindElementsMixin`, предоставляя мощные методы для поиска элементов на странице, такие как `find` и `query`.
 
 ---
 
 ## Свойства
 
-### `page_events_enabled`
-Определяет, включены ли события домена `Page` в CDP (загрузка, навигация, диалоги и т.д.).
-- **Тип:** `bool`
-
-### `network_events_enabled`
-Определяет, включены ли события домена `Network` в CDP (запросы, ответы и т.д.).
-- **Тип:** `bool`
-
-### `fetch_events_enabled`
-Определяет, включены ли события домена `Fetch` в CDP для перехвата запросов.
-- **Тип:** `bool`
-
-### `dom_events_enabled`
-Определяет, включены ли события домена `DOM` в CDP (изменения в структуре документа).
-- **Тип:** `bool`
-
-### `runtime_events_enabled`
-Определяет, включены ли события домена `Runtime` в CDP.
-- **Тип:** `bool`
-
-### `intercept_file_chooser_dialog_enabled`
-Определяет, активен ли перехват диалоговых окон выбора файлов.
-- **Тип:** `bool`
-
-### `current_url`
-Возвращает текущий URL страницы. Это свойство отражает перенаправления и навигацию на стороне клиента.
-- **Тип:** `str`
-
-### `page_source`
-Возвращает полный HTML-код текущей страницы, отражающий живое состояние DOM.
-- **Тип:** `str`
+| Свойство                              | Тип      | Описание                                                                            |
+| :------------------------------------ | :------- | :---------------------------------------------------------------------------------- |
+| `current_url`                         | `str`    | Текущий URL страницы, включая перенаправления. (асинхронное)                      |
+| `page_source`                         | `str`    | Полный HTML-код текущей страницы в реальном времени. (асинхронное)                  |
+| `page_events_enabled`                 | `bool`   | `True`, если включены события домена `Page` (загрузка, диалоги).                    |
+| `network_events_enabled`              | `bool`   | `True`, если включены события домена `Network` (запросы, ответы).                   |
+| `fetch_events_enabled`                | `bool`   | `True`, если включен перехват запросов через домен `Fetch`.                         |
+| `dom_events_enabled`                  | `bool`   | `True`, если включены события домена `DOM` (изменения структуры документа).         |
+| `runtime_events_enabled`              | `bool`   | `True`, если включены события домена `Runtime`.                                     |
+| `intercept_file_chooser_dialog_enabled` | `bool`   | `True`, если активен перехват диалоговых окон выбора файлов.                       |
 
 ---
 
-## Методы
+## Методы поиска элементов (из `FindElementsMixin`)
 
-### `enable_page_events()`
-Включает события домена `Page` в CDP (загрузка, навигация, диалоги и т.д.). Необходимо для работы с диалогами и отслеживания событий загрузки.
+Эти методы позволяют находить один или несколько `WebElement` на странице.
 
-### `enable_network_events()`
-Включает события домена `Network` в CDP. Необходимо для отслеживания сетевых запросов, получения тел ответов и логов.
+### `find(...)`
 
-### `enable_fetch_events(handle_auth=False, resource_type=None, request_stage=None)`
-Включает домен `Fetch` для перехвата сетевых запросов. Перехваченные запросы должны быть явно продолжены (`continue_request`), отклонены (`fail_request`) или выполнены (`fulfill_request`), иначе они зависнут.
+Находит элемент(ы) по комбинации HTML-атрибутов. Удобен для простых и читаемых поисковых запросов.
+
 - **Параметры:**
-  - `handle_auth` (`bool`): Перехватывать ли запросы аутентификации.
-  - `resource_type` (`Optional[ResourceType]`): Фильтровать перехватываемые запросы по типу ресурса (например, `ResourceType.DOCUMENT`).
-  - `request_stage` (`Optional[RequestStage]`): На каком этапе перехватывать (запрос или ответ).
+  - `id`, `class_name`, `name`, `tag_name`, `text` (`Optional[str]`): Атрибуты для поиска.
+  - `timeout` (`int`): Время ожидания элемента в секундах (0 - без ожидания).
+  - `find_all` (`bool`): `True` для поиска всех элементов, `False` для первого.
+  - `raise_exc` (`bool`): `True` для вызова исключения, если ничего не найдено.
+  - `**attributes`: Дополнительные атрибуты (например, `aria_label="Close"`).
 
-### `enable_dom_events()`
-Включает события домена `DOM`, позволяя отслеживать изменения в структуре документа.
+- **Возвращаемое значение:**
 
-### `enable_runtime_events()`
-Включает события домена `Runtime`, которые могут быть полезны для отладки и мониторинга выполнения JavaScript.
+| `find_all` | `raise_exc` | Тип                                 | Описание                                                   |
+| :--------- | :---------- | :---------------------------------- | :--------------------------------------------------------- |
+| `False`    | `True`      | `WebElement`                        | Находит первый элемент, иначе вызывает исключение.         |
+| `False`    | `False`     | `Optional[WebElement]`              | Находит первый элемент, иначе возвращает `None`.           |
+| `True`     | `True`      | `list[WebElement]`                  | Находит все элементы, иначе вызывает исключение.           |
+| `True`     | `False`     | `Optional[list[WebElement]]`        | Находит все элементы, возвращает список (может быть пустым).|
 
-### `enable_intercept_file_chooser_dialog()`
-Включает перехват диалоговых окон выбора файлов для автоматизации загрузки файлов. Для удобства используйте контекстный менеджер `expect_file_chooser`.
-
-### `enable_auto_solve_cloudflare_captcha(custom_selector=None, time_before_click=2, time_to_wait_captcha=5)`
-Включает автоматический обход капчи Cloudflare Turnstile. Метод устанавливает слушателя на событие загрузки страницы, который ищет и пытается решить капчу.
-- **Параметры:**
-  - `custom_selector` (`Optional[tuple[By, str]]`): Пользовательский селектор для поиска элемента капчи. По умолчанию ищет по классу `cf-turnstile`.
-  - `time_before_click` (`int`): Задержка в секундах перед кликом по капче.
-  - `time_to_wait_captcha` (`int`): Время ожидания появления капчи на странице.
-
-### `disable_page_events()`
-Отключает события домена `Page`.
-
-### `disable_network_events()`
-Отключает события домена `Network`.
-
-### `disable_fetch_events()`
-Отключает перехват запросов (домен `Fetch`).
-
-### `disable_dom_events()`
-Отключает события домена `DOM`.
-
-### `disable_runtime_events()`
-Отключает события домена `Runtime`.
-
-### `disable_intercept_file_chooser_dialog()`
-Отключает перехват диалоговых окон выбора файлов.
-
-### `disable_auto_solve_cloudflare_captcha()`
-Отключает автоматический обход капчи Cloudflare, удаляя ранее установленный слушатель событий.
-
-### `close()`
-Закрывает текущую вкладку браузера. После вызова этого метода экземпляр `Tab` становится недействительным.
-
-### `get_frame(frame: WebElement)`
-Возвращает новый объект `Tab` для взаимодействия с содержимым `iframe`.
-- **Параметры:**
-  - `frame` (`WebElement`): Веб-элемент, представляющий тег `<iframe>`.
-- **Возвращает:**
-  - `IFrame` (псевдоним `Tab`): Новый экземпляр `Tab`, настроенный для работы с `iframe`.
-- **Вызывает:**
-  - `NotAnIFrame`: Если переданный элемент не является `iframe`.
-  - `InvalidIFrame`: Если у `iframe` отсутствует атрибут `src`.
-  - `IFrameNotFound`: Если целевая вкладка для `iframe` не найдена.
-
-### `get_cookies()`
-Получает все cookie, доступные с текущей страницы.
-- **Возвращает:**
-  - `list[Cookie]`: Список объектов cookie.
-
-### `get_network_response_body(request_id: str)`
-Получает тело ответа для указанного сетевого запроса.
-- **Параметры:**
-  - `request_id` (`str`): ID запроса, который можно получить из сетевых событий.
-- **Возвращает:**
-  - `str`: Тело ответа.
-- **Вызывает:**
-  - `NetworkEventsNotEnabled`: Если сетевые события не были предварительно включены.
-
-### `get_network_logs(filter: Optional[str] = None)`
-Получает собранные сетевые логи.
-- **Параметры:**
-  - `filter` (`Optional[str]`): Строка для фильтрации логов по URL запроса.
-- **Возвращает:**
-  - `list[NetworkLog]`: Список логов сетевой активности.
-- **Вызывает:**
-  - `NetworkEventsNotEnabled`: Если сетевые события не были предварительно включены.
-
-### `set_cookies(cookies: list[CookieParam])`
-Устанавливает один или несколько cookie для текущего домена.
-- **Параметры:**
-  - `cookies` (`list[CookieParam]`): Список словарей с параметрами cookie. Обязательные поля: `name` и `value`.
-
-### `delete_all_cookies()`
-Удаляет все cookie из текущего контекста браузера.
-
-### `go_to(url: str, timeout: int = 300)`
-Переходит по указанному URL и ожидает полной загрузки страницы. Если URL совпадает с текущим, страница будет перезагружена.
-- **Параметры:**
-  - `url` (`str`): Целевой URL.
-  - `timeout` (`int`): Максимальное время ожидания загрузки страницы в секундах.
-- **Вызывает:**
-  - `PageLoadTimeout`: Если страница не загрузилась в течение указанного времени.
-
-### `refresh(ignore_cache: bool = False, script_to_evaluate_on_load: Optional[str] = None)`
-Перезагружает текущую страницу и ожидает ее полной загрузки.
-- **Параметры:**
-  - `ignore_cache` (`bool`): Если `True`, кеш браузера будет проигнорирован.
-  - `script_to_evaluate_on_load` (`Optional[str]`): JavaScript-код, который будет выполнен после загрузки страницы.
-- **Вызывает:**
-  - `PageLoadTimeout`: Если страница не загрузилась в течение установленного времени.
-
-### `take_screenshot(path: Optional[str] = None, quality: int = 100, as_base64: bool = False)`
-Делает скриншот текущей видимой области страницы.
-- **Параметры:**
-  - `path` (`Optional[str]`): Путь для сохранения файла. Расширение (`.png`, `.jpeg`, `.webp`) определяет формат.
-  - `quality` (`int`): Качество изображения (0-100) для форматов `jpeg` и `webp`.
-  - `as_base64` (`bool`): Если `True`, возвращает скриншот в виде строки Base64 вместо сохранения в файл.
-- **Возвращает:**
-  - `Optional[str]`: Строка Base64, если `as_base64=True`, иначе `None`.
-- **Вызывает:**
-  - `InvalidFileExtension`: Если расширение файла не поддерживается.
-  - `ValueError`: Если `path` не указан и `as_base64=False`.
-
-### `print_to_pdf(path: str, ..., as_base64: bool = False)`
-Сохраняет текущую страницу в формате PDF.
-- **Параметры:**
-  - `path` (`str`): Путь для сохранения PDF-файла.
-  - `landscape` (`bool`): Альбомная ориентация.
-  - `display_header_footer` (`bool`): Отображать ли колонтитулы.
-  - `print_background` (`bool`): Печатать ли фоновые изображения и цвета.
-  - `scale` (`float`): Масштаб (от 0.1 до 2.0).
-  - `as_base64` (`bool`): Если `True`, возвращает PDF в виде строки Base64.
-- **Возвращает:**
-  - `Optional[str]`: Строка Base64, если `as_base64=True`, иначе `None`.
-
-### `has_dialog()`
-Проверяет, открыто ли в данный момент диалоговое окно JavaScript (`alert`, `confirm`, `prompt`).
-- **Примечание:** Требуется, чтобы события страницы были включены (`enable_page_events`).
-- **Возвращает:**
-  - `bool`: `True`, если диалог открыт.
-
-### `get_dialog_message()`
-Возвращает текст из текущего диалогового окна.
-- **Возвращает:**
-  - `str`: Сообщение диалога.
-- **Вызывает:**
-  - `NoDialogPresent`: Если диалоговое окно отсутствует.
-
-### `handle_dialog(accept: bool, prompt_text: Optional[str] = None)`
-Обрабатывает текущее диалоговое окно JavaScript.
-- **Параметры:**
-  - `accept` (`bool`): `True` для принятия (OK, Confirm), `False` для отмены (Cancel).
-  - `prompt_text` (`Optional[str]`): Текст для ввода в диалоговое окно `prompt`.
-- **Вызывает:**
-  - `NoDialogPresent`: Если диалоговое окно отсутствует.
-
-### `execute_script(script: str, element: Optional[WebElement] = None)`
-Выполняет JavaScript-код в контексте страницы.
-- **Вариант 1: Глобальное выполнение**
-  - `execute_script(script: str)`
-  - Выполняет скрипт в глобальном контексте.
-- **Вариант 2: Выполнение в контексте элемента**
-  - `execute_script(script: str, element: WebElement)`
-  - Выполняет скрипт, где `element` доступен внутри скрипта через ключевое слово `argument`.
-- **Параметры:**
-  - `script` (`str`): JavaScript-код для выполнения.
-  - `element` (`Optional[WebElement]`): Элемент, который будет контекстом выполнения (`argument`).
-- **Вызывает:**
-  - `InvalidScriptWithElement`: Если в скрипте есть `argument`, но элемент не передан.
 - **Примеры:**
   ```python
-  # Получить заголовок страницы
-  title = await tab.execute_script("return document.title;")
-
-  # Кликнуть по элементу
-  button = await tab.find_element(By.ID, "my-button")
-  await tab.execute_script("argument.click();", button)
-
-  # Изменить значение поля ввода
-  input_field = await tab.find_element(By.ID, "my-input")
-  await tab.execute_script('argument.value = "Новый текст";', input_field)
+  # Найти кнопку по ID
+  submit_button = await tab.find(id='submit-button')
+  # Найти все ссылки с определенным классом, подождать до 5 секунд
+  links = await tab.find(tag_name='a', class_name='external-link', find_all=True, timeout=5)
   ```
 
-### `continue_request(request_id: str, ...)`
-Продолжает выполнение перехваченного сетевого запроса. Можно изменить параметры запроса.
-- **Параметры:**
-  - `request_id` (`str`): ID перехваченного запроса.
-  - `url`, `method`, `post_data`, `headers`: Новые параметры запроса.
+### `query(...)`
 
-### `fail_request(request_id: str, error_reason: NetworkErrorReason)`
-Отклоняет перехваченный сетевой запрос с указанной ошибкой.
-- **Параметры:**
-  - `request_id` (`str`): ID перехваченного запроса.
-  - `error_reason` (`NetworkErrorReason`): Причина сбоя (например, `NetworkErrorReason.BLOCKED_BY_CLIENT`).
+Находит элемент(ы) с помощью "сырого" CSS-селектора или XPath-выражения.
 
-### `fulfill_request(request_id: str, response_code: int, ...)`
-Подменяет ответ для перехваченного запроса, предоставляя свои данные.
 - **Параметры:**
-  - `request_id` (`str`): ID перехваченного запроса.
-  - `response_code` (`int`): HTTP-код ответа (например, 200).
-  - `response_headers`, `body`, `response_phrase`: Пользовательские данные ответа.
+  - `expression` (`str`): CSS-селектор или XPath-выражение.
+- **Возвращаемое значение:** Аналогично методу `find`.
 
-### `expect_file_chooser(files: Union[str, Path, list])`
-Контекстный менеджер для автоматической обработки диалога выбора файлов.
-- **Параметры:**
-  - `files`: Путь к одному файлу или список путей к файлам для загрузки.
-- **Пример:**
+- **Примеры:**
   ```python
-  async with tab.expect_file_chooser("/path/to/my/file.txt"):
-      # Этот клик должен открыть диалог выбора файла
-      await tab.click("#upload-button")
-  # Файл будет автоматически выбран
+  # Поиск по CSS
+  main_content = await tab.query('#main .article > p')
+  # Поиск по XPath
+  login_form = await tab.query('//form[@id="loginForm"]')
   ```
+---
 
-### `expect_and_bypass_cloudflare_captcha(...)`
-Контекстный менеджер для временного включения автоматического обхода капчи Cloudflare. Удобен для операций, которые могут вызвать появление капчи.
+## Навигация
+
+### `go_to(url: str, timeout: int = 300)`
+Переходит по указанному URL и ожидает полной загрузки страницы.
+- **Вызывает:** `PageLoadTimeout` при превышении времени ожидания.
+
+### `refresh(...)`
+Перезагружает текущую страницу и ожидает ее полной загрузки.
+- **Вызывает:** `PageLoadTimeout` при превышении времени ожидания.
+
+---
+## Взаимодействие со страницей и контентом
+
+### `take_screenshot(path: Optional[str] = None, ..., as_base64: bool = False)`
+Делает скриншот видимой части страницы.
 - **Параметры:**
-  - Аналогичны `enable_auto_solve_cloudflare_captcha`.
-- **Пример:**
+  - `path`: Путь для сохранения файла (формат определяется расширением: `.png`, `.jpeg`, `.webp`).
+  - `as_base64`: Если `True`, возвращает скриншот как строку Base64.
+- **Возвращает:** `str` (Base64), если `as_base64=True`, иначе `None`.
+
+### `print_to_pdf(path: str, ..., as_base64: bool = False)`
+Сохраняет текущую страницу как PDF-файл.
+
+### `execute_script(script: str, element: Optional[WebElement] = None)`
+Выполняет JavaScript в контексте страницы.
+- **Вариант 1: `execute_script(script)`** - выполняет скрипт в глобальном контексте.
+- **Вариант 2: `execute_script(script, element)`** - выполняет скрипт в контексте элемента, где он доступен через `argument`.
+- **Примеры:**
   ```python
-  async with tab.expect_and_bypass_cloudflare_captcha():
-      await tab.go_to("https://example.com/protected-page")
-      # Капча, если появится, будет обработана автоматически
+  # Получить user agent
+  user_agent = await tab.execute_script("return navigator.userAgent;")
+  # Прокрутить элемент в видимую область
+  el = await tab.find(id='footer')
+  await tab.execute_script("argument.scrollIntoView();", el)
   ```
+---
+
+## Управление Cookies
+
+### `get_cookies()`
+Возвращает список всех cookie, доступных странице.
+
+### `set_cookies(cookies: list[CookieParam])`
+Устанавливает один или несколько cookie.
+
+### `delete_all_cookies()`
+Удаляет все cookie в текущем контексте браузера.
+
+---
+
+## Обработка диалоговых окон
+
+**Примечание:** Требуется предварительно включить события `await tab.enable_page_events()`.
+
+### `has_dialog()`
+Проверяет, открыто ли диалоговое окно (`alert`, `confirm`, `prompt`).
+
+### `get_dialog_message()`
+Возвращает текст из открытого диалогового окна.
+- **Вызывает:** `NoDialogPresent`, если диалога нет.
+
+### `handle_dialog(accept: bool, prompt_text: Optional[str] = None)`
+Принимает (`accept=True`) или отклоняет (`accept=False`) диалоговое окно.
+- **`prompt_text`**: Текст для ввода в `prompt`.
+
+---
+
+## Работа с IFrame
+
+### `get_frame(frame: WebElement)`
+Возвращает новый экземпляр `Tab` для взаимодействия с содержимым `iframe`.
+- **Параметры:** `frame` - `WebElement`, представляющий тег `<iframe>`.
+
+---
+
+## Сеть и перехват запросов
+
+**Примечание:** Требуется предварительно включить соответствующий домен событий (`Network` или `Fetch`).
+
+### `enable_network_events()` / `enable_fetch_events()`
+Включают отслеживание или перехват сетевых запросов.
+
+### `get_network_response_body(request_id: str)`
+Получает тело ответа для запроса по его ID.
+
+### `get_network_logs(filter: Optional[str] = None)`
+Получает список сетевых логов, опционально фильтруя по URL.
+
+### `continue_request(...)` / `fail_request(...)` / `fulfill_request(...)`
+Управляют перехваченными запросами (продолжить, оборвать или подменить ответ).
+
+---
+
+## Обработка событий
 
 ### `on(event_name: str, callback: Callable, temporary: bool = False)`
-Регистрирует асинхронный или синхронный колбэк для прослушивания событий CDP.
-- **Параметры:**
-  - `event_name` (`str`): Имя события CDP (например, `Page.loadEventFired`, `Network.requestWillBeSent`).
-  - `callback` (`Callable`): Функция, которая будет вызвана при возникновении события. Она получит словарь с данными события в качестве аргумента.
-  - `temporary` (`bool`): Если `True`, колбэк будет удален после первого вызова.
-- **Возвращает:**
-  - `int`: ID колбэка, который можно использовать для его удаления вручную.
-- **Примечание:** Соответствующий домен событий (`Page`, `Network` и т.д.) должен быть включен заранее.
-- **Пример:**
-  ```python
-  async def on_request(event):
-      print(f"Request sent to: {event['params']['request']['url']}")
+Регистрирует функцию-обработчик для событий CDP.
+- **`event_name`**: Имя события (например, `Page.loadEventFired`).
+- **`callback`**: Функция, которая будет вызвана.
+- **`temporary`**: `True`, если обработчик нужно удалить после первого срабатывания.
 
-  await tab.enable_network_events()
-  callback_id = await tab.on("Network.requestWillBeSent", on_request)
+---
 
-  # ... ваш код ...
+## Высокоуровневая автоматизация (Контекстные менеджеры)
 
-  # Позже можно удалить колбэк, если он не временный
-  # await tab._connection_handler.remove_callback(callback_id)
-  ```
+### `expect_file_chooser(files: Union[str, Path, list])`
+Контекстный менеджер, который автоматически обрабатывает диалог выбора файлов.
+```python
+async with tab.expect_file_chooser("/path/to/image.jpg"):
+    await tab.click("#upload-button") # Этот клик откроет диалог
+# Файл будет автоматически выбран
+```
+
+### `expect_and_bypass_cloudflare_captcha(...)`
+Контекстный менеджер, который временно включает автоматический обход капчи Cloudflare Turnstile для блока кода.
+
+---
+
+## Управление вкладкой
+
+### `close()`
+Закрывает текущую вкладку браузера. Экземпляр `Tab` после этого становится недействительным.

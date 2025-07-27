@@ -28,10 +28,13 @@ if TYPE_CHECKING:
     from pydoll.element import WebElement
 
 
+# ... (импорты и начало класса остаются без изменений) ...
+
 class Tab:
     """
     Расширенная версия вкладки (Tab), которая добавляет метод execute_locator
     и работает как прокси для оригинального объекта pydoll.browser.tab.Tab.
+    Поддерживает использование в качестве асинхронного контекстного менеджера.
     """
     
     def __init__(self, base_tab: 'BaseTab'):
@@ -57,6 +60,34 @@ class Tab:
             Any: Значение атрибута из базового объекта.
         """
         return getattr(self._base_tab, name)
+
+
+    async def __aenter__(self) -> 'Tab':
+        """
+        Метод для входа в асинхронный контекстный менеджер.
+        Возвращает сам объект для использования внутри блока `with`.
+        """
+        logger.debug(f"Entering context for tab: {self._base_tab._target_id}")
+        return self
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        """
+        Метод для выхода из асинхронного контекстного менеджера.
+        Гарантирует, что вкладка будет закрыта.
+        
+        Args:
+            exc_type: Тип исключения (если было).
+            exc_val: Значение исключения (если было).
+            exc_tb: Трассировка исключения (если было).
+        """
+        logger.debug(f"Exiting context for tab: {self._base_tab._target_id}. Closing tab.")
+        try:
+            # Используем __getattr__ для вызова close() из базового объекта
+            await self.close() 
+        except Exception as ex:
+            logger.error(f"Failed to close tab {self._base_tab._target_id} on exit: {ex}", exc_info=True)
+        
+
 
     async def _find_elements(self, locator: SimpleNamespace) -> Optional[List['WebElement']]:
         """

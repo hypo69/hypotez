@@ -18,7 +18,9 @@ from pathlib import Path
 from types import SimpleNamespace
 from typing import List, Optional
 
+from SANDBOX.davidka import browser
 import telebot
+from pydoll.browser import Chrome
 
 from header import __root__
 from src import gs, USE_ENV
@@ -29,7 +31,9 @@ from src.endpoints.prestashop.product_fields.product_fields import ProductFields
 from src.logger.logger import logger
 from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_url
 from src.utils.jjson import j_dumps
-from src.webdriver.pydoll.driver import Driver, Tab
+from src.webdriver.pydoll.tab import Tab
+from src.webdriver.pydoll.options import Options
+#from src.webdriver.pydoll.driver import Driver
 
 class Config:
     """Конфигурация сценария."""
@@ -135,18 +139,18 @@ class Scenario:
             "specification",
             "default_image_url",
         ]
-        try:
-            driver = Driver(
-                window_mode = Config.WINDOW_MODE,
-                user_data_dir = Config.user_data_dir,
-            )
-        except Exception as ex:
-            logger.error("Ошибка создания Driver", ex, exc_info=True)
-            raise RuntimeError("Driver initialization failed") from ex
+        # try:
+        #     driver = Driver(
+        #         window_mode = Config.WINDOW_MODE,
+        #         user_data_dir = Config.user_data_dir,
+        #     )
+        # except Exception as ex:
+        #     logger.error("Ошибка создания Driver", ex, exc_info=True)
+        #     raise RuntimeError("Driver initialization failed") from ex
 
         # Парсинг страниц товаров ------------------------------------------------
-        async with driver:
-            tab: Tab = driver.tabs[0]
+        async with Chrome() as browser:
+            tab: Tab = Tab( browser.start()  )
             # Сбор товаров ---------------------------------------------------------
             for url in urls:
                 logger.debug(f"Обработка URL: {url}", None, False)
