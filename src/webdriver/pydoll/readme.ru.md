@@ -179,39 +179,43 @@ sequenceDiagram
 ```mermaid
 graph TD
     subgraph execute_locator
-        A[Start: execute_locator(locator)] --> B{Селектор содержит ';'}
-        B -->|Да| C[Разбить на несколько селекторов]
-        B -->|Нет| D[Использовать один селектор]
-        C --> E[Цикл по селекторам]
-        D --> F[Обработка одного селектора]
+        A[Start: execute_locator(locator)] --> B{Has multiple selectors (';')?}
+        B -- Yes --> C[Split into multiple selectors]
+        B -- No --> D[Use single selector]
+        C --> E[Loop through selectors]
+        D --> F[Process single selector]
         E --> F
-        F --> G{Нужно ли ждать условия (timeout_for_event)?}
-        G -->|Да| H(Вызвать _wait_for_condition)
-        G -->|Нет| I(Вызвать _find_elements)
-        H --> J[Получить элементы `elements`]
+        
+        F --> G{Wait for condition (timeout_for_event)?}
+        G -- Yes --> H(Call _wait_for_condition)
+        G -- No --> I(Call _find_elements)
+        H --> J[Get elements]
         I --> J
-        J --> K{Элементы найдены?}
-        K -->|Да| L{Есть ли еще селекторы в цикле?}
-        K -->|Нет| M{Есть ли еще селекторы в цикле?}
-        M -->|Да| E
-        M -->|Нет| N[Вернуть False (если обязательно)]
-        L -->|Да, и стратегия 'find_first_match'| O{Выполнить событие (locator.event)?}
-        L -->|Нет| O
         
-        O -->|Да| P(Вызвать _wait_for_event)
-        O -->|Нет| Q{Извлечь атрибут (locator.attribute)?}
+        J --> K{Elements found?}
+        K -- Yes --> L{Is 'find_first_match' strategy and more selectors exist?}
+        K -- No --> M{More selectors exist?}
+        
+        M -- Yes --> E
+        M -- No --> N[Return False if mandatory]
+        
+        L -- Yes --> O{Execute event (locator.event)?}
+        L -- No --> O
+        
+        O -- Yes --> P(Call _wait_for_event)
+        O -- No --> Q{Extract attribute (locator.attribute)?}
         P --> Q
-
-        Q -->|Да| R[Извлечь значение атрибута (innerText, src...)]
-        Q -->|Нет| S[Вернуть WebElement(ы)]
         
-        R --> T{Применить фильтр списка (if_list)?}
+        Q -- Yes --> R[Extract attribute value (innerText, src...)]
+        Q -- No --> S[Return WebElement(s)]
+        
+        R --> T{Apply list filter (if_list)?}
         S --> T
         
-        T -->|Да| U[Отфильтровать результат]
-        T -->|Нет| V[Вернуть результат как есть]
+        T -- Yes --> U[Filter the result]
+        T -- No --> V[Return result as is]
         
-        U --> W[End: вернуть отфильтрованный результат]
+        U --> W[End: return filtered result]
         V --> W
         N --> W
     end
