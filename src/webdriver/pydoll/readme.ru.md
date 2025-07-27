@@ -227,60 +227,50 @@ graph TD
     end
 ```
 
-### Что было изменено:
 
-1.  **Убраны двоеточия:** Все метки узлов теперь заключены в двойные кавычки и не содержат двоеточий. Вместо `A[Start: ...]` используется `A["Start ..."]`.
-2.  **Кавычки для меток рёбер:** Метки для рёбер (`Yes`, `No`) также заключены в двойные кавычки: ` --"Yes"--> `.
-3.  **Упрощены описания:** Все описания сделаны максимально простыми, чтобы избежать любых других потенциальных синтаксических конфликтов. Например, `';'` заменено на `semicolon`.
-
-Эта версия является самой "пуленепробиваемой" и должна работать практически в любой среде, поддерживающей Mermaid, включая GitHub и различные плагины для VS Code.
 ### 3. Диаграмма наследования и композиции (Class Diagram)
 
 Эта диаграмма показывает, как ваши классы связаны друг с другом и с миксином.
-
 ```mermaid
 classDiagram
     direction LR
+
     class FindElementsMixin {
-        +find()
-        +query()
-        +find_or_wait_element()
+        <<Mixin>>
+        +find(..)*WebElement
+        +query(..)*WebElement
         #_find_element()
         #_find_elements()
-        #_build_xpath()
     }
 
     class BaseTab {
         <<pydoll.tab.Tab>>
-        +go_to()
+        +go_to(url)
         +close()
         +get_cookies()
-        +execute_script()
-        #_execute_command()
+        +execute_script(script)
     }
-    BaseTab --|> FindElementsMixin : (наследует)
+    BaseTab --|> FindElementsMixin : inherits
 
     class WebElement {
         +click()
-        +type_text()
-        +get_attribute()
+        +type_text(text)
+        +get_attribute(name)*str
     }
-    WebElement --|> FindElementsMixin : (наследует)
+    WebElement --|> FindElementsMixin : inherits
 
     class TabProxy {
-        <<Ваш класс Tab>>
+        <<Proxy>>
         - _base_tab: BaseTab
-        +execute_locator()
-        +get_url()
-        #_find_elements()
-        #_wait_for_event()
-        #_wait_for_condition()
+        +execute_locator(locator)
+        +get_url(url)
         +__aenter__()
         +__aexit__()
     }
 
-    TabProxy o-- BaseTab : (композиция, "проксирует")
-    Note for TabProxy "__getattr__"
+    TabProxy o-- BaseTab : contains/proxies
+    
+    note for TabProxy "Uses __getattr__ to forward<br>calls to the BaseTab instance"
 ```
 
 ### Как использовать эти диаграммы:
