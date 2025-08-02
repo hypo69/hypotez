@@ -26,7 +26,7 @@
     ```
 
 3.  **Генерация стихотворения**:
-    - Используйте метод `generate_poem` для создания стихотворения на основе заданного промпта.
+    - Используй метод `generate_poem` для создания стихотворения на основе заданного промпта.
     ```python
     def generate_poem(self, prompt: str) -> str:
         response = self.client.chat.completions.create(
@@ -41,7 +41,7 @@
     - Метод отправляет запрос в OpenAI с моделью `gpt-3.5-turbo` и возвращает сгенерированное стихотворение.
 
 4.  **Анализ тональности текста**:
-    - Используйте метод `analyze_sentiment` для анализа тональности заданного текста.
+    - Используй метод `analyze_sentiment` для анализа тональности заданного текста.
     ```python
     def analyze_sentiment(self, text: str) -> str:
         response = self.client.completions.create(
@@ -55,7 +55,7 @@
     - Метод отправляет запрос в OpenAI с моделью `text-davinci-003` и возвращает результат анализа тональности.
 
 5.  **Создание краткого изложения текста**:
-    - Используйте метод `summarize_text` для создания краткого изложения заданного текста.
+    - Используй метод `summarize_text` для создания краткого изложения заданного текста.
     ```python
     def summarize_text(self, text: str) -> str:
         response = self.client.completions.create(
@@ -69,7 +69,7 @@
     - Метод отправляет запрос в OpenAI с моделью `text-davinci-003` и возвращает краткое изложение текста.
 
 6.  **Перевод текста**:
-    - Используйте метод `translate_text` для перевода заданного текста на указанный целевой язык.
+    - Используй метод `translate_text` для перевода заданного текста на указанный целевой язык.
     ```python
     def translate_text(self, text: str, target_language: str) -> str:
         response = self.client.completions.create(

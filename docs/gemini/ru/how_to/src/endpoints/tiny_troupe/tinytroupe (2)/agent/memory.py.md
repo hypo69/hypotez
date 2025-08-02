@@ -8,8 +8,8 @@
 Шаги выполнения
 -------------------------
 1. **Создание экземпляра класса:** Создайте объект класса `TinyMemory`, например: `memory = TinyMemory()`.
-2. **Хранение значения:** Используйте метод `store(value: dict)` для хранения значения в памяти. 
-3. **Извлечение значения:** Используйте методы `retrieve(first_n: int, last_n: int, include_omission_info:bool=True)`, `retrieve_recent(include_omission_info:bool=True)`, `retrieve_all()`, `retrieve_relevant(relevance_target:str, top_k=20)` для извлечения значений из памяти. 
+2. **Хранение значения:** Используй метод `store(value: dict)` для хранения значения в памяти. 
+3. **Извлечение значения:** Используй методы `retrieve(first_n: int, last_n: int, include_omission_info:bool=True)`, `retrieve_recent(include_omission_info:bool=True)`, `retrieve_all()`, `retrieve_relevant(relevance_target:str, top_k=20)` для извлечения значений из памяти. 
 
 Пример использования
 -------------------------

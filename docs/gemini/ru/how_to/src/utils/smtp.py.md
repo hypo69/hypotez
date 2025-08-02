@@ -128,16 +128,16 @@ def receive(imap_server: str, user: str, password: str, folder: str = 'inbox') -
         - `user`: имя пользователя SMTP-аккаунта
         - `password`: пароль SMTP-аккаунта
         - `receiver`:  (опционально) адрес получателя по умолчанию
-    - Не храните учетные данные непосредственно в коде! Используйте переменные окружения (например, `os.environ`) для безопасного хранения конфиденциальной информации.
+    - Не храните учетные данные непосредственно в коде! Используй переменные окружения (например, `os.environ`) для безопасного хранения конфиденциальной информации.
 2. Отправка почты: 
-    - Используйте функцию `send(subject: str = '', body: str = '', to: str = 'one.last.bit@gmail.com') -> bool`:
+    - Используй функцию `send(subject: str = '', body: str = '', to: str = 'one.last.bit@gmail.com') -> bool`:
         - `subject`: тема письма 
         - `body`: текст письма
         - `to`: адрес получателя (по умолчанию `'one.last.bit@gmail.com'`)
     - Функция возвращает `True`, если письмо успешно отправлено, `False` в случае ошибки.
     - В случае ошибки, функция записывает подробную информацию об ошибке в журнал с помощью `logger.error()`.
 3. Получение почты: 
-    - Используйте функцию `receive(imap_server: str, user: str, password: str, folder: str = 'inbox') -> Optional[List[Dict[str, str]]]`:
+    - Используй функцию `receive(imap_server: str, user: str, password: str, folder: str = 'inbox') -> Optional[List[Dict[str, str]]]`:
         - `imap_server`: адрес IMAP-сервера
         - `user`: имя пользователя IMAP-аккаунта
         - `password`: пароль IMAP-аккаунта

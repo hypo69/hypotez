@@ -20,11 +20,11 @@
     - Метод `clear()` очищает таблицу от всех листов, кроме "categories" и "product_template". 
     - Использует метод `delete_products_worksheets()` для удаления ненужных листов. 
 3. **Запись данных**:
-    - Используйте `set_campaign_worksheet()` для записи данных кампании в лист "campaign". 
+    - Используй `set_campaign_worksheet()` для записи данных кампании в лист "campaign". 
     - Метод `set_products_worksheet()` записывает данные о товарах в новый лист, соответствующий категории.
     - `set_categories_worksheet()` записывает данные о категориях в лист "categories".
 4. **Форматирование**:
-    - Используйте методы `_format_categories_worksheet()` и `_format_category_products_worksheet()` для форматирования листов "categories" и с товарами категорий. 
+    - Используй методы `_format_categories_worksheet()` и `_format_category_products_worksheet()` для форматирования листов "categories" и с товарами категорий. 
 
 Пример использования
 -------------------------

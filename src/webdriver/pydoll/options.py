@@ -1,573 +1,122 @@
-## \file src/webdriver/pydoll/options.py
+# src/webdriver/pydoll/options.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 
 """
-Класс ChromiumOptions для настройки браузера Pydoll Chrome.
-===============================================================
-Модуль предоставляет класс ChromiumOptions для конфигурации параметров запуска
-браузера Chrome в проекте Pydoll. Позволяет настраивать различные опции
-браузера, управлять аргументами командной строки и экспериментальными возможностями.
-
-```rst
-.. module:: src.webdriver.pydoll.options
-```
+Класс Options для расширенной настройки браузера Pydoll Chrome.
+==================================================================
+Этот класс является полностью автономным. При создании экземпляра он
+автоматически читает файл `browser.json`, применяет настройки и
+позволяет гибко переопределять любые параметры через аргументы
+в конструкторе.
 """
 
-import header
-from header import __root__
 from pathlib import Path
-from typing import List, Dict, Any, Optional, Union
+from typing import Dict, Any, Union, List, Tuple
+
+from header import __root__
+from pydoll.browser.options import ChromiumOptions
 from src.logger.logger import logger
-from src.utils.jjson import j_loads_ns
-
-
-class ChromiumOptions:
-    """
-    Класс для управления опциями запуска браузера Pydoll Chrome.
-    
-    Предоставляет методы для добавления аргументов командной строки,
-    настройки экспериментальных опций, управления расширениями
-    и другими параметрами браузера.
-    """
-    
-    def __init__(self):
-        """
-        Инициализация объекта Options.
-        
-        Создает пустые списки и словари для хранения различных опций браузера.
-        """
-        self._arguments: List[str] = []
-        self._binary_location: Optional[str] = None
-        self._extensions: List[str] = []
-        self._experimental_options: Dict[str, Any] = {}
-        self._prefs: Dict[str, Any] = {}
-        self._debugger_address: Optional[str] = None
-        self._page_load_strategy: str = 'normal'
-        self._unhandled_prompt_behavior: str = 'dismiss_and_notify'
-        self._timeouts: Dict[str, int] = {
-            'implicit': 0,
-            'page_load': 300000,
-            'script': 30000
-        }
-    
-    @property
-    def binary_location(self) -> Optional[str]:
-        """
-        Путь к исполняемому файлу браузера.
-        
-        Returns:
-            Optional[str]: Путь к браузеру или None, если не установлен.
-        """
-        return self._binary_location
-    
-    @binary_location.setter
-    def binary_location(self, path: str) -> None:
-        """
-        Устанавливает путь к исполняемому файлу браузера.
-        
-        Args:
-            path (str): Путь к исполняемому файлу браузера.
-        """
-        if not isinstance(path, str):
-            logger.error(f'Binary location must be a string, got: {type(path)}')
-            return
-        
-        path_obj = Path(path)
-        if not path_obj.exists():
-            logger.warning(f'Binary location does not exist: {path}')
-        
-        self._binary_location = str(path_obj)
-    
-    @property
-    def arguments(self) -> List[str]:
-        """
-        Список аргументов командной строки для браузера.
-        
-        Returns:
-            List[str]: Список аргументов.
-        """
-        return self._arguments.copy()
-    
-    def add_argument(self, argument: str) -> None:
-        """
-        Добавляет аргумент командной строки для браузера.
-        
-        Args:
-            argument (str): Аргумент командной строки (например, '--headless').
-            
-        Example:
-            >>> options = ChromiumOptions()
-            >>> options.add_argument('--headless')
-            >>> options.add_argument('--window-size=1920,1080')
-        """
-        if not isinstance(argument, str):
-            logger.error(f'Argument must be a string, got: {type(argument)}')
-            return
-        
-        if argument.strip() and argument not in self._arguments:
-            self._arguments.append(argument.strip())
-        else:
-            logger.debug(f'Argument already exists or is empty: {argument}')
-    
-    def remove_argument(self, argument: str) -> bool:
-        """
-        Удаляет аргумент командной строки.
-        
-        Args:
-            argument (str): Аргумент для удаления.
-            
-        Returns:
-            bool: True, если аргумент был удален, False, если не найден.
-        """
-        if argument in self._arguments:
-            self._arguments.remove(argument)
-            return True
-        return False
-    
-    def add_extension(self, extension_path: str) -> None:
-        """
-        Добавляет расширение для загрузки в браузер.
-        
-        Args:
-            extension_path (str): Путь к файлу расширения (.crx) или папке с расширением.
-        """
-        if not isinstance(extension_path, str):
-            logger.error(f'Extension path must be a string, got: {type(extension_path)}')
-            return
-        
-        path_obj = Path(extension_path)
-        if not path_obj.exists():
-            logger.warning(f'Extension path does not exist: {extension_path}')
-        
-        if extension_path not in self._extensions:
-            self._extensions.append(str(path_obj))
-    
-    @property
-    def extensions(self) -> List[str]:
-        """
-        Список путей к расширениям.
-        
-        Returns:
-            List[str]: Список путей к расширениям.
-        """
-        return self._extensions.copy()
-    
-    def add_experimental_option(self, name: str, value: Any) -> None:
-        """
-        Добавляет экспериментальную опцию Chrome.
-        
-        Args:
-            name (str): Название опции.
-            value (Any): Значение опции.
-            
-        Example:
-            >>> options = ChromiumOptions()
-            >>> options.add_experimental_option('useAutomationExtension', False)
-            >>> options.add_experimental_option('excludeSwitches', ['enable-automation'])
-        """
-        if not isinstance(name, str):
-            logger.error(f'Option name must be a string, got: {type(name)}')
-            return
-        
-        self._experimental_options[name] = value
-    
-    @property
-    def experimental_options(self) -> Dict[str, Any]:
-        """
-        Словарь экспериментальных опций.
-        
-        Returns:
-            Dict[str, Any]: Словарь экспериментальных опций.
-        """
-        return self._experimental_options.copy()
-    
-    def set_preference(self, name: str, value: Any) -> None:
-        """
-        Устанавливает пользовательскую настройку браузера.
-        
-        Args:
-            name (str): Название настройки.
-            value (Any): Значение настройки.
-            
-        Example:
-            >>> options = ChromiumOptions()
-            >>> options.set_preference('profile.default_content_setting_values.notifications', 2)
-            >>> options.set_preference('profile.managed_default_content_settings.images', 2)
-        """
-        if not isinstance(name, str):
-            logger.error(f'Preference name must be a string, got: {type(name)}')
-            return
-        
-        self._prefs[name] = value
-    
-    @property
-    def preferences(self) -> Dict[str, Any]:
-        """
-        Словарь пользовательских настроек браузера.
-        
-        Returns:
-            Dict[str, Any]: Словарь настроек.
-        """
-        return self._prefs.copy()
-    
-    @property
-    def debugger_address(self) -> Optional[str]:
-        """
-        Адрес отладчика Chrome DevTools.
-        
-        Returns:
-            Optional[str]: Адрес отладчика или None.
-        """
-        return self._debugger_address
-    
-    @debugger_address.setter
-    def debugger_address(self, address: str) -> None:
-        """
-        Устанавливает адрес отладчика Chrome DevTools.
-        
-        Args:
-            address (str): Адрес в формате 'host:port' (например, '127.0.0.1:9222').
-        """
-        if not isinstance(address, str):
-            logger.error(f'Debugger address must be a string, got: {type(address)}')
-            return
-        
-        self._debugger_address = address
-    
-    @property
-    def page_load_strategy(self) -> str:
-        """
-        Стратегия загрузки страниц.
-        
-        Returns:
-            str: Стратегия загрузки ('normal', 'eager', 'none').
-        """
-        return self._page_load_strategy
-    
-    @page_load_strategy.setter
-    def page_load_strategy(self, strategy: str) -> None:
-        """
-        Устанавливает стратегию загрузки страниц.
-        
-        Args:
-            strategy (str): Стратегия ('normal', 'eager', 'none').
-        """
-        valid_strategies = ['normal', 'eager', 'none']
-        if strategy not in valid_strategies:
-            logger.error(f'Invalid page load strategy: {strategy}. Valid options: {valid_strategies}')
-            return
-        
-        self._page_load_strategy = strategy
-    
-    def set_timeout(self, timeout_type: str, seconds: int) -> None:
-        """
-        Устанавливает таймаут для различных операций.
-        
-        Args:
-            timeout_type (str): Тип таймаута ('implicit', 'page_load', 'script').
-            seconds (int): Время ожидания в секундах.
-        """
-        valid_types = ['implicit', 'page_load', 'script']
-        if timeout_type not in valid_types:
-            logger.error(f'Invalid timeout type: {timeout_type}. Valid options: {valid_types}')
-            return
-        
-        if not isinstance(seconds, int) or seconds < 0:
-            logger.error(f'Timeout must be a non-negative integer, got: {seconds}')
-            return
-        
-        self._timeouts[timeout_type] = seconds
-    
-    @property
-    def timeouts(self) -> Dict[str, int]:
-        """
-        Словарь таймаутов.
-        
-        Returns:
-            Dict[str, int]: Словарь таймаутов.
-        """
-        return self._timeouts.copy()
-    
-    def add_mobile_emulation(self, device_metrics: Dict[str, Any]) -> None:
-        """
-        Добавляет эмуляцию мобильного устройства.
-        
-        Args:
-            device_metrics (Dict[str, Any]): Параметры устройства для эмуляции.
-            
-        Example:
-            >>> options = ChromiumOptions()
-            >>> mobile_emulation = {
-            ...     'deviceMetrics': {
-            ...         'width': 375,
-            ...         'height': 667,
-            ...         'pixelRatio': 2.0
-            ...     },
-            ...     'userAgent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X)...'
-            ... }
-            >>> options.add_mobile_emulation(mobile_emulation)
-        """
-        if not isinstance(device_metrics, dict):
-            logger.error(f'Device metrics must be a dictionary, got: {type(device_metrics)}')
-            return
-        
-        self.add_experimental_option('mobileEmulation', device_metrics)
-    
-    def add_encoded_extension(self, extension: str) -> None:
-        """
-        Добавляет закодированное расширение.
-        
-        Args:
-            extension (str): Base64-закодированное расширение.
-        """
-        if not isinstance(extension, str):
-            logger.error(f'Extension must be a string, got: {type(extension)}')
-            return
-        
-        if 'extensions' not in self._experimental_options:
-            self._experimental_options['extensions'] = []
-        
-        self._experimental_options['extensions'].append(extension)
-    
-    def to_capabilities(self) -> Dict[str, Any]:
-        """
-        Преобразует опции в формат capabilities для WebDriver.
-        
-        Returns:
-            Dict[str, Any]: Словарь capabilities.
-        """
-        capabilities = {
-            'browserName': 'chrome',
-            'version': '',
-            'platform': 'ANY',
-            'goog:chromeOptions': {}
-        }
-        
-        chrome_options = capabilities['goog:chromeOptions']
-        
-        if self._arguments:
-            chrome_options['args'] = self._arguments
-        
-        if self._binary_location:
-            chrome_options['binary'] = self._binary_location
-        
-        if self._extensions:
-            chrome_options['extensions'] = self._extensions
-        
-        if self._experimental_options:
-            chrome_options.update(self._experimental_options)
-        
-        if self._prefs:
-            chrome_options['prefs'] = self._prefs
-        
-        if self._debugger_address:
-            chrome_options['debuggerAddress'] = self._debugger_address
-        
-        # Добавляем таймауты на уровне capabilities
-        if self._timeouts:
-            capabilities['timeouts'] = self._timeouts
-        
-        if self._page_load_strategy != 'normal':
-            capabilities['pageLoadStrategy'] = self._page_load_strategy
-        
-        if self._unhandled_prompt_behavior != 'dismiss_and_notify':
-            capabilities['unhandledPromptBehavior'] = self._unhandled_prompt_behavior
-        
-        return capabilities
-    
-    def __str__(self) -> str:
-        """
-        Строковое представление объекта ChromiumOptions.
-        
-        Returns:
-            str: Строковое представление.
-        """
-        return (
-            f"ChromiumOptions(arguments={len(self._arguments)}, "
-            f"extensions={len(self._extensions)}, "
-            f"experimental_options={len(self._experimental_options)}, "
-            f"binary_location='{self._binary_location}', "
-            f"preferences={len(self._prefs)})"
-        )
-    
-    def __repr__(self) -> str:
-        """
-        Представление объекта для отладки.
-        
-        Returns:
-            str: Детальное представление объекта.
-        """
-        return self.__str__()
-    
-    @classmethod
-    def from_config(cls, config_data: Union[Dict[str, Any], Path, str]) -> 'ChromiumOptions':
-        """
-        Создает объект ChromiumOptions из конфигурационных данных.
-        
-        Args:
-            config_data (Union[Dict[str, Any], Path, str]): Конфигурационные данные,
-                путь к файлу конфигурации или JSON строка.
-                
-        Returns:
-            ChromiumOptions: Объект ChromiumOptions с настройками из конфигурации.
-            
-        Example:
-            >>> config = {'arguments': ['--headless', '--no-sandbox']}
-            >>> options = ChromiumOptions.from_config(config)
-        """
-        options = cls()
-        
-        try:
-            if isinstance(config_data, (str, Path)):
-                config = j_loads_ns(config_data)
-                if hasattr(config, '__dict__'):
-                    config = vars(config)
-                else:
-                    config = config_data if isinstance(config_data, dict) else {}
-            else:
-                config = config_data or {}
-            
-            # Добавляем аргументы
-            if 'arguments' in config:
-                for arg in config['arguments']:
-                    options.add_argument(arg)
-            
-            # Устанавливаем binary_location
-            if 'binary_location' in config and config['binary_location']:
-                options.binary_location = config['binary_location']
-            
-            # Добавляем расширения
-            if 'extensions' in config:
-                for ext in config['extensions']:
-                    options.add_extension(ext)
-            
-            # Добавляем экспериментальные опции
-            if 'experimental_options' in config:
-                for name, value in config['experimental_options'].items():
-                    options.add_experimental_option(name, value)
-            
-            # Устанавливаем preferences
-            if 'preferences' in config:
-                for name, value in config['preferences'].items():
-                    options.set_preference(name, value)
-            
-            # Устанавливаем debugger_address
-            if 'debugger_address' in config and config['debugger_address']:
-                options.debugger_address = config['debugger_address']
-            
-            # Устанавливаем page_load_strategy
-            if 'page_load_strategy' in config:
-                options.page_load_strategy = config['page_load_strategy']
-            
-            # Устанавливаем таймауты
-            if 'timeouts' in config:
-                for timeout_type, seconds in config['timeouts'].items():
-                    options.set_timeout(timeout_type, seconds)
-                    
-        except Exception as ex:
-            logger.error(f'Error loading options from config: {ex}', ex, exc_info=True)
-        
-        return options
-
+from src.utils.jjson import j_loads
 
 class Options(ChromiumOptions):
     """
-    Класс Options для совместимости с существующим кодом.
-    
-    Наследуется от ChromiumOptions и предоставляет тот же функционал
-    под привычным именем Options.
+    Автономный класс для управления опциями Pydoll Chrome, который
+    сам читает файл конфигурации и хранит все настройки как атрибуты.
     """
-    
-    def __init__(self):
+    _CONFIG_FILE_PATH = __root__ / 'src' / 'webdriver' / 'pydoll' / 'browser.json'
+
+    def __init__(self, **overrides: Any):
         """
-        Инициализация объекта Options.
-        
-        Вызывает конструктор родительского класса ChromiumOptions.
+        Инициализирует и настраивает объект Options.
         """
         super().__init__()
-    
-    def __str__(self) -> str:
-        """
-        Строковое представление объекта Options.
-        
-        Returns:
-            str: Строковое представление.
-        """
-        return (
-            f"Options(arguments={len(self._arguments)}, "
-            f"extensions={len(self._extensions)}, "
-            f"experimental_options={len(self._experimental_options)}, "
-            f"binary_location='{self._binary_location}', "
-            f"preferences={len(self._prefs)})"
-        )
-    
-    @classmethod
-    def from_config(cls, config_data: Union[Dict[str, Any], Path, str]) -> 'Options':
-        """
-        Создает объект Options из конфигурационных данных.
-        
-        Args:
-            config_data (Union[Dict[str, Any], Path, str]): Конфигурационные данные,
-                путь к файлу конфигурации или JSON строка.
-                
-        Returns:
-            Options: Объект Options с настройками из конфигурации.
-            
-        Example:
-            >>> config = {'arguments': ['--headless', '--no-sandbox']}
-            >>> options = Options.from_config(config)
-        """
-        options = cls()
-        
+
+        # Атрибуты для хранения всех типов настроек
+        self._arguments_map: Dict[str, Union[str, bool]] = {}
+        self.experimental_options: Dict[str, Any] = {}
+        self.extensions: List[str] = []
+        self.timeouts: Dict[str, int] = {}
+        self.page_load_strategy: str = 'normal'
+        self.debugger_address: str = ''
+        self.mobile_emulation: Dict[str, Any] = {}
+
+        logger.debug("Initializing Options...")
+
+        if not self._CONFIG_FILE_PATH.exists():
+            raise FileNotFoundError(f"Critical error: Configuration file '{self._CONFIG_FILE_PATH}' not found.")
+
         try:
-            if isinstance(config_data, (str, Path)):
-                config = j_loads_ns(config_data)
-                if hasattr(config, '__dict__'):
-                    config = vars(config)
-                else:
-                    config = config_data if isinstance(config_data, dict) else {}
-            else:
-                config = config_data or {}
-            
-            # Добавляем аргументы
-            if 'arguments' in config:
-                for arg in config['arguments']:
-                    options.add_argument(arg)
-            
-            # Устанавливаем binary_location
-            if 'binary_location' in config and config['binary_location']:
-                options.binary_location = config['binary_location']
-            
-            # Добавляем расширения
-            if 'extensions' in config:
-                for ext in config['extensions']:
-                    options.add_extension(ext)
-            
-            # Добавляем экспериментальные опции
-            if 'experimental_options' in config:
-                for name, value in config['experimental_options'].items():
-                    options.add_experimental_option(name, value)
-            
-            # Устанавливаем preferences
-            if 'preferences' in config:
-                for name, value in config['preferences'].items():
-                    options.set_preference(name, value)
-            
-            # Устанавливаем debugger_address
-            if 'debugger_address' in config and config['debugger_address']:
-                options.debugger_address = config['debugger_address']
-            
-            # Устанавливаем page_load_strategy
-            if 'page_load_strategy' in config:
-                options.page_load_strategy = config['page_load_strategy']
-            
-            # Устанавливаем таймауты
-            if 'timeouts' in config:
-                for timeout_type, seconds in config['timeouts'].items():
-                    options.set_timeout(timeout_type, seconds)
-                    
+            default_options: dict = j_loads(self._CONFIG_FILE_PATH)
+            if not default_options:
+                raise ValueError(f"Configuration file '{self._CONFIG_FILE_PATH}' is empty or invalid.")
+            logger.debug(f"Successfully loaded config from {self._CONFIG_FILE_PATH}")
         except Exception as ex:
-            logger.error(f'Error loading options from config: {ex}', ex, exc_info=True)
+            logger.error(f"Failed to load or parse '{self._CONFIG_FILE_PATH}': ", ex, exc_info=True)
+            raise
+
+        final_config = {**default_options, **overrides}
+        self._apply_unified_config(final_config)
         
-        return options
+        logger.info("Options configured successfully.")
+
+    # --- Переопределенные методы родителя ---
+    
+    @staticmethod
+    def _parse_argument(argument: str) -> Tuple[str, Union[str, bool]]:
+        parts = argument.split('=', 1)
+        return parts[0], parts[1] if len(parts) > 1 else True
+
+    def add_argument(self, argument: str):
+        key, value = self._parse_argument(argument)
+        self._arguments_map[key] = value
+
+    @property
+    def arguments(self) -> List[str]:
+        final_list = []
+        for key, value in self._arguments_map.items():
+            final_list.append(key if value is True else f"{key}={value}")
+        return final_list
+
+    @arguments.setter
+    def arguments(self, args_list: List[str]):
+        self._arguments_map = {}
+        for arg in args_list:
+            self.add_argument(arg)
+
+    # --- Основная логика конфигурации ---
+
+    def _apply_unified_config(self, config: Dict[str, Any]):
+        """Применяет все настройки, сохраняя их в атрибутах класса."""
+        # 1. Аргументы командной строки
+        self.arguments = config.get('arguments', [])
+        if config.get('headless'): self.add_argument('--headless=new')
+        if config.get('incognito'): self.add_argument('--incognito')
+        if user_agent := config.get('user_agent'): self.add_argument(f'user-agent={user_agent}')
+        if user_data_dir := config.get('user_data_dir'): self.add_argument(f'--user-data-dir={user_data_dir}')
+        if profile_directory := config.get('profile_directory'): self.add_argument(f'--profile-directory={profile_directory}')
+        
+        # 2. Experimental Options и Preferences
+        final_experimental_options = config.get('experimental_options', {}).copy()
+        final_preferences = final_experimental_options.get('prefs', {}).copy()
+        
+        if base_preferences := config.get('preferences', {}):
+            final_preferences.update(base_preferences)
+            
+        if config.get('disable_images'):
+            final_preferences["profile.managed_default_content_settings.images"] = 2
+        
+        final_experimental_options['prefs'] = final_preferences
+        self.experimental_options = final_experimental_options
+
+        # 3. Остальные настройки
+        self.binary_location = config.get('binary_location', '')
+        self.page_load_strategy = config.get('page_load_strategy', 'normal')
+        self.debugger_address = config.get('debugger_address', '')
+        self.extensions = config.get('extensions', [])
+        self.timeouts = config.get('timeouts', {})
+        
+        # 4. Мобильная эмуляция
+        if mobile_emulation_config := config.get('mobile_emulation', {}):
+            if mobile_emulation_config.get('enabled'):
+                self.mobile_emulation = mobile_emulation_config

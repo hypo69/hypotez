@@ -11,19 +11,19 @@
    - Инициализируйте объект `ReachSpreadsheet` с необязательным параметром `debugMode`.
    - Параметр `debugMode`  включает режим отладки, который печатает дополнительные данные о запросах и ответах API в консоль.
 2. **Создание новой таблицы.**
-   - Используйте метод `create()` для создания новой таблицы.
+   - Используй метод `create()` для создания новой таблицы.
    - Укажите название таблицы (`title`), название листа (`sheetTitle`), количество строк (`rows`), количество столбцов (`cols`), региональные настройки (`locale`) и часовой пояс (`timeZone`).
 3. **Делитесь таблицей.**
-   - Используйте методы `shareWithEmailForReading()`, `shareWithEmailForWriting()`, `shareWithAnybodyForReading()` или `shareWithAnybodyForWriting()` для предоставления доступа к таблице другим пользователям.
+   - Используй методы `shareWithEmailForReading()`, `shareWithEmailForWriting()`, `shareWithAnybodyForReading()` или `shareWithAnybodyForWriting()` для предоставления доступа к таблице другим пользователям.
    - Для методов `shareWithEmailForReading()` и `shareWithEmailForWriting()` укажите адрес электронной почты пользователя.
 4. **Добавляйте новые листы.**
-   - Используйте метод `addSheet()` для добавления нового листа к существующей таблице.
+   - Используй метод `addSheet()` для добавления нового листа к существующей таблице.
    - Укажите название листа (`sheetTitle`), количество строк (`rows`) и количество столбцов (`cols`).
 5. **Устанавливайте размеры столбцов и строк.**
-   - Используйте методы `prepare_setColumnWidth()`, `prepare_setColumnsWidth()`, `prepare_setRowHeight()` и `prepare_setRowsHeight()` для настройки ширины столбцов и высоты строк.
+   - Используй методы `prepare_setColumnWidth()`, `prepare_setColumnsWidth()`, `prepare_setRowHeight()` и `prepare_setRowsHeight()` для настройки ширины столбцов и высоты строк.
 6. **Добавляйте данные и форматируйте ячейки.**
-   - Используйте метод `prepare_setValues()` для добавления данных в таблицу.
-   - Используйте методы `prepare_mergeCells()`, `prepare_setCellStringFormatterormat()` и `prepare_setCellStringFormatterormats()` для форматирования ячеек.
+   - Используй метод `prepare_setValues()` для добавления данных в таблицу.
+   - Используй методы `prepare_mergeCells()`, `prepare_setCellStringFormatterormat()` и `prepare_setCellStringFormatterormats()` для форматирования ячеек.
 7. **Выполнение запросов к API.**
    - После выполнения всех необходимых операций вызовите метод `runPrepared()` для отправки запросов к API и получения результатов.
 

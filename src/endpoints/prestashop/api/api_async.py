@@ -345,7 +345,7 @@ class PrestaShopAsync:
         """
         # Функция выполняет проверку доступности сервиса
         if not self.client:
-            raise PrestaShopException('Клиент не инициализирован. Используйте \'async with PrestaShopAsync(...)\'.')
+            raise PrestaShopException('Клиент не инициализирован. Используй \'async with PrestaShopAsync(...)\'.')
         if not self._initialized: 
             try:
                 await self._initialize_connection()
@@ -527,7 +527,7 @@ class PrestaShopAsync:
         response: httpx.Response
 
         if not self.client:
-            raise PrestaShopException('Клиент не инициализирован. Используйте \'async with PrestaShopAsync(...)\'.')
+            raise PrestaShopException('Клиент не инициализирован. Используй \'async with PrestaShopAsync(...)\'.')
         if not self._initialized:
              await self._initialize_connection() 
 

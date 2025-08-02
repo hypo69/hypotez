@@ -12,13 +12,13 @@
 1. **Инициализация**:
    - Создайте объект класса `PrestaLanguageAync`, передав необходимые параметры, такие как `API_DOMAIN` и `API_KEY`.
 2. **Получение информации о языках**:
-   - Используйте метод `get_languages_schema()` для получения схемы языков, которая содержит список языков с их индексами и названиями ISO.
-   - Используйте метод `get_lang_name_by_index(lang_index:int|str )` для получения имени языка ISO по его индексу в таблице Prestashop.
-   - Используйте метод `get_language_id_by_name(lang_name: str)` для получения индекса языка из таблицы Prestashop по его имени ISO.
+   - Используй метод `get_languages_schema()` для получения схемы языков, которая содержит список языков с их индексами и названиями ISO.
+   - Используй метод `get_lang_name_by_index(lang_index:int|str )` для получения имени языка ISO по его индексу в таблице Prestashop.
+   - Используй метод `get_language_id_by_name(lang_name: str)` для получения индекса языка из таблицы Prestashop по его имени ISO.
 3. **Добавление, удаление или обновление языков**:
-   - Используйте метод `add_language_PrestaShop(lang_name:str, lang_string:str)` для добавления нового языка в магазин Prestashop.
-   - Используйте метод `delete_language_PrestaShop(lang_id:int)` для удаления языка из магазина Prestashop.
-   - Используйте метод `update_language_PrestaShop(lang_id:int, lang_name:str)` для обновления имени языка в магазине Prestashop.
+   - Используй метод `add_language_PrestaShop(lang_name:str, lang_string:str)` для добавления нового языка в магазин Prestashop.
+   - Используй метод `delete_language_PrestaShop(lang_id:int)` для удаления языка из магазина Prestashop.
+   - Используй метод `update_language_PrestaShop(lang_id:int, lang_name:str)` для обновления имени языка в магазине Prestashop.
 
 Пример использования
 -------------------------

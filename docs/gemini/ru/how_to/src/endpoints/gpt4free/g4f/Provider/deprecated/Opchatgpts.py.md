@@ -37,4 +37,4 @@ async for response in async_generator:
 
 ```
 
-**Важно:** Класс `Opchatgpts` помечен как **устаревший** и **не рекомендуется к использованию**. Используйте другие провайдеры из `hypotez.src.endpoints.gpt4free.g4f.Provider` для работы с API GPT-4Free.
+**Важно:** Класс `Opchatgpts` помечен как **устаревший** и **не рекомендуется к использованию**. Используй другие провайдеры из `hypotez.src.endpoints.gpt4free.g4f.Provider` для работы с API GPT-4Free.

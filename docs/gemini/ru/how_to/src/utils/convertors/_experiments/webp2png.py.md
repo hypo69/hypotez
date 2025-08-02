@@ -42,7 +42,7 @@ def convert_images(webp_dir: Path, png_dir: Path) -> None:
     webp_files: list = get_filenames(webp_dir)
 
     for webp in webp_files:
-        png = png_dir / f"{Path(webp).stem}.png"  # Используйте `stem` для получения имени файла без расширения
+        png = png_dir / f"{Path(webp).stem}.png"  # Используй `stem` для получения имени файла без расширения
         webp_path = webp_dir / webp
         result = webp2png(webp_path, png)
         print(result)

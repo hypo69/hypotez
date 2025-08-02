@@ -35,7 +35,7 @@ async for result in account.on_auth_async():
         access_token = result.api_key
         cookies = result.cookies
 
-# Используйте полученные токены для работы с моделью Copilot
+# Используй полученные токены для работы с моделью Copilot
 async for chunk in account.create_authed(model="Copilot", messages=["Привет!"]):
     print(chunk)
 

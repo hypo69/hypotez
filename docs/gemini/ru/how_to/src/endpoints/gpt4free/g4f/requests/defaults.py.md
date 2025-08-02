@@ -37,6 +37,6 @@
 ```python
 from hypotez.src.endpoints.gpt4free.g4f.requests.defaults import DEFAULT_HEADERS
 
-# Используйте DEFAULT_HEADERS в качестве заголовков для запросов к API GPT4Free
+# Используй DEFAULT_HEADERS в качестве заголовков для запросов к API GPT4Free
 response = requests.post(url, headers=DEFAULT_HEADERS, data=payload) 
 ```

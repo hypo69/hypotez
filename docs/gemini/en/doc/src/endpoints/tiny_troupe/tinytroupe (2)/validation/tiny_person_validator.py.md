@@ -139,7 +139,7 @@ class TinyPersonValidator:
 
         system_prompt = chevron.render(check_agent_prompt_template, {"expectations": expectations})
 
-        # Используйте dedent
+        # Используй dedent
         import textwrap
         user_prompt = textwrap.dedent(
         """

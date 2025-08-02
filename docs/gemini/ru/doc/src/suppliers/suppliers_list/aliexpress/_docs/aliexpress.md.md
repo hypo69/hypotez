@@ -74,7 +74,7 @@ a = Aliexpress('chrome')
 **Шаг 2: Определение типа WebDriver**
 
 ```
-Если webdriver - 'chrome', 'mozilla', 'edge' или 'default' -> Используйте указанный/системный WebDriver.
+Если webdriver - 'chrome', 'mozilla', 'edge' или 'default' -> Используй указанный/системный WebDriver.
 Если webdriver - False -> Не используйте WebDriver.
 ```
 
@@ -82,7 +82,7 @@ a = Aliexpress('chrome')
 
 ```
 Если параметр locale предоставлен (str или dict) -> Установите локаль.
-В противном случае -> Используйте локаль по умолчанию {'EN': 'USD'}.
+В противном случае -> Используй локаль по умолчанию {'EN': 'USD'}.
 ```
 
 **Шаг 4: Инициализация внутренних компонентов**

@@ -295,7 +295,7 @@
               return " - MOCK_ACTION: Это действие выполняет MockTool.\n"
 
           def actions_constraints_prompt(self) -> str:
-              return " - Используйте MOCK_ACTION, когда требуется помощь MockTool.\n"
+              return " - Используй MOCK_ACTION, когда требуется помощь MockTool.\n"
 
       tool1 = MockTool()
       tool2 = MockTool()

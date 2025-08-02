@@ -138,10 +138,10 @@ python hypotez/src/bots/discord/discord_bot_trainger.py
 1. **Установка зависимостей**: Необходимо установить Python 3.12 и библиотеки, указанные в `requirements.txt`.
 2. **Настройка Telegram Bot**: Получите токен для Telegram бота через BotFather и установите его в базу данных паролей.
 3. **Настройка Discord Bot**: Создайте бота на платформе Discord и получите токен, затем установите его в базу данных паролей.
-4. **Запуск Telegram Bot**: Используйте команду `python hypotez/src/endpoints/bots/telegram/bot.py` для запуска.
-5. **Запуск Discord Bot**: Используйте команду `python hypotez/src/bots/discord/discord_bot_trainger.py` для запуска.
-6. **Использование команд Telegram Bot**: Используйте команды `/start`, `/help`, `/sendpdf` для взаимодействия с ботом.
-7. **Использование команд Discord Bot**: Используйте команды `!hi`, `!join`, `!leave`, `!train`, `!test`, `!archive`, `!select_dataset`, `!instruction`, `!correct`, `!feedback`, `!getfile` для взаимодействия с ботом.
+4. **Запуск Telegram Bot**: Используй команду `python hypotez/src/endpoints/bots/telegram/bot.py` для запуска.
+5. **Запуск Discord Bot**: Используй команду `python hypotez/src/bots/discord/discord_bot_trainger.py` для запуска.
+6. **Использование команд Telegram Bot**: Используй команды `/start`, `/help`, `/sendpdf` для взаимодействия с ботом.
+7. **Использование команд Discord Bot**: Используй команды `!hi`, `!join`, `!leave`, `!train`, `!test`, `!archive`, `!select_dataset`, `!instruction`, `!correct`, `!feedback`, `!getfile` для взаимодействия с ботом.
 
 Пример использования
 -------------------------

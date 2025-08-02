@@ -18,7 +18,7 @@
        {'role': 'assistant', 'content': 'Привет! У меня все отлично!'}
    ]
    ```
-3. **Запуск генератора**: Используйте метод `create_async_generator` для получения асинхронного генератора. 
+3. **Запуск генератора**: Используй метод `create_async_generator` для получения асинхронного генератора. 
    ```python
    async def get_response():
        async for chunk in koala_provider.create_async_generator(model='gpt-4o-mini', messages=messages):

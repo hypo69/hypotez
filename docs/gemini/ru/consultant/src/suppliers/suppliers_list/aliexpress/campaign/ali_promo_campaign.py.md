@@ -378,7 +378,7 @@ class AliPromoCampaign:
             >>> print(len(products))
             20
             >>> for product in products:
-            >>>     pprint(product)  # Используйте pprint из `src.utils.pprint`
+            >>>     pprint(product)  # Используй pprint из `src.utils.pprint`
         """
 
         def read_sources(category_name: str) -> Optional[List[str]]:

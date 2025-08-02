@@ -7,10 +7,10 @@
     "if_list": "first",
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": "input()",
+    "event": "send_keys()",
     "mandatory": true,
-    "text_to_be_present_in_element": ""
+    "text_to_be_present_in_element": "",
+    "locator.locator_description": "окно ввода"
 
-    
   }
 }

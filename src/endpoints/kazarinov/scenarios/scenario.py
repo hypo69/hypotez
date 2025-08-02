@@ -16,11 +16,11 @@ import asyncio
 from dataclasses import dataclass, field
 from pathlib import Path
 from types import SimpleNamespace
-from typing import List, Optional
+from typing import List, Optional, TYPE_CHECKING
 
-from SANDBOX.davidka import browser
 import telebot
-from pydoll.browser import Chrome
+#from pydoll.browser import Chrome
+src.webdriver.pydoll.browser import Chrome
 
 from header import __root__
 from src import gs, USE_ENV
@@ -33,7 +33,10 @@ from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_url
 from src.utils.jjson import j_dumps
 from src.webdriver.pydoll.tab import Tab
 from src.webdriver.pydoll.options import Options
-#from src.webdriver.pydoll.driver import Driver
+
+if TYPE_CHECKING:
+    from src.webdriver.pydoll.tab import BaseTab
+
 
 class Config:
     """Конфигурация сценария."""
@@ -114,6 +117,7 @@ class Scenario:
         price: str = "",
         bot: Optional[telebot.TeleBot] = None,
         chat_id: int = 0,
+        browser_options: Optional[Options] = None,
         attempts: int = 3,
     ) -> bool:
         """Запускает сценарий.
@@ -150,7 +154,8 @@ class Scenario:
 
         # Парсинг страниц товаров ------------------------------------------------
         async with Chrome() as browser:
-            tab: Tab = Tab( browser.start()  )
+            base_tab: BaseTab = await browser.start()
+            tab: Tab = Tab(base_tab)
             # Сбор товаров ---------------------------------------------------------
             for url in urls:
                 logger.debug(f"Обработка URL: {url}", None, False)

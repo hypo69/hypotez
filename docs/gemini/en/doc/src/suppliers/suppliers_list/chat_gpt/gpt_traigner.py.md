@@ -99,8 +99,8 @@ traigner.dump_downloaded_conversations()
 
 ## Примечания
 
-- Используйте `logger` из `src.logger` для вывода информации и ошибок.
-- Используйте `Driver` из `src.webdriver` для взаимодействия с веб-страницами.
+- Используй `logger` из `src.logger` для вывода информации и ошибок.
+- Используй `Driver` из `src.webdriver` для взаимодействия с веб-страницами.
 - Метод `determine_sentiment` в настоящее время возвращает только `positive` или `negative`.
 - Метод `dump_downloaded_conversations` использует `zip_longest` для объединения списков `user_content` и `assistant_content`, что позволяет обрабатывать случаи, когда в одном списке больше элементов, чем в другом.
 - Метод `dump_downloaded_conversations` использует `pd.concat` для объединения `DataFrame` в один, что повышает эффективность обработки данных.

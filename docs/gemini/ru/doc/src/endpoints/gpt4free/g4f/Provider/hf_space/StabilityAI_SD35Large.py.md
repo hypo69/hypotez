@@ -104,7 +104,7 @@ async def main():
 
 - Модуль `StabilityAI_SD35Large` предоставляет удобный способ использования модели Stable Diffusion 3.5 Large от StabilityAI через Hugging Face Spaces. 
 - Модуль обрабатывает передачу данных, аутентификацию, управление потоком событий и обработку результатов API.
-- Используйте `StabilityAI_SD35Large.create_async_generator()` для запуска генерации изображения с заданными параметрами.
+- Используй `StabilityAI_SD35Large.create_async_generator()` для запуска генерации изображения с заданными параметрами.
 - Модель `StabilityAI_SD35Large` доступна по адресу `https://stabilityai-stable-diffusion-3-5-large.hf.space`.
 
 ## Дополнительные сведения

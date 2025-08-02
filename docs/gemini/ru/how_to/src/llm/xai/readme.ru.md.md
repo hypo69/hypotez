@@ -15,7 +15,7 @@
    xai = XAI(api_key)
    ```
 
-2. **Завершение чата:** Используйте метод `chat_completion` для получения ответа от модели xAI:
+2. **Завершение чата:** Используй метод `chat_completion` для получения ответа от модели xAI:
    ```python
    messages = [
        {
@@ -32,7 +32,7 @@
    print("Non-streaming response:", completion_response)
    ```
 
-3. **Потоковая передача завершения чата:** Используйте метод `stream_chat_completion` для получения ответа от модели xAI в виде потока:
+3. **Потоковая передача завершения чата:** Используй метод `stream_chat_completion` для получения ответа от модели xAI в виде потока:
    ```python
    stream_response = xai.stream_chat_completion(messages)
    print("Streaming response:")

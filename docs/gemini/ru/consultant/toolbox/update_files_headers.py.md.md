@@ -100,7 +100,7 @@ graph TD
 ## Рекомендации по улучшению:
 
 1. **Обработка исключений**:
-   - В функциях `add_or_replace_file_header` и `clean` добавьте обработку исключений `FileNotFoundError`, `PermissionError` и других, которые могут возникнуть при работе с файлами. Используйте `try-except` блоки для обработки этих исключений и логируйте ошибки с помощью `logger.error`.
+   - В функциях `add_or_replace_file_header` и `clean` добавьте обработку исключений `FileNotFoundError`, `PermissionError` и других, которые могут возникнуть при работе с файлами. Используй `try-except` блоки для обработки этих исключений и логируйте ошибки с помощью `logger.error`.
 
 2. **Использование `logger`**:
    - Замените все `print` statements на использование `logger` из `src.logger.logger`. Например, вместо `print(f"Обновляю файл: {file_path}")` используйте `logger.info(f"Обновляю файл: {file_path}")`.

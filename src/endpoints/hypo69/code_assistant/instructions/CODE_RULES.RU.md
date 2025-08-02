@@ -178,11 +178,10 @@ def join_items(
 ```
 
 ### Советы по хорошим аннотациям:
-1. Используйте конкретные типы вместо `Any` где это возможно
+1. Используй конкретные типы вместо `Any` где это возможно
 2. Для опциональных параметров используйте `Optional[T]` или `T | None` (Python 3.10+)
 3. Для сложных возвращаемых типов создавайте `TypeAlias`
 4. Документируйте специальные случаи в docstring
-
 6.  Для Python 3.10+ можно использовать более короткий синтаксис (`list[T]` вместо `List[T]`)
 
 
@@ -344,6 +343,14 @@ except Exception as ex:
 ```
 параметы `logger(<сообщения>,<ошибка>,<exc_info>)`
 
+### **12. Загрузка словарей или объектъктов SimpleNamespace
+Обработка ошибок загузки json файлов происходит на уровне функции j_loads_ns / j_loads
+```python
+from src.utils.jjson import j_loads, j_loads_ns, j_dumps
+path_to_file = 'path/to/file'
+data_ns: SimpleNamespace = j_loads_ns(path_to_file)
+if not data_ns:
+    logger.error(f'Error reading data form {path_to_file}', ex)
 
 ### **Основные требования к ответу**:
 
@@ -492,34 +499,43 @@ def j_loads_ns(
 Для все параметров должны быть аннотации типа.
 
 
-### **8. webdriver**
-В коде используется webdriver. Он импртируется из модуля `webdriver` проекта `hypotez`
-```python
-from src.webdirver import Driver, Chrome, Firefox, Playwright, ...
-driver = Driver(Firefox)
+#### **8 Проверка истинности, наличия, ит.п. 
 
-Пoсле чего может использоваться как
+Все проверки истинности делай до выполнения кода, чтобы не было больших if ... else ...
 
-close_banner = {
-  "attribute": null,
-  "by": "XPATH",
-  "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@id = 'closeXButton']",
-  "if_list": "first",
-  "use_mouse": false,
-  "mandatory": false,
-  "timeout": 0,
-  "timeout_for_event": "presence_of_element_located",
-  "event": "click()",
-  "text_to_be_present_in_element":"","locator_description": "Закрываю pop-up окно, если оно не появилось - не страшно (`mandatory`:`false`)"
-}
-
-result = driver.execute_locator(close_banner)
-
-#### **9. Не используй `Union[]` в коде. Вместо него используй `|`
 Например:
+Неправильно:
 ```python
-x: str | int ...
+if self._CONFIG_FILE_PATH.exists():
+    try:
+        config_ns = j_loads_ns(self._CONFIG_FILE_PATH)
+        if config_ns:
+            base_config = vars(config_ns)
+            logger.debug(f"Successfully loaded config from {self._CONFIG_FILE_PATH}")
+        else:
+            logger.warning(f"Config file '{self._CONFIG_FILE_PATH}' is empty or invalid.")
+    except Exception as e:
+        logger.error(f"Failed to load or parse '{self._CONFIG_FILE_PATH}': {e}", exc_info=True)
+else:
+    logger.warning(f"Config file not found: '{self._CONFIG_FILE_PATH}'. Starting with empty config.")
 ```
+Правильно:
+```python
+if not  self._CONFIG_FILE_PATH.exists():
+        logger.error((f"Config file not found: '{self._CONFIG_FILE_PATH}'. Starting with empty config.")
+        return False
+
+try:
+    config_ns = j_loads_ns(self._CONFIG_FILE_PATH)
+    if config_ns:
+        base_config = vars(config_ns)
+        logger.debug(f"Successfully loaded config from {self._CONFIG_FILE_PATH}")
+    else:
+        logger.warning(f"Config file '{self._CONFIG_FILE_PATH}' is empty or invalid.")
+except Exception as e:
+    logger.error(f"Failed to load or parse '{self._CONFIG_FILE_PATH}': {e}", exc_info=True)
+```
+
 
 #### **10. print - это моя встроенная функция.
 from src.utils.printer import pprint as print

@@ -50,7 +50,7 @@ pytest --test_examples
 ```python
 # Внутри тестового файла:
 def test_some_function(refresh_cache, use_cache, test_examples):
-    # Используйте значения глобальных опций 
+    # Используй значения глобальных опций 
     # для настройки тестового случая
 ```
 

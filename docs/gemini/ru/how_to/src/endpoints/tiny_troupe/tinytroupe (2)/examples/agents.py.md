@@ -34,7 +34,7 @@ lisa.define("nationality", "Canadian")
 lisa.define("occupation", {"title": "Data Scientist", "organization": "Microsoft", "description": "..."})
 # ...добавить другие атрибуты
 
-# Используйте созданного агента в вашем проекте
+# Используй созданного агента в вашем проекте
 # ...
 ```
 

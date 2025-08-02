@@ -14,7 +14,7 @@
     - **`options`**: Список опций, которые будут переданы при запуске драйвера.
     - **`window_mode`**: Режим окна браузера. Доступные варианты: `windowless`, `kiosk`, `full_window` и т.д.
 3. **Загрузка исполнителей**: Класс `Edge` автоматически загружает исполнители для работы с локаторами (`ExecuteLocator`) и JavaScript сценариями (`JavaScript`). 
-4. **Использование методов**: Используйте методы класса для управления драйвером, такие как `execute_locator`, `get_webelement_as_screenshot`, `get_webelement_by_locator`, `get_attribute_by_locator`, `send_message`, `send_key_to_webelement`, `get_page_lang`, `ready_state`, `get_referrer`, `unhide_DOM_element`, `window_focus`. 
+4. **Использование методов**: Используй методы класса для управления драйвером, такие как `execute_locator`, `get_webelement_as_screenshot`, `get_webelement_by_locator`, `get_attribute_by_locator`, `send_message`, `send_key_to_webelement`, `get_page_lang`, `ready_state`, `get_referrer`, `unhide_DOM_element`, `window_focus`. 
 
 Пример использования
 -------------------------

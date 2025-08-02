@@ -14,30 +14,30 @@
 ```
 """
 
-import header
-from header import __root__
 import asyncio
-from typing import Any, List, Optional, Union
 from types import SimpleNamespace
-from pydoll.browser import Chrome
-from pydoll.constants import By
+from typing import Any, List, Optional, TYPE_CHECKING, Union
+
 from pydoll.browser.tab import Tab as BaseTab
-from src.logger.logger import logger
-
 if TYPE_CHECKING:
-    from pydoll.element import WebElement
+    from pydoll.elements.web_element import WebElement
+
+from header import __root__ 
+from src.logger.logger import logger
+from src.webdriver.pydoll.executor import ExecuteLocator
 
 
-# ... (импорты и начало класса остаются без изменений) ...
 
 class Tab:
     """
     Расширенная версия вкладки (Tab), которая добавляет метод execute_locator
     и работает как прокси для оригинального объекта pydoll.browser.tab.Tab.
-    Поддерживает использование в качестве асинхронного контекстного менеджера.
     """
+
     
-    def __init__(self, base_tab: 'BaseTab'):
+
+    
+    def __init__(self, base_tab: BaseTab):
         """
         Инициализирует обертку, сохраняя оригинальный объект вкладки.
         
@@ -46,26 +46,25 @@ class Tab:
         """
         self._base_tab: 'BaseTab' = base_tab
 
+        _executor: ExecuteLocator = ExecuteLocator(self)
+        self.execute_locator = _executor.execute_locator
+        self.get_webelement_as_screenshot = _executor.get_webelement_as_screenshot
+        self.get_webelement_by_locator = _executor.get_webelement_by_locator
+        self.get_attribute_by_locator = _executor.get_attribute_by_locator
+        self.send_message = _executor.send_message
+        self.send_key_to_webelement = _executor.send_message
+
+
     def __getattr__(self, name: str) -> Any:
         """
         Магический метод, который перенаправляет все обращения к атрибутам,
         которых нет в этой обертке, к оригинальному объекту _base_tab.
-        Это позволяет вызывать методы вроде tab.close() или получать доступ
-        к tab.page так, как будто мы работаем с оригинальным объектом.
-        
-        Args:
-            name (str): Имя атрибута для получения.
-            
-        Returns:
-            Any: Значение атрибута из базового объекта.
         """
         return getattr(self._base_tab, name)
-
 
     async def __aenter__(self) -> 'Tab':
         """
         Метод для входа в асинхронный контекстный менеджер.
-        Возвращает сам объект для использования внутри блока `with`.
         """
         logger.debug(f"Entering context for tab: {self._base_tab._target_id}")
         return self
@@ -73,484 +72,170 @@ class Tab:
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         """
         Метод для выхода из асинхронного контекстного менеджера.
-        Гарантирует, что вкладка будет закрыта.
-        
-        Args:
-            exc_type: Тип исключения (если было).
-            exc_val: Значение исключения (если было).
-            exc_tb: Трассировка исключения (если было).
         """
         logger.debug(f"Exiting context for tab: {self._base_tab._target_id}. Closing tab.")
         try:
-            # Используем __getattr__ для вызова close() из базового объекта
             await self.close() 
         except Exception as ex:
-            logger.error(f"Failed to close tab {self._base_tab._target_id} on exit: {ex}", exc_info=True)
+            logger.error(f"Failed to close tab {self._base_tab._target_id} on exit: {ex}", exc_info=True)  
+
+
+
+    # async def _find_elements_with_wait(self, locator: SimpleNamespace) -> Optional[List['WebElement']]:
+    #     """
+    #     Находит элементы, ожидая выполнения определенного условия (видимость, кликабельность).
         
+    #     Args:
+    #         locator (SimpleNamespace): Объект локатора с настройками поиска и ожидания.
 
-
-    async def _find_elements(self, locator: SimpleNamespace) -> Optional[List['WebElement']]:
-        """
-        Function finds elements on the page.
-
-        Args:
-            locator (SimpleNamespace): Объект локатора с настройками поиска.
-
-        Returns:
-            Optional[List[WebElement]]: Список найденных веб-элементов или None.
-        """
-        elements: List['WebElement'] = []
+    #     Returns:
+    #         List[WebElement]: Список найденных веб-элементов. Пустой список, если ничего не найдено.
+    #     """
+    #     timeout: int = getattr(locator, 'timeout', 10)
+    #     wait_condition: str = getattr(locator, 'timeout_for_event', 'presence_of_element_located')
+    #     start_time = asyncio.get_event_loop().time()
         
-        try:
-            match locator.by.upper():
-                case 'XPATH' | 'CSS_SELECTOR':
-                    elements = await self.find(locator.selector, find_all=True)
-                case 'ID':
-                    elements = await self.find(id=locator.selector, find_all=True)
-                case _:
-                    raise ValueError(f"Unsupported locator strategy: {locator.by}")
-
-            return elements
-            
-        except Exception as ex:
-            logger.error(f'Error finding elements with locator {locator.selector}: {ex}', ex, exc_info=True)
-            return None
-
-    async def _wait_for_event(self, locator: SimpleNamespace, elements: List['WebElement']) -> bool:
-        """
-        Function waits for a specific event to occur on elements.
-        
-        Args:
-            locator (SimpleNamespace): Locator configuration object.
-            elements (List[WebElement]): List of elements to wait for event.
-            
-        Returns:
-            bool: True if event occurred successfully, False otherwise.
-        """
-        if not locator.event:
-            return True
-            
-        timeout: int = getattr(locator, 'timeout', 10)
-        timeout_for_event: str = getattr(locator, 'timeout_for_event', 'presence_of_element_located')
-        
-        try:
-            match locator.event.lower():
-                case 'click':
-                    # Ожидание пока элемент станет кликабельным
-                    if timeout_for_event == 'element_to_be_clickable':
-                        await asyncio.sleep(0.1)  # Небольшая задержка для стабильности
-                        # Проверка, что элемент видим и активен
-                        for element in elements:
-                            if await element.is_displayed() and await element.is_enabled():
-                                await element.click()
-                                return True
-                        return False 
-                    else:
-                        # Клик по первому доступному элементу
-                        if elements:
-                            await elements[0].click()
-                            return True
-                        return False
-
-                case 'hover' | 'mouse_over':
-                    # Наведение мыши на элемент
-                    if elements:
-                        await elements[0].hover()
-                        return True
-                    return False 
-                    
-                case 'scroll_into_view':
-                    # Скролл к элементу
-                    if elements:
-                        await elements[0].scroll_into_view()
-                        return True
-                    return False
-
-                case 'wait_for_visible':
-                    # Ожидание пока элемент станет видимым
-                    start_time = asyncio.get_event_loop().time()
-                    while (asyncio.get_event_loop().time() - start_time) < timeout:
-                        for element in elements:
-                            if await element.is_displayed():
-                                return True
-                        await asyncio.sleep(0.5)
-                    return False
-
-                case 'wait_for_invisible':
-                    # Ожидание пока элемент станет невидимым
-                    start_time = asyncio.get_event_loop().time()
-                    while (asyncio.get_event_loop().time() - start_time) < timeout:
-                        all_invisible = True
-                        for element in elements:
-                            if await element.is_displayed():
-                                all_invisible = False
-                                break
-                        if all_invisible:
-                            return True
-                        await asyncio.sleep(0.5)
-                    return False 
-                    
-                case 'wait_for_enabled':
-                    # Ожидание пока элемент станет активным
-                    start_time = asyncio.get_event_loop().time()
-                    while (asyncio.get_event_loop().time() - start_time) < timeout:
-                        for element in elements:
-                            if await element.is_enabled():
-                                return True
-                        await asyncio.sleep(0.5)
-                    return False
-                    
-                case 'wait_for_text':
-                    # Ожидание пока элемент содержит определенный текст
-                    expected_text: str = getattr(locator, 'expected_text', '')
-                    if not expected_text:
-                        logger.warning(f"Expected text not specified for wait_for_text event in {locator.locator_description}")
-                        return False
-                        
-                    start_time = asyncio.get_event_loop().time()
-                    while (asyncio.get_event_loop().time() - start_time) < timeout:
-                        for element in elements:
-                            text = await element.get_element_text()
-                            if expected_text in text:
-                                return True
-                        await asyncio.sleep(0.5)
-                    return False 
-                    
-                case 'wait_for_attribute':
-                    # Ожидание пока у элемента появится определенный атрибут
-                    expected_attribute: str = getattr(locator, 'expected_attribute', '')
-                    expected_value: Optional[str] = getattr(locator, 'expected_value', None)
-                    
-                    if not expected_attribute:
-                        logger.warning(f"Expected attribute not specified for wait_for_attribute event in {locator.locator_description}")
-                        return False 
-                        
-                    start_time = asyncio.get_event_loop().time()
-                    while (asyncio.get_event_loop().time() - start_time) < timeout:
-                        for element in elements:
-                            attr_value = await element.get_attribute(expected_attribute)
-                            if expected_value is None:
-                                # Проверка наличия атрибута
-                                if attr_value is not None:
-                                    return True
-                            else:
-                                # Проверка значения атрибута
-                                if attr_value == expected_value:
-                                    return True
-                        await asyncio.sleep(0.5)
-                    return False
-
-                case 'send_keys':
-                    # Отправка ключей в элемент
-                    keys_to_send: str = getattr(locator, 'keys_to_send', '')
-                    if not keys_to_send:
-                        logger.warning(f"Keys to send not specified for send_keys event in {locator.locator_description}")
-                        return False 
-                        
-                    if elements:
-                        await elements[0].send_keys(keys_to_send)
-                        return True
-                    return False
-
-                case 'clear':
-                    # Очистка поля ввода
-                    if elements:
-                        await elements[0].clear()
-                        return True
-                    return False
-                    
-                case 'submit':
-                    # Отправка формы
-                    if elements:
-                        await elements[0].submit()
-                        return True
-                    return False 
-                    
-                case _:
-                    logger.warning(f"Unsupported event type: {locator.event} in {locator.locator_description}")
-                    return False 
-                    
-        except Exception as ex:
-            logger.error(f"Error executing event {locator.event} for {locator.locator_description}: {ex}", ex, exc_info=True)
-            return False
-
-    async def _wait_for_condition(self, locator: SimpleNamespace) -> Optional[List['WebElement']]:
-        """
-        Function waits for a specific condition to be met before finding elements.
-        
-        Args:
-            locator (SimpleNamespace): Locator configuration object.
-            
-        Returns:
-            Optional[List[WebElement]]: List of found elements or empty list if condition not met.
-        """
-        timeout: int = getattr(locator, 'timeout', 10)
-        timeout_for_event: str = getattr(locator, 'timeout_for_event', 'presence_of_element_located')
-        
-        start_time = asyncio.get_event_loop().time()
-        
-        while (asyncio.get_event_loop().time() - start_time) < timeout:
-            try:
-                elements = await self._find_elements(locator)
-
-                if not elements:
-                    await asyncio.sleep(0.5)
-                    continue
-
-                match timeout_for_event.lower():
-                    case 'presence_of_element_located':
-                        # Элемент просто должен присутствовать в DOM
-                        if elements:
-                            return elements
-                            
-                    case 'visibility_of_element_located':
-                        # Элемент должен быть видимым
-                        visible_elements = []
-                        for element in elements:
-                            if await element.is_displayed():
-                                visible_elements.append(element)
-                        if visible_elements:
-                            return visible_elements
-                            
-                    case 'element_to_be_clickable':
-                        # Элемент должен быть кликабельным
-                        clickable_elements = []
-                        for element in elements:
-                            if await element.is_displayed() and await element.is_enabled():
-                                clickable_elements.append(element)
-                        if clickable_elements:
-                            return clickable_elements
-                            
-                    case 'invisibility_of_element_located':
-                        # Элемент должен быть невидимым или отсутствовать
-                        if not elements:
-                            return []
-                        invisible_elements = []
-                        for element in elements:
-                            if not await element.is_displayed():
-                                invisible_elements.append(element)
-                        if len(invisible_elements) == len(elements):
-                            return invisible_elements
-                            
-                    case 'text_to_be_present_in_element':
-                        # В элементе должен быть определенный текст
-                        expected_text: str = getattr(locator, 'text_to_be_present_in_element', '')
-                        if not expected_text:
-                            logger.warning(f"Expected text not specified for text_to_be_present_in_element in {locator.locator_description}")
-                            return []
-                            
-                        matching_elements = []
-                        for element in elements:
-                            text = await element.get_element_text()
-                            if expected_text in text:
-                                matching_elements.append(element)
-                        if matching_elements:
-                            return matching_elements
-                            
-                    case 'attribute_to_be_present':
-                        # У элемента должен быть определенный атрибут
-                        expected_attribute: str = getattr(locator, 'expected_attribute', '')
-                        if not expected_attribute:
-                            logger.warning(f"Expected attribute not specified for attribute_to_be_present in {locator.locator_description}")
-                            return []
-                            
-                        matching_elements = []
-                        for element in elements:
-                            attr_value = await element.get_attribute(expected_attribute)
-                            if attr_value is not None:
-                                matching_elements.append(element)
-                        if matching_elements:
-                            return matching_elements
-                            
-                    case _:
-                        logger.warning(f"Unsupported timeout_for_event: {timeout_for_event} in {locator.locator_description}")
-                        if elements:
-                            return elements
-                            
-            except Exception as ex:
-                logger.debug(f"Waiting for condition {timeout_for_event} for {locator.locator_description}: {ex}")
+    #     while (asyncio.get_event_loop().time() - start_time) < timeout:
+    #         elements: List['WebElement'] = []
+    #         try:
+    #             # --- ИСПОЛЬЗОВАНА ВАША ПРАВИЛЬНАЯ ЛОГИКА ---
+    #             match getattr(locator, 'by', 'CSS_SELECTOR').upper():
+    #                 case 'XPATH' | 'CSS_SELECTOR':
+    #                     # Вызов `self.find` делегируется в `_base_tab.find` через `__getattr__`
+    #                     elements = await self.find(locator.selector, find_all=True)
+    #                 case 'ID':
+    #                     elements = await self.find(id=locator.selector, find_all=True)
+    #                 case _:
+    #                     logger.error(f"Unsupported locator strategy: {locator.by}")
+    #                     return [] # Критическая ошибка конфигурации, выходим
+    #             # ---------------------------------------------
                 
-            await asyncio.sleep(0.5)
+    #             # Проверка условия ожидания
+    #             match wait_condition.lower():
+    #                 case 'presence_of_element_located':
+    #                     if elements: return elements
+    #                 case 'visibility_of_element_located':
+    #                     visible_elements = [el for el in elements if await el.is_displayed()]
+    #                     if visible_elements: return visible_elements
+    #                 case 'element_to_be_clickable':
+    #                     clickable_elements = [el for el in elements if await el.is_displayed() and await el.is_enabled()]
+    #                     if clickable_elements: return clickable_elements
+    #                 case 'invisibility_of_element_located':
+    #                     if not elements: return []
+    #         except Exception as ex:
+    #             logger.debug(f"Attempt failed while waiting for '{locator.selector}': {ex}")
+
+    #         await asyncio.sleep(0.5)
             
-        return []
+    #     logger.warning(f"Timeout ({timeout}s) while waiting for condition '{wait_condition}' on selector '{locator.selector}'")
+    #     return []
 
-    async def execute_locator(self, locator: SimpleNamespace) -> Optional[List['WebElement'] | str]:
-        """
-        Function locates and returns content from the element based on locator info.
-
-        Args:
-            locator (SimpleNamespace): Locator configuration object.
-
-        Returns:
-            Optional[List[WebElement] | str]: The data extracted or list of elements depending on locator and strategy.
-
-        Raises:
-            ValueError: If an unsupported attribute is requested.
-
-        Example:
-            locator example:
-              "reference": {
-                            "attribute": "innerText",
-                            "by": "XPATH",
-                            "strategy_for_multiple_selectors": "find_first_match",
-                            "selector": "//span[ contains( @class, 'sku-copy')]",
-                            "if_list": "first",
-                            "mandatory": true,
-                            "timeout": 0,
-                            "timeout_for_event": "presence_of_element_located",
-                            "event": null,
-                            "text_to_be_present_in_element":"",
-                            "locator_description": "product reference"
-                      }
-        """
-        res: List = []
-        elements: List['WebElement'] = []
-        selectors: List = []
-
-        if not locator.selector and str(locator.by).upper() != 'VALUE':
-            if locator.mandatory: # <- селектор может быть пустым. В таком случае возвращается весь вебэлемент если стратегия 'VALUE' 
-                logger.warning(f"""Пустой селектор в обязательном локаторе: {locator.locator_description if hasattr(locator,'locator_description') else locator}""", 
-               None, False)
-            return False
-
-        if ';' in locator.selector: # <- проверка на множественные селекторы
-            selectors = locator.selector.split(';')
-        else:
-            selectors = [locator.selector]
-          
-        # Special case for 'value' in strategy `BY` returned value from locator.attribute
-        # Example: supplier_id = locator.attribute
-        if str(locator.by).upper() == 'VALUE':  
-            return locator.attribute
-
-        # Strategy for multiple selectors (`XPATH` не умеет в ленивые операторы)
-        # TODO:
-        #   ЗДЕСЬ ПЛОХАЯ ЛОГИКА. Имеется в виду разбор селектора на составные части. 
-        #   В текущей реализации нужно задать селектор в формате <selector >;<selector>;...
-        #   т.е. разбивать формат XPATH селектора на блоки
-        #   задача: переписать логику для парсинга собственно селектора.
-        #   Тогда можно не ломать формат XPATH
-        #   Пример XPATH с несколькими селекторами:
-        #   {"selector":"//div[@class='header'];//div[@id='main-title']"}
-        #   Пример XPATH с условными операторами: 
-        #   {"selector":"//div[@class='header'] | //div[@id='main-title']"}
-        #   {"selector":"//input[@type='text' or @type='password']"}
-        #   {"selector":"//*[contains(@class, 'btn') or contains(@class, 'button')]"}
-        #   {"selector":"//h1[@id='title'] | //h2[@id='subtitle'] | //h3[@id='section']"}
-        #   {"selector":"//a[contains(@href, 'example.com') or @target='_blank']"}
-        #   (//div[contains(@class, 'description')])[2]//div | (//div[contains(@class, 'description')])[2]//p  
-
-        match getattr(locator, 'strategy_for_multiple_selectors', 'find_first_match').lower():
-            case 'find_first_match':
-                for selector in selectors:
-                    try:
-                        # Создание временного локатора для текущего селектора
-                        temp_locator = SimpleNamespace(**vars(locator))
-                        temp_locator.selector = selector
-                        
-                        # Обработка ожиданий
-                        if hasattr(locator, 'timeout_for_event') and locator.timeout_for_event and \
-                           hasattr(locator, 'timeout') and locator.timeout:
-                            elements = await self._wait_for_condition(temp_locator)
-                        else:
-                            elements = await self._find_elements(temp_locator)
-                            
-                        if elements:
-                            break
-                        else:
-                            continue
-                    except Exception as ex:
-                        logger.warning(f"Error executing locator: {locator.locator_description=}", ex, exc_info=False)
-                        return False
-
-        if not elements:
-            logger.warning(f"""Пустое значение для локатора  `{locator.locator_description=}`.
-                    Возможные причины:
-                        1. Нет данных на целевой странице
-                        2. Изменился селектор на целевой странице
-                        3. Общая ошибка локатора""")
-            return False
-
-        # ПЕРВЫЙ ЭТАП: Выполнение событий (если они есть)
-        if hasattr(locator, 'event') and locator.event:
-            event_success = await self._wait_for_event(locator, elements)
-            if not event_success:
-                logger.warning(f"Event {locator.event} failed for {locator.locator_description}")
-                if getattr(locator, 'mandatory', False):
-                    return False
-
-        # ВТОРОЙ ЭТАП: Возврат атрибута или элемента
-        # Если атрибут не указан - возвращаем весь веб-элемент
-        if not hasattr(locator, 'attribute') or not locator.attribute:
-            _result = elements
-            if isinstance(_result, list) and len(_result) == 1:
-                return _result[0]
-            else:
-                return _result
-
+    # async def _perform_action(self, locator: SimpleNamespace, elements: List['WebElement'], message: Optional[str] = None) -> bool:
+    #     """
+    #     Выполняет действие (клик, ввод текста и т.д.) над уже найденными элементами.
         
-        # Если атрибут указан - извлекаем его значение
-        match getattr(locator, 'attribute', '').lower():
-            case 'innertext':
-                if len(elements) == 1:
-                    _result = await elements[0].get_element_text()
-                else:
-                    _result = [await el.get_element_text() for el in elements]
+    #     Args:
+    #         locator (SimpleNamespace): Объект локатора с описанием действия (`event`).
+    #         elements (List[WebElement]): Список элементов для выполнения действия.
+    #         message (Optional[str]): Сообщение для ввода (для `send_keys`).
 
-            case 'innerhtml':
-                if len(elements) == 1:
-                    _result = elements[0].inner_html
-                else:
-                    _result = [el.inner_html for el in elements]
-
-            case 'src' | 'href':
-                if len(elements) == 1:
-                    _result = elements[0].get_attribute(locator.attribute)
-                else:
-                    _result = [el.get_attribute(locator.attribute) for el in elements]
-
-            case _:
-                raise ValueError(f"Unsupported attribute: {locator.attribute} in {locator.locator_description}")
-
-        # Проверка на пустой результат
-        if len(_result) == 0:
-            return []
-
-        # ТРЕТИЙ ЭТАП: Применение стратегии фильтрации списка
-        if_list = getattr(locator, 'if_list', '')
-        match if_list:
-            case '':
-                return _result
-            case 'all':
-                return _result
-            case 'first':
-                return _result[0] if isinstance(_result, list) else _result 
-            case 'last':
-                return _result[-1] if isinstance(_result, list) else _result 
-            case 'even':
-                return [_result[i] for i in range(0, len(_result), 2)] if isinstance(_result, list) else _result 
-            case 'odd':
-                return [_result[i] for i in range(1, len(_result), 2)] if isinstance(_result, list) else _result 
-            case list() if isinstance(if_list, list): # <- список полей по номерам. Например [1,6,8]
-                return [_result[i] for i in if_list if isinstance(i, int)] if isinstance(_result, list) else _result 
-            case int() if isinstance(if_list, int): # <- поле по номеру. Например 4
-                return _result[if_list - 1] if isinstance(_result, list) else _result 
-            case _:
-                return _result
-
-    async def get_url(self, url: str) -> bool:
-        """
-        Function navigates to the specified URL.
-        
-        Args:
-            url (str): URL to navigate to.
+    #     Returns:
+    #         bool: True в случае успеха, False в случае ошибки.
+    #     """
+    #     event_name = getattr(locator, 'event', None)
+    #     if not event_name or not elements:
+    #         return False
             
-        Returns:
-            bool: True if navigation successful, False otherwise.
-        """
-        try:
-            await self.go_to(url)
-            return True
-        except Exception as ex:
-            logger.error(f"Failed to navigate to {url}: ", ex, exc_info=True)
-            return False
+    #     try:
+    #         element_to_act_on = elements[0]
+    #         match event_name.lower().replace('()', ''):
+    #             case 'click':
+    #                 await element_to_act_on.click()
+    #             case 'hover' | 'mouse_over':
+    #                 await element_to_act_on.hover()
+    #             case 'scroll_into_view':
+    #                 await element_to_act_on.scroll_into_view()
+    #             case 'send_keys':
+    #                 if message is None:
+    #                     logger.warning(f"Event 'send_keys' called without a message for locator: {locator.locator_description}")
+    #                     return False
+    #                 await element_to_act_on.send_keys(message)
+    #             case 'clear':
+    #                 await element_to_act_on.clear()
+    #             case 'submit':
+    #                 await element_to_act_on.submit()
+    #             case _:
+    #                 logger.warning(f"Unsupported event type: {event_name}")
+    #                 return False
+    #         return True
+    #     except Exception as ex:
+    #         logger.error(f"Error executing event '{event_name}' for '{locator.locator_description}': {ex}", exc_info=True)
+    #         return False
+
+    # async def execute_locator(self, locator: SimpleNamespace, message: Optional[str] = None) -> Optional[Union[List['WebElement'], List[str], str, bool]]:
+    #     """
+    #     Находит элементы, выполняет действия и извлекает данные согласно локатору.
+    #     """
+    #     # --- Этап 0: Предварительная обработка ---
+    #     if not getattr(locator, 'selector', None) and str(getattr(locator, 'by', '')).upper() != 'VALUE':
+    #         if getattr(locator, 'mandatory', False):
+    #             logger.error(f"Empty selector in a mandatory locator: {getattr(locator, 'locator_description', 'N/A')}")
+    #         return False
+        
+    #     if str(getattr(locator, 'by', '')).upper() == 'VALUE':
+    #         return getattr(locator, 'attribute', None)
+        
+    #     # --- Этап 1: ПОИСК И ОЖИДАНИЕ ---
+    #     elements = await self._find_elements_with_wait(locator)
+
+    #     if not elements:
+    #         log_func = logger.error if getattr(locator, 'mandatory', False) else logger.warning
+    #         log_func(f"Locator failed: No elements found for '{locator.locator_description}' with selector '{locator.selector}'")
+    #         return False
+
+    #     # --- Этап 2: ВЫПОЛНЕНИЕ ДЕЙСТВИЯ (если указано) ---
+    #     if getattr(locator, 'event', None):
+    #         action_successful = await self._perform_action(locator, elements, message)
+    #         if not action_successful and getattr(locator, 'mandatory', False):
+    #             logger.error(f"Mandatory event '{locator.event}' failed for locator: {locator.locator_description}")
+    #             return False
+
+    #     # --- Этап 3: ИЗВЛЕЧЕНИЕ ДАННЫХ (если указан атрибут) ---
+    #     attribute_to_get = getattr(locator, 'attribute', None)
+    #     if not attribute_to_get:
+    #         return elements
+
+    #     try:
+    #         extracted_data: list = []
+    #         for el in elements:
+    #             if attribute_to_get.lower() == 'innertext':
+    #                 extracted_data.append(await el.get_element_text())
+    #             elif attribute_to_get.lower() == 'innerhtml':
+    #                 extracted_data.append(await el.get_attribute('innerHTML'))
+    #             else:
+    #                 extracted_data.append(await el.get_attribute(attribute_to_get))
+    #     except Exception as ex:
+    #         logger.error(f"Failed to get attribute '{attribute_to_get}' for locator '{locator.locator_description}': {ex}", exc_info=True)
+    #         return False
+
+    #     # --- Этап 4: ФИЛЬТРАЦИЯ РЕЗУЛЬТАТА ---
+    #     if not isinstance(extracted_data, list) or not extracted_data:
+    #         return extracted_data
+
+    #     match getattr(locator, 'if_list', 'all'):
+    #         case 'first': return extracted_data[0]
+    #         case 'last': return extracted_data[-1]
+    #         case 'even': return extracted_data[::2]
+    #         case 'odd': return extracted_data[1::2]
+    #         case _: return extracted_data
+
+    # async def get_url(self, url: str) -> bool:
+    #     """
+    #     Переходит по указанному URL.
+    #     """
+    #     try:
+    #         await self.goto(url)
+    #         return True
+    #     except Exception as ex:
+    #         logger.error(f"Failed to navigate to {url}: ", ex, exc_info=True)
+    #         return False

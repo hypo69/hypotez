@@ -68,7 +68,7 @@ Cookies: {'session': '...', 'csrftoken': '...', ...}
 ```python
 >>> cookies = get_cookies('https://gpt4free.com')
 >>> connector = get_connector(cookies, timeout=10)
->>> # Используйте connector для отправки запросов
+>>> # Используй connector для отправки запросов
 ```
 
 ### `get_headers`
@@ -95,5 +95,5 @@ Cookies: {'session': '...', 'csrftoken': '...', ...}
 
 ```python
 >>> headers = get_headers('ru', 'gpt-3.5-turbo')
->>> # Используйте headers при отправке запросов
+>>> # Используй headers при отправке запросов
 ```

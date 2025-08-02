@@ -24,7 +24,7 @@
 ```python
 from src.endpoints.prestashop.supplier import PrestaSupplier
 
-# Используйте объект `credentials` с доменом и ключом API
+# Используй объект `credentials` с доменом и ключом API
 credentials = {
     'api_domain': 'https://your-prestashop-domain.com',
     'api_key': 'your-api-key'
