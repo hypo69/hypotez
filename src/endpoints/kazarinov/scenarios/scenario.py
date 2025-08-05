@@ -19,18 +19,20 @@ from types import SimpleNamespace
 from typing import List, Optional, TYPE_CHECKING
 
 import telebot
-#from pydoll.browser import Chrome
-src.webdriver.pydoll.browser import Chrome
+
+from pydoll.browser import Chrome
+
+
 
 from header import __root__
 from src import gs, USE_ENV
-from src.credentials import j_loads_ns
+
 from src.endpoints.kazarinov.report_generator.report_generator import ReportGenerator
 from src.endpoints.kazarinov.scenarios.quotation_builder import QuotationBuilder
 from src.endpoints.prestashop.product_fields.product_fields import ProductFields
 from src.logger.logger import logger
 from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_url
-from src.utils.jjson import j_dumps
+from src.utils.jjson import j_loads_ns, j_dumps
 from src.webdriver.pydoll.tab import Tab
 from src.webdriver.pydoll.options import Options
 
@@ -143,17 +145,8 @@ class Scenario:
             "specification",
             "default_image_url",
         ]
-        # try:
-        #     driver = Driver(
-        #         window_mode = Config.WINDOW_MODE,
-        #         user_data_dir = Config.user_data_dir,
-        #     )
-        # except Exception as ex:
-        #     logger.error("Ошибка создания Driver", ex, exc_info=True)
-        #     raise RuntimeError("Driver initialization failed") from ex
 
-        # Парсинг страниц товаров ------------------------------------------------
-        async with Chrome() as browser:
+        async with Chrome(Options(headless=False)) as browser:
             base_tab: BaseTab = await browser.start()
             tab: Tab = Tab(base_tab)
             # Сбор товаров ---------------------------------------------------------
@@ -191,6 +184,7 @@ class Scenario:
 
                 try:
                     # Конвертиртация поля из объекта `ProductFields` в простой словарь для модели llm
+                    ...
                     product_data = self.convert_product_fields(product_fields)
 
                     # Индивидуальные настройки поставщиков
@@ -292,10 +286,10 @@ class Scenario:
         Note: 
             Правила построения полей определяются в `ProductFields`
         """
-        if not f.reference:
-            logger.error(f"Сбой при получении полей товара. ")
-            return {} # <- сбой при получении полей товара. Такое может произойти если вместо страницы товара попалась страница категории, при невнимательном составлении мехирона из комплектующих
-        ...
+        # if not f.reference:
+        #     logger.error(f"Сбой при получении полей товара. ")
+        #     return {} # <- сбой при получении полей товара. Такое может произойти если вместо страницы товара попалась страница категории, при невнимательном составлении мехирона из комплектующих
+        # ...
 
         product_name = f.name['language']['value'] if f.name else ''
         description = f.description['language']['value'] if f.description else ''

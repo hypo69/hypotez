@@ -43,7 +43,8 @@ async def experiment( locator: SimpleNamespace, headless: bool = False,):
             async with Tab(base_tab) as tab:
                 ...            
                 await tab.go_to("https://www.google.com")
-                await tab.execute_locator(locator.input_field)
+                message:str = "Hello, world!"
+                await tab.execute_locator(locator = locator, message = message)
                 await asyncio.sleep(5) # Пауза, чтобы увидеть результат
     
     except Exception as ex:
@@ -57,6 +58,7 @@ if __name__ == "__main__":
     supplier_prefix:str = 'google.com'
     supplier_alias:str = supplier_prefix.replace('-','_').replace('.','_')
     locator:SimpleNamespace = j_loads_ns(__root__/'src'/'suppliers'/'suppliers_list'/supplier_alias/'locators'/'search_page.json')
+    ...
 
 
-    asyncio.run(experiment( locator = locator, headless = False, ))
+    asyncio.run(experiment( locator = locator.q_input, headless = False, ))

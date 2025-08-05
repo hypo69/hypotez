@@ -312,20 +312,24 @@ class ExecuteLocator:
                 return web_elements
 
 
-            if if_list == "all":
-                return web_elements
-            elif if_list == "first":
-                return web_elements[0]
-            elif if_list == "last":
-                return web_elements[-1]
-            elif if_list == "even":
-                return [web_elements[i] for i in range(0, len(web_elements), 2)]
-            elif if_list == "odd":
-                return [web_elements[i] for i in range(1, len(web_elements), 2)]
-            elif isinstance(if_list, list):
-                return [web_elements[i] for i in if_list]
-            elif isinstance(if_list, int):
-                return web_elements[if_list - 1]
+            match if_list:
+                case "all":
+                    return web_elements
+                case "first":
+                    return web_elements[0]
+                case "last":
+                    return web_elements[-1]
+                case "even":
+                    return [web_elements[i] for i in range(0, len(web_elements), 2)]
+                case "odd":
+                    return [web_elements[i] for i in range(1, len(web_elements), 2)]
+                case list():
+                    return [web_elements[i] for i in if_list]
+                case int():
+                    return web_elements[if_list - 1]
+                case _:
+                    logger.error(f"Invalid 'if_list' value: {if_list}. Expected 'all', 'first', 'last', 'even', 'odd', or a list of indices.")
+
 
             return web_elements
 

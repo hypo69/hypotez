@@ -1,5 +1,5 @@
 {
-  "input_field": {
+  "q_input": {
     "attribute": null,
     "by": "XPATH",
     "strategy_for_multiple_selectors": "find_first_match",
@@ -7,10 +7,10 @@
     "if_list": "first",
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": "send_keys()",
+    "event": "send_text();send_keys(ENTER)",
     "mandatory": true,
     "text_to_be_present_in_element": "",
-    "locator.locator_description": "окно ввода"
+    "locator_description": "окно ввода"
 
   }
 }

@@ -1135,12 +1135,12 @@ class GraberBase:
     async def id_supplier(self, value:Optional[Any] = None) -> bool:
         """Fetch and set supplier ID.
         Код поставщика из таблицы `suppliers`
-        Обычно подставлятся в локакор
+        Обычно подставлятся в локатор
               "id_supplier": {
                 "attribute": "1234",
                 "by": "VALUE",
                 "strategy_for_multiple_selectors": "find_first_match",
-                "selector": "none",
+                "selector": null,
                 "if_list": "first",
                 "mandatory": true,
                 "timeout": 2,
