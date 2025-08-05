@@ -1,0 +1,1 @@
+select ALL from rsx9g_product, 

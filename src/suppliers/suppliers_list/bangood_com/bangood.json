@@ -1,0 +1,8 @@
+{
+  "supplier_id": 2708,
+  "supplier_type": 11511,
+  "supplier_types_description": "11510 -> manufacturer; 11511 -> marketplace; 11512 -> catalog",
+  "supplier_prefix": "bangood",
+  "start_url": "https://bangood.com"
+
+}

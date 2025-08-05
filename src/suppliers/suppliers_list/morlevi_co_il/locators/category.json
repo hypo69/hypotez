@@ -1,0 +1,15 @@
+{
+  "product_links": {
+    "attribute": "href",
+    "by": "XPATH",
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": "//span[@data-component-type ='s-product-image']//a",
+    "if_list": "first",
+    "use_mouse": false,
+    "mandatory": true,
+    "timeout": 0,
+    "timeout_for_event": "presence_of_element_located",
+    "event": null,
+    "text_to_be_present_in_element":"","locator_description": "Категории morlevi"
+  }
+}

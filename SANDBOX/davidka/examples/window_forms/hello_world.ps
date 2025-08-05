@@ -1,0 +1,27 @@
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
+
+# Создание формы
+$form = New-Object Windows.Forms.Form
+$form.Text = "Hello App"
+$form.Size = New-Object Drawing.Size(300,150)
+$form.StartPosition = "CenterScreen"
+
+# Поле ввода
+$textBox = New-Object Windows.Forms.TextBox
+$textBox.Location = New-Object Drawing.Point(10,20)
+$textBox.Size = New-Object Drawing.Size(260,20)
+$form.Controls.Add($textBox)
+
+# Кнопка
+$button = New-Object Windows.Forms.Button
+$button.Text = "Поприветствовать"
+$button.Location = New-Object Drawing.Point(10,60)
+$button.Size = New-Object Drawing.Size(260,30)
+$button.Add_Click({
+    [Windows.Forms.MessageBox]::Show("Hello, World! " + $textBox.Text)
+})
+$form.Controls.Add($button)
+
+# Запуск формы
+$form.ShowDialog()

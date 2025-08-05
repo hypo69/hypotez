@@ -1,0 +1,36 @@
+{
+  "webdriver": {
+    "firefox": {
+      "mode": "test",
+      "webdriver_name": "firefox",
+      "webdriver_options": []
+    },
+    "pydoll": {
+      "WINDOW_MODE": "window",
+      "user_data_dir": "C:\\Users\\user\\AppData\\Local\\Google\\Chrome\\User Data\\Default",
+      "enable_user_profile": true
+    },
+    "active_driver": "pydoll"
+  },
+
+  "url_handlers": {
+    "suppliers": [
+
+      "https://www.morlevi.co.il",
+
+      "https://www.grandadvance.co.il",
+
+      "https://www.ksp.co.il",
+
+      "https://www.ivory.co.il"
+    ],
+    "onetab": [
+      "https://www.one-tab.com"
+    ]
+  },
+
+  "gemini": {
+    "response_mime_type": "text/plain",
+    "model_name": "gemini-2.5-flash"
+  }
+}

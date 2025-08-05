@@ -1,0 +1,36 @@
+{
+  "product_links": {
+    "attribute": "href",
+    "by": "XPATH",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//a[contains(@href, '/item/')]",
+    "if_list": "all",
+
+    "timeout": 0,
+    "timeout_for_event": "presence_of_element_located",
+    "event": null,
+    "mandatory": true,
+    "text_to_be_present_in_element":"","locator_description": "ссылки на страницы товаров"
+  },
+
+
+  "pagination": {
+    "ul": { 
+      "attribute": null,
+      "by": "XPATH",
+      "strategy_for_multiple_selectors": "find_first_match","selector": "//ul[@class='pagination']",
+      "timeout":0,"timeout_for_event":"presence_of_element_located","event": "click()",
+      "mandatory":  false,
+      "text_to_be_present_in_element":"","locator_description": "если некуда двигаться - драйвер вернет False"
+    },
+    "->": {
+      "attribute": null,
+      "by": "XPATH",
+      "strategy_for_multiple_selectors": "find_first_match","selector": "//*[@class = 'ui-pagination-navi util-left']/a[@class='ui-pagination-next']",
+      "timeout":0,"timeout_for_event":"presence_of_element_located","event": "click()",
+      "if_list":"first","use_mouse": false, 
+      "mandatory": true,
+      "text_to_be_present_in_element":"","locator_description": ""
+    }
+  }
+
+}

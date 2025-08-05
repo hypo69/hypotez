@@ -1,0 +1,8 @@
+{
+  "supplier_prefix": "cdata",
+  "suppler_id": 2794,
+  "supplier_type": 11511,
+  "supplier_types_description": "11510 -> manufacturer; 11511 -> marketplace; 11512 -> catalog",
+  "start_url": "https://www.c-data.co.il/",
+  "price_rule": "3.5*1.17"
+}

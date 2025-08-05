@@ -1,0 +1,12 @@
+{
+  "link": {
+    "attribute": "href",
+    "by": "XPATH",
+    "strategy_for_multiple_selectors": "find_first_match","selector": "//a[@data-discover = 'true']",
+    "timeout":0,"timeout_for_event":"presence_of_element_located","event": null,
+    "if_list": "all",
+
+    "mandatory": true,
+    "text_to_be_present_in_element":"","locator_description": "Ссылки на состоявюиеся беседы"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "supplier_id": 11451,
+  "supplier_type": 11510,
+  "supplier_types_description": "11510 -> manufacturer; 11511 -> marketplace; 11512 -> catalog",
+  "supplier_prefix": "apple.com",
+  "start_url": "https://apple.com"
+
+}

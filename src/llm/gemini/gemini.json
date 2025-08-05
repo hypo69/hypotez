@@ -1,0 +1,23 @@
+{
+  "model_name": "gemini-2.0-flash-lite",
+  "avaiable_models": [
+    "gemini-1.5-flash-001-tuning",
+    "gemini-1.5-flash-8b-exp-0924",
+    "gemini-1.5-flash",
+    "gemini-1.5-flash-8b",
+    "gemini-1.5-turbo",
+    "gemini-2.0-flash-exp",
+    "gemini-2.0-flash-lite",
+    "gemini-2-13b",
+    "gemini-2.5-flash-preview-04-17",
+    "gemini-2.5-flash-lite-preview-06-17",
+    "gemini-3-20b"
+  ],
+  "response_mime_types": [ "plain/text", "application/json", "image/png" ],
+  "storage": "external_storage",
+  "avaiable_storages": [
+    "external_storage",
+    "data",
+    "google_drive"
+  ]
+} 

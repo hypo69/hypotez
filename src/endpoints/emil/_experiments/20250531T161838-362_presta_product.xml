@@ -1,0 +1,53 @@
+<?xml version="1.0" ?>
+<prestashop>
+  <products>
+    <id_supplier>2800</id_supplier>
+    <id_category_default>11247</id_category_default>
+    <id_shop_default>1</id_shop_default>
+    <id_shop>1</id_shop>
+    <id_tax_rules_group>13</id_tax_rules_group>
+    <on_sale>1</on_sale>
+    <online_only>0</online_only>
+    <minimal_quantity>1</minimal_quantity>
+    <price>208.0</price>
+    <wholesale_price>208.0</wholesale_price>
+    <active>1</active>
+    <available_for_order>1</available_for_order>
+    <show_condition>1</show_condition>
+    <condition>new</condition>
+    <show_price>1</show_price>
+    <visibility>both</visibility>
+    <is_virtual>0</is_virtual>
+    <state>1</state>
+    <product_type>standard</product_type>
+    <description>
+      <language id="1">【Motor parameters】Model: A2M-80SV03230Z&lt;br&gt; With brake: Yes&lt;br&gt; Power: 1000W&lt;br&gt; Number of poles: 5 pairs&lt;br&gt; Rated power supply: 220V&lt;br&gt; Rated speed: 3000r/min&lt;br&gt; Peak speed: 6000r/min&lt;br&gt; Rated torque: 3.8 N.m&lt;br&gt; Max torque: 11.4 N.m&lt;br&gt; Rated current: 4.8A&lt;br&gt; Max current: 14.4A&lt;br&gt; Ender Resolution: 10000ppr&lt;br&gt; Protection structure: IP65&lt;br&gt; Impact strength: 98m/s²&lt;br&gt; Vibration resistance: 49m/s². 【Triple Overload/Powerful Motor】The motors are made of high quality materials with 3 times overload capacity, built-in disturbance torque observer, extremely strong resistance to external disturbances and stable operation. The motor also has features such as: high torque, no lost step, low noise, fast response, small size, high controllability, and has been operated. 【Driver Parameters】Model: S2SVD20&lt;br&gt; Maximum current: 20A&lt;br&gt; Input voltage: AC220V (50/60Hz)&lt;br&gt; Cooling method: Heat dissipation air cooling&lt;br&gt; Encoder type: 17 bit magnetic encoder. ( Note: Controllers with CN ports need to be customized separately: support RS-232, RS-485 interface, modbus communication protocol, can be connected to the PC, PLC and other host computer equipment. ) 【Driver Multiple Functions】The driver adopts advanced algorithm, low-speed operation is more stable, at the same time, the high-performance encoder ensures the accuracy of the motor&lt;br&gt; Reserved multiple IO function interface, arbitrary combination to meet the functional needs of different occasions. 【AC Servo Features】Three types of command pulse input, i.e. command direction and pulse input, clockwise/counterclockwise pulse input, and quadrature pulse input with 90 degree phase difference. Position control, speed control, torque control, and extension control can be converted through Modbus communication to meet common applications. The display mode can be switched between three modes: monitor mode, auxiliary mode, and user parameter mode. 【Application Areas】Suitable for a variety of automation equipment and instruments, such as screw machines, automatic equipment, medical equipment, semiconductor equipment, engraving equipment, measuring equipment, AGV carts, etc.</language>
+    </description>
+    <link_rewrite>
+      <language id="1">20250531T161835-785</language>
+    </link_rewrite>
+    <name>
+      <language id="1">RATTMMOTOR YPMC-1000W 220V Servo Motor Kit, Servo Motor with Servo Motor Driver and Brake Encoder Cable, CNC Controller Kit for</language>
+    </name>
+    <specification>
+      <language id="1"/>
+    </specification>
+    <associations>
+      <categories>
+        <id>None</id>
+      </categories>
+      <categories>
+        <id>11247</id>
+      </categories>
+      <categories>
+        <id>11246</id>
+      </categories>
+      <categories>
+        <id>11245</id>
+      </categories>
+      <categories>
+        <id>4</id>
+      </categories>
+    </associations>
+  </products>
+</prestashop>

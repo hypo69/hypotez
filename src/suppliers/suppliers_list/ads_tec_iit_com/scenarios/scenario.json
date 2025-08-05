@@ -1,0 +1,56 @@
+{
+  "Industry Panel PCs & Terminals": {
+    "url": "https://www.ads-tec-iit.com/en/products/industrie-panel-pcs-terminals/",
+    "name": "Industry Panel PCs & Terminals",
+    "condition": "new",
+    "presta_categories": {
+      "default_category": 11503,
+      "additional_categories": []
+    }
+  },
+  "web panels": {
+    "url": "https://www.ads-tec-iit.com/en/products/web-panels/",
+    "name": "Web Panels",
+    "condition": "new",
+    "presta_categories": {
+      "default_category": 11505,
+      "additional_categories": []
+    }
+  },
+  "Industrial Box PC": {
+    "url": "https://www.ads-tec-iit.com/en/products/industry-box-pcs/",
+    "name": "Industrial Box PC",
+    "condition": "new",
+    "presta_categories": {
+      "default_category": 11506,
+      "additional_categories": []
+    }
+  },
+  "Industrial monitors": {
+    "url": "https://www.ads-tec-iit.com/en/products/industrial-monitors/",
+    "name": "Industrial monitors",
+    "condition": "new",
+    "presta_categories": {
+      "default_category": 11507,
+      "additional_categories": []
+    }
+  },
+  "Firewall & Router": {
+    "url": "https://www.ads-tec-iit.com/en/reliable-remote-access/firewall-router/",
+    "name": "Firewall & Router",
+    "condition": "new",
+    "presta_categories": {
+      "default_category": 11508,
+      "additional_categories": [ 11287 ]
+    }
+  },
+  "Image transmission": {
+    "url": "https://www.ads-tec-iit.com/en/products/image-transmission/",
+    "name": "Image transmission",
+    "condition": "new",
+    "presta_categories": {
+      "default_category": 11413,
+      "additional_categories": [ 11412 ]
+    }
+  }
+}
