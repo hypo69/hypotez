@@ -491,9 +491,9 @@ class FindElementsMixin:
         )
         return response['result']['node']
 
-    async def _execute_command(self, command: Command[T]) -> T:
+    async def _execute_command(self, command: Command[T],  timeout: Optional[int] = 60) -> T:
         """Execute CDP command via connection handler (60s timeout)."""
-        return await self._connection_handler.execute_command(command, timeout=60)  # type: ignore
+        return await self._connection_handler.execute_command(command, timeout = timeout)  # type: ignore
 
     def _get_find_element_command(self, by: By, selector: str, object_id: str = ''):
         """

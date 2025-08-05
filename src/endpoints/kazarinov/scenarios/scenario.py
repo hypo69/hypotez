@@ -217,7 +217,6 @@ class Scenario:
             logger.warning(" 😒 Не собрано ни одного товара", None, False)
             if bot:
                 bot.send_message(chat_id, "⚠️ Не удалось собрать информацию ни об одном товаре.")
-            await driver.stop()
             return False
 
         for lang in ("he", "ru"):
