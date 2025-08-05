@@ -7,6 +7,9 @@
 
 Модуль содержит конфигурацию и исполнитель сценария для эндпоинта `kazarinov`.
 
+1. Казаринов выбирает комплектующие
+2. объединяет в onetab
+3. Отправляет telegram боту ссылку на onetab
 ```rst
 .. module:: src.endpoints.kazarinov.scenarios.scenario
 ```
@@ -17,27 +20,23 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from types import SimpleNamespace
 from typing import List, Optional, TYPE_CHECKING
-
 import telebot
-
-from pydoll.browser import Chrome
-
-
 
 from header import __root__
 from src import gs, USE_ENV
+from src.webdriver.pydoll.llib.browser import Chrome
+from src.webdriver.pydoll.tab import BaseTab, Tab
+from src.webdriver.pydoll.options import Options
+from src.webdriver.pydoll.browser import Browser
 
 from src.endpoints.kazarinov.report_generator.report_generator import ReportGenerator
 from src.endpoints.kazarinov.scenarios.quotation_builder import QuotationBuilder
 from src.endpoints.prestashop.product_fields.product_fields import ProductFields
+
+from src.utils.port import get_free_port
 from src.logger.logger import logger
 from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_url
 from src.utils.jjson import j_loads_ns, j_dumps
-from src.webdriver.pydoll.tab import Tab
-from src.webdriver.pydoll.options import Options
-
-if TYPE_CHECKING:
-    from src.webdriver.pydoll.tab import BaseTab
 
 
 class Config:
@@ -138,17 +137,22 @@ class Scenario:
         required_fields: list[str] = [
             "id_supplier",
             "name",
-            "price",
+            # "price",
             "reference",
             "description",
-            "description_short",
+            # "description_short",
             "specification",
             "default_image_url",
         ]
 
-        async with Chrome(Options(headless=False)) as browser:
-            base_tab: BaseTab = await browser.start()
-            tab: Tab = Tab(base_tab)
+
+        async with Browser( # <- сюда можно подставить класс браузера (Chrome, Edge) из  from src.webdriver.pydoll.llib.browser
+                        options = Options(headless=False), 
+                        connection_port = get_free_port([9223, 9322]) 
+                        ) as browser:
+            base_tab: 'BaseTab' = await browser.start()
+            tab: Tab = Tab(base_tab = base_tab)
+            _process = browser._browser_process_manager._process
             # Сбор товаров ---------------------------------------------------------
             for url in urls:
                 logger.debug(f"Обработка URL: {url}", None, False)

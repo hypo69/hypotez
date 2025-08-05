@@ -4,7 +4,7 @@
 """
 Разбор ссылок из OneTab
 =========================
-.. module:: src.endpoints.fetch_one_tab 
+.. module:: src.endpoints.fetch_one_tab                              
     :platform: Windows, Unix
     :synopsis: Разбор ссылок из OneTab
 """

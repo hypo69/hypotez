@@ -19,41 +19,34 @@ import re
 from types import SimpleNamespace
 from typing import Any, List, Optional, TYPE_CHECKING, Union, TypeVar
 
-from pydoll.browser.tab import Tab as BaseTab
-from pydoll.constants import By, Key
-from pydoll.protocol.base import Command
-from pydoll.browser import Chrome
-
-if TYPE_CHECKING:
-    from pydoll.elements.web_element import WebElement
-
-T = TypeVar('T')
+from src.webdriver.pydoll.llib.browser.tab import Tab as BaseTab
+from src.webdriver.pydoll.llib.constants import By, Key
+from src.webdriver.pydoll.llib.protocol.base import Command
+from src.webdriver.pydoll.llib.browser import Chrome
+from src.webdriver.pydoll.llib.elements.mixins import FindElementsMixin
 
 from header import __root__
-from src.webdriver.pydoll.options import Options
+from src.webdriver.pydoll.options import Options # <- НЕ ПЕРЕПУТАЙ с src.webdriver.pydoll.llib.options.Options
 from src.logger.logger import logger
+
+if TYPE_CHECKING:
+    from src.webdriver.pydoll.llib.elements.web_element import WebElement
+
+T = TypeVar('T')
 
 class Tab:
     """
     Расширенная версия вкладки (Tab), которая добавляет метод execute_locator
     и работает как прокси для оригинального объекта pydoll.browser.tab.Tab.
     """
-    
-    def __init__(self, base_tab: BaseTab):
-        """
-        Инициализирует обертку, сохраняя оригинальный объект вкладки.
-    
-        Args:
-            base_tab (BaseTab): Оригинальный экземпляр вкладки из pydoll.
-        """
-        self._base_tab: 'BaseTab' = base_tab
+    _base_tab: 'BaseTab' = None 
 
-    def __getattr__(self, name: str) -> Any:
+    def __init__(self, base_tab: BaseTab, *args, **kwargs):
         """
-        Магический метод, который перенаправляет все обращения к атрибутам
-        к оригинальному объекту _base_tab.
+        Инициализирует базовый класс и любые дополнительные атрибуты.
         """
-        return getattr(self._base_tab, name)
+        # Вызов конструктора родительского класса BaseTab
+        self._base_tab: 'BaseTab' = base_tab
 
     async def __aenter__(self) -> 'Tab':
         """Метод для входа в асинхронный контекстный менеджер."""
@@ -67,6 +60,14 @@ class Tab:
             await self.close() 
         except Exception as ex:
             logger.error(f"Failed to close tab {self._base_tab._target_id} on exit: {ex}", exc_info=True)  
+
+    def __getattr__(self, name: str) -> Any:
+        """
+        Магический метод, который перенаправляет все обращения к атрибутам
+        к оригинальному объекту _base_tab.
+        """
+        return getattr(self._base_tab, name)
+
 
     @staticmethod
     def _parse_keys(key_string: str) -> List[Union[Key, str]]:
@@ -93,9 +94,10 @@ class Tab:
                 parsed_keys.append(part_stripped)
         return parsed_keys
 
-    async def _execute_command(self, command: Command[T], timeout: Optional[int] = 0) -> T:
+
+    async def _execute_command(self, command: Command[T], timeout: Optional[int] = 60) -> T:
         """Execute CDP command via connection handler (60s timeout)."""
-        return await self._connection_handler.execute_command(command, timeout=timeout)  # type: ignore
+        return await self.base_tab._connection_handler.execute_command(command, timeout=timeout)  # type: ignore
 
     async def _perform_action(self, event_string: str, elements: List['WebElement'], locator: SimpleNamespace, message: Optional[str] = None) -> bool:
         """
@@ -164,9 +166,26 @@ class Tab:
         """
         Находит элемент(ы) с использованием ожидания.
         """
+        by: By = None  
+        
+        match locator.by.lower():
+            case 'xpath':
+                by = By.XPATH
+            case 'id':
+                by = By.ID
+            case 'name':
+                by = By.NAME
+            case 'tag_name':
+                by = By.TAG_NAME
+            case 'class_name':
+                by = By.CLASS_NAME
+            case 'css_selector':
+                by = By.CSS_SELECTOR
+
+
         return await self.find_or_wait_element(
-            by=locator.by.lower(), 
-            value=locator.selector, 
+            by=by, 
+            selector=locator.selector, 
             timeout=getattr(locator, 'timeout', 0), 
             find_all=True, 
             raise_exc=raise_exc
@@ -186,7 +205,7 @@ class Tab:
             return getattr(locator, 'attribute', None)
     
         # --- Этап 1: ПОИСК ---
-        elements = await self.find(locator, raise_exc=False)
+        elements = await self.find(locator, raise_exc=True)
         if not elements:
             log_func = logger.error if getattr(locator, 'mandatory', False) else logger.warning
             log_func(f"Locator failed: No elements found for '{locator.locator_description}' with selector '{locator.selector}'")
@@ -204,21 +223,25 @@ class Tab:
                     return False # Прерываем всю цепочку
 
         # --- Этап 3: ИЗВЛЕЧЕНИЕ ДАННЫХ ---
-        attribute_to_get = getattr(locator, 'attribute', None)
-        if not attribute_to_get:
+        _attr = getattr(locator, 'attribute', None).lower()
+        if not _attr:
             return elements
 
         try:
             extracted_data: list = []
             for el in elements:
-                if attribute_to_get.lower() == 'innertext':
-                    extracted_data.append(await el.text)
-                elif attribute_to_get.lower() == 'innerhtml':
-                    extracted_data.append(await el.inner_html)
-                else:
-                    extracted_data.append(await el.get_attribute(attribute_to_get))
+                match _attr:
+                    case 'innertext':
+                        extracted_data.append(await el.text)
+                    case 'innerhtml':
+                        extracted_data.append(await el.inner_html)
+                    case 'href':
+                        extracted_data.append(await el._attributes['href'])
+                        ...
+                    case _:
+                        extracted_data.append(await el.get_attribute(_attr))
         except Exception as ex:
-            logger.error(f"Failed to get attribute '{attribute_to_get}' for locator '{locator.locator_description}': {ex}", exc_info=True)
+            logger.error(f"Failed to get attribute '{_attr}' for locator '{locator.locator_description}': {ex}", exc_info=True)
             return False
 
         # --- Этап 4: ФИЛЬТРАЦИЯ РЕЗУЛЬТАТА ---

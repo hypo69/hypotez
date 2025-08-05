@@ -3,40 +3,6 @@
 
 #! .pyenv/bin/python3
 
-"""
-.. module: dev_utils 
-	:platform: Windows, Unix
-	:synopsis:
-
-"""
-MODE = 'development'
-
-"""
-	:platform: Windows, Unix
-	:synopsis:
-
-"""
- 
-
-"""
- 
-	:platform: Windows, Unix
-	:synopsis:
-
-"""
-
-"""
-  :platform: Windows, Unix
-
-"""
-"""
-  :platform: Windows, Unix
-  :platform: Windows, Unix
-  :synopsis:
-"""MODE = 'development'
-  
-"""  """
-
 
 import os
 import sys

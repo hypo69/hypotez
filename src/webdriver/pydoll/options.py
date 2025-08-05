@@ -15,7 +15,7 @@ from pathlib import Path
 from typing import Dict, Any, Union, List, Tuple
 
 from header import __root__
-from pydoll.browser.options import ChromiumOptions
+from src.webdriver.pydoll.llib.browser.options import ChromiumOptions
 from src.logger.logger import logger
 from src.utils.jjson import j_loads
 

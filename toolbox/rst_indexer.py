@@ -9,33 +9,6 @@
 	:synopsis:
 
 """
-MODE = 'development'
-
-"""
-	:platform: Windows, Unix
-	:synopsis:
-
-"""
- 
-
-"""
- 
-	:platform: Windows, Unix
-	:synopsis:
-
-"""
-
-"""
-  :platform: Windows, Unix
-
-"""
-"""
-  :platform: Windows, Unix
-  :platform: Windows, Unix
-  :synopsis:
-"""MODE = 'development'
-  
-"""  """
 
 
 """

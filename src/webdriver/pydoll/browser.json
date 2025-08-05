@@ -75,7 +75,7 @@
     "--disable-save-password-bubble"
   ],
 
-  "binary_location": "C:\\Users\\user\\Documents\\repos\\hypotez\\bin\\webdrivers\\chromium\\chrome-win\\chrome.exe",
+  "binary_location": "C:\\Users\\user\\Documents\\repos\\hypotez\\bin\\webdrivers\\chromium\\chrome-win-141.0.7340.0\\chrome.exe",
 
   "extensions": [],
 

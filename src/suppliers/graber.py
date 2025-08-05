@@ -936,7 +936,6 @@ class GraberBase:
             logger.error(f"Ошибка получения значения в поле `description` \n ", ex)
             ...
             return False
-        return True
 
     @close_pop_up()
     async def description_short(self, value:Optional[str] = '') -> bool:
@@ -1426,7 +1425,7 @@ class GraberBase:
             self.product_fields.name = normalize_string(value if value else await self.driver.execute_locator(self.product_locator.name))
             return True if self.product_fields.name else False
         except Exception as ex:
-            logger.error(f"Ошибка получения значения в поле `mpn`", ex)
+            logger.error(f"Ошибка получения значения в поле `name`", ex)
             ...
             return False
 
