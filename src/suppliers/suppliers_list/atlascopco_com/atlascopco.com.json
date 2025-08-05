@@ -1,8 +1,0 @@
-{
-  "supplier_id": 11452,
-  "supplier_type": 11512,
-  "supplier_types_description": "11510 -> manufacturer; 11511 -> marketplace; 11512 -> catalog",
-  "supplier_prefix": "atlascopco.com",
-  "start_url": "https://atlascopco.com"
-
-}

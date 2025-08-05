@@ -1,8 +1,0 @@
-{
-  "supplier_prefix": "amazon",
-  "supplier_id": 2800,
-  "supplier_type": 11511,
-  "supplier_types_description": "11510 -> manufacturer; 11511 -> marketplace; 11512 -> catalog",
-  "start_url": "https://www.amazon.com/"
-
-}

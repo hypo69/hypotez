@@ -1,8 +1,0 @@
-{
-  "supplier_id": 11453,
-  "supplier_type": 11511,
-  "supplier_types_description": "11510 -> manufacturer; 11511 -> marketplace; 11512 -> catalog",
-  "supplier_prefix": "bucketmaster.com.cn",
-  "start_url": "https://bucketmaster.com.cn"
-
-}
