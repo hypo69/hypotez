@@ -57,7 +57,6 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from src.webdriver.pydoll import Driver
 
-import header
 from header import __root__
 from src import gs
 # from src.webdriver.selenium.driver import Driver
@@ -1422,6 +1421,7 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.name`.
         """
         try:
+            value = await self.driver.execute_locator(self.product_locator.name)
             self.product_fields.name = normalize_string(value if value else await self.driver.execute_locator(self.product_locator.name))
             return True if self.product_fields.name else False
         except Exception as ex:

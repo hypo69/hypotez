@@ -1,45 +1,38 @@
-## \file /src/suppliers/hb/_experiments/ide_experiments_grabber.py
+## \file /src/suppliers/suppliers_list/de_de_ring_com/_experiments/ide_experiments_grabber.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
-
 """
-.. module:: src.suppliers.hb._experiments 
-	:platform: Windows, Unix
-	:synopsis:
+.. module:: src.suppliers.suppliers_list.de_de_ring_com._experiments.ide_experiments_grabber
+    :platform: Windows, Unix
+    :synopsis: Experiment file for testing grabber scenarios for De-De-Ring.
 
+De-De-Ring Grabber Experiment File
+=========================================================================================
+
+This module contains experimental code for testing the execution of grabber scenarios
+for the De-De-Ring supplier. It includes checks for populating product fields and sending data to the server.
+
+Example usage
+-------------
+
+```python
+    # This module is intended for direct execution during development and testing.
+    # It initializes a supplier, product, and driver, then runs a scenario.
+    # Example of running the script:
+    # python src/suppliers/suppliers_list/de_de_ring_com/_experiments/ide_experiments_grabber.py
+```
+
+:author: hypo69
+:license: Proprietary. All rights reserved.
+:version: 1.0.0
+:location: suppliers/suppliers_list/de_de_ring_com/_experiments/ide_experiments_grabber.py
 """
 
 
-"""
-	:platform: Windows, Unix
-	:synopsis:
-
-"""
-
-"""
-	:platform: Windows, Unix
-	:synopsis:
-
-"""
-
-"""
-  :platform: Windows, Unix
-
-"""
-"""
-  :platform: Windows, Unix
-  :platform: Windows, Unix
-  :synopsis:
-"""
-  
-""" module: src.suppliers.hb._experiments """
-
-
-"""  Проверки исполнения сценариев HB.
-проверки:
-- получить заполненный словарь product_fields
-- отправить его на сервер
+"""  Checks for scenario execution for HB.
+Checks:
+- get populated product_fields dictionary
+- send it to the server
 """
 
 
@@ -50,13 +43,13 @@ from pathlib import Path
 from typing import List, Union, Dict
 from selenium.webdriver.remote.webelement import WebElement
 
-################# добавление корневой директории позволяет мне плясать от печки ###################
+################# Adding the root directory allows me to start from the base ###################
 dir_root: Path = Path(os.getcwd()[:os.getcwd().rfind('hypotez') + 7])
 sys.path.append(str(dir_root))  # Adding the root folder to sys.path
 dir_src = Path(dir_root, 'src')
 sys.path.append(str(dir_root))
 from src.webdriver import executor
-"""  добавление корневой директории позволяет мне плясать от печки. """
+"""  Adding the root directory allows me to start from the base. """
 ####################################################################################################
 
 

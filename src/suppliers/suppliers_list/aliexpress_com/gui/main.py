@@ -1,13 +1,31 @@
-## \file /src/suppliers/aliexpress/gui/main.py
+## \file /src/suppliers/suppliers_list/aliexpress_com/gui/main.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
-
 """
-.. module:: src.suppliers.suppliers_list.aliexpress_com.gui 
-	:platform: Windows, Unix
-	:synopsis:
+.. module:: src.suppliers.suppliers_list.aliexpress_com.gui.main
+    :platform: Windows, Unix
+    :synopsis: Main GUI application for managing AliExpress advertising campaigns.
 
+Main AliExpress Campaign Management GUI
+=========================================================================================
+
+This module provides the main graphical user interface for managing AliExpress advertising campaigns.
+It features a tabbed interface for editing campaign JSON files, managing campaign categories, and editing product details.
+
+Example usage
+-------------
+
+```python
+    # To run the main application:
+    # python src/suppliers/suppliers_list/aliexpress_com/gui/main.py
+
+    # This will launch the PyQt6 application with the tabbed interface.
+```
+
+:author: hypo69
+:license: Proprietary. All rights reserved.
+:version: 1.0.0
+:location: suppliers/suppliers_list/aliexpress_com/gui/main.py
 """
 
 

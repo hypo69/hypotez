@@ -1,13 +1,44 @@
-## \file /src/suppliers/aliexpress/utils/extract_product_id.py
+## \file /src/suppliers/suppliers_list/aliexpress_com/utils/extract_product_id.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
-
 """
-.. module:: src.suppliers.suppliers_list.aliexpress_com.utils 
-	:platform: Windows, Unix
-	:synopsis:
+.. module:: src.suppliers.suppliers_list.aliexpress_com.utils.extract_product_id
+    :platform: Windows, Unix
+    :synopsis: Extracts product IDs from AliExpress URLs or strings.
 
+AliExpress Product ID Extraction Utility
+=========================================================================================
+
+This module provides a function to reliably extract product identifiers from various
+AliExpress URL formats or directly from product ID strings.
+
+Example usage
+-------------
+
+```python
+    from src.suppliers.suppliers_list.aliexpress_com.utils.extract_product_id import extract_prod_ids
+
+    # Example with a full URL
+    product_id = extract_prod_ids("https://www.aliexpress.com/item/1234567890.html")
+    print(f"Extracted ID: {product_id}")  # Output: Extracted ID: 1234567890
+
+    # Example with a product ID string
+    product_id = extract_prod_ids("9876543210")
+    print(f"Extracted ID: {product_id}")  # Output: Extracted ID: 9876543210
+
+    # Example with a list of URLs/IDs
+    product_ids = extract_prod_ids([
+        "https://www.aliexpress.com/item/11111.html",
+        "22222",
+        "invalid_url"
+    ])
+    print(f"Extracted IDs: {product_ids}")  # Output: Extracted IDs: ['11111', '22222']
+```
+
+:author: hypo69
+:license: Proprietary. All rights reserved.
+:version: 1.0.0
+:location: suppliers/suppliers_list/aliexpress_com/utils/extract_product_id.py
 """
 
 

@@ -1,13 +1,35 @@
-## \file /src/suppliers/aliexpress/gui/campaign.py
+## \file /src/suppliers/suppliers_list/aliexpress_com/gui/campaign.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
-
 """
-.. module:: src.suppliers.suppliers_list.aliexpress_com.gui 
-	:platform: Windows, Unix
-	:synopsis:
+.. module:: src.suppliers.suppliers_list.aliexpress_com.gui.campaign
+    :platform: Windows, Unix
+    :synopsis: GUI editor for AliExpress campaigns.
 
+AliExpress Campaign GUI Editor
+=========================================================================================
+
+This module provides a graphical user interface for editing and managing AliExpress campaigns.
+It allows users to open campaign JSON files, view and modify campaign details, and trigger campaign preparation.
+
+Example usage
+-------------
+
+```python
+    # This module is typically run as part of a larger PyQt6 application.
+    # Example of how it might be integrated:
+    # from PyQt6.QtWidgets import QApplication
+    # from src.suppliers.suppliers_list.aliexpress_com.gui.campaign import CampaignEditor
+    # app = QApplication([])
+    # editor = CampaignEditor()
+    # editor.show()
+    # app.exec()
+```
+
+:author: hypo69
+:license: Proprietary. All rights reserved.
+:version: 1.0.0
+:location: suppliers/suppliers_list/aliexpress_com/gui/campaign.py
 """
 
 

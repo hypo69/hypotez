@@ -2,14 +2,14 @@
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 """
-Сценарий для Казаринова
-=======================
+Scenario for Kazarinov
+======================
 
-Модуль содержит конфигурацию и исполнитель сценария для эндпоинта `kazarinov`.
+This module contains the configuration and scenario executor for the `kazarinov` endpoint.
 
-1. Казаринов выбирает комплектующие
-2. объединяет в onetab
-3. Отправляет telegram боту ссылку на onetab
+1. Kazarinov selects components
+2. combines them in onetab
+3. Sends a link to onetab to the telegram bot
 ```rst
 .. module:: src.endpoints.kazarinov.scenarios.scenario
 ```
@@ -24,8 +24,8 @@ import telebot
 
 from header import __root__
 from src import gs, USE_ENV
-from src.webdriver.pydoll.llib.browser import Chrome
-from src.webdriver.pydoll.tab import BaseTab, Tab
+
+from src.webdriver.pydoll.tab import Tab
 from src.webdriver.pydoll.options import Options
 from src.webdriver.pydoll.browser import Browser
 
@@ -40,8 +40,8 @@ from src.utils.jjson import j_loads_ns, j_dumps
 
 
 class Config:
-    """Конфигурация сценария."""
-    
+    """Scenario configuration."""
+
     ENDPOINT: str = 'kazarinov'
     config: SimpleNamespace = j_loads_ns(__root__ / "src" / "endpoints" / ENDPOINT / f"{ENDPOINT}.json")
     if not config:
@@ -53,7 +53,7 @@ class Config:
 
 @dataclass(slots=True, kw_only=True)
 class Scenario:
-    """Исполнитель сценария для Казаринова."""
+    """Scenario executor for Kazarinov."""
 
     async def process_llm_async(self, products_list: List[str], lang:str,  attempts: int = 3) -> tuple | bool:
         """
@@ -68,8 +68,8 @@ class Scenario:
             bool: False if unable to get a valid response after retries.
 
         .. note::
-            Модель может возвращать невалидный результат.
-            В таком случае я переспрашиваю модель разумное количество раз.
+            The model may return an invalid result.
+            In this case, I ask the model again a reasonable number of times.
         """
         if attempts < 1:
             ...
@@ -82,17 +82,17 @@ class Scenario:
         response = await self.model.ask_async(q) # CORRECT
 
         if not response:
-            logger.error(f"Нет ответа от модели")
+            logger.error(f"No response from the model")
             ...
             return {}
 
-        response_dict:dict = j_loads(response) # <- если будет ошибка , то вернется пустой словарь
+        response_dict:dict = j_loads(response) # <- if there is an error, an empty dictionary will be returned
 
         if not response_dict:
-            logger.error(f'Ошибка {attempts} парсинга ответа модели', None, False)
+            logger.error(f'Error {attempts} parsing the model response', None, False)
             if attempts > 1:
                 ...
-                return await self.process_llm_async(products_list, lang, attempts - 1) 
+                return await self.process_llm_async(products_list, lang, attempts - 1)
             return {}
         return  response_dict
 
@@ -105,12 +105,12 @@ class Scenario:
         """
         file_path = self.export_path / 'products' / f"{product_data['product_id']}.json"
         if not j_dumps(product_data, file_path, ensure_ascii=False):
-            logger.error(f'Ошибка сохранения словаря {print(product_data)}\n Путь: {file_path}')
+            logger.error(f'Error saving dictionary {print(product_data)}\n Path: {file_path}')
             ...
             return
         return True
 
- 
+
     async def run_scenario_async(
         self,
         mexiron_name:str,
@@ -121,19 +121,19 @@ class Scenario:
         browser_options: Optional[Options] = None,
         attempts: int = 3,
     ) -> bool:
-        """Запускает сценарий.
+        """Runs the scenario.
 
         Args:
-            urls: Ссылки на товары (или категории).
-            price: Цена для отчёта.
-            bot: Телеграм‑бот для отправки статуса.
-            chat_id: Идентификатор чата.
-            attempts: Количество попыток перезапуска драйвера.
+            urls: Links to products (or categories).
+            price: Price for the report.
+            bot: Telegram bot for sending status.
+            chat_id: Chat ID.
+            attempts: Number of attempts to restart the driver.
 
         Returns:
-            bool: ``True`` при успешном завершении сценария.
+            bool: ``True`` on successful completion of the scenario.
         """
-        products_list: list[dict] = []  # Список собранных товаров
+        products_list: list[dict] = []  # List of collected products
         required_fields: list[str] = [
             "id_supplier",
             "name",
@@ -146,55 +146,55 @@ class Scenario:
         ]
 
 
-        async with Browser( # <- сюда можно подставить класс браузера (Chrome, Edge) из  from src.webdriver.pydoll.llib.browser
-                        options = Options(headless=False), 
-                        connection_port = get_free_port([9223, 9322]) 
+        async with Browser( # <- you can substitute the browser class (Chrome, Edge) from from src.webdriver.pydoll.llib.browser here
+                        options = Options(headless=False),
+                        connection_port = get_free_port([9223, 9322])
                         ) as browser:
-            base_tab: 'BaseTab' = await browser.start()
-            tab: Tab = Tab(base_tab = base_tab)
-            _process = browser._browser_process_manager._process
-            # Сбор товаров ---------------------------------------------------------
+            tab: Tab = await browser.start()
+            # _process = browser._browser_process_manager._process
+
+            # Collecting products ---------------------------------------------------------
             for url in urls:
-                logger.debug(f"Обработка URL: {url}", None, False)
+                logger.debug(f"Processing URL: {url}", None, False)
 
                 graber = get_graber_by_supplier_url(url, tab)
 
                 if not graber:
-                    logger.error(f"🤷‍♂️ Нет подходящего грабера для URL: {url}", None, True)
+                    logger.error(f"🤷‍♂️ No suitable grabber for URL: {url}", None, True)
                     if bot:
-                        bot.send_message(chat_id, f"❌ Нет обработчика для ссылки:\n{url}")
+                        bot.send_message(chat_id, f"❌ No handler for the link:\n{url}")
                     continue
 
                 if bot:
-                    bot.send_message(chat_id, f"⏳ Сбор полей товара со страницы:\n{url}")
+                    bot.send_message(chat_id, f"⏳ Collecting product fields from the page:\n{url}")
 
-                logger.info(f'⏳ Сбор полей товара со страницы {url}', ex = None, exc_info = False, text_color = "light_gray")
+                logger.info(f'⏳ Collecting product fields from the page {url}', ex = None, exc_info = False, text_color = "light_gray")
                 try:
-                    await tab.get_url(url)
+                    await tab.go_to(url)
                     product_fields: ProductFields = await graber.grab_page_async(required_fields = required_fields)
-                except Exception as ex: 
-                    logger.error(f"❌ Ошибка парсинга страницы:{url}", ex, exc_info = True)
+                except Exception as ex:
+                    logger.error(f"❌ Error parsing page:{url}", ex, exc_info = True)
                     if bot:
-                        bot.send_message(chat_id, f"❌ Ошибка парсинга страницы:\n{url}\n{ex}")
+                        bot.send_message(chat_id, f"❌ Error parsing page:\n{url}\n{ex}")
                     continue
 
                 if not product_fields or not product_fields.name:
 
                     if bot:
-                        bot.send_message(chat_id, f"❌ Ошибка парсинга товара:\n{url}\nПроверьте локаторы.")
-                    logger.error(f"""❌ Ошибка парсинга товара:{url}
-                    Проверьте локаторы.""", None, False, text_color="light_gray", bg_color="light_gray")
+                        bot.send_message(chat_id, f"❌ Error parsing product:\n{url}\nCheck the locators.")
+                    logger.error(f"""❌ Error parsing product:{url}
+                    Check the locators.""", None, False, text_color="light_gray", bg_color="light_gray")
                     continue
 
                 try:
-                    # Конвертиртация поля из объекта `ProductFields` в простой словарь для модели llm
+                    # Convert the field from a `ProductFields` object to a simple dictionary for the llm model
                     ...
                     product_data = self.convert_product_fields(product_fields)
 
-                    # Индивидуальные настройки поставщиков
+                    # Individual supplier settings
                     match(graber.supplier_prefix):
                         case 'morlevi.co.il':
-                            product_data['default_image_url'] = fr'https"://"morlevi.co.il/' + product_data['default_image_url'] 
+                            product_data['default_image_url'] = fr'https://morlevi.co.il/' + product_data['default_image_url']
                             ...
                         case 'grandadvance.co.il':
                             ...
@@ -203,63 +203,62 @@ class Scenario:
                         case 'ivory.co.il':
                             ...
 
-                except Exception as ex:  
-                    logger.error("Ошибка конвертации данных", ex, exc_info=True)
+                except Exception as ex:
+                    logger.error("Error converting data", ex, exc_info=True)
                     if bot:
-                        bot.send_message(chat_id, f"❌ Ошибка конвертации:\n{url}")
+                        bot.send_message(chat_id, f"❌ Conversion error:\n{url}")
                     continue
 
                 await self.save_product_data(product_data)
                 products_list.append(product_data)
 
-        # AI‑обработка ---------------------------------------------------------
+        # AI processing ---------------------------------------------------------
         if not products_list:
-            logger.warning(" 😒 Не собрано ни одного товара", None, False)
+            logger.warning(" 😒 Not a single product has been collected", None, False)
             if bot:
-                bot.send_message(chat_id, "⚠️ Не удалось собрать информацию ни об одном товаре.")
+                bot.send_message(chat_id, "⚠️ Failed to collect information about any product.")
             return False
 
         for lang in ("he", "ru"):
             if bot:
-                bot.send_message(chat_id, f"🤖 AI обработка ({lang})...")
+                bot.send_message(chat_id, f"🤖 AI processing ({lang})...")
 
             try:
                 data = await self.process_llm_async(products_list, lang)
             except Exception as ex:  # pragma: no cover
-                logger.error("🤖 AI‑обработка упала", ex, exc_info=False)
+                logger.error("🤖 AI processing failed", ex, exc_info=False)
                 if bot:
-                    bot.send_message(chat_id, f"❌ AI ошибка ({lang}):\n{ex}")
+                    bot.send_message(chat_id, f"❌ AI error ({lang}):\n{ex}")
                 continue
 
             if not data or lang not in data:
                 if bot:
-                    bot.send_message(chat_id, f"🤖 AI f'AI вернула пустой результат\nязык: {lang}\n{products_list=}'\n...")
+                    bot.send_message(chat_id, f"🤖 AI f'AI returned an empty result\nlanguage: {lang}\n{products_list=}'\n...")
 
-                logger.warning(f'AI вернула пустой результат \n язык {lang} \n {products_list=}')
+                logger.warning(f'AI returned an empty result \n language {lang} \n {products_list=}')
                 continue
 
             processed = data[lang]
             processed["price"] = price
-            processed["currency"] = getattr(self.translations.currency, lang, "ש''ח")
+            processed["currency"] = getattr(self.translations.currency, lang, "NIS")
 
             try:
                 j_dumps(processed, self.export_path / f"{self.mexiron_name}_{lang}.json")
             except Exception as ex:  # pragma: no cover
-                logger.error("Не удалось сохранить JSON", ex, exc_info=True)
+                logger.error("Failed to save JSON", ex, exc_info=True)
 
-            logger.info("Сохранён JSON: ", self.export_path / f"{self.mexiron_name}_{lang}.json")
-            
+            logger.info("Saved JSON: ", self.export_path / f"{self.mexiron_name}_{lang}.json")
 
 
-            # Генерация отчёта ---------------------------------------------------
+            # Report generation ---------------------------------------------------
 
             if bot:
-                bot.send_message(chat_id, f"📈 Создание отчёта ({lang})...")
+                bot.send_message(chat_id, f"📈 Creating report ({lang})...")
 
-            logger.info(f"📈 Создание отчёта ({lang})...", ex=None, exc_info=False, text_color = "light_gray",)
+            logger.info(f"📈 Creating report ({lang})...", ex=None, exc_info=False, text_color = "light_gray",)
 
             reporter = ReportGenerator(if_need_docx=False)
-            
+
             if not await reporter.create_reports_async(
                     bot=bot,
                     chat_id=chat_id,
@@ -268,17 +267,17 @@ class Scenario:
                     mexiron_name = mexiron_name,
                 ):
 
-                logger.error("Ошибка генерации отчёта", ex, exc_info=True)
+                logger.error("Report generation error", ex, exc_info=True)
                 if bot:
-                    bot.send_message(chat_id, f"❌ Ошибка отчёта ({lang}):\n{ex}")
-                return 
+                    bot.send_message(chat_id, f"❌ Report error ({lang}):\n{ex}")
+                return
 
         return True
 
     def convert_product_fields(self, f: ProductFields) -> dict:
         """
-        Converts product fields into a dictionary. 
-        Функция конвертирует поля из объекта `ProductFields` в простой словарь для модели llm.
+        Converts product fields into a dictionary.
+        The function converts fields from the `ProductFields` object into a simple dictionary for the llm model.
 
         Args:
             f (ProductFields): Object containing parsed product data.
@@ -286,19 +285,19 @@ class Scenario:
         Returns:
             dict: Formatted product data dictionary.
 
-        Note: 
-            Правила построения полей определяются в `ProductFields`
+        Note:
+            The rules for constructing fields are defined in `ProductFields`
         """
         # if not f.reference:
-        #     logger.error(f"Сбой при получении полей товара. ")
-        #     return {} # <- сбой при получении полей товара. Такое может произойти если вместо страницы товара попалась страница категории, при невнимательном составлении мехирона из комплектующих
+        #     logger.error(f"Failed to get product fields. ")
+        #     return {} # <- failed to get product fields. This can happen if a category page was encountered instead of a product page, with careless compilation of the mekhiron from components
         # ...
 
         product_name = f.name['language']['value'] if f.name else ''
         description = f.description['language']['value'] if f.description else ''
         description_short = f.description_short['language']['value'] if f.description_short else ''
         specification = f.specification['language']['value']  if f.specification else ''
-        
+
         if not product_name:
             return {}
         return {
@@ -312,12 +311,10 @@ class Scenario:
 
 
 
-# ----------------------------------------------------------------------------------
-#                               Пример запуска                                      
-# ----------------------------------------------------------------------------------
+#               --- Example ----
 
 def run_sample_scenario() -> None:
-    """Пример локального теста сценария."""
+    """Example of a local scenario test."""
     urls_list: list[str] = [
         "https://www.morlevi.co.il/product/21039",
         "https://www.morlevi.co.il/product/21018",
@@ -326,7 +323,7 @@ def run_sample_scenario() -> None:
     ]
 
     scenario = Scenario()
-    logger.info("Запуск тестового сценария…")
+    logger.info("Launching test scenario…")
 
     async def _runner() -> bool:
         if await scenario.run_scenario_async(
@@ -336,7 +333,7 @@ def run_sample_scenario() -> None:
             # bot=your_telebot_instance,
             # chat_id=your_chat_id,
             ):
-            logger.info("Тестовый сценарий завершён")
+            logger.info("Test scenario completed")
             return True
         return
 

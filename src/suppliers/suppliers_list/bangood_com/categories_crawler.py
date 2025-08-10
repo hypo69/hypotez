@@ -1,22 +1,49 @@
-## \file /src/suppliers/bangood/scenario.py
+## \file /src/suppliers/suppliers_list/bangood_com/categories_crawler.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
+"""
+.. module:: src.suppliers.suppliers_list.bangood_com.categories_crawler
+    :platform: Windows, Unix
+    :synopsis: Module for collecting products from Banggood category pages via webdriver.
 
-"""  
-Модуль сбора товаров со страницы категорий поставщика bangood.co.il через вебдрайвер
-======================================================================================
+Banggood Category Page Product Scraper
+=========================================================================================
 
-У каждого поставщика свой сценарий обреботки категорий
+This module is responsible for scraping product data from Banggood category pages using a webdriver.
+Each supplier has its own category processing scenario.
 
--Модуль Собирает список категорий со страниц продавца . `get_list_categories_from_site()`.
-@todo Сделать проверку на изменение категорий на страницах продавца. 
-Продавец может добавлять новые категории, переименовывать или удалять/прятать уже существующие. 
-По большому счету надо держать таблицу категории `PrestaShop.categories <-> aliexpress_com.shop.categoies`
-- Собирает список товаров со страницы категории `get_list_products_in_category()`
-- Итерируясь по списку передает управление в `grab_product_page()` отсылая функции текущий url страницы  
-`grab_product_page()` обрабатывает поля товара и передает управление классу `Product` 
+- The module collects a list of categories from the seller's pages (`get_list_categories_from_site()`).
+  @todo Implement checks for changes in categories on seller pages.
+  Sellers may add new categories, rename, or delete/hide existing ones.
+  Essentially, a table of `PrestaShop.categories <-> bangood.shop.categories` should be maintained.
+- It collects a list of products from a category page (`get_list_products_in_category()`).
+- Iterating through the list, it passes control to `grab_product_page()`, sending the function the current page URL.
+  `grab_product_page()` processes the product fields and passes control to the `Product` class.
 
+Example usage
+-------------
+
+```python
+    from src.webdriver.selenium.driver import Driver
+    from src.suppliers.supplier import Supplier # Assuming Supplier class is available
+
+    # Example of how to use get_list_products_in_category
+    # driver_instance = Driver(browser_name="Chrome")
+    # class DummySupplier:
+    #     def __init__(self, driver):
+    #         self.driver = driver
+    #         self.locators = {'category': {'product_links': 'some_xpath', 'close_banner': 'some_other_xpath'}}
+    # supplier_instance = DummySupplier(driver_instance)
+    # product_urls = get_list_products_in_category(supplier_instance)
+    # if product_urls:
+    #     print(f"Found {len(product_urls)} products.")
+    # driver_instance.quit()
+```
+
+:author: hypo69
+:license: Proprietary. All rights reserved.
+:version: 1.0.0
+:location: suppliers/suppliers_list/bangood_com/categories_crawler.py
 """
 
 

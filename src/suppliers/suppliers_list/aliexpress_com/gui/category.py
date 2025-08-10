@@ -1,13 +1,35 @@
-## \file /src/suppliers/aliexpress/gui/category.py
+## \file /src/suppliers/suppliers_list/aliexpress_com/gui/category.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
-
 """
-.. module:: src.suppliers.suppliers_list.aliexpress_com.gui 
-	:platform: Windows, Unix
-	:synopsis:
+.. module:: src.suppliers.suppliers_list.aliexpress_com.gui.category
+    :platform: Windows, Unix
+    :synopsis: GUI for managing AliExpress campaign categories.
 
+AliExpress Category GUI Editor
+=========================================================================================
+
+This module provides a graphical user interface for managing categories within AliExpress campaigns.
+It allows users to load campaign files, prepare all categories, or prepare specific categories.
+
+Example usage
+-------------
+
+```python
+    # This module is typically run as part of a larger PyQt6 application.
+    # Example of how it might be integrated:
+    # from PyQt6.QtWidgets import QApplication
+    # from src.suppliers.suppliers_list.aliexpress_com.gui.category import CategoryEditor
+    # app = QApplication([])
+    # editor = CategoryEditor()
+    # editor.show()
+    # app.exec()
+```
+
+:author: hypo69
+:license: Proprietary. All rights reserved.
+:version: 1.0.0
+:location: suppliers/suppliers_list/aliexpress_com/gui/category.py
 """
 
 

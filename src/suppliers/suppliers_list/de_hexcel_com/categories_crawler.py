@@ -1,23 +1,48 @@
-## \file /src/suppliers/suppliers_list/hb/sceanrio.py
+## \file /src/suppliers/suppliers_list/de_hexcel_com/categories_crawler.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
-"""  
-Модуль сбора товаров со страницы категорий поставщика hb.co.il через вебдрайвер
-=====================================================================================
+"""
+.. module:: src.suppliers.suppliers_list.de_hexcel_com.categories_crawler
+    :platform: Windows, Unix
+    :synopsis: Module for collecting products from Hexcel (Germany) category pages via webdriver.
 
-Определение сценария обработки категорий для каждого поставщика.
+Hexcel (Germany) Category Page Product Scraper
+=========================================================================================
 
-- Модуль собирает список категорий со страниц продавца (`get_list_categories_from_site()`).
-@todo Сделать проверку на изменение категорий на страницах продавца. 
-Продавец может добавлять новые категории, переименовывать или удалять/прятать уже существующие. 
-По большому счету надо держать таблицу категории `PrestaShop.categories <-> aliexpress_com.shop.categoies`
-- Собирает список товаров со страницы категории (`get_list_products_in_category()`).
-- Итерируясь по списку, передает управление в `grab_product_page()`, отсылая функции текущий URL страницы.  
-`grab_product_page()` обрабатывает поля товара и передает управление классу `Product`.
+This module is responsible for scraping product data from Hexcel (Germany) category pages using a webdriver.
+Each supplier has its own category processing scenario.
 
-```rst
- .. module:: src.suppliers.suppliers_list.hb.sceanrio
+- The module collects a list of categories from the seller's pages (`get_list_categories_from_site()`).
+  @todo Implement checks for changes in categories on seller pages.
+  Sellers may add new categories, rename, or delete/hide existing ones.
+  Essentially, a table of `PrestaShop.categories <-> hexcel.shop.categories` should be maintained.
+- It collects a list of products from a category page (`get_list_products_in_category()`).
+- Iterating through the list, it passes control to `grab_product_page()`, sending the function the current page URL.
+  `grab_product_page()` processes the product fields and passes control to the `Product` class.
+
+Example usage
+-------------
+
+```python
+    import asyncio
+    from src.webdriver.selenium.driver import Driver
+    from types import SimpleNamespace
+
+    async def main():
+        driver = Driver() # Initialize your driver
+        locators = SimpleNamespace(product_links="...", show_more="...") # Define your locators
+        product_urls = await get_list_products_in_category(driver, locators)
+        if product_urls:
+            print(f'Found {len(product_urls)} products.')
+
+    if __name__ == "__main__":
+        asyncio.run(main())
 ```
+
+:author: hypo69
+:license: Proprietary. All rights reserved.
+:version: 1.0.0
+:location: suppliers/suppliers_list/de_hexcel_com/categories_crawler.py
 """
 
 import asyncio
@@ -74,4 +99,3 @@ async def get_list_products_in_category (d: Driver, l: SimpleNamespace) -> list:
 
     
     return product_links if isinstance(product_links, list) else [product_links]
-

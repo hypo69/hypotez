@@ -4,22 +4,22 @@
 
 
 """
-Модуль предоставляет высокоуровневый асинхронный драйвер для управления браузером на базе `pydoll`.
+This module provides a high-level asynchronous driver for controlling a browser based on `pydoll`.
 ======================================================================================================
-Модуль реализует асинхронный класс `Driver`, который служит высокоуровневой оберткой над библиотекой `pydoll`
-для автоматизации браузера Chrome. Основная цель — упростить взаимодействие с веб-страницами за счет
-использования декларативного подхода на основе 'локаторов'.
+This module implements the asynchronous `Driver` class, which serves as a high-level wrapper around the `pydoll` library
+for automating the Chrome browser. The main goal is to simplify interaction with web pages by
+using a declarative approach based on 'locators'.
 
-Ключевая функциональность:
-- **Асинхронность:** Все операции с браузером выполняются асинхронно с использованием `asyncio`.
-- **Контекстный менеджер:** Поддерживает `async with` для автоматического открытия и закрытия браузера.
-- **Управление через локаторы:** Вместо последовательных вызовов методов Selenium-подобного API используется
-  единый метод `execute_locator`, который принимает объект-локатор. Этот объект описывает все шаги:
-  поиск элемента, ожидание определенного состояния, выполнение действия (клик, ввод текста) и извлечение
-  данных (текст, атрибуты).
-- **Конфигурация:** Настройки браузера (путь к профилю, режим запуска) загружаются из файла `pydoll.json`.
+Key functionality:
+- **Asynchronicity:** All browser operations are performed asynchronously using `asyncio`.
+- **Context Manager:** Supports `async with` for automatically opening and closing the browser.
+- **Control via locators:** Instead of sequential calls to a Selenium-like API, a single `execute_locator` method is used,
+  which accepts a locator object. This object describes all the steps:
+  finding an element, waiting for a certain state, performing an action (click, text input), and extracting
+  data (text, attributes).
+- **Configuration:** Browser settings (profile path, launch mode) are loaded from the `pydoll.json` file.
 
-Пример локатора:
+Locator example:
 ```json
 {
   "reference": {
@@ -36,7 +36,7 @@
   }
 }
 
-Пример использования:
+Example of use:
 ```python
 from src.webdriver.pydoll.driver import Driver
 
@@ -46,7 +46,7 @@ async with driver as browser:
     await browser.get_url('https://example.com')
     reference = await browser.execute_locator(browser.page.locators.reference)
     print(reference)
-    
+
 ```
 """
 
@@ -60,14 +60,19 @@ from typing import List,  Optional, Any, TYPE_CHECKING
 from types import SimpleNamespace
 from dataclasses import dataclass, field
 
-from src.webdriver.pydoll.llib.browser import Chrome 
-
 from header import __root__
-if TYPE_CHECKING:
-    from src.webdriver.pydoll.llib.elements.web_element import WebElement
-    from src.webdriver.pydoll.llib.browser.tab import Tab as base_tab
 
-from src.webdriver.pydoll.options import Options # <- НЕ ПЕРЕПУТАЙ с src.webdriver.pydoll.llib.options.Options
+# from src.webdriver.pydoll.llib.browser import Chrome
+# if TYPE_CHECKING:
+#     from src.webdriver.pydoll.llib.elements.web_element import WebElement
+#     from src.webdriver.pydoll.llib.browser.tab import Tab as Base_Tab
+
+from pydoll.browser import Chrome
+if TYPE_CHECKING:
+    from pydoll.elements.web_element import WabElement
+    from pydoll.browser.tab import Tab as BaseTab
+
+from src.webdriver.pydoll.options import Options # <- DO NOT CONFUSE with src.webdriver.pydoll.llib.options.Options
 from src.webdriver.pydoll.tab import Tab
 from src.utils.jjson import j_loads_ns
 from src.utils.printer import pprint as print
@@ -76,16 +81,16 @@ from src.logger import logger
 
 class Browser(Chrome):
     """
-    Высокоуровневый асинхронный драйвер для браузера Pydoll Chrome.
+    High-level asynchronous driver for the Pydoll Chrome browser.
 
     Args:
-        window_mode (Optional[str]): Режим окна ('headless', 'normal'). По умолчанию используется значение из Config.
-        options (Optional[Options]): Пользовательские опции для запуска Chrome.
-        user_data_dir (Optional[str]): Путь к профилю пользователя Chrome.
-        binary_location (Optional[str]): Путь к исполняемому файлу браузера.
-        user_agent (Optional[str]): Пользовательский User-Agent.
-        incognito (bool): Запуск в режиме инкогнито. По умолчанию False.
-        disable_gpu (bool): Отключение аппаратного ускорения GPU. По умолчанию True.
+        window_mode (Optional[str]): Window mode ('headless', 'normal'). By default, the value from Config is used.
+        options (Optional[Options]): Custom options for launching Chrome.
+        user_data_dir (Optional[str]): Path to the Chrome user profile.
+        binary_location (Optional[str]): Path to the browser executable.
+        user_agent (Optional[str]): Custom User-Agent.
+        incognito (bool): Launch in incognito mode. Defaults to False.
+        disable_gpu (bool): Disable GPU hardware acceleration. Defaults to True.
     """
     pid_file: Path = __root__ / 'src' / 'webdriver' / 'pydoll' / 'process.pid'
     def __init__(self, options: Optional[Options] = None, connection_port: Optional[int] = 0, **kwargs):
@@ -95,16 +100,16 @@ class Browser(Chrome):
         ...
 
     def kill_previous_pid(self):
-        """"! Удаляет файл с PID предыдущего процесса браузера, если он существует. """
+        """! Deletes the PID file of the previous browser process, if it exists. """
         try:
             probably_pid = self.pid_file.read_text().strip()
         except FileNotFoundError as ex:
-            return # Файл не найден, ничего не делаем
+            return # File not found, do nothing
 
         if probably_pid:
             try:
                 os.kill(int(probably_pid), 9)
-                ...
+                logger.info(f'process {probably_pid} successfully killed')
             except Exception as ex:
                 logger.error(f'process {probably_pid} not successfully killed', ex)
                 ...
@@ -112,7 +117,7 @@ class Browser(Chrome):
                 self.pid_file.unlink(missing_ok=True)
 
     async def save_current_pid(self):
-        """! Сохраняет PID текущего процесса браузера в файл. """
+        """! Saves the PID of the current browser process to a file. """
         if self.process and self.process.pid:
             self.pid_file.write_text(str(self.process.pid),encoding='UTF-8')
         else:
@@ -124,9 +129,9 @@ class Browser(Chrome):
         Returns:
             Tab: The first tab if successful, None otherwise.
         """
-        # Если программа падает - удаляем предыдущий PID (браузера)
+        # If the program crashes - delete the previous PID (of the browser)
         self.kill_previous_pid()
-        try:            
+        try:
             base_tab: 'BaseTab' = await super().start()
             await self.save_current_pid()
             tab = Tab(base_tab)
@@ -140,4 +145,4 @@ class Browser(Chrome):
         try:
             await super().close()
         except Exception:
-            ... # Игнор ошибки при закрытии браузера
+            ... # Ignore error when closing the browser

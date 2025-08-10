@@ -105,6 +105,7 @@ class FindElementsMixin:
         self,
         id: Optional[str] = ...,
         class_name: Optional[str] = ...,
+        xpath: Optional[str] = ...,
         name: Optional[str] = ...,
         tag_name: Optional[str] = ...,
         text: Optional[str] = ...,
@@ -118,6 +119,7 @@ class FindElementsMixin:
         self,
         id: Optional[str] = None,
         class_name: Optional[str] = None,
+        xpath: Optional[str] = None,
         name: Optional[str] = None,
         tag_name: Optional[str] = None,
         text: Optional[str] = None,
@@ -151,10 +153,10 @@ class FindElementsMixin:
             ElementNotFound: If no elements found and raise_exc=True.
             WaitElementTimeout: If timeout specified and no elements appear in time.
         """
-        if not any([id, class_name, name, tag_name, text, *attributes.keys()]):
+        if not any([id, class_name, name, tag_name, text, xpath, *attributes.keys()]):
             raise ValueError(
                 'At least one of the following arguments must be provided: id, '
-                'class_name, name, tag_name, text'
+                'class_name, name, tag_name, text, xpath'
             )
 
         by_map = {
@@ -164,7 +166,7 @@ class FindElementsMixin:
             'tag_name': By.TAG_NAME,
             'xpath': By.XPATH,
         }
-        by, value = self._get_by_and_value(
+        by, selector = self._get_by_and_value(
             by_map, id, class_name, name, tag_name, text, **attributes
         )
         return await self.find_or_wait_element(
@@ -260,7 +262,7 @@ class FindElementsMixin:
 
         Args:
             by: Selector strategy (CSS_SELECTOR, XPATH, ID, etc.).
-            value: Selector value to locate element(s).
+            selector: Selector value to locate element(s).
             timeout: Maximum seconds to wait (0 = no waiting).
             find_all: If True, returns all matches; if False, first match only.
             raise_exc: Whether to raise exception if no elements found.
@@ -303,7 +305,7 @@ class FindElementsMixin:
 
         Args:
             by: Selector strategy (CSS_SELECTOR, XPATH, ID, etc.).
-            value: Selector value to locate element.
+            selector: Selector value to locate element.
             raise_exc: Whether to raise ElementNotFound if not found.
 
         Returns:
@@ -328,10 +330,10 @@ class FindElementsMixin:
 
         object_id = response_for_command['result']['result']['objectId']
         attributes = await self._get_object_attributes(object_id=object_id)
-        return create_web_element(object_id, self._connection_handler, by, value, attributes)  # type: ignore
+        return create_web_element(object_id, self._connection_handler, by, selector, attributes)  # type: ignore
 
     async def _find_elements(
-        self, by: By, value: str, raise_exc: bool = True
+        self, by: By, selector: str, raise_exc: Optional[bool] = True
     ) -> list['WebElement']:
         """
         Find all elements matching selector.
@@ -342,7 +344,7 @@ class FindElementsMixin:
 
         Args:
             by: Selector strategy (CSS_SELECTOR, XPATH, ID, etc.).
-            value: Selector value to locate elements.
+            selector: Selector value to locate elements.
             raise_exc: Whether to raise ElementNotFound if none found.
 
         Returns:
@@ -352,9 +354,9 @@ class FindElementsMixin:
             ElementNotFound: If no elements found and raise_exc=True.
         """
         if hasattr(self, '_object_id'):
-            command = self._get_find_elements_command(by, value, self._object_id)
+            command = self._get_find_elements_command(by, selector, self._object_id)
         else:
-            command = self._get_find_elements_command(by, value)
+            command = self._get_find_elements_command(by, selector)
 
         response_for_command: Union[
             EvaluateResponse, CallFunctionOnResponse
@@ -387,7 +389,7 @@ class FindElementsMixin:
             attributes.extend(['tag_name', tag_name])
 
             elements.append(
-                create_web_element(object_id, self._connection_handler, by, value, attributes)  # type: ignore
+                create_web_element(object_id, self._connection_handler, by, selector, attributes) 
             )
         return elements
 

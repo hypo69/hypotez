@@ -1,15 +1,43 @@
-## \file /src/suppliers/suppliers_list/aliexpress/graber.py
+## \file /src/suppliers/suppliers_list/aliexpress_com/graber.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
-
 """
-Модуль для сбора данных о товарах с Aliexpress.
+.. module:: src.suppliers.suppliers_list.aliexpress_com.graber
+    :platform: Windows, Unix
+    :synopsis: Module for collecting product data from Aliexpress.
+
+Module for collecting product data from Aliexpress
 =========================================================================================
 
-rst```
-.. module:: src.suppliers.suppliers_list.aliexpress_com.graber 
+This module provides a `Graber` class designed to extract product information from Aliexpress.
+It extends a base `Graber` class and includes functionality to handle pop-up windows during scraping.
+
+Example usage
+-------------
+
+```python
+    from src.webdriver.selenium.driver import Driver
+    from src.suppliers.suppliers_list.aliexpress_com.graber import Graber
+
+    # Initialize a WebDriver instance (e.g., Chrome)
+    driver_instance = Driver(browser_name="Chrome")
+
+    # Initialize the Aliexpress Graber
+    aliexpress_graber = Graber(driver=driver_instance, lang_index=0)
+
+    # Now you can use aliexpress_graber methods to interact with Aliexpress
+    # For example, to grab product details from a URL:
+    # product_data = aliexpress_graber.grab_product_details("https://www.aliexpress.com/item/...")
+    # print(product_data)
+
+    # Don't forget to quit the driver when done
+    # driver_instance.quit()
 ```
 
+:author: hypo69
+:license: Proprietary. All rights reserved.
+:version: 1.0.0
+:location: suppliers/suppliers_list/aliexpress_com/graber.py
 """
 from typing import Optional, Any
 from types import SimpleNamespace

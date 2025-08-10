@@ -1,24 +1,47 @@
-## \file /src/suppliers/suppliers_list/amazon/scenario.py
+## \file /src/suppliers/suppliers_list/amazon_com/categories_crawler.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
+"""
+.. module:: src.suppliers.suppliers_list.amazon_com.categories_crawler
+    :platform: Windows, Unix
+    :synopsis: Module for collecting products from Amazon category pages via webdriver.
 
-"""  
-Модуль сбора товаров со страницы категорий поставщика Amazon через вебдрайвер
-=============================================================================================
+Amazon Category Page Product Scraper
+=========================================================================================
 
-У каждого поставщика свой сценарий обработки категорий.
+This module is responsible for scraping product data from Amazon category pages using a webdriver.
+Each supplier has its own category processing scenario.
 
-- Модуль собирает список категорий со страниц продавца (`get_list_categories_from_site()`).
-@todo Сделать проверку на изменение категорий на страницах продавца. 
-Продавец может добавлять новые категории, переименовывать или удалять/прятать уже существующие. 
-По большому счету надо держать таблицу категории `PrestaShop.categories <-> amazon.shop.categoies` (Заменено aliexpress на amazon)
-- Собирает список товаров со страницы категории (`get_list_products_in_category()`).
-- Итерируясь по списку, передает управление в `grab_product_page()`, отсылая функции текущий URL страницы.  
-`grab_product_page()` обрабатывает поля товара и передает управление классу `Product`.
+- The module collects a list of categories from the seller's pages (`get_list_categories_from_site()`).
+  @todo Implement checks for changes in categories on seller pages.
+  Sellers may add new categories, rename, or delete/hide existing ones.
+  Essentially, a table of `PrestaShop.categories <-> amazon.shop.categories` should be maintained.
+- It collects a list of products from a category page (`get_list_products_in_category()`).
+- Iterating through the list, it passes control to `grab_product_page()`, sending the function the current page URL.
+  `grab_product_page()` processes the product fields and passes control to the `Product` class.
 
-```rst
-.. module:: src.suppliers.suppliers_list.amazon
+Example usage
+-------------
+
+```python
+    import asyncio
+    from src.webdriver.selenium.driver import Driver
+
+    async def main():
+        driver = Driver() # Initialize your driver
+        locators = {'product_links': 'some_xpath_or_css_selector_for_product_links'}
+        product_urls = await get_list_products_in_category(driver, locators)
+        if product_urls:
+            print(f'Found {len(product_urls)} products.')
+
+    if __name__ == "__main__":
+        asyncio.run(main())
 ```
+
+:author: hypo69
+:license: Proprietary. All rights reserved.
+:version: 1.0.0
+:location: suppliers/suppliers_list/amazon_com/categories_crawler.py
 """
 
 import header # Стандартный импорт

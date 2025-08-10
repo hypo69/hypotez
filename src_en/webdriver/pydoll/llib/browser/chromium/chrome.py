@@ -1,0 +1,90 @@
+## \file src/webdriver/pydoll/llib/browser/chromium/chrome.py
+# -*- coding: utf-8 -*-
+#! .pyenv/bin/python3
+
+"""
+This module provides a class for working with the Google Chrome browser.
+=====================================================================
+
+This module contains the `Chrome` class, which is a subclass of the `Browser` class
+and provides the ability to work with the Google Chrome browser.
+
+Example usage
+-------------
+
+```python
+    from src.webdriver.pydoll.llib.browser.chromium.chrome import Chrome
+
+    browser = Chrome()
+```
+
+:author: hypo69
+:license: Proprietary. All rights reserved.
+:version: 1.0.0
+:location: src/webdriver/pydoll/llib/browser/chromium/chrome.py
+"""
+
+import platform
+from typing import Optional, TypeVar
+
+from header import __root__
+from src.webdriver.pydoll.llib.browser.chromium.base import Browser
+from src.webdriver.pydoll.llib.browser.managers import ChromiumOptionsManager
+from src.webdriver.pydoll.llib.browser.options import ChromiumOptions
+from src.webdriver.pydoll.llib.exceptions import UnsupportedOS
+from src.webdriver.pydoll.llib.utils import validate_browser_paths
+
+T = TypeVar('T')
+
+class Chrome(Browser):
+    """Chrome browser implementation for CDP automation."""
+
+    def __init__(
+        self,
+        options: Optional[ChromiumOptions] = None,
+        connection_port: Optional[int] = 0,
+    ):
+        """
+        Initialize Chrome browser instance.
+
+        Args:
+            options: Chrome configuration options (default if None).
+            connection_port: CDP WebSocket port (random if None).
+        """
+        options_manager = ChromiumOptionsManager(options)
+        super().__init__(options_manager, connection_port)
+
+
+    @staticmethod
+    def _get_default_binary_location():
+        """
+        Get default Chrome executable path based on OS.
+
+        Returns:
+            Path to Chrome executable.
+
+        Raises:
+            UnsupportedOS: If OS is not supported.
+            ValueError: If executable not found at default location.
+        """
+        os_name = platform.system()
+
+        browser_paths = {
+            'Windows': [
+                r'C:\Program Files\Google\Chrome\Application\chrome.exe',
+                r'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe',
+            ],
+            'Linux': [
+                '/usr/bin/google-chrome',
+            ],
+            'Darwin': [
+                '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+            ],
+        }
+
+        browser_path = browser_paths.get(os_name)
+
+        if not browser_path:
+            raise UnsupportedOS(f'Unsupported OS: {os_name}')
+
+        return validate_browser_paths(browser_path)

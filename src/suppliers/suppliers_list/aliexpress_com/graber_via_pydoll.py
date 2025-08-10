@@ -1,36 +1,35 @@
-## \file /src/suppliers/suppliers_list/aliexpress/graber_via_pydoll.py
+## \file /src/suppliers/suppliers_list/aliexpress_com/graber_via_pydoll.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
-
 """
-Модуль для сбора данных о товарах с Aliexpress с изпользованием библиотеки `pydoll`.
+.. module:: src.suppliers.suppliers_list.aliexpress_com.graber_via_pydoll
+    :platform: Windows, Unix
+    :synopsis: Module for collecting data from Aliexpress using the `pydoll` library.
+
+Module for collecting data from Aliexpress using the `pydoll` library
 =========================================================================================
 
-rst```
-.. module:: src.suppliers.suppliers_list.aliexpress_com.graber_via_pydoll 
+This module provides functionalities to grab product and category information from Aliexpress
+using the `pydoll` library, extending the base Graber functionality.
+
+Example usage
+-------------
+
+```python
+    from src.suppliers.suppliers_list.aliexpress_com.graber_via_pydoll import Graber
+
+    # Initialize the Graber for Aliexpress
+    aliexpress_graber = Graber()
+
+    # Example: Grab product data (assuming a method exists in the base Graber class)
+    # product_data = aliexpress_graber.grab_product("product_url_here")
+    # if product_data:
+    #     print(f"Grabbed product: {product_data.title}")
 ```
 
+:author: hypo69
+:license: Proprietary. All rights reserved.
+:version: 1.0.0
+:location: suppliers/suppliers_list/aliexpress_com/graber_via_pydoll.py
 """
-# from pathlib import Path
-# from types import SimpleNamespace
-# from typing import Optional, List
-# from dataclasses import dataclass, field
-
-# from header import __root__
-# from src import gs
-# from src.endpoints.prestashop.product_fields import ProductFields
-# from src.webdriver.driverless import use_pydoll as driver
-from src.suppliers.graber_via_pydoll import Config as GraberConfig, Graber as GraberSupplier 
-# from src.utils.file import get_filenames_from_directory
-# from src.utils.jjson import j_loads_ns
-# from src.utils.image import save_image_async, save_image_from_url_async
-# from src.logger import logger
-
-
-
-
-class Graber(GraberSupplier):
-    """Grabs product/category info for Aliexpress supplier using pydoll."""
-    def __init__(self, supplier_prefix:str = 'aliexpress'):
-        super().__init__(supplier_prefix)
         

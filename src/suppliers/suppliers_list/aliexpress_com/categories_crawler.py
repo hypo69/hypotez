@@ -1,14 +1,40 @@
 ## \file /src/suppliers/suppliers_list/aliexpress/categories_crawler.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
-"""  
-Модуль сбора товаров со страницы категорий поставщика `aliexpress` через вебдрайвер
-=====================================================================================
+"""
+.. module:: src.suppliers.suppliers_list.aliexpress_com.categories_crawler
+    :platform: Windows, Unix
+    :synopsis: Module for collecting products from AliExpress category pages via webdriver
 
+Module for collecting products from AliExpress category pages via webdriver
+=========================================================================================
 
-```rst
- .. module:: src.suppliers.suppliers_list.aliexpress_com.categories_crawler
+This module provides functions for scraping product URLs from AliExpress category pages,
+including handling pagination.
+
+Example usage
+-------------
+
+```python
+    import asyncio
+    from src.webdriver.selenium.driver import Driver
+    from types import SimpleNamespace
+
+    async def main():
+        driver = Driver() # Initialize your driver
+        locators = SimpleNamespace(product_links="...", show_more="...") # Define your locators
+        product_urls = await get_list_products_in_category(driver, locators)
+        if product_urls:
+            print(f'Found {len(product_urls)} products.')
+
+    if __name__ == "__main__":
+        asyncio.run(main())
 ```
+
+:author: hypo69
+:license: Proprietary. All rights reserved.
+:version: 1.0.0
+:location: suppliers/suppliers_list/aliexpress_com/categories_crawler.py
 """
 
 import asyncio

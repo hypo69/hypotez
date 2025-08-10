@@ -1,25 +1,39 @@
-## \file /src/suppliers/aliexpress/utils/locales.py
+## \file /src/suppliers/suppliers_list/aliexpress_com/utils/locales.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
-
 """
-.. module:: src.suppliers.suppliers_list.aliexpress_com.utils 
-	:platform: Windows, Unix
-	:synopsis: Module for loading locales data from JSON file.
+.. module:: src.suppliers.suppliers_list.aliexpress_com.utils.locales
+    :platform: Windows, Unix
+    :synopsis: Module for loading locale data from a JSON file for AliExpress operations.
 
-This module contains functions for loading and processing locales data from a JSON file.
+AliExpress Locales Management
+=========================================================================================
 
-Functions:
-    load_locales_data(path: Path) -> list[dict[str, str]]:
-        Load locales data from a JSON file.
+This module handles the loading and processing of locale data (language and currency pairs)
+from a JSON configuration file, specifically for AliExpress-related functionalities.
 
-Examples:
-    >>> from src.suppliers.suppliers_list.aliexpress_com.utils.locales import load_locales_data
-    >>> locales = load_locales_data(Path('/path/to/locales.json'))
-    >>> print(locales)
-    [{'EN': 'USD'}, {'HE': 'ILS'}, {'RU': 'ILS'}, {'EN': 'EUR'}, {'EN': 'GBR'}, {'RU': 'EUR'}]
+Example usage
+-------------
 
+```python
+    from pathlib import Path
+    from src.suppliers.suppliers_list.aliexpress_com.utils.locales import get_locales
+
+    # Assuming 'locales.json' is in the same directory or a known path
+    locales_file_path = Path(__file__).parent / 'locales.json'
+    loaded_locales = get_locales(locales_file_path)
+
+    if loaded_locales:
+        print(f"Loaded Locales: {loaded_locales}")
+        # Example output: [{'EN': 'USD'}, {'HE': 'ILS'}]
+    else:
+        print("Failed to load locales or no locales found.")
+```
+
+:author: hypo69
+:license: Proprietary. All rights reserved.
+:version: 1.0.0
+:location: suppliers/suppliers_list/aliexpress_com/utils/locales.py
 """
 
 

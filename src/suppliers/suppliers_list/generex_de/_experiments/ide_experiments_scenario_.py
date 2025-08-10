@@ -1,42 +1,34 @@
-## \file /src/suppliers/hb/_experiments/ide_experiments_scenario_.py
+## \file /src/suppliers/suppliers_list/generex_de/_experiments/ide_experiments_scenario_.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
-
 """
-.. module:: src.suppliers.hb._experiments 
-	:platform: Windows, Unix
-	:synopsis:
+.. module:: src.suppliers.suppliers_list.generex_de._experiments.ide_experiments_scenario_
+    :platform: Windows, Unix
+    :synopsis: Experiment file for testing scenario execution for Generex (Germany).
 
+Generex (Germany) Scenario Experiment File
+=========================================================================================
+
+This module contains experimental code for testing the execution of scenarios
+for the Generex (Germany) supplier. It initializes a supplier, product, and driver, then runs a scenario.
+
+Example usage
+-------------
+
+```python
+    # This module is intended for direct execution during development and testing.
+    # Example of running the script:
+    # python src/suppliers/suppliers_list/generex_de/_experiments/ide_experiments_scenario_.py
+```
+
+:author: hypo69
+:license: Proprietary. All rights reserved.
+:version: 1.0.0
+:location: suppliers/suppliers_list/generex_de/_experiments/ide_experiments_scenario_.py
 """
 
 
-"""
-	:platform: Windows, Unix
-	:synopsis:
-
-"""
-
-"""
-	:platform: Windows, Unix
-	:synopsis:
-
-"""
-
-"""
-  :platform: Windows, Unix
-
-"""
-"""
-  :platform: Windows, Unix
-  :platform: Windows, Unix
-  :synopsis:
-"""
-  
-""" module: src.suppliers.hb._experiments """
-
-
-"""  Файл проверки наполнения полей HB -> product_fields """
+"""  File for checking the population of HB fields -> product_fields """
 
 
 
@@ -46,13 +38,13 @@ from pathlib import Path
 from typing import List, Union, Dict
 from selenium.webdriver.remote.webelement import WebElement
 
-################# добавление корневой директории позволяет мне плясать от печки ###################
+################# Adding the root directory allows me to start from the base ###################
 dir_root: Path = Path(os.getcwd()[:os.getcwd().rfind('hypotez') + 7])
 sys.path.append(str(dir_root))  # Adding the root folder to sys.path
 dir_src = Path(dir_root, 'src')
 sys.path.append(str(dir_root))
 from src.webdriver import executor
-"""  добавление корневой директории позволяет мне плясать от печки. """
+"""  Adding the root directory allows me to start from the base. """
 ####################################################################################################
 
 
@@ -85,5 +77,3 @@ s.current_scenario: dict =  {
 
 ret = run_scenarios(s, s.current_scenario)
 ...
-
-

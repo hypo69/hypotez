@@ -1,28 +1,34 @@
-## \file /src/suppliers/hb/.ipynb_checkpoints/version-checkpoint.py
+## \file /src/suppliers/suppliers_list/findernet_com/_ipynb_checkpoints/version-checkpoint.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
-
 """
-module: src.suppliers.hb..ipynb_checkpoints 
-	:platform: Windows, Unix
-	:synopsis:
+.. module:: src.suppliers.suppliers_list.findernet_com._ipynb_checkpoints.version-checkpoint
+    :platform: Windows, Unix
+    :synopsis: TODO: add module description
 
+Version Checkpoint Module
+=========================================================================================
+
+This module contains version information and metadata for the Findernet supplier's
+IPython notebook checkpoints. It defines the current version, author, and copyright details.
+
+Example usage
+-------------
+
+```python
+    # This module is primarily for internal version tracking and metadata.
+    # It is not typically imported for direct execution or functionality.
+    # Example of accessing version information:
+    # from src.suppliers.suppliers_list.findernet_com._ipynb_checkpoints.version-checkpoint import __version__
+    # print(f"Version: {__version__}")
+```
+
+:author: hypo69
+:license: Proprietary. All rights reserved.
+:version: 1.0.0
+:location: suppliers/suppliers_list/findernet_com/_ipynb_checkpoints/version-checkpoint.py
 """
 MODE = 'dev'
-
-"""
-  :platform: Windows, Unix
-
-"""
-"""
-  :platform: Windows, Unix
-  :platform: Windows, Unix
-  :synopsis:
-"""MODE = 'dev'
-  
-""" module: src.suppliers.hb..ipynb_checkpoints """
-
 
 __version__: str = 'v1.1'
 __doc__: str = ''

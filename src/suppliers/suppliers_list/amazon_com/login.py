@@ -1,11 +1,60 @@
-## \file /src/suppliers/suppliers_list/amazon/login.py
+## \file /src/suppliers/suppliers_list/amazon_com/login.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
+"""
+.. module:: src.suppliers.suppliers_list.amazon_com.login
+    :platform: Windows, Unix
+    :synopsis: Webdriver-based login interface for Amazon.
 
+Amazon Login Interface
+=========================================================================================
 
-"""   
-Интерфейс авторизации. Реализация для вебдрайвера
-====================================================
+This module provides a login interface for Amazon using a webdriver.
+It handles navigating to the login page, entering credentials, and submitting the form.
+
+Example usage
+-------------
+
+```python
+    from src.webdriver.selenium.driver import Driver
+    from src.suppliers.supplier import Supplier # Assuming Supplier class is available
+    from src.suppliers.suppliers_list.amazon_com.login import login
+
+    # Initialize a WebDriver instance (e.g., Chrome)
+    driver_instance = Driver(browser_name="Chrome")
+
+    # Create a dummy supplier object with necessary attributes (locators, driver)
+    # In a real scenario, this would be a properly configured Supplier instance
+    class DummySupplier:
+        def __init__(self, driver):
+            self.driver = driver
+            self.locators_store = {
+                'login': {
+                    'open_login_inputs': {'by': 'id', 'value': 'nav-link-accountList'},
+                    'email_input': {'by': 'id', 'value': 'ap_email', 'action': 'send_keys', 'value': 'your_email@example.com'},
+                    'continue_button': {'by': 'id', 'value': 'continue', 'action': 'click'},
+                    'password_input': {'by': 'id', 'value': 'ap_password', 'action': 'send_keys', 'value': 'your_password'},
+                    'keep_signed_in_checkbox': {'by': 'name', 'value': 'rememberMe', 'action': 'click'},
+                    'success_login_button': {'by': 'id', 'value': 'signInSubmit', 'action': 'click'}
+                }
+            }
+
+    supplier_instance = DummySupplier(driver_instance)
+
+    # Attempt to log in
+    if login(supplier_instance):
+        print("Successfully logged in to Amazon.")
+    else:
+        print("Failed to log in to Amazon.")
+
+    # Don't forget to quit the driver when done
+    # driver_instance.quit()
+```
+
+:author: hypo69
+:license: Proprietary. All rights reserved.
+:version: 1.0.0
+:location: suppliers/suppliers_list/amazon_com/login.py
 """
 
 

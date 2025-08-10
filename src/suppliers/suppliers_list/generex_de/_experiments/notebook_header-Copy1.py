@@ -1,40 +1,35 @@
-## \file /src/suppliers/hb/_experiments/notebook_header-Copy1.py
+## \file /src/suppliers/suppliers_list/generex_de/_experiments/notebook_header-Copy1.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
-
 """
-.. module:: src.suppliers.hb._experiments 
-	:platform: Windows, Unix
-	:synopsis:
+.. module:: src.suppliers.suppliers_list.generex_de._experiments.notebook_header-Copy1
+    :platform: Windows, Unix
+    :synopsis: Header for Jupyter notebooks related to Generex (Germany) supplier experiments (Copy 1).
 
-"""
+Generex (Germany) Notebook Header (Copy 1)
+=========================================================================================
 
+This module provides a standardized header for Jupyter notebooks used in experiments
+related to the Generex (Germany) supplier. It sets up the project root and imports common utilities.
 
-"""
-	:platform: Windows, Unix
-	:synopsis:
+Example usage
+-------------
 
-"""
+```python
+    # This module is typically imported at the beginning of a Jupyter notebook
+    # to set up the environment for Generex (Germany) supplier experiments.
+    # import src.suppliers.suppliers_list.generex_de._experiments.notebook_header-Copy1
+    # from src.suppliers.suppliers_list.generex_de._experiments.notebook_header-Copy1 import start_supplier
 
-"""
-	:platform: Windows, Unix
-	:synopsis:
+    # supplier = start_supplier(supplier_prefix='generex', locale='de')
+    # print(f"Supplier started: {supplier.supplier_prefix}")
+```
 
+:author: hypo69
+:license: Proprietary. All rights reserved.
+:version: 1.0.0
+:location: suppliers/suppliers_list/generex_de/_experiments/notebook_header-Copy1.py
 """
-
-"""
-  :platform: Windows, Unix
-
-"""
-"""
-  :platform: Windows, Unix
-  :platform: Windows, Unix
-  :synopsis:
-"""
-  
-""" module: src.suppliers.hb._experiments """
-
 
 import sys
 import os
@@ -42,7 +37,7 @@ from pathlib import Path
 
 # ----------------
 dir_root : Path = Path (os.getcwd()[:os.getcwd().rfind('hypotez')+7])
-sys.path.append (str (dir_root) )  # Добавляю корневую папку в sys.path
+sys.path.append (str (dir_root) )  # Add root folder to sys.path
 dir_src = Path (dir_root, 'src')
 sys.path.append (str (dir_root) ) 
 # ----------------
@@ -65,8 +60,16 @@ from src.scenario import run_scenarios
 # ----------------
 
 def start_supplier(supplier_prefix, locale):
-    """ Старт поставщика """
-    if not supplier_prefix and not locale: return "Не задан сценарий и язык"
+    """ Start the supplier.
+
+    Args:
+        supplier_prefix (str): The prefix of the supplier.
+        locale (str): The locale for the supplier.
+
+    Returns:
+        Supplier: An instance of the Supplier class.
+    """
+    if not supplier_prefix and not locale: return "Scenario and language not set"
     
     params: dict = \
     {
@@ -74,4 +77,4 @@ def start_supplier(supplier_prefix, locale):
         'locale': locale
     }
     
-    return Supplier(**params))
+    return Supplier(**params)

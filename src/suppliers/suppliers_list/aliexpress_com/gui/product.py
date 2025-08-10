@@ -1,13 +1,35 @@
-## \file /src/suppliers/aliexpress/gui/product.py
+## \file /src/suppliers/suppliers_list/aliexpress_com/gui/product.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
-
 """
-.. module:: src.suppliers.suppliers_list.aliexpress_com.gui 
-	:platform: Windows, Unix
-	:synopsis:
+.. module:: src.suppliers.suppliers_list.aliexpress_com.gui.product
+    :platform: Windows, Unix
+    :synopsis: GUI for editing AliExpress product details.
 
+AliExpress Product GUI Editor
+=========================================================================================
+
+This module provides a graphical user interface for editing and managing AliExpress product details.
+It allows users to open product JSON files, view and modify product information, and trigger product preparation.
+
+Example usage
+-------------
+
+```python
+    # This module is typically run as part of a larger PyQt6 application.
+    # Example of how it might be integrated:
+    # from PyQt6.QtWidgets import QApplication
+    # from src.suppliers.suppliers_list.aliexpress_com.gui.product import ProductEditor
+    # app = QApplication([])
+    # editor = ProductEditor()
+    # editor.show()
+    # app.exec()
+```
+
+:author: hypo69
+:license: Proprietary. All rights reserved.
+:version: 1.0.0
+:location: suppliers/suppliers_list/aliexpress_com/gui/product.py
 """
 
 

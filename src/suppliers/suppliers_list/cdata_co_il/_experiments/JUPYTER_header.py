@@ -1,39 +1,35 @@
-## \file /src/suppliers/cdata/_experiments/JUPYTER_header.py
+## \file /src/suppliers/suppliers_list/cdata_co_il/_experiments/JUPYTER_header.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
+"""
+.. module:: src.suppliers.suppliers_list.cdata_co_il._experiments.JUPYTER_header
+    :platform: Windows, Unix
+    :synopsis: Header for Jupyter notebooks related to Cdata (Israel) supplier experiments.
 
-"""
-.. module:: src.suppliers.cdata._experiments 
-	:platform: Windows, Unix
-	:synopsis:
+Jupyter Header for Cdata (Israel) Experiments
+=========================================================================================
 
-"""
+This module provides a standardized header for Jupyter notebooks used in experiments
+related to the Cdata (Israel) supplier. It sets up the project root and imports common utilities.
 
+Example usage
+-------------
 
-"""
-	:platform: Windows, Unix
-	:synopsis:
+```python
+    # This module is typically imported at the beginning of a Jupyter notebook
+    # to set up the environment for Cdata (Israel) supplier experiments.
+    # import src.suppliers.suppliers_list.cdata_co_il._experiments.JUPYTER_header
+    # from src.suppliers.suppliers_list.cdata_co_il._experiments.JUPYTER_header import start_supplier
 
-"""
+    # supplier = start_supplier(supplier_prefix='cdata.co.il', locale='he')
+    # print(f"Supplier started: {supplier.supplier_prefix}")
+```
 
+:author: hypo69
+:license: Proprietary. All rights reserved.
+:version: 1.0.0
+:location: suppliers/suppliers_list/cdata_co_il/_experiments/JUPYTER_header.py
 """
-	:platform: Windows, Unix
-	:synopsis:
-
-"""
-
-"""
-  :platform: Windows, Unix
-
-"""
-"""
-  :platform: Windows, Unix
-  :platform: Windows, Unix
-  :synopsis:
-"""
-  
-""" module: src.suppliers.cdata._experiments """
 
 
 import sys
@@ -42,7 +38,7 @@ from pathlib import Path
 
 # ----------------
 dir_root : Path = Path (os.getcwd()[:os.getcwd().rfind('hypotez')+7])
-sys.path.append (str (dir_root) )  # Добавляю корневую папку в sys.path
+sys.path.append (str (dir_root) )  # Add root folder to sys.path
 dir_src = Path (dir_root, 'src')
 sys.path.append (str (dir_root) ) 
 # ----------------
@@ -64,7 +60,15 @@ from src.endpoints.PrestaShop import Product as PrestaProduct
 # ----------------
 
 def start_supplier(supplier_prefix: str = 'aliexpress', locale: str = 'en' ):
-    """ Старт поставщика """
+    """ Start the supplier.
+
+    Args:
+        supplier_prefix (str, optional): The prefix of the supplier. Defaults to 'aliexpress'.
+        locale (str, optional): The locale for the supplier. Defaults to 'en'.
+
+    Returns:
+        Supplier: An instance of the Supplier class.
+    """
     params: dict = \
     {
         'supplier_prefix': supplier_prefix,

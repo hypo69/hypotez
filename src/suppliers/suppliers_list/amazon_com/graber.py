@@ -1,27 +1,44 @@
-## \file /src/suppliers/suppliers_list/amazon/graber.py
+## \file /src/suppliers/suppliers_list/amazon_com/graber.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
+"""
+.. module:: src.suppliers.suppliers_list.amazon_com.graber
+    :platform: Windows, Unix
+    :synopsis: Module for collecting product data from Amazon.
 
-""" Модуль для сбора данных о товарах с Amazon.
+Amazon Product Data Graber
 =========================================================================================
 
-Модуль содержит класс :class:`Graber`, который используется для сбора данных о товарах
-с веб-сайта `bangood.com`. Он наследуется от базового класса :class:`src.suppliers.graber.Graber`.
+This module provides a `Graber` class designed to extract product information from Amazon.
+It extends a base `Graber` class and includes functionality to handle pop-up windows during scraping.
+It allows for custom handling of product fields by overriding methods.
 
-Класс `Graber` предоставляет методы для обработки различных полей товара на странице.
-В случае необходимости нестандартной обработки поля, метод может быть переопределен.
+Example usage
+-------------
 
-Для каждого поля страницы товара сделана функция обработки поля в родительском `Graber`.
-Если нужна нестандертная обработка, можно перегрузить метод здесь, в этом классе.
-------------------
-Перед отправкой запроса к вебдрайверу можно совершить предварительные действия через декоратор. 
-Декоратор по умолчанию находится в родительском классе. Для того, чтобы декоратор сработал надо передать значение 
-в `Context.locator`, Если надо реализовать свой декоратор - раскоментируйте строки с декоратором и переопределите его поведение.
-Вы также можете реализовать свой собственный декоратор, раскомментировав соответствующие строки кода
+```python
+    from src.webdriver.selenium.driver import Driver
+    from src.suppliers.suppliers_list.amazon_com.graber import Graber
 
-```rst
-.. module:: src.suppliers.suppliers_list.amazon
+    # Initialize a WebDriver instance (e.g., Chrome)
+    driver_instance = Driver(browser_name="Chrome")
+
+    # Initialize the Amazon Graber
+    amazon_graber = Graber(driver=driver_instance, lang_index=0) # Assuming lang_index is needed
+
+    # Now you can use amazon_graber methods to interact with Amazon
+    # For example, to grab product details from a URL:
+    # product_data = amazon_graber.grab_product_details("https://www.amazon.com/dp/B0XXXXXXX")
+    # print(product_data)
+
+    # Don't forget to quit the driver when done
+    # driver_instance.quit()
+```
+
+:author: hypo69
+:license: Proprietary. All rights reserved.
+:version: 1.0.0
+:location: suppliers/suppliers_list/amazon_com/graber.py
 """
 
 from typing import Optional, Any

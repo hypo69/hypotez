@@ -1,20 +1,44 @@
-## \file /src/suppliers/hb/graber.py
+## \file /src/suppliers/suppliers_list/atlascopco_com/graber.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
-
 """
-.. module:: src.suppliers.hb 
-	:platform: Windows, Unix
-	:synopsis: Класс собирает значение полей на странице  товара `hb.co.il`. 
-    Для каждого поля страницы товара сделана функция обработки поля в родительском классе.
-    Если нужна нестандертная обработка, функция перегружается в этом классе.
-    ------------------
-    Перед отправкой запроса к вебдрайверу можно совершить предварительные действия через декоратор. 
-    Декоратор по умолчанию находится в родительском классе. Для того, чтобы декоратор сработал надо передать значение 
-    в `Context.locator`, Если надо реализовать свой декоратор - раскоментируйте строки с декоратором и переопределите его поведение
+.. module:: src.suppliers.suppliers_list.atlascopco_com.graber
+    :platform: Windows, Unix
+    :synopsis: Module for collecting product data from Atlas Copco.
 
+Atlas Copco Product Data Graber
+=========================================================================================
 
+This module provides a `Graber` class designed to extract product information from Atlas Copco.
+It extends a base `Graber` class and includes functionality to handle pop-up windows during scraping.
+It allows for custom handling of product fields by overriding methods.
+
+Example usage
+-------------
+
+```python
+    from src.webdriver.selenium.driver import Driver
+    from src.suppliers.suppliers_list.atlascopco_com.graber import Graber
+
+    # Initialize a WebDriver instance (e.g., Chrome)
+    driver_instance = Driver(browser_name="Chrome")
+
+    # Initialize the Atlas Copco Graber
+    atlascopco_graber = Graber(driver=driver_instance, lang_index=0) # Assuming lang_index is needed
+
+    # Now you can use atlascopco_graber methods to interact with Atlas Copco
+    # For example, to grab product details from a URL:
+    # product_data = atlascopco_graber.grab_product_details("https://www.atlascopco.com/en-us/product/...")
+    # print(product_data)
+
+    # Don't forget to quit the driver when done
+    # driver_instance.quit()
+```
+
+:author: hypo69
+:license: Proprietary. All rights reserved.
+:version: 1.0.0
+:location: suppliers/suppliers_list/atlascopco_com/graber.py
 """
 from typing import Optional, Any
 from types import SimpleNamespace
@@ -29,13 +53,13 @@ from src.logger.logger import logger
 #           DECORATOR TEMPLATE. 
 #
 # def close_pop_up(value: Any = None) -> Callable:
-#     """Создает декоратор для закрытия всплывающих окон перед выполнением основной логики функции.
+#     """Creates a decorator to close pop-up windows before executing the main function logic.
 
 #     Args:
-#         value (Any): Дополнительное значение для декоратора.
+#         value (Any): Additional value for the decorator.
 
 #     Returns:
-#         Callable: Декоратор, оборачивающий функцию.
+#         Callable: The decorator wrapping the function.
 #     """
 #     def decorator(func: Callable) -> Callable:
 #         @wraps(func)
@@ -44,33 +68,38 @@ from src.logger.logger import logger
 #                 # await Context.driver.execute_locator(Context.locator.close_pop_up)  # Await async pop-up close  
 #                 ... 
 #             except ExecuteLocatorException as e:
-#                 logger.debug(f'Ошибка выполнения локатора: {e}')
+#                 logger.debug(f'Error executing locator: {e}')
 #             return await func(*args, **kwargs)  # Await the main function
 #         return wrapper
 #     return decorator
 
 
 class Graber(Grbr):
-    """Класс для операций захвата Morlevi."""
+    """Class for Atlas Copco grabbing operations."""
     supplier_prefix: str
 
     def __init__(self, driver: Optional['Driver'] = None, lang_index:Optional[int] = None):
-        """Инициализация класса сбора полей товара."""
-        self.supplier_prefix = 'hb'
+        """Initializes the product field collection class.
+
+        Args:
+            driver (Driver, optional): The webdriver instance for browser interaction. Defaults to None.
+            lang_index (int, optional): The language index. Defaults to None.
+        """
+        self.supplier_prefix = 'atlascopco'
         super().__init__(supplier_prefix=self.supplier_prefix, driver=driver, lang_index=lang_index)
-        # Установка глобальные настройки через Context
+        # Set global settings via Context
         
-        Config.locator_for_decorator = None # <- если будет уастановлено значение - то оно выполнится в декораторе `@close_pop_up`
+        Config.locator_for_decorator = None # <- if a value is set, it will be executed in the `@close_pop_up` decorator
 
     # async def description_short(self, value:Optional[Any] = None) -> bool:
     #     """Fetch and set short description.
         
     #     Args:
-    #     value (Any): это значение можно передать в словаре kwargs через ключ {description_short = `value`} при определении класса.
-    #     Если `value` было передано, его значение подставляется в поле `ProductFields.description_short`.
+    #     value (Any): This value can be passed in the kwargs dictionary via the key {description_short = `value`} when defining the class.
+    #     If `value` was passed, its value is substituted into the `ProductFields.description_short` field.
     #     """
     #     try:
-    #         # Получаем значение через execute_locator
+    #         # Get value via execute_locator
     #         #path = self.driver.current_url + '/#tab-description'
     #         #await self.driver.get_url(path)
     #         raw_data = await self.driver.execute_locator(self.product_locator.description_short)
@@ -78,8 +107,9 @@ class Graber(Grbr):
     #         self.fields.description_short = value or normalize_string(raw_data) or ''
     #         ...
     #         return
+
     #     except Exception as ex:
-    #         logger.error(f"Ошибка получения значения в поле `description_short`", ex)
+    #         logger.error(f"Error getting value in `description_short` field", ex)
     #         ...
     #         return
 
@@ -90,9 +120,6 @@ class Graber(Grbr):
         return True
 
     async def price(self, value:Optional[Any] = None) -> bool:
-        """Заглушка для цены"""
+        """Placeholder for price."""
         self.fields.price = 150.00
         return True
-
-
-        

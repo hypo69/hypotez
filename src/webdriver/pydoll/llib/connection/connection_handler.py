@@ -26,9 +26,7 @@ from src.webdriver.pydoll.llib.exceptions import (
 )
 from src.webdriver.pydoll.llib.protocol.base import Command, Event, Response
 from src.webdriver.pydoll.llib.utils import get_browser_ws_address
-
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+from src.logger import logger
 
 T = TypeVar('T')
 
@@ -85,7 +83,7 @@ class ConnectionHandler:
             return True
         return False
 
-    async def execute_command(self, command: Command[T], timeout: int = 10) -> T:
+    async def execute_command(self, command: Command[T], timeout: Optional[int] = 60) -> T:
         """
         Send CDP command and await response.
 
@@ -108,13 +106,18 @@ class ConnectionHandler:
             ws = cast(ClientConnection, self._ws_connection)
             await ws.send(command_str)
             response: str = await asyncio.wait_for(future, timeout)
-            return json.loads(response)
-        except asyncio.TimeoutError:
+            return json.loads(response)                                   # <- проверит, что сюда возвращается
+        except asyncio.TimeoutError as ex:
             self._command_manager.remove_pending_command(command['id'])
+            logger.error(f"Command timed out: ", ex)
             raise CommandExecutionTimeout()
-        except websockets.ConnectionClosed:
+        except websockets.ConnectionClosed as ex:
             await self._handle_connection_loss()
+            logger.error(f"WebSocket connection closed: ", ex)
             raise WebSocketConnectionClosed()
+        except Exception as ex:
+            logger.error(f"Unexpected error while executing command: {command}", ex, exc_info=True)
+            raise
 
     async def register_callback(
         self,
@@ -194,10 +197,10 @@ class ConnectionHandler:
         try:
             async for raw_message in self._incoming_messages():
                 await self._process_single_message(raw_message)
-        except websockets.ConnectionClosed as e:
-            logger.info(f'Connection closed gracefully: {e}')
-        except Exception as e:
-            logger.error(f'Unexpected error in event loop: {e}')
+        except websockets.ConnectionClosed as ex:
+            logger.info(f'Connection closed gracefully: ',ex)
+        except Exception as ex:
+            logger.error(f'Unexpected error in event loop: ', ex)
             raise
 
     async def _incoming_messages(self) -> AsyncGenerator[Union[str, bytes], None]:
@@ -226,7 +229,8 @@ class ConnectionHandler:
         try:
             return json.loads(raw_message)
         except json.JSONDecodeError:
-            logger.warning(f'Failed to parse message: {raw_message[:200]}...')
+            logger.warning(f'''Failed to parse message: 
+            {raw_message[:200]}...''')
             return None
 
     @staticmethod

@@ -1,23 +1,48 @@
-## \file /src/suppliers/suppliers_list/hb/sceanrio.py
+## \file /src/suppliers/suppliers_list/findernet_com/categories_crawler.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
-"""  
-Модуль сбора товаров со страницы категорий поставщика hb.co.il через вебдрайвер
-=====================================================================================
+"""
+.. module:: src.suppliers.suppliers_list.findernet_com.categories_crawler
+    :platform: Windows, Unix
+    :synopsis: Module for collecting products from Findernet category pages via webdriver.
 
-Определение сценария обработки категорий для каждого поставщика.
+Findernet Category Page Product Scraper
+=========================================================================================
 
-- Модуль собирает список категорий со страниц продавца (`get_list_categories_from_site()`).
-@todo Сделать проверку на изменение категорий на страницах продавца. 
-Продавец может добавлять новые категории, переименовывать или удалять/прятать уже существующие. 
-По большому счету надо держать таблицу категории `PrestaShop.categories <-> aliexpress_com.shop.categoies`
-- Собирает список товаров со страницы категории (`get_list_products_in_category()`).
-- Итерируясь по списку, передает управление в `grab_product_page()`, отсылая функции текущий URL страницы.  
-`grab_product_page()` обрабатывает поля товара и передает управление классу `Product`.
+This module is responsible for scraping product data from Findernet category pages using a webdriver.
+Each supplier has its own category processing scenario.
 
-```rst
- .. module:: src.suppliers.suppliers_list.hb.sceanrio
+- The module collects a list of categories from the seller's pages (`get_list_categories_from_site()`).
+  @todo Implement checks for changes in categories on seller pages.
+  Sellers may add new categories, rename, or delete/hide existing ones.
+  Essentially, a table of `PrestaShop.categories <-> findernet.shop.categories` should be maintained.
+- It collects a list of products from a category page (`get_list_products_in_category()`).
+- Iterating through the list, it passes control to `grab_product_page()`, sending the function the current page URL.
+  `grab_product_page()` processes the product fields and passes control to the `Product` class.
+
+Example usage
+-------------
+
+```python
+    import asyncio
+    from src.webdriver.selenium.driver import Driver
+    from types import SimpleNamespace
+
+    async def main():
+        driver = Driver() # Initialize your driver
+        locators = SimpleNamespace(product_links="...", show_more="...") # Define your locators
+        product_urls = await get_list_products_in_category(driver, locators)
+        if product_urls:
+            print(f'Found {len(product_urls)} products.')
+
+    if __name__ == "__main__":
+        asyncio.run(main())
 ```
+
+:author: hypo69
+:license: Proprietary. All rights reserved.
+:version: 1.0.0
+:location: suppliers/suppliers_list/findernet_com/categories_crawler.py
 """
 
 import asyncio
@@ -33,34 +58,34 @@ from src.webdriver.selenium.driver import Driver
 
 
 async def get_list_products_in_category (d: Driver, l: SimpleNamespace) -> list:    
-    """ 
-    Функция извлекает список URL-адресов товаров со страницы категории.
-    При необходимости пролистывает страницы категорий.
+    """Returns list of product URLs from the category page.
+
+    If pagination is needed, it should be handled.
 
     Args:
-        d (Driver): Экземпляр WebDriver.
-        l (SimpleNamespace): Объект с локаторами для страницы категории, 
-                             включая локаторы товаров и пагинации.
+        d (Driver): WebDriver instance.
+        l (SimpleNamespace): Object with locators for the category page,
+                             including product links and pagination locators.
     
     Returns:
-        List[str] | None: Список URL-адресов товаров или `None`, если товары не найдены.
+        List[str] | None: List of product URLs or `None` if no products are found.
     
     Example:
-        >>> # Пример использования (требует настройки d и l)
+        >>> # Example usage (requires d and l to be configured)
         >>> # driver = Driver(...) 
         >>> # locators = SimpleNamespace(product_links=..., pagination_locators=...)
         >>> # product_urls = await get_list_products_in_category(driver, locators)
         >>> # if product_urls:
-        >>> #     print(f'Найдено {len(product_urls)} товаров.')
+        >>> #     print(f'Found {len(product_urls)} products.')
     """
 
 
     """
-       В текущей версии пагинация происхоадит через нажати кнопки
-       https://hbdeadsea.co.il/collections/<название каетегории>?page=...
+       In the current version, pagination occurs by clicking a button
+       https://hbdeadsea.co.il/collections/<category_name>?page=...
     """
     all_product_urls: List[str] = []
-    # Извлечение ссылок на товары с текущей (первой) страницы
+    # Extract links from the current (first) page
     while True:
         if not await d.execute_locator(l.show_more):
             break
@@ -75,3 +100,13 @@ async def get_list_products_in_category (d: Driver, l: SimpleNamespace) -> list:
     
     return product_links if isinstance(product_links, list) else [product_links]
 
+def get_list_categories_from_site(s):
+    """Retrieves a list of categories from the supplier's website.
+
+    Args:
+        s: Supplier instance.
+
+    Returns:
+        list: A list of categories.
+    """
+    ...

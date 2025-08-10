@@ -1,25 +1,40 @@
-## \file /src/suppliers/aliexpress/utils/ensure_https.py
+## \file /src/suppliers/suppliers_list/aliexpress_com/utils/ensure_https.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
-
 """
-.. module:: src.suppliers.suppliers_list.aliexpress_com.utils 
-	:platform: Windows, Unix
-	:synopsis: Ensures that the provided URL string(s) contain the https:// prefix. 
-If the input is a product ID, it constructs a full URL with https:// prefix.
+.. module:: src.suppliers.suppliers_list.aliexpress_com.utils.ensure_https
+    :platform: Windows, Unix
+    :synopsis: Ensures that the provided URL string(s) contain the https:// prefix.
+
+AliExpress HTTPS URL Utility
+=========================================================================================
+
+This module ensures that URL strings are properly formatted with the HTTPS protocol.
+It can convert product IDs into full AliExpress product URLs and handle lists of URLs.
+
+Example usage
+-------------
 
 ```python
-# Example usage
-url = "example_product_id"
-url_with_https = ensure_https(url)
-print(url_with_https)  # Output: https://www.aliexpress_com.com/item/example_product_id.html
+    from src.suppliers.suppliers_list.aliexpress_com.utils.ensure_https import ensure_https
 
-urls = ["example_product_id1", "https://www.aliexpress_com.com/item/example_product_id2.html"]
-urls_with_https = ensure_https(urls)
-print(urls_with_https)  # Output: ['https://www.aliexpress_com.com/item/example_product_id1.html', 'https://www.aliexpress_com.com/item/example_product_id2.html']
+    # Example of ensuring a single product ID is an HTTPS URL
+    product_id = "example_product_id"
+    url_with_https = ensure_https(product_id)
+    print(url_with_https)
+    # Expected Output: https://www.aliexpress_com.com/item/example_product_id.html
+
+    # Example of ensuring a list of URLs/product IDs are HTTPS URLs
+    urls = ["example_product_id1", "https://www.aliexpress_com.com/item/example_product_id2.html"]
+    urls_with_https = ensure_https(urls)
+    print(urls_with_https)
+    # Expected Output: ['https://www.aliexpress_com.com/item/example_product_id1.html', 'https://www.aliexpress_com.com/item/example_product_id2.html']
 ```
 
+:author: hypo69
+:license: Proprietary. All rights reserved.
+:version: 1.0.0
+:location: suppliers/suppliers_list/aliexpress_com/utils/ensure_https.py
 """
 
 
