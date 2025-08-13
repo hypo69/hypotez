@@ -62,15 +62,15 @@ from dataclasses import dataclass, field
 
 from header import __root__
 
-# from src.webdriver.pydoll.llib.browser import Chrome
-# if TYPE_CHECKING:
-#     from src.webdriver.pydoll.llib.elements.web_element import WebElement
-#     from src.webdriver.pydoll.llib.browser.tab import Tab as Base_Tab
-
-from pydoll.browser import Chrome
+from src.webdriver.pydoll.llib.browser import Chrome
 if TYPE_CHECKING:
-    from pydoll.elements.web_element import WabElement
-    from pydoll.browser.tab import Tab as BaseTab
+    from src.webdriver.pydoll.llib.elements.web_element import WebElement
+    from src.webdriver.pydoll.llib.browser.tab import Tab as Base_Tab
+
+# from pydoll.browser import Chrome
+# if TYPE_CHECKING:
+#     from pydoll.elements.web_element import WabElement
+#     from pydoll.browser.tab import Tab as BaseTab
 
 from src.webdriver.pydoll.options import Options # <- DO NOT CONFUSE with src.webdriver.pydoll.llib.options.Options
 from src.webdriver.pydoll.tab import Tab

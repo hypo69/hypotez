@@ -21,19 +21,19 @@ import re
 from types import SimpleNamespace, TracebackType
 from typing import Any, List, Optional, TYPE_CHECKING, Type, Union
 
-# from src.webdriver.pydoll.llib.browser.tab import Tab as BaseTab
-# from src.webdriver.pydoll.llib.constants import By, Key
-# Conditional imports for type checking
-# if TYPE_CHECKING:
-#     from src.webdriver.pydoll.llib.elements.web_element import WebElement
-#     from src.webdriver.pydoll.options import Options
+from src.webdriver.pydoll.llib.browser.tab import Tab as BaseTab
+from src.webdriver.pydoll.llib.constants import By, Key
 
-from pydoll.browser.tab import Tab as BaseTab
-from pydoll.constants import By, Key
-# Conditional imports for type checking
 if TYPE_CHECKING:
-    from pydoll.elements.web_element import WebElement
+    from src.webdriver.pydoll.llib.elements.web_element import WebElement
     from src.webdriver.pydoll.options import Options
+
+# from pydoll.browser.tab import Tab as BaseTab
+# from pydoll.constants import By, Key
+# # Conditional imports for type checking
+# if TYPE_CHECKING:
+#     from pydoll.elements.web_element import WebElement
+#     from src.webdriver.pydoll.options import Options
 
 from src.logger.logger import logger
 
