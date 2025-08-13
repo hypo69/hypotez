@@ -36,7 +36,7 @@ The configuration for the `BS` parser is stored in the `bs.json` file. Below is 
 
 ```json
 {
-  "default_url": "https://example.com",
+  "default_url": "https://quotes.toscrape.com",
   "default_file_path": "file://path/to/your/file.html",
   "default_locator": {
     "by": "ID",
@@ -127,7 +127,7 @@ print(elements)
 
 ```python
 parser = BS()
-parser.get_url('https://example.com')
+parser.get_url('https://quotes.toscrape.com')
 locator = SimpleNamespace(by='CSS', attribute='class_name', selector='//*[contains(@class, "class_name")]')
 elements = parser.execute_locator(locator)
 print(elements)

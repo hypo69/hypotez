@@ -20,7 +20,7 @@ pip install requests-html
 from requests_html import HTMLSession
 
 session = HTMLSession()
-r = session.get('https://example.com')
+r = session.get('https://quotes.toscrape.com')
 
 # Парсинг HTML
 title = r.html.find('title', first=True).text
@@ -135,7 +135,7 @@ from pyppeteer import launch
 async def main():
     browser = await launch(headless=True)
     page = await browser.newPage()
-    await page.goto('https://example.com')
+    await page.goto('https://quotes.toscrape.com')
     content = await page.content()
     print(content[:500])
     await browser.close()

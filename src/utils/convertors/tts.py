@@ -37,7 +37,7 @@ def speech_recognizer(audio_url: str = None, audio_file_path: Path = None, langu
     Example:
         .. code::
 
-            recognized_text = speech_recognizer(audio_url='https://example.com/audio.ogg')
+            recognized_text = speech_recognizer(audio_url='https://quotes.toscrape.com/audio.ogg')
             print(recognized_text)  # Output: "Привет"
     """
     try:

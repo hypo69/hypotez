@@ -141,7 +141,7 @@ graph TD
 {
     "scenarios": {
         "минеральные+кремы": {
-            "url": "https://example.com/category/mineral-creams/",
+            "url": "https://quotes.toscrape.com/category/mineral-creams/",
             "name": "минеральные+кремы",
             "presta_categories": {
                 "default_category": 12345,

@@ -43,7 +43,7 @@ from src.webdriver.pydoll.driver import Driver
 driver = Driver(window_mode='headless')
 
 async with driver as browser:
-    await browser.get_url('https://example.com')
+    await browser.get_url('https://quotes.toscrape.com')
     reference = await browser.execute_locator(browser.page.locators.reference)
     print(reference)
 
@@ -146,3 +146,40 @@ class Browser(Chrome):
             await super().close()
         except Exception:
             ... # Ignore error when closing the browser
+
+
+# ======================================================================================
+# Example usage
+# ======================================================================================
+if __name__ == "__main__":
+    import asyncio
+
+    async def main():
+        """Example of launching the Browser and using it with a locator."""
+        # Create a browser instance (default: headless mode from Options config)
+        browser = Browser()
+
+        # Use it as an async context manager
+        async with browser as br:
+            tab = await br.start()
+            if not tab:
+                logger.error("Failed to start the browser")
+                return
+
+            # Open a page
+            await tab.goto("https://quotes.toscrape.com")
+
+            # Execute a locator (example: take page title text)
+            title_locator = {
+                "attribute": "innerText",
+                "by": "XPATH",
+                "selector": "//h1"
+            }
+            try:
+                result = await tab.execute_locator(title_locator)
+                print("Page title:", result)
+            except Exception as ex:
+                logger.error("Error executing locator", ex, exc_info=True)
+
+    asyncio.run(main())
+

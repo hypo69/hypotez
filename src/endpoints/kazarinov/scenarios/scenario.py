@@ -32,10 +32,10 @@ from src.webdriver.pydoll.browser import Browser
 from src.endpoints.kazarinov.report_generator.report_generator import ReportGenerator
 from src.endpoints.kazarinov.scenarios.quotation_builder import QuotationBuilder
 from src.endpoints.prestashop.product_fields.product_fields import ProductFields
-
+from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_url
 from src.utils.port import get_free_port
 from src.logger.logger import logger
-from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_url
+
 from src.utils.jjson import j_loads_ns, j_dumps
 
 

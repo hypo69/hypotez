@@ -99,7 +99,7 @@ class StorageCommands:  # noqa: PLR0904
         Generates a command to clear storage data for a specific origin.
 
         Args:
-            origin: The security origin (e.g., "https://example.com").
+            origin: The security origin (e.g., "https://quotes.toscrape.com").
             storage_types: Comma-separated list of storage types to clear.
                           Possible values include: "cookies", "local_storage", "indexeddb",
                           "cache_storage", etc. Use "all" to clear all types.
@@ -172,7 +172,7 @@ class StorageCommands:  # noqa: PLR0904
         Useful for monitoring or debugging storage consumption of a site.
 
         Args:
-            origin: The security origin (e.g., "https://example.com") for which to get information.
+            origin: The security origin (e.g., "https://quotes.toscrape.com") for which to get information.
 
         Returns:
             Command: The CDP command that will return:
@@ -234,7 +234,7 @@ class StorageCommands:  # noqa: PLR0904
         Cache Storage is primarily used by Service Workers to store resources for offline use.
 
         Args:
-            origin: The security origin (e.g., "https://example.com") to monitor.
+            origin: The security origin (e.g., "https://quotes.toscrape.com") to monitor.
 
         Returns:
             Command: The CDP command to register monitoring of the origin's Cache Storage.
@@ -270,7 +270,7 @@ class StorageCommands:  # noqa: PLR0904
         large amounts of structured data.
 
         Args:
-            origin: The security origin (e.g., "https://example.com") to monitor.
+            origin: The security origin (e.g., "https://quotes.toscrape.com") to monitor.
 
         Returns:
             Command: The CDP command to register monitoring of the origin's IndexedDB.
@@ -305,7 +305,7 @@ class StorageCommands:  # noqa: PLR0904
         Use this method to stop monitoring Cache Storage after using track_cache_storage_for_origin.
 
         Args:
-            origin: The security origin (e.g., "https://example.com") to stop monitoring.
+            origin: The security origin (e.g., "https://quotes.toscrape.com") to stop monitoring.
 
         Returns:
             Command: The CDP command to cancel monitoring of the origin's Cache Storage.
@@ -340,7 +340,7 @@ class StorageCommands:  # noqa: PLR0904
         Use this method to stop monitoring IndexedDB after using track_indexed_db_for_origin.
 
         Args:
-            origin: The security origin (e.g., "https://example.com") to stop monitoring.
+            origin: The security origin (e.g., "https://quotes.toscrape.com") to stop monitoring.
 
         Returns:
             Command: The CDP command to cancel monitoring of the origin's IndexedDB.

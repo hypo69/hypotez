@@ -133,7 +133,7 @@ An example JSON scenario describes interactions with product categories on a web
 {
     "scenarios": {
         "mineral+creams": {
-            "url": "https://example.com/category/mineral-creams/",
+            "url": "https://quotes.toscrape.com/category/mineral-creams/",
             "name": "mineral+creams",
             "presta_categories": {
                 "default_category": 12345,

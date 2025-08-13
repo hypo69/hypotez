@@ -211,7 +211,7 @@ pip install requests-html
 from requests_html import HTMLSession
 
 session = HTMLSession()
-r = session.get('https://example.com')
+r = session.get('https://quotes.toscrape.com')
 
 # Парсинг HTML
 title = r.html.find('title', first=True).text

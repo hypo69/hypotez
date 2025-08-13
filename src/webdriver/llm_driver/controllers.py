@@ -150,9 +150,9 @@ class BrowserController:
             str: Статусное сообщение об успехе или ошибке навигации.
 
         Example:
-            >>> status = await controller.navigate('https://example.com')
+            >>> status = await controller.navigate('https://quotes.toscrape.com')
             >>> print(status)
-            Успешный переход на https://example.com. Заголовок: Example Domain. Начало текста: This domain is for use in illustrative examples in documents...
+            Успешный переход на https://quotes.toscrape.com. Заголовок: Example Domain. Начало текста: This domain is for use in illustrative examples in documents...
         """
         # Проверка инициализации контроллера и состояния страницы
         if not self._is_started or not self.page or self.page.is_closed():
