@@ -16,12 +16,14 @@ from src.webdriver.pydoll.browser import Browser
 from src.webdriver.pydoll.tab import Tab
 from src.webdriver.pydoll.options import Options
 
+from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_url 
+
 from src.utils.jjson import j_loads_ns
 from src.utils.printer import pprint as print
 from src.logger.logger import logger
 
 
-async def experiment( locator: SimpleNamespace, headless: bool = False,):
+async def google_search_engine( locator: SimpleNamespace, headless: bool = False,):
     """
     Демонстрирует запуск pydoll.Chrome с полностью сконфигурированным
     объектом Options, который позволяет переопределять настройки из pydoll.json.
@@ -50,12 +52,18 @@ async def experiment( locator: SimpleNamespace, headless: bool = False,):
         logger.error(f"An error occurred during the experiment: ", ex, exc_info=True)
         ...
 
+async def prestashop_product_name(supplier_prefix:str) -> bool:
+    """Вытаскивает имя товара по url"""
+    ...
+
+
+
 if __name__ == "__main__":
     # Запускаем эксперимент
 
-    # --- google.com ---
+    # --- google.com ---                                                              
     supplier_prefix:str = 'google.com'
     supplier_alias:str = supplier_prefix.replace('-','_').replace('.','_')
     locator:SimpleNamespace = j_loads_ns(__root__/'src'/'suppliers'/'suppliers_list'/supplier_alias/'locators'/'search_page.json')
 
-    asyncio.run( experiment( locator = locator.q_input, headless = False, ) )
+    asyncio.run( google_search_engine( locator = locator.q_input, headless = False, ) )

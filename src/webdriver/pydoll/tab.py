@@ -210,7 +210,7 @@ class Tab:
 
         el: List['WebElement'] = await self.find_or_wait_element(
                                                                 by=by_strategy,
-                                                                value = locator.selector,
+                                                                selector = locator.selector,
                                                                 timeout = timeout_to_use, # <- ЭТО ВАЖНО! Это таймаут асинхронного ожидания. 
                                                                 # В дебагере я сделал его большим, но в проде это приведет к зависанию при поиске
                                                                 find_all=True,
@@ -290,7 +290,7 @@ class Tab:
             return False
 
 # --- Example Usage --- 
-async def experiment(locator: SimpleNamespace, headless: bool = False):
+async def google_search(locator: SimpleNamespace, headless: bool = False):
     """
     Demonstrates running pydoll.Chrome with a fully configured
     Options object.
@@ -314,6 +314,7 @@ async def experiment(locator: SimpleNamespace, headless: bool = False):
         logger.error("An error occurred during the experiment: ", ex, exc_info=True)
 
 if __name__ == "__main__":
+
     google_locator = SimpleNamespace(**{
         "attribute": None,
         "by": "XPATH",
@@ -322,4 +323,6 @@ if __name__ == "__main__":
         "mandatory": True,
         "locator_description": "Google search input"
     })
-    asyncio.run(experiment(locator=google_locator, headless=False))
+    asyncio.run(google_search(locator=google_locator, headless=False))
+
+
