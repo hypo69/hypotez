@@ -39,8 +39,8 @@ from .helper import format_prompt
 
 class {name}(AsyncGeneratorProvider, ProviderModelMixin):
     label = ""
-    url = "https://quotes.toscrape.com"
-    api_endpoint = "https://quotes.toscrape.com/api/completion"
+    url = "https://toscrape.com/"
+    api_endpoint = "https://toscrape.com//api/completion"
     working = True
     needs_auth = False
     supports_stream = True

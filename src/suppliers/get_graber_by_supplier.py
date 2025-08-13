@@ -15,7 +15,9 @@
 import importlib
 from token import OP
 from urllib.parse import urlparse
-from typing import List, Optional, TYPE_CHECKING
+from typing import List, Optional, TYPE_CHECKING, TypeVar
+
+T = TypeVar('T')
 
 if TYPE_CHECKING:
     from src.suppliers.graber import GraberBase
@@ -43,7 +45,7 @@ def dynamic_import_graber(supplier_alias: str) -> Optional['GraberBase']:
         logger.critical(f"Ошибка при импорте Graber из {module_path}", ex, True)
     return None
 
-def get_graber_by_supplier_prefix(supplier_prefix: str, driver:'Driver') -> Optional['GraberBase']:
+def get_graber_by_supplier_prefix(supplier_prefix: str, driver:T) -> Optional['GraberBase']:
     """ Возвращает экземпляр Graber для данного ключа поставщика.
 
     Args:
@@ -60,7 +62,7 @@ def get_graber_by_supplier_prefix(supplier_prefix: str, driver:'Driver') -> Opti
     GraberClass = dynamic_import_graber(supplier_alias)
     if GraberClass:
         try:
-            return GraberClass(supplier_prefix = supplier_prefix, driver = driver)
+            return GraberClass( driver = driver)
         except Exception as ex:
             logger.critical(f"Не удалось создать экземпляр Graber для {supplier_alias}", ex, True)
             ...

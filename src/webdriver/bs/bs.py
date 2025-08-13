@@ -16,7 +16,7 @@ Example usage:
 
     if __name__ == "__main__":
         parser = BS()
-        parser.get_url('https://quotes.toscrape.com')
+        parser.get_url('https://toscrape.com/')
         locator = SimpleNamespace(by='ID', attribute='element_id', selector='//*[@id="element_id"]')
         elements = parser.execute_locator(locator)
         print(elements)
@@ -144,7 +144,7 @@ class BS:
 
 if __name__ == "__main__":
     parser = BS()
-    parser.get_url('https://quotes.toscrape.com')
+    parser.get_url('https://toscrape.com/')
     locator = SimpleNamespace(by='ID', attribute='element_id', selector='//*[@id="element_id"]')
     elements = parser.execute_locator(locator)
     print(elements)

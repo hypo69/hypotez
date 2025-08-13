@@ -20,13 +20,13 @@
 from typing import Optional, Any
 from types import SimpleNamespace
 import header
-from src.suppliers.graber import Graber as Grbr, Config, close_pop_up
+from src.suppliers.graber import GraberBase, Config, close_pop_up
 from src.webdriver.selenium.driver import Driver
 from src.logger.logger import logger
 
 
 
-class Graber(Grbr):
+class Graber(GraberBase):
     """Класс для операций захвата Wallashop."""
     supplier_prefix: str
 

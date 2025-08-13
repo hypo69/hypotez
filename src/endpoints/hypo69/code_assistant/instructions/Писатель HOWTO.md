@@ -211,7 +211,7 @@ pip install requests-html
 from requests_html import HTMLSession
 
 session = HTMLSession()
-r = session.get('https://quotes.toscrape.com')
+r = session.get('https://toscrape.com/')
 
 # Парсинг HTML
 title = r.html.find('title', first=True).text
@@ -280,7 +280,7 @@ def fetch_with_js(url: str, timeout: int = 20) -> str:
 
 # Пример использования
 if __name__ == "__main__":
-    html = fetch_with_js("https://quotes.toscrape.com/js/")
+    html = fetch_with_js("https://toscrape.com//js/")
     print(html[:500])  # выводим первые 500 символов
 ```
 
@@ -354,7 +354,7 @@ r.html.render()
 from requests_html import HTMLSession
 
 session = HTMLSession()
-r = session.get('https://quotes.toscrape.com/js/')
+r = session.get('https://toscrape.com//js/')
 r.html.render()
 
 # Получаем все цитаты на странице
@@ -395,7 +395,7 @@ from pyppeteer import launch
 async def main():
     browser = await launch()
     page = await browser.newPage()
-    await page.goto('https://quotes.toscrape.com/js/')
+    await page.goto('https://toscrape.com//js/')
     
     # Клик по кнопке
     await page.click('button.load-more')

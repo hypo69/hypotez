@@ -22,6 +22,6 @@ def download_file(url, destination):
 
 
 # Пример использования функции: скачивание файла по URL
-file_url = 'https://quotes.toscrape.com/path/to/file.txt'  # URL файла для скачивания
+file_url = 'https://toscrape.com//path/to/file.txt'  # URL файла для скачивания
 save_as = 'downloaded_file.txt'  # Имя файла, под которым он будет сохранен на диске
 download_file(file_url, save_as)  # Вызов функции скачивания файла

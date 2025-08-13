@@ -132,7 +132,7 @@ def example_insert_grabbed_data():
 
 # Example 5: Add a coupon using PrestaShop API
 def example_add_coupon():
-    credentials = {'api_domain': 'https://quotes.toscrape.com/api', 'api_key': 'YOUR_API_KEY'}
+    credentials = {'api_domain': 'https://toscrape.com//api', 'api_key': 'YOUR_API_KEY'}
     reference = 'REF123'
     coupon_code = 'SUMMER2024'
     start_date = '2024-07-01'

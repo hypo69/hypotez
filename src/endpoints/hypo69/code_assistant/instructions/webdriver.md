@@ -180,7 +180,7 @@ Playwright Crawler предоставляет функциональность �
 ### Пример конфигурации (`bs.json`)
 ```json
 {
-  "default_url": "https://quotes.toscrape.com",
+  "default_url": "https://toscrape.com/",
   "default_file_path": "file://path/to/your/file.html",
   "default_locator": {
     "by": "ID",

@@ -19,7 +19,7 @@ import asyncio
 from dataclasses import dataclass, field
 from pathlib import Path
 from types import SimpleNamespace
-from typing import List, Optional, TYPE_CHECKING
+from typing import List, Optional, TYPE_CHECKING, TypeVar
 import telebot
 
 from header import __root__
@@ -38,6 +38,7 @@ from src.logger.logger import logger
 
 from src.utils.jjson import j_loads_ns, j_dumps
 
+T = TypeVar('T')
 
 class Config:
     """Scenario configuration."""
@@ -151,7 +152,10 @@ class Scenario:
                         connection_port = get_free_port([9223, 9322])
                         ) as browser:
             tab: Tab = await browser.start()
-            # _process = browser._browser_process_manager._process
+            if not tab:
+                logger.error(f'Таб не появился')
+                ...
+                return
 
             # Collecting products ---------------------------------------------------------
             for url in urls:
@@ -316,7 +320,7 @@ class Scenario:
 def run_sample_scenario() -> None:
     """Example of a local scenario test."""
     urls_list: list[str] = [
-        "https://www.morlevi.co.il/product/21039",
+        "https://www.morlevi.co.il/product/18707",
         "https://www.morlevi.co.il/product/21018",
         "https://www.ivory.co.il/catalog.php?id=85473",
         "https://grandadvance.co.il/eng/?go=products&action=view&ties_ids=801&product_id=28457--SAMSUNG-SSD-1TB-990-EVO-PCle-4.0-x4--5.0-x2-NVMe",

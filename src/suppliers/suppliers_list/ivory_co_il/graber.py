@@ -19,35 +19,12 @@
 from typing import Optional, Any
 from types import SimpleNamespace
 import header
-from src.suppliers.graber import Graber as Grbr, Config, close_pop_up
-from src.webdriver.selenium.driver import Driver
-from src.logger.logger import logger
+from src.suppliers.graber import GraberBase, Config, close_pop_up
 
 
-#
-#
-#           DECORATOR TEMPLATE. 
-#
-# def close_pop_up(value: Any = None) -> Callable:
-#     """Создает декоратор для закрытия всплывающих окон перед выполнением основной логики функции.
 
-#     Args:
-#         value (Any): Дополнительное значение для декоратора.
+##                             DECORATOR TEMPLATE.
 
-#     Returns:
-#         Callable: Декоратор, оборачивающий функцию.
-#     """
-#     def decorator(func: Callable) -> Callable:
-#         @wraps(func)
-#         async def wrapper(*args, **kwargs):
-#             try:
-#                 # await Context.driver.execute_locator(Context.locator.close_pop_up)  # Await async pop-up close  
-#                 ... 
-#             except ExecuteLocatorException as e:
-#                 logger.debug(f'Ошибка выполнения локатора: {e}')
-#             return await func(*args, **kwargs)  # Await the main function
-#         return wrapper
-#     return decorator
 
 # def close_pop_up(value: Any = None) -> Callable:
 #     """Создает декоратор для закрытия всплывающих окон перед выполнением основной логики функции.
@@ -70,15 +47,14 @@ from src.logger.logger import logger
 #         return wrapper
 #     return decorator
 
-class Graber(Grbr):
+class Graber(GraberBase):
     """Класс для операций захвата Morlevi."""
-    supplier_prefix: str
+    supplier_prefix: str  = 'ivory.co.il'
 
-    def __init__(self, driver: Optional['Driver'] = None, lang_index:Optional[int] = None):
+    def __init__(self, driver:  = None, lang_index:Optional[int] = None):
         """Инициализация класса сбора полей товара."""
-        self.supplier_prefix = 'ivory'
         super().__init__(supplier_prefix=self.supplier_prefix, driver=driver, lang_index=lang_index)
         # Установка глобальные настройки через Context
         
-        Config.locator_for_decorator = None # <- если будет уастановлено значение - то оно выполнится в декораторе `@close_pop_up`
+        Config.locator_for_decorator = None # <- если будет установлено значение - то оно выполнится в декораторе `@close_pop_up`
 

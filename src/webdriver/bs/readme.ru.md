@@ -36,7 +36,7 @@ pip install beautifulsoup4 lxml requests
 
 ```json
 {
-  "default_url": "https://quotes.toscrape.com",
+  "default_url": "https://toscrape.com/",
   "default_file_path": "file://path/to/your/file.html",
   "default_locator": {
     "by": "ID",
@@ -127,7 +127,7 @@ print(elements)
 
 ```python
 parser = BS()
-parser.get_url('https://quotes.toscrape.com')
+parser.get_url('https://toscrape.com/')
 locator = SimpleNamespace(by='CSS', attribute='class_name', selector='//*[contains(@class, "class_name")]')
 elements = parser.execute_locator(locator)
 print(elements)

@@ -23,37 +23,45 @@
 ```
 """
 
-from pathlib import Path
-from typing import Optional, Any
+from typing import Optional, TypeVar, Any
 from types import SimpleNamespace
-from dataclasses import dataclass, field
-from typing import TYPE_CHECKING
 
-if TYPE_CHECKING:
-    from src.webdriver.driverless.use_pydoll import Driver
+from header import __root__
+from src.suppliers.graber import GraberBase, Config, close_pop_up
 
-import header
-from src import gs
-from src.suppliers.graber import GraberBase
-from src.utils.image import save_image
-from src.logger.logger import logger
+T = TypeVar('T')
+
+##                             DECORATOR TEMPLATE.
 
 
-@dataclass(slots=True, kw_only=True)
+# def close_pop_up(value: Any = None) -> Callable:
+#     """Создает декоратор для закрытия всплывающих окон перед выполнением основной логики функции.
+
+#     Args:
+#         value (Any): Дополнительное значение для декоратора.
+
+#     Returns:
+#         Callable: Декоратор, оборачивающий функцию.
+#     """
+#     def decorator(func: Callable) -> Callable:
+#         @wraps(func)
+#         async def wrapper(*args, **kwargs):
+#             try:
+#                 # await Context.driver.execute_locator(Context.locator.close_pop_up)  # Await async pop-up close  
+#                 ... 
+#             except ExecuteLocatorException as e:
+#                 logger.debug(f'Ошибка выполнения локатора: {e}')
+#             return await func(*args, **kwargs)  # Await the main function
+#         return wrapper
+#     return decorator
+
 class Graber(GraberBase):
-    """ Класс для операций захвата полей со страниц Morlevi.
+    """Класс для операций захвата Morlevi."""
+    supplier_prefix: str  = 'morlevi.co.il'
 
-    Attrs:
-        supplier_prefix (str): Префикс поставщика. По умолчанию 'morlevi.co.il'.
-        driver (Driver): Экземпляр драйвера браузера.
-        locator_for_decorator (SimpleNamespace): Локаторы для использования в декораторах.
-        lang_index (int): Индекс языка для локализации (1 — англ, 2 — иврит, 3 — русский). По умолчанию 1.
-    """
+    def __init__(self, driver: T, locator_for_decorator:Optional[SimpleNamespace] = None, lang_index:Optional[int] = None):
+        """Инициализация класса сбора полей товара."""
 
-    supplier_prefix: str = 'morlevi.co.il'
-    # driver: 'Driver' = None
-    # locator_for_decorator: Optional[SimpleNamespace] = None
-    # lang_index: int = 1
+        Config.locator_for_decorator = locator_for_decorator # <- если будет установлено значение - то оно выполнится в декораторе `@close_pop_up`
+        super().__init__(supplier_prefix=self.supplier_prefix, driver=driver, lang_index=lang_index)
 
-    # def __post_init__(self):
-    #     GraberBase.__post_init__()        

@@ -47,16 +47,14 @@ import re
 import importlib
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Generator, List, Optional, Dict, Any
+from typing import Generator, List, Optional, Dict, Any, TypeVar
 from types import SimpleNamespace
 from typing import Callable
 # from langdetect import detect
 from functools import wraps
 
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    from src.webdriver.pydoll import Driver
 
+T = TypeVar('T')
 from header import __root__
 from src import gs
 # from src.webdriver.selenium.driver import Driver
@@ -111,20 +109,13 @@ def close_pop_up() -> Callable:
 class Config:
     """! Класс конфигурации поставщика."""
     
-    # Оптимизация памяти, которую давал slots=True в dataclass
-    __slots__ = ('supplier_prefix', 'locator_for_decorator', 'required_fields', 'ENDPOINT', 'SCENARIOS_DIR')
+    
+    def __init__(self, supplier_prefix: str, locator_for_decorator: Optional[SimpleNamespace] = None):
 
-    def __init__(self, *, supplier_prefix: str, locator_for_decorator: Optional[SimpleNamespace] = None):
-        """
-        Инициализатор класса.
-        Звездочка (*) в аргументах делает все последующие параметры keyword-only,
-        что является аналогом kw_only=True в dataclass.
-        """
-        # 1. Присваиваем атрибуты, которые раньше генерировал dataclass
+
         self.supplier_prefix: str = supplier_prefix
-        self.locator_for_decorator: Optional[SimpleNamespace] = locator_for_decorator
+        self.locator_for_decorator: Optional[SimpleNamespace] = locator_for_decorator 
 
-        # 2. Инициализируем поле со значением по умолчанию (аналог default_factory)
         self.required_fields: List[str] = [
             'id_supplier', 'name', 'price', 'reference', 'description',
             'description_short', 'specification', 'default_image_url', 'local_image_path',
@@ -172,7 +163,7 @@ class GraberBase:
     """
 
     supplier_prefix: str
-    driver: 'Driver'
+    driver: T
     locator_for_decorator: Optional[SimpleNamespace] = None
     lang_index: int = 1
 
@@ -180,8 +171,8 @@ class GraberBase:
     product_locator: SimpleNamespace = field(init=False)
     product_fields: ProductFields = field(default_factory=lambda: ProductFields())
 
-    def __post_init__(self):
-        self.config = Config(supplier_prefix=self.supplier_prefix, locator_for_decorator=self.locator_for_decorator or None)
+    def __post_init__(self, config:Optional[Config] = None):
+        self.config = config or Config(supplier_prefix = self.supplier_prefix, locator_for_decorator=self.locator_for_decorator or None)
         self.product_locator = self.config.product_locators
 
 

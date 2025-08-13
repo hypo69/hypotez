@@ -150,7 +150,7 @@ class Tab:
                 keys_to_send = self._parse_keys(content_to_parse)
 
                 if keys_to_send:
-                    await element_to_act_on.send_keys(*keys_to_send)
+                    await element_to_act_on.press_keyboard_key(*keys_to_send)
                 else:
                     logger.warning(f"Could not parse any valid keys from '{content_to_parse}' in event: {event_string}")
                     return False
@@ -208,16 +208,17 @@ class Tab:
         
         timeout_to_use = self.DEFAULT_TIMEOUT   # <- DEBUG
 
-        return await self.find_or_wait_element(
-            by=by_strategy,
-            selector = locator.selector,
-            timeout = timeout_to_use, # <- ЭТО ВАЖНО! Это таймаут асинхронного ожидания. 
-            # В дебагере я сделал его большим, но в проде это приведет к зависанию при поиске
-            find_all=True,
-            raise_exc=raise_exc
-        )
+        el: List['WebElement'] = await self.find_or_wait_element(
+                                                                by=by_strategy,
+                                                                value = locator.selector,
+                                                                timeout = timeout_to_use, # <- ЭТО ВАЖНО! Это таймаут асинхронного ожидания. 
+                                                                # В дебагере я сделал его большим, но в проде это приведет к зависанию при поиске
+                                                                find_all=True,
+                                                                raise_exc=raise_exc
+                                                            )
+        return el
 
-    async def execute_locator(self, locator: SimpleNamespace, message: Optional[str] = None) -> Optional[Union[List['WebElement'], List[str], str, bool]]:
+    async def execute_locator(self, locator: SimpleNamespace, message: Optional[str] = None, raise_exc: Optional[bool]=True) -> Optional[Union[List['WebElement'], List[str], str, bool]]:
         """
         Finds elements, performs a sequence of actions, and extracts data.
         """
@@ -230,7 +231,7 @@ class Tab:
             return getattr(locator, 'attribute', None)
 
         # --- Stage 1: SEARCH ---
-        elements = await self.find(locator, raise_exc=False)
+        elements = await self.find(locator, raise_exc=raise_exc)
         if not elements:
             log_func = logger.error if getattr(locator, 'mandatory', False) else logger.warning
             log_func(f"Locator failed: No elements found for '{locator.locator_description}' with selector '{locator.selector}'")

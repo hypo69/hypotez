@@ -148,8 +148,8 @@ sequenceDiagram
 
     Note over User, TabProxy: Пользователь работает с прокси-объектом `tab`
 
-    User->>TabProxy: tab.go_to("https://quotes.toscrape.com")
-    TabProxy->>BaseTab: go_to("https://quotes.toscrape.com")
+    User->>TabProxy: tab.go_to("https://toscrape.com/")
+    TabProxy->>BaseTab: go_to("https://toscrape.com/")
     BaseTab->>Chrome: Page.navigate(url=...)
     Chrome-->>BaseTab: { "result": ... }
     BaseTab-->>TabProxy: результат

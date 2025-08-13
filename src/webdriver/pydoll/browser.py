@@ -43,7 +43,7 @@ from src.webdriver.pydoll.driver import Driver
 driver = Driver(window_mode='headless')
 
 async with driver as browser:
-    await browser.get_url('https://quotes.toscrape.com')
+    await browser.get_url('https://toscrape.com/')
     reference = await browser.execute_locator(browser.page.locators.reference)
     print(reference)
 
@@ -95,50 +95,111 @@ class Browser(Chrome):
     pid_file: Path = __root__ / 'src' / 'webdriver' / 'pydoll' / 'process.pid'
     def __init__(self, options: Optional[Options] = None, connection_port: Optional[int] = 0, **kwargs):
         """"""
-
-        super().__init__(options = options or Options(), connection_port = connection_port)
+        super().__init__(options = options or Options(), connection_port = connection_port, **kwargs)
         ...
 
-    def kill_previous_pid(self):
-        """! Deletes the PID file of the previous browser process, if it exists. """
-        try:
-            probably_pid = self.pid_file.read_text().strip()
-        except FileNotFoundError as ex:
-            return # File not found, do nothing
+    def _kill_previous_pid(self) -> None:
+        """
+        .. method:: _kill_previous_pid()
+           :platform: Linux, Windows, macOS
+           :synopsis: Deletes the PID file of the previous browser process, if it exists.
 
-        if probably_pid:
-            try:
-                os.kill(int(probably_pid), 9)
-                logger.info(f'process {probably_pid} successfully killed')
-            except Exception as ex:
-                logger.error(f'process {probably_pid} not successfully killed', ex)
-                ...
-            finally:
-                self.pid_file.unlink(missing_ok=True)
-
-    async def save_current_pid(self):
-        """! Saves the PID of the current browser process to a file. """
-        if self.process and self.process.pid:
-            self.pid_file.write_text(str(self.process.pid),encoding='UTF-8')
-        else:
-            logger.warning("Process PID is not available, cannot save.")
-
-    async def start(self) -> Optional[Tab]:
-        """! Start the browser and create the first tab.
+        Reads the PID from the stored PID file, attempts to terminate the process,
+        and deletes the PID file afterward. All operations are performed with
+        safe attribute checks to avoid unexpected exceptions.
 
         Returns:
-            Tab: The first tab if successful, None otherwise.
+            None
+
+        Example:
+            ```python
+            obj._kill_previous_pid()
+            ```
         """
-        # If the program crashes - delete the previous PID (of the browser)
-        self.kill_previous_pid()
+        pid_file = getattr(self, "pid_file", None)
+        if not pid_file:
+            ... # logger.error("pid_file attribute is missing, cannot kill previous PID.", exc_info=True)
+            return
+
+        saved_pid: Optional[str] = pid_file.read_text().strip() if pid_file.exists() else None
+
         try:
-            base_tab: 'BaseTab' = await super().start()
-            await self.save_current_pid()
-            tab = Tab(base_tab)
-            return tab
+            if saved_pid:
+                os.kill(int(saved_pid), 9)
+                logger.info(f"Process {saved_pid} killed.")
         except Exception as ex:
-            logger.error(f"Error starting browser: ",ex)
+            logger.error(f"Failed to kill process {saved_pid}.", ex, exc_info=True)
+        finally:
+            pid_file.unlink(missing_ok=True)
+
+
+    async def _save_current_pid(self) -> bool:
+        """
+        Saves the process ID (PID) of the current browser process into the predefined PID file. 
+
+
+        Returns:
+            bool: ``True`` if PID was successfully saved, ``False`` otherwise.
+
+        Example:
+            ```python
+            success = await obj.save_current_pid()
+            if success:
+                logger.info("PID saved successfully.")
+            else:
+                logger.warning("Failed to save PID.")
+            ```
+        """
+        try:
+
+            _process_manager = getattr(self, '_browser_process_manager', None)
+            _process = getattr(_process_manager, '_process', None)
+            if _process:
+                pid = getattr(_process, 'pid', None)
+                pid_file = getattr(self, "pid_file", None)
+                pid_file.write_text(str(pid), encoding="UTF-8")
+                self._pid = pid
+                return True
+        except Exception as ex:
+            logger.error(f'Ошибка сохранения PID' , ex)
+            return False
+
+
+
+    async def start(self) -> Optional[Tab]:
+        """ Starts the browser, creates the first tab, and saves the PID
+        of the running browser process. If a previous PID exists,
+        it is killed before starting the new browser process.
+
+        Returns:
+            Optional[Tab]: The first browser tab if successful, ``None`` otherwise.
+
+        Example:
+            ```python
+            tab = await obj.start()
+            if not tab:
+                logger.error("Browser failed to start.")
+            ```
+        """
+        # Delete the previous PID if it exists
+        if not self._kill_previous_pid():
+            ... # <- мб ошибка в файле, но не критично
+
+        try:
+            base_tab: BaseTab = await super().start()
+            if not base_tab:
+                logger.error("BaseTab is None after starting browser.", exc_info=True)
+                return None
+
+            # Save the current PID
+            if not await self._save_current_pid():
+                logger.error("Failed to save current PID before starting browser.", exc_info=True)
+
+            return Tab(base_tab)
+        except Exception as ex:
+            logger.error("Error starting browser:", ex, exc_info=True)
             return None
+
 
     async def close(self):
         """! Close the driver. """
@@ -167,7 +228,7 @@ if __name__ == "__main__":
                 return
 
             # Open a page
-            await tab.goto("https://quotes.toscrape.com")
+            await tab.goto("https://toscrape.com/")
 
             # Execute a locator (example: take page title text)
             title_locator = {

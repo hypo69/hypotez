@@ -982,7 +982,7 @@ class PrestaShopAsync:
         
         Example:
             >>> # product_id = 1
-            >>> # image_url = 'https://quotes.toscrape.com/path/to/image.jpg'
+            >>> # image_url = 'https://toscrape.com//path/to/image.jpg'
             >>> # upload_response = await api.upload_image_from_url_async('images/products', product_id, image_url, 'main_image')
             >>> # if upload_response: print("Image uploaded successfully from URL.")
         """

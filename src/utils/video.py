@@ -22,7 +22,7 @@ Functions:
 
 Examples:
     >>> import asyncio
-    >>> asyncio.run(save_video_from_url("https://quotes.toscrape.com/video.mp4", "local_video.mp4"))
+    >>> asyncio.run(save_video_from_url("https://toscrape.com//video.mp4", "local_video.mp4"))
     PosixPath('local_video.mp4')  # or None if failed
 
     >>> data = get_video_data("local_video.mp4")
@@ -116,7 +116,7 @@ def get_video_data(file_name: str) -> Optional[bytes]:
 
 
 def main():
-    url = "https://quotes.toscrape.com/video.mp4"  # Replace with a valid URL!
+    url = "https://toscrape.com//video.mp4"  # Replace with a valid URL!
     save_path = "local_video.mp4"
     result = asyncio.run(save_video_from_url(url, save_path))
     if result:

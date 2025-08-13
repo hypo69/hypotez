@@ -43,7 +43,7 @@ Example usage
 from typing import Optional, Any
 from types import SimpleNamespace
 import header
-from src.suppliers.graber import Graber as Grbr, Config, close_pop_up
+from src.suppliers.graber import GraberBase, Config, close_pop_up
 from src.webdriver.selenium.driver import Driver
 from src.logger.logger import logger
 
@@ -74,7 +74,7 @@ from src.logger.logger import logger
 #     return decorator
 
 
-class Graber(Grbr):
+class Graber(GraberBase):
     """Class for Apple grabbing operations."""
     supplier_prefix: str
 
@@ -129,7 +129,7 @@ class Graber(Grbr):
 from typing import Optional, Any
 from types import SimpleNamespace
 import header
-from src.suppliers.graber import Graber as Grbr, Config, close_pop_up
+from src.suppliers.graber import GraberBase, Config, close_pop_up
 from src.webdriver.selenium.driver import Driver
 from src.logger.logger import logger
 
@@ -160,7 +160,7 @@ from src.logger.logger import logger
 #     return decorator
 
 
-class Graber(Grbr):
+class Graber(GraberBase):
     """Класс для операций захвата Morlevi."""
     supplier_prefix: str
 

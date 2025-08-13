@@ -4,7 +4,7 @@ This document details the enhanced G4F File API, allowing users to upload files,
 
 **Key Improvements:**
 
-* **Web URL Downloads:**  Upload a `downloads.json` file to your bucket containing a list of URLs. The API will download and process these files.  Example: `[{"url": "https://quotes.toscrape.com/document.pdf"}]`
+* **Web URL Downloads:**  Upload a `downloads.json` file to your bucket containing a list of URLs. The API will download and process these files.  Example: `[{"url": "https://toscrape.com//document.pdf"}]`
 
 * **Expanded File Support:**  Added support for additional plain text file extensions:  `.txt`, `.xml`, `.json`, `.js`, `.har`, `.sh`, `.py`, `.php`, `.css`, `.yaml`, `.sql`, `.log`, `.csv`, `.twig`, `.md`.  Binary file support remains for `.pdf`, `.html`, `.docx`, `.odt`, `.epub`, `.xlsx`, and `.zip`.
 

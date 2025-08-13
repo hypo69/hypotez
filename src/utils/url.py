@@ -286,8 +286,8 @@ def normalize_url(
         'http://www.example.com/path/to/page?q=1&b=2'
         >>> normalize_url("www.example.com/path")
         'http://www.example.com/path'
-        >>> normalize_url("https://quotes.toscrape.com:443")
-        'https://quotes.toscrape.com/'
+        >>> normalize_url("https://toscrape.com/:443")
+        'https://toscrape.com//'
         >>> normalize_url(None)
         None
         >>> normalize_url("http://пример.рф/путь")
@@ -612,7 +612,7 @@ if __name__ == "__main__":
     urls_to_test = [
     "  HTTP://Www.Example.Com:80/path//to/page?q=1&b=2#section  ",
     "www.example.com/path",
-    "https://quotes.toscrape.com:443",
+    "https://toscrape.com/:443",
     "example.com",
     "ftp://Example.Com/File",
     "invalid-url",
@@ -639,7 +639,7 @@ if __name__ == "__main__":
     test_cases = [
         ("  HTTP://Www.Example.Com:80/path//to/page?q=1&b=2#section  ", 'http://www.example.com/path/to/page?q=1&b=2'),
         ("www.example.com/path", 'http://www.example.com/path'),
-        ("https://quotes.toscrape.com:443", 'https://quotes.toscrape.com/'),
+        ("https://toscrape.com/:443", 'https://toscrape.com//'),
         ("example.com", 'http://example.com/'),
         ("ftp://example.com/file", 'ftp://example.com/file'), # Другие схемы сохраняются
         ("invalid-url", None), # Не похож на URL

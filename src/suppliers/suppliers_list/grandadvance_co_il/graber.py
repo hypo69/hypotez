@@ -29,7 +29,7 @@ from types import SimpleNamespace
 import header
 from header import __root__
 from src import gs
-from src.suppliers.graber import Graber as Grbr, Config, close_pop_up
+from src.suppliers.graber import GraberBase, Config, close_pop_up
 from src.utils.jjson import j_loads_ns
 from src.webdriver.selenium.driver import Driver
 from types import SimpleNamespace
@@ -40,7 +40,7 @@ ENDPOINT = 'grandadvance'
 
 #############################################################
 
-class Graber(Grbr):
+class Graber(GraberBase):
     """Класс населедутет Graber."""
 
     def __init__(self, driver: Driver, lang_index:int):
