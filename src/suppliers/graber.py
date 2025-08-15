@@ -175,6 +175,24 @@ class GraberBase:
         self.config = config or Config(supplier_prefix = self.supplier_prefix, locator_for_decorator=self.locator_for_decorator or None)
         self.product_locator = self.config.product_locators
 
+    
+    # --- Пустой контекст-менеджер ---
+    def __enter__(self) -> "GraberBase":
+        """Возвращает экземпляр без дополнительных действий."""
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
+        """Ничего не делает при выходе из контекста."""
+        return False  #Исключения не подавляются
+
+    async def __aenter__(self) -> "GraberBase":
+        """Возвращает экземпляр в асинхронном контексте."""
+        return self
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb) -> None:
+        """Ничего не делает при выходе из асинхронного контекста."""
+        return False  #Исключения не подавляются
+
 
     def grab_page(self, required_fields, page_url, *args, **kwargs) -> ProductFields | bool:
         return asyncio.run(self.grab_page_async(required_fields, page_url, *args, **kwargs))
@@ -1412,7 +1430,6 @@ class GraberBase:
         Если `value` было передано, его значение подставляется в поле `ProductFields.name`.
         """
         try:
-            value = await self.driver.execute_locator(self.product_locator.name)
             self.product_fields.name = normalize_string(value if value else await self.driver.execute_locator(self.product_locator.name))
             return True if self.product_fields.name else False
         except Exception as ex:
@@ -1722,6 +1739,8 @@ class GraberBase:
         Args:
             value (Any): это значение можно передать в словаре kwargs через ключ {default_image_url = `value`} при определении класса.
             Если `value` был передан - его значение подставляется в поле `ProductFields.default_image_url`.
+        TODO:
+            Добавить проверку на соответсвие типа 
         """
         try:
             self.product_fields.default_image_url = value or  await self.driver.execute_locator(self.product_locator.default_image_url) or ''

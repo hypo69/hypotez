@@ -16,8 +16,10 @@ from src.webdriver.pydoll.browser import Browser
 from src.webdriver.pydoll.tab import Tab
 from src.webdriver.pydoll.options import Options
 
-from src.suppliers.graber import Graber
+from src.suppliers.graber import GraberBase
 from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_url 
+
+from src.endpoints.prestashop.product_fields.product_fields import ProductFields
 
 from src.utils.jjson import j_loads_ns
 from src.utils.printer import pprint as print
@@ -34,7 +36,7 @@ async def google_search_engine( locator: SimpleNamespace, headless: bool = False
     supplier_prefix:str = 'google.com'
     supplier_alias:str = supplier_prefix.replace('-','_').replace('.','_')
     locator:SimpleNamespace = j_loads_ns(__root__/'src'/'suppliers'/'suppliers_list'/supplier_alias/'locators'/'search_page.json')    
-    # 1. Создаем объект Options. Он автоматически загрузит файл настрое браузера
+    # 1. Создаем объект Options. Он автоматически загрузит файл настроек браузера
     #    и применит переопределение `headless=True` (или False).
     options: Options = Options(headless=False)
     logger.debug(f"Generated arguments for Chrome: {print(options.arguments)}")
@@ -58,16 +60,24 @@ async def google_search_engine( locator: SimpleNamespace, headless: bool = False
 
 async def prestashop_product_name(supplier_prefix:str) -> bool:
     """Вытаскивает имя товара по url"""
-    supplier_alias:str = supplier_prefix.replace('-','_').replace('.','_')
-    locator:SimpleNamespace = j_loads_ns(__root__/'src'/'suppliers'/'suppliers_list'/supplier_alias/'locators'/'product.json')
+    
     product_url:str = 'https://www.morlevi.co.il/product/21524'
     ...
-    graber:Graber = get_graber_by_supplier_url(supplier_prefix=supplier_prefix, product_url=product_url)
+    
+    required_fields:list[str] = ['name','description','specification']
+    
+    async with Browser() as browser:
+        # 1. асинхронный контекстный менеджер.
+        tab: Tab = await browser.start() 
+        async with tab:
+            graber:GraberBase = get_graber_by_supplier_url(url = product_url, driver = tab)
+            await tab.go_to(product_url)
+            product_fields: ProductFields =  await graber.grab_page_async(required_fields = required_fields)
+            ...
+    
 
 
 
 if __name__ == "__main__":
-    # Запускаем эксперимент
-
     # asyncio.run( google_search_engine() )
     asyncio.run( prestashop_product_name('morlevi.co.il') )

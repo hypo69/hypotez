@@ -891,9 +891,9 @@
   },
   "description": {
     "attribute": "innerHTML",
-    "by": null,
+    "by": "CLASS_NAME",
     "strategy_for_multiple_selectors": "find_first_match",
-    "selector": "//div[@class = 'description']",
+    "selector": "description",
     "if_list": "last",
     "mandatory": true,
     "timeout": 0,
