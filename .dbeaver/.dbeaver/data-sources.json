@@ -88,6 +88,22 @@
 				"closeIdleConnection": true,
 				"auth-model": "native"
 			}
+		},
+		"mariaDB-198c73e8ab9-3d223a27f8769293": {
+			"provider": "mysql",
+			"driver": "mariaDB",
+			"name": "davidka.net",
+			"save-password": true,
+			"configuration": {
+				"host": "77.37.35.16",
+				"port": "3306",
+				"database": "u177424397_bZ8OR",
+				"url": "jdbc:mariadb://77.37.35.16:3306/u177424397_bZ8OR",
+				"configurationType": "MANUAL",
+				"type": "dev",
+				"closeIdleConnection": true,
+				"auth-model": "native"
+			}
 		}
 	},
 	"virtual-models": {"mariaDB-196df8e5dc0-42a2193da5f1fc3c":{"u177424397_store":{":rsx9g_supplier_type":{"properties":{"erd.diagram.state":{"serialized":"\u003cdiagram version\u003d\"1\" name\u003d\"empty\" time\u003d\"202505272047\"\u003e\u003centities\u003e\u003cdata-source id\u003d\"mariaDB-196df8e5dc0-42a2193da5f1fc3c\"\u003e\u003centity id\u003d\"1\" name\u003d\"rsx9g_supplier_type\" fq-name\u003d\"u177424397_store.rsx9g_supplier_type\" order\u003d\"0\" color-bg\u003d\"128,64,32\" x\u003d\"450\" y\u003d\"92\"\u003e\u003cpath name\u003d\"u177424397_store\"/\u003e\u003c/entity\u003e\u003c/data-source\u003e\u003c/entities\u003e\u003crelations/\u003e\u003c/diagram\u003e"}},"foreign-keys":[{"entity":"node://hypotez/datasources/mariaDB-196df8e5dc0-42a2193da5f1fc3c/database/u177424397_store/table/rsx9g_supplier","constraint":"rsx9g_supplier_VK","attributes":{"id_supplier_type":"id_supplier_type"}}]},":rsx9g_supplier":{"properties":{"erd.diagram.state":{"serialized":"\u003cdiagram version\u003d\"1\" name\u003d\"empty\" time\u003d\"202505311715\"\u003e\u003centities\u003e\u003cdata-source id\u003d\"mariaDB-196df8e5dc0-42a2193da5f1fc3c\"\u003e\u003centity id\u003d\"1\" name\u003d\"rsx9g_supplier\" fq-name\u003d\"u177424397_store.rsx9g_supplier\" order\u003d\"0\" color-bg\u003d\"128,64,32\" x\u003d\"40\" y\u003d\"40\"\u003e\u003cpath name\u003d\"u177424397_store\"/\u003e\u003c/entity\u003e\u003centity id\u003d\"2\" name\u003d\"rsx9g_supplier_type\" fq-name\u003d\"u177424397_store.rsx9g_supplier_type\" order\u003d\"1\" x\u003d\"259\" y\u003d\"37\"\u003e\u003cpath name\u003d\"u177424397_store\"/\u003e\u003c/entity\u003e\u003centity id\u003d\"3\" name\u003d\"rsx9g_supplier_lang\" fq-name\u003d\"u177424397_store.rsx9g_supplier_lang\" order\u003d\"2\" x\u003d\"262\" y\u003d\"162\"\u003e\u003cpath name\u003d\"u177424397_store\"/\u003e\u003c/entity\u003e\u003c/data-source\u003e\u003c/entities\u003e\u003crelations\u003e\u003crelation name\u003d\"vfk_rsx9g_supplier_type_rsx9g_supplier\" type\u003d\"vfk\" pk-ref\u003d\"1\" fk-ref\u003d\"2\"/\u003e\u003c/relations\u003e\u003c/diagram\u003e"}},"constraints":{"rsx9g_supplier_VK":{"type":"vpk","attributes":["id_supplier_type"]}}},":rsx9g_product":{"properties":{"erd.diagram.state":{"serialized":"\u003cdiagram version\u003d\"1\" name\u003d\"empty\" time\u003d\"202505272216\"\u003e\u003centities\u003e\u003cdata-source id\u003d\"mariaDB-196df8e5dc0-42a2193da5f1fc3c\"\u003e\u003centity id\u003d\"1\" name\u003d\"rsx9g_product\" fq-name\u003d\"u177424397_store.rsx9g_product\" order\u003d\"0\" color-bg\u003d\"128,64,32\" x\u003d\"40\" y\u003d\"40\"\u003e\u003cpath name\u003d\"u177424397_store\"/\u003e\u003c/entity\u003e\u003c/data-source\u003e\u003c/entities\u003e\u003crelations/\u003e\u003c/diagram\u003e"}}}}}},

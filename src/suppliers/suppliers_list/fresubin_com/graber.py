@@ -1,125 +1,43 @@
-## \file /src/suppliers/suppliers_list/fresubin_com/graber.py
+## \file /src/suppliers/<_supplier_>/graber.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
+
 """
-.. module:: src.suppliers.suppliers_list.fresubin_com.graber
-    :platform: Windows, Unix
-    :synopsis: Module for collecting product data from Fresubin.
+.. module:: src.suppliers.<> 
+	:platform: Windows, Unix
+	:synopsis: Класс для операций захвата данных для конкретного поставщика.
 
-Fresubin Product Data Graber
-=========================================================================================
+    Этот класс не добавляет новых полей данных, а полностью наследует
+    структуру от GraberBase. Его можно использовать для добавления методов,
+    специфичных для поставщика, или как именованный тип для ясности кода.
+    
 
-This module provides a `Graber` class designed to extract product information from Fresubin.
-It extends a base `Graber` class and includes functionality to handle pop-up windows during scraping.
-It allows for custom handling of product fields by overriding methods.
-
-Example usage
--------------
-
-```python
-    from src.webdriver.selenium.driver import Driver
-    from src.suppliers.suppliers_list.fresubin_com.graber import Graber
-
-    # Initialize a WebDriver instance (e.g., Chrome)
-    driver_instance = Driver(browser_name="Chrome")
-
-    # Initialize the Fresubin Graber
-    fresubin_graber = Graber(driver=driver_instance, lang_index=0) # Assuming lang_index is needed
-
-    # Now you can use fresubin_graber methods to interact with Fresubin
-    # For example, to grab product details from a URL:
-    # product_data = fresubin_graber.grab_product_details("https://www.fresubin.com/product/...")
-    # print(product_data)
-
-    # Don't forget to quit the driver when done
-    # driver_instance.quit()
-```
-
-:author: hypo69
-:license: Proprietary. All rights reserved.
-:version: 1.0.0
-:location: suppliers/suppliers_list/fresubin_com/graber.py
 """
 from typing import Optional, Any
 from types import SimpleNamespace
+from dataclasses import dataclass, field
 import header
-from src.suppliers.graber import GraberBase, Config, close_pop_up
+from src.suppliers.graber import GraberBase
 from src.webdriver.selenium.driver import Driver
 from src.logger.logger import logger
 
-
-#
-#
-#           DECORATOR TEMPLATE. 
-#
-# def close_pop_up(value: Any = None) -> Callable:
-#     """Creates a decorator to close pop-up windows before executing the main function logic.
-
-#     Args:
-#         value (Any): Additional value for the decorator.
-
-#     Returns:
-#         Callable: The decorator wrapping the function.
-#     """
-#     def decorator(func: Callable) -> Callable:
-#         @wraps(func)
-#         async def wrapper(*args, **kwargs):
-#             try:
-#                 # await Context.driver.execute_locator(Context.locator.close_pop_up)  # Await async pop-up close  
-#                 ... 
-#             except ExecuteLocatorException as e:
-#                 logger.debug(f'Error executing locator: {e}')
-#             return await func(*args, **kwargs)  # Await the main function
-#         return wrapper
-#     return decorator
-
-
+@dataclass(slots=True, kw_only=True)
 class Graber(GraberBase):
-    """Class for Fresubin grabbing operations."""
-    supplier_prefix: str
+    """Класс для операций захвата данных для конкретного поставщика.
 
-    def __init__(self, driver: Optional['Driver'] = None, lang_index:Optional[int] = None):
-        """Initializes the product field collection class.
-
-        Args:
-            driver (Driver, optional): The webdriver instance for browser interaction. Defaults to None.
-            lang_index (int, optional): The language index. Defaults to None.
-        """
-        self.supplier_prefix = 'fresubin'
-        super().__init__(supplier_prefix=self.supplier_prefix, driver=driver, lang_index=lang_index)
-        # Set global settings via Context
-        
-        Config.locator_for_decorator = None # <- if a value is set, it will be executed in the `@close_pop_up` decorator
-
-    # async def description_short(self, value:Optional[Any] = None) -> bool:
-    #     """Fetch and set short description.
-        
-    #     Args:
-    #     value (Any): This value can be passed in the kwargs dictionary via the key {description_short = `value`} при определении класса.
-    #     If `value` was passed, its value is substituted into the `ProductFields.description_short` field.
-    #     """
-    #     try:
-    #         # Get value via execute_locator
-    #         #path = self.driver.current_url + '/#tab-description'
-    #         #await self.driver.get_url(path)
-    #         raw_data = await self.driver.execute_locator(self.product_locator.description_short)
-
-    #         self.fields.description_short = value or normalize_string(raw_data) or ''
-    #         ...
-    #         return
-
-    #     except Exception as ex:
-    #         logger.error(f"Ошибка получения значения в поле `description_short`", ex)
-    #         ...
-    #         return
-
-    #     self.fields.description_short = value
-    #     return True
-
-    async def default_image_url(self, value:Optional[Any] = None) -> bool:
-        return True
-
-    async def price(self, value:Optional[Any] = None) -> bool:
-        """Placeholder for price."""
-        self.fields.price = 150.00
-        return True
+    Этот класс не добавляет новых полей данных, а полностью наследует
+    структуру от GraberBase. Его можно использовать для добавления методов,
+    специфичных для поставщика, или как именованный тип для ясности кода.
+    
+    Args:
+        supplier_prefix (str): Уникальный префикс поставщика (например, 'morlevi-pro').
+        driver (T): Экземпляр драйвера браузера для взаимодействия со страницей.
+        locator_for_decorator (str, optional): Строковый локатор для использования
+            в декораторах. По умолчанию ''.
+        locator_name_for_decorator (str, optional): Имя локатора, используемого
+            в декораторах. По умолчанию ''.
+        id_lang (int, optional): Числовой идентификатор языка. По умолчанию 1.
+        product_fields (Optional[SimpleNamespace], optional): Объект для хранения
+            полей товара. По умолчанию создается новый экземпляр `ProductFields`.
+    """
+    pass

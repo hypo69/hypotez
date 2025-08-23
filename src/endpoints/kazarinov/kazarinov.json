@@ -1,18 +1,14 @@
 {
   "webdriver": {
-    "firefox": {
-      "mode": "test",
-      "webdriver_name": "firefox",
-      "webdriver_options": []
-    },
-    "pydoll": {
-      "WINDOW_MODE": "window",
-      "user_data_dir": "C:\\Users\\user\\AppData\\Local\\Google\\Chrome\\User Data\\Default",
-      "enable_user_profile": true
-    },
-    "active_driver": "pydoll"
-  },
 
+      "WINDOW_MODE": "headless",
+      "user_data_dir": "C:\\Users\\user\\AppData\\Local\\Google\\Chrome\\User Data\\Default",
+      "enable_user_profile": false
+  },
+  "storage": {
+    "generated_images_path": "E:\\hypo69\\data\\kazarinov\\converted_images",
+    "saved_data_products_path": "E:\\hypo69\\data\\train_data_products"
+  },
   "url_handlers": {
     "suppliers": [
 

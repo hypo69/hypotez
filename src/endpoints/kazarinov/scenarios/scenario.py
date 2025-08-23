@@ -36,7 +36,7 @@ from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_url
 from src.utils.port import get_free_port
 from src.logger.logger import logger
 
-from src.utils.jjson import j_loads_ns, j_dumps
+from src.utils.jjson import j_loads, j_loads_ns, j_dumps
 
 T = TypeVar('T')
 
@@ -47,9 +47,27 @@ class Config:
     config: SimpleNamespace = j_loads_ns(__root__ / "src" / "endpoints" / ENDPOINT / f"{ENDPOINT}.json")
     if not config:
         raise RuntimeError("Configuration not found for Kazarinov endpoint")
-    _driver_cfg = getattr(config.webdriver, config.webdriver.active_driver, 'pydoll')
-    WINDOW_MODE = getattr(_driver_cfg, "WINDOW_MODE", "window")
-    user_data_dir = getattr(_driver_cfg, "user_data_dir", None)
+
+    _export_cfg:dict = getattr(config, 'storage', None)
+    saved_data_products_path: Path = Path(__root__ / "src" / "endpoints" / ENDPOINT / "export" / "saved_data_products")
+    generated_images_path: Path = None
+    if _export_cfg and hasattr(_export_cfg, 'saved_data_products_path') and hasattr(_export_cfg, 'generated_images_path'):
+        saved_data_products_path: Path = Path(_export_cfg.saved_data_products_path)
+        generated_images_path = Path(_export_cfg.generated_images_path)
+    else:
+        raise RuntimeError("Export path configuration not found for Kazarinov endpoint")
+
+    _driver_cfg:dict = getattr(config, 'webdriver', None)
+    if not _driver_cfg:
+        WINDOW_MODE:str = 'window'
+        user_data_dir:str = ''
+        enable_user_profile:bool = False
+    else:
+        WINDOW_MODE:str = getattr(_driver_cfg, "WINDOW_MODE", "window")
+        WINDOW_MODE = 'window' # <- DEBUG
+        user_data_dir:str = getattr(_driver_cfg, "user_data_dir", None)
+        enable_user_profile:bool = getattr(_driver_cfg, "user_data_dir", False)
+    
 
 
 @dataclass(slots=True, kw_only=True)
@@ -104,12 +122,46 @@ class Scenario:
         Args:
             product_data (dict): Formatted product data.
         """
-        file_path = self.export_path / 'products' / f"{product_data['product_id']}.json"
-        if not j_dumps(product_data, file_path, ensure_ascii=False):
+        json_file_path = Config.saved_data_products_path / f"{product_data['reference']}.json"
+        if not j_dumps(product_data, json_file_path, ensure_ascii=False):
             logger.error(f'Error saving dictionary {print(product_data)}\n Path: {file_path}')
             ...
             return
         return True
+
+    def convert_product_fields(self, f: ProductFields) -> dict:
+        """
+        Converts product fields into a dictionary.
+        The function converts fields from the `ProductFields` object into a simple dictionary for the llm model.
+
+        Args:
+            f (ProductFields): Object containing parsed product data.
+
+        Returns:
+            dict: Formatted product data dictionary.
+
+        Note:
+            The rules for constructing fields are defined in `ProductFields`
+        """
+        # if not f.reference:
+        #     logger.error(f"Failed to get product fields. ")
+        #     return {} # <- failed to get product fields. This can happen if a category page was encountered instead of a product page, with careless compilation of the mekhiron from components
+        # ...
+        product_name = f.name['language']['value'] if f.name else ''
+        description = f.description['language']['value'] if f.description else ''
+        description_short = f.description_short['language']['value'] if f.description_short else ''
+        specification = f.specification['language']['value']  if f.specification else ''
+
+        if not product_name:
+            return {}
+        return {
+            'product_name':product_name,
+            'reference': f.reference,
+            'description_short':description_short,
+            'description': description,
+            'specification': specification,
+            'default_image_url': str(f.default_image_url),
+        }
 
 
     async def run_scenario_async(
@@ -134,6 +186,7 @@ class Scenario:
         Returns:
             bool: ``True`` on successful completion of the scenario.
         """
+        options: Options = Options(headless=True if Config.WINDOW_MODE == "headless" else False)
         products_list: list[dict] = []  # List of collected products
         required_fields: list[str] = [
             "id_supplier",
@@ -141,7 +194,7 @@ class Scenario:
             # "price",
             "reference",
             "description",
-            # "description_short",
+            "description_short",
             "specification",
             "default_image_url",
         ]
@@ -149,7 +202,7 @@ class Scenario:
 
 
         async with Browser( # <- you can substitute the browser class (Chrome, Edge) from from src.webdriver.pydoll.llib.browser here
-                        options = Options(headless=False),
+                        options = options,
                         connection_port = get_free_port([9223, 9322])
                         ) as browser:
             tab: Tab = await browser.start()
@@ -163,7 +216,7 @@ class Scenario:
                 logger.debug(f"Processing URL: {url}", None, False)
 
                 graber = get_graber_by_supplier_url(url, tab)
-
+                graber.id_lang = 3 # עברית
                 if not graber:
                     logger.error(f"🤷‍♂️ No suitable grabber for URL: {url}", None, True)
                     if bot:
@@ -177,6 +230,7 @@ class Scenario:
                 try:
                     await tab.go_to(url)
                     product_fields: ProductFields = await graber.grab_page_async(required_fields = required_fields)
+                    
                 except Exception as ex:
                     logger.error(f"❌ Error parsing page:{url}", ex, exc_info = True)
                     if bot:
@@ -195,7 +249,12 @@ class Scenario:
                     # Convert the field from a `ProductFields` object to a simple dictionary for the llm model
                     ...
                     product_data = self.convert_product_fields(product_fields)
-
+                    products_list.append(product_data)
+                    
+                    # поле для модели
+                    _:str = await tab.page_source
+                    body_html:str = tab.clean_body_html(_)
+                    product_data.update({"body_html": body_html})
                     # Individual supplier settings
                     match(graber.supplier_prefix):
                         case 'morlevi.co.il':
@@ -215,7 +274,7 @@ class Scenario:
                     continue
 
                 await self.save_product_data(product_data)
-                products_list.append(product_data)
+                
 
         # AI processing ---------------------------------------------------------
         if not products_list:
@@ -278,42 +337,6 @@ class Scenario:
                 return
 
         return True
-
-    def convert_product_fields(self, f: ProductFields) -> dict:
-        """
-        Converts product fields into a dictionary.
-        The function converts fields from the `ProductFields` object into a simple dictionary for the llm model.
-
-        Args:
-            f (ProductFields): Object containing parsed product data.
-
-        Returns:
-            dict: Formatted product data dictionary.
-
-        Note:
-            The rules for constructing fields are defined in `ProductFields`
-        """
-        # if not f.reference:
-        #     logger.error(f"Failed to get product fields. ")
-        #     return {} # <- failed to get product fields. This can happen if a category page was encountered instead of a product page, with careless compilation of the mekhiron from components
-        # ...
-
-        product_name = f.name['language']['value'] if f.name else ''
-        description = f.description['language']['value'] if f.description else ''
-        description_short = f.description_short['language']['value'] if f.description_short else ''
-        specification = f.specification['language']['value']  if f.specification else ''
-
-        if not product_name:
-            return {}
-        return {
-            'product_name':product_name,
-            'reference': f.reference,
-            'description_short':description_short,
-            'description': description,
-            'specification': specification,
-            'local_image_path': str(f.local_image_path),
-        }
-
 
 
 #               --- Example ----

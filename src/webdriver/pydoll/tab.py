@@ -20,20 +20,21 @@ import asyncio
 import re
 from types import SimpleNamespace, TracebackType
 from typing import Any, List, Optional, TYPE_CHECKING, Type, Union
+from bs4 import BeautifulSoup, Comment
 
-from src.webdriver.pydoll.llib.browser.tab import Tab as BaseTab
-from src.webdriver.pydoll.llib.constants import By, Key
+# from src.webdriver.pydoll.llib.browser.tab import Tab as BaseTab
+# from src.webdriver.pydoll.llib.constants import By, Key
 
-if TYPE_CHECKING:
-    from src.webdriver.pydoll.llib.elements.web_element import WebElement
-    from src.webdriver.pydoll.options import Options
-
-# from pydoll.browser.tab import Tab as BaseTab
-# from pydoll.constants import By, Key
-# # Conditional imports for type checking
 # if TYPE_CHECKING:
-#     from pydoll.elements.web_element import WebElement
+#     from src.webdriver.pydoll.llib.elements.web_element import WebElement
 #     from src.webdriver.pydoll.options import Options
+
+from pydoll.browser.tab import Tab as BaseTab
+from pydoll.constants import By, Key
+# Conditional imports for type checking
+if TYPE_CHECKING:
+    from pydoll.elements.web_element import WebElement
+    from src.webdriver.pydoll.options import Options
 
 from src.logger.logger import logger
 
@@ -99,6 +100,39 @@ class Tab:
         except Exception as ex:
             logger.error(f"Failed to close tab {self._base_tab._target_id} on exit: {ex}", ex, exc_info=True)
 
+    def clean_body_html(self, raw_html: str) -> str:
+        """
+        Очищает HTML-код внутри тега <body> от скриптов, стилей и комментариев.
+
+        Args:
+            html_string: Строка, содержащая полный HTML-документ.
+
+        Returns:
+            Строка с очищенным HTML-содержимым тега <body>.
+            Если тег <body> не найден, возвращает пустую строку.
+        """
+        if not raw_html:
+            return ""
+
+        soup = BeautifulSoup(raw_html, 'lxml')
+
+        # Находим тег body
+        body = soup.body
+        if not body:
+            return ""
+
+        # 1. Удаляем все теги <script> и <style>
+        for tag in body.find_all(['script', 'style']):
+            tag.decompose() # Полностью удаляет тег из дерева
+
+        # 2. Удаляем все HTML-комментарии
+        for comment in body.find_all(string=lambda text: isinstance(text, Comment)):
+            comment.extract()
+
+        # Возвращаем внутреннее содержимое body в виде строки.
+        # .prettify() делает код более читаемым, с отступами.
+        # Если отступы не нужны, используйте str(body)
+        return body.prettify()
     @staticmethod
     def _parse_keys(key_string: str) -> List[Union[Key, str]]:
         """
@@ -261,7 +295,7 @@ class Tab:
                     case 'innerhtml':
                         extracted_data.append(await el.inner_html)
                     case _:
-                        extracted_data.append(await el.get_attribute(attribute_to_get))
+                        extracted_data.append( el.get_attribute(attribute_to_get))
         except Exception as ex:
             logger.error(f"Failed to get attribute '{attribute_to_get}' for locator '{locator.locator_description}': {ex}", exc_info=True)
             return False

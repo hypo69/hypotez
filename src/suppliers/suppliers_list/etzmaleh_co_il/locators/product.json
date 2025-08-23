@@ -1,12 +1,10 @@
 {
   "id": {
     "attribute": null,
-
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -14,12 +12,10 @@
   },
   "id_manufacturer": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -27,12 +23,10 @@
   },
   "id_supplier": {
     "attribute": 11234,
-
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -40,12 +34,10 @@
   },
   "id_category_default": {
     "attribute": null,
-
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -53,12 +45,10 @@
   },
   "new": {
     "attribute": null,
-
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -66,12 +56,10 @@
   },
   "cache_default_attribute": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -79,12 +67,10 @@
   },
   "id_default_image": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -92,12 +78,10 @@
   },
   "id_default_combination": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -105,12 +89,10 @@
   },
   "id_tax_rules_group": {
     "attribute": "$p.tax_rule",
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -118,12 +100,10 @@
   },
   "position_in_category": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -131,12 +111,10 @@
   },
   "type": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -144,12 +122,10 @@
   },
   "id_shop_default": {
     "attribute": "1",
-
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -157,12 +133,10 @@
   },
   "reference": {
     "attribute": "$d.current_url.split(f'''/''')[-2]",
-
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -170,12 +144,10 @@
   },
   "supplier_reference": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -183,12 +155,10 @@
   },
   "location": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -196,12 +166,10 @@
   },
   "width": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -209,12 +177,10 @@
   },
   "height": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -222,12 +188,10 @@
   },
   "depth": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -235,12 +199,10 @@
   },
   "weight": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -248,12 +210,10 @@
   },
   "quantity_discount": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -261,12 +221,10 @@
   },
   "ean13": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -274,12 +232,10 @@
   },
   "isbn": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -287,12 +243,10 @@
   },
   "upc": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -300,12 +254,10 @@
   },
   "mpn": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -313,12 +265,10 @@
   },
   "cache_is_pack": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -326,12 +276,10 @@
   },
   "cache_has_attachments": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -339,12 +287,10 @@
   },
   "is_virtual": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -352,12 +298,10 @@
   },
   "state": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -365,12 +309,10 @@
   },
   "additional_delivery_times": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -378,12 +320,10 @@
   },
   "delivery_in_stock": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -391,12 +331,10 @@
   },
   "delivery_out_stock": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -404,12 +342,10 @@
   },
   "product_type": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -417,12 +353,10 @@
   },
   "on_sale": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -430,12 +364,10 @@
   },
   "online_only": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -443,12 +375,10 @@
   },
   "ecotax": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -456,12 +386,10 @@
   },
   "minimal_quantity": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -469,12 +397,10 @@
   },
   "low_stock_threshold": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -482,12 +408,10 @@
   },
   "low_stock_alert": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -495,12 +419,10 @@
   },
   "price": {
     "attribute": "innerText",
-
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//div[contains(@data-csa-c-asin, '$_(driver.current_url.split(f'''/''')[-2])_$') and contains(@id, 'corePrice_desktop')]// span[contains(@class, 'apexPriceToPay')]//span",
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": "//div[contains(@data-csa-c-asin, '$_(driver.current_url.split(f'''/''')[-2])_$') and contains(@id, 'corePrice_desktop')]// span[contains(@class, 'apexPriceToPay')]//span",
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -508,12 +430,10 @@
   },
   "wholesale_price": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -521,12 +441,10 @@
   },
   "unity": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -534,12 +452,10 @@
   },
   "unit_price_ratio": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -547,12 +463,10 @@
   },
   "additional_shipping_cost": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -560,12 +474,10 @@
   },
   "customizable": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -573,12 +485,10 @@
   },
   "text_fields": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -586,12 +496,10 @@
   },
   "uploadable_files": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -599,12 +507,10 @@
   },
   "active": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -612,12 +518,10 @@
   },
   "redirect_type": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -625,12 +529,10 @@
   },
   "id_type_redirected": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -638,12 +540,10 @@
   },
   "available_for_order": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -651,12 +551,10 @@
   },
   "available_date": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -664,12 +562,10 @@
   },
   "show_condition": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -677,12 +573,10 @@
   },
   "condition": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -690,12 +584,10 @@
   },
   "show_price": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -703,12 +595,10 @@
   },
   "indexed": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -716,12 +606,10 @@
   },
   "visibility": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -729,12 +617,10 @@
   },
   "advanced_stock_management": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -742,12 +628,10 @@
   },
   "date_add": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -755,12 +639,10 @@
   },
   "date_upd": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -768,12 +650,10 @@
   },
   "pack_stock_type": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -781,12 +661,10 @@
   },
   "meta_description": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -794,12 +672,10 @@
   },
   "meta_keywords": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -807,12 +683,10 @@
   },
   "meta_title": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -820,39 +694,32 @@
   },
   "link_rewrite": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
   "name": {
-
     "attribute": "innerText",
-
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//span[@id='productTitle']",
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": "//span[@id='productTitle']",
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
   "description": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "attribute": "innerText",
+    "by": "XPATH",
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": "//div[@id='productDescription']",
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -860,37 +727,32 @@
   },
   "description_short": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
   "specification": {
-    "attribute": "",
-    "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "",
-    "if_list": "all",
-
+    "attribute": null,
+    "by": null,
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
+    "if_list": "first",
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "Технические характеристики. "
+    "event": null
   },
   "affiliate_short_link": {
     "attribute": "$_(driver.current_url)_$",
-
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -898,12 +760,10 @@
   },
   "affiliate_text": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -911,12 +771,10 @@
   },
   "affiliate_summary": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -924,12 +782,10 @@
   },
   "affiliate_summary_2": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -937,12 +793,10 @@
   },
   "available_now": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -950,12 +804,10 @@
   },
   "available_later": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -963,117 +815,98 @@
   },
   "associations": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "ASIN": {
+  "asin": {
     "attribute": "$_(driver.current_url.split(f'''/''')[-2])_$",
-
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "",
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": "",
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Active (0/1)": {
+  "active (0/1)": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-
-  "Categories (x,y,z...)": {
+  "categories (x,y,z...)": {
     "attribute": "2,",
-
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "On sale (0/1)": {
+  "on sale (0/1)": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Discount amount": {
+  "discount amount": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Discount percent": {
+  "discount percent": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Discount from (yyyy-mm-dd)": {
+  "discount from (yyyy-mm-dd)": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Discount to (yyyy-mm-dd)": {
+  "discount to (yyyy-mm-dd)": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1081,155 +914,54 @@
   },
   "reference #": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Supplier reference #": {
+  "supplier reference #": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Supplier": {
+  "supplier": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "UPC": {
+  "delivery time of in-stock products:": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "MPN": {
+  "delivery time of out-of-stock products with allowed orders:": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Ecotax": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Width": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Height": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Depth": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Weight": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Delivery time of in-stock products:": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Delivery time of out-of-stock products with allowed orders:": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1237,298 +969,232 @@
   },
   "quantity": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Minimal quantity": {
+  "minimal quantity": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Low stock level": {
+  "low stock level": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Send me an email when the quantity is under this level": {
+  "send me an email when the quantity is under this level": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Visibility": {
+  "additional shipping cost": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Additional shipping cost": {
+  "unit for base price": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Unit for base price": {
+  "base price": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Base price": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Summary": {
-    "attribute": "innerHTML",
-
-    "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//div[contains(@data-a-expander-name , 'product_overview')]//table",
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Description": {
+  "summary": {
     "attribute": "innerText",
-
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@id='productDescription']",
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": "//div[@id='productDescription']",
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "event": null,
+    "logic for action[and|or|xor|value|null]": null
   },
-  "Tags (x,y,z...)": {
+  "tags (x,y,z...)": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Meta title": {
+  "meta title": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Meta keywords": {
+  "meta keywords": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Meta description": {
+  "meta description": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Rewritten URL": {
+  "rewritten url": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Label when in stock": {
+  "label when in stock": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Label when backorder allowed": {
+  "label when backorder allowed": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Available for order (0 = No, 1 = Yes)": {
+  "available for order (0 = no, 1 = yes)": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Product availability date": {
+  "product availability date": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Product creation date": {
+  "product creation date": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Show price (0 = No, 1 = Yes)": {
+  "show price (0 = no, 1 = yes)": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Screenshot": {
+  "screenshot": {
     "attribute": null,
-
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//img[@id='landingImage']|//img[@class='a-dynamic-image']",
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": "//img[@id='landingImage']|//img[@class='a-dynamic-image']",
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": "screenshot()",
-    "logic for action[AND|OR|XOR|VALUE|null]": null
+    "logic for action[and|or|xor|value|null]": null
   },
   "additional_images_urls": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
@@ -1536,355 +1202,267 @@
   },
   "additional_images_alts": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Delete existing images (0 = No, 1 = Yes)": {
+  "delete existing images (0 = no, 1 = yes)": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Feature (Name:Value:Position:Customized)": {
+  "feature (name:value:position:customized)": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Available online only (0 = No, 1 = Yes)": {
+  "available online only (0 = no, 1 = yes)": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Condition": {
+  "customizable (0 = no, 1 = yes)": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Customizable (0 = No, 1 = Yes)": {
+  "uploadable files (0 = no, 1 = yes)": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Uploadable files (0 = No, 1 = Yes)": {
+  "text fields (0 = no, 1 = yes)": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Text fields (0 = No, 1 = Yes)": {
+  "action when out of stock": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Action when out of stock": {
+  "virtual product (0 = no, 1 = yes)": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Virtual product (0 = No, 1 = Yes)": {
+  "file url": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "File URL": {
+  "number of allowed downloads": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Number of allowed downloads": {
+  "expiration date (yyyy-mm-dd)": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Expiration date (yyyy-mm-dd)": {
+  "number of days": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Number of days": {
+  "id / name of shop": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "ID / Name of shop": {
+  "advanced stock management": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Advanced Stock Management": {
+  "depends on stock": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Depends on stock": {
+  "warehouse": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Warehouse": {
+  "accessories (x,y,z...)": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Accessories (x,y,z...)": {
+  "open ai product description": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-
-  "Open AI Product Description": {
+  "byer protection": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Byer protection": {
+  "refirbished product description": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Specification": {
+  "additional shipping details": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Refirbished product description": {
+  "product features": {
     "attribute": null,
-
     "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": null,
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null
   },
-  "Additional shipping details": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Product features": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-
-  "Additional product info": {
+  "additional product info": {
     "attribute": "innerText",
-
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "",
+    "strategy_for_multiple_selectors": "find_first_match",
+    "selector": "",
     "if_list": "first",
-
     "mandatory": true,
     "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "logic for action[AND|OR|XOR|VALUE|null]": null
-  },
-  "summary": {
-    "attribute": "innerText",
-
-    "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@id='productDescription']",
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "logic for action[AND|OR|XOR|VALUE|null]": null
+    "logic for action[and|or|xor|value|null]": null
   }
 }

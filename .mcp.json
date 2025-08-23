@@ -1,0 +1,13 @@
+{
+    "servers": {
+        "documentation-mcp-server": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+                "-y",
+                "docsmcp",
+                "--source=Model Context Protocol (MCP)|https://modelcontextprotocol.io/llms-full.txt"
+            ]
+        }
+    }
+}

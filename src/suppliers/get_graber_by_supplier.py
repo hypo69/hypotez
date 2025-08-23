@@ -45,7 +45,7 @@ def dynamic_import_graber(supplier_alias: str) -> Optional['GraberBase']:
         logger.critical(f"Ошибка при импорте Graber из {module_path}", ex, True)
     return None
 
-def get_graber_by_supplier_prefix(supplier_prefix: str, driver:T) -> Optional['GraberBase']:
+def get_graber_by_supplier_prefix(supplier_prefix: str, driver:T, id_lang:int = 1) -> Optional['GraberBase']:
     """ Возвращает экземпляр Graber для данного ключа поставщика.
 
     Args:
@@ -62,7 +62,7 @@ def get_graber_by_supplier_prefix(supplier_prefix: str, driver:T) -> Optional['G
     GraberClass = dynamic_import_graber(supplier_alias)
     if GraberClass:
         try:
-            return GraberClass( driver = driver)
+            return GraberClass(supplier_prefix = supplier_prefix, driver = driver, id_lang = id_lang)
         except Exception as ex:
             logger.critical(f"Не удалось создать экземпляр Graber для {supplier_alias}", ex, True)
             ...

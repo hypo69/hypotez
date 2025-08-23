@@ -31,6 +31,7 @@ class Options(ChromiumOptions):
         """
         Initializes and configures the Options object.
         """
+
         super().__init__()
 
         # Attributes for storing all types of settings
@@ -57,6 +58,7 @@ class Options(ChromiumOptions):
             raise
 
         final_config = {**default_options, **overrides}
+        
         self._apply_unified_config(final_config)
 
         logger.info("Options configured successfully.")

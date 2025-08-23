@@ -1,927 +1,288 @@
 {
+  "supplier_prefix": "aliexpress.com",
   "close_banner": {
     "attribute": null,
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//button[@id = 'closeXButton']",
+    "selector": "//button[@id = 'closeXButton']",
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "text_to_be_present_in_element": "",
     "event": "click()",
-    "text_to_be_present_in_element":"","locator_description": "Закрываю pop-up окно, если оно не появилось - не страшно (`mandatory`:`false`)"
-  },
-  "id": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-    "mandatory": false,
-    "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "id"
+    "timeout": 0,
+    "locator_description": "Закрытие pop-up окна aliexpress.com"
   },
   "id_manufacturer": {
     "attribute": 11290,
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "text_to_be_present_in_element": "",
     "event": null,
-    "text_to_be_present_in_element":"","locator_description": "id_manufacturer"
+    "timeout_for_event": "presence_of_element_located",
+    "timeout": 0,
+    "locator_description": "PrestaShop: ID производителя товара aliexpress.com"
   },
   "id_supplier": {
     "attribute": 11267,
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "text_to_be_present_in_element": "",
     "event": null,
-    "text_to_be_present_in_element":"","locator_description": "id_supplier"
-  },
-  "id_category_default": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "id_category_default"
+    "timeout": 0,
+    "locator_description": "PrestaShop: ID основного поставщика товара aliexpress.com"
   },
   "condition": {
     "attribute": "new",
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "text_to_be_present_in_element":"","locator_description": "condition"
-  },
-  "cache_default_attribute": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "cache_default_attribute"
+    "timeout": 0,
+    "locator_description": "PrestaShop: Состояние товара aliexpress.com"
   },
   "default_image_url": {
     "attribute": "src",
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//img[contains(@class, 'zoomImg')] | (//div[contains(@class, 'image-view')]//img)[1]",
+    "selector": "//img[contains(@class, 'zoomImg')] | (//div[contains(@class, 'image-view')]//img)[1]",
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "text_to_be_present_in_element": "",
     "event": null,
-    "text_to_be_present_in_element":"","locator_description": "default_image_url"
-  },
-  "id_default_combination": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "id_default_combination"
-  },
-  "id_tax_rules_group": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
     "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "Aliexpress `id_tax_rules_group`"
-  },
-  "position_in_category": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "position_in_category"
-  },
-  "type": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "type"
-  },
-  "id_shop_default": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "id_shop_default"
+    "locator_description": "URL главного изображения товара aliexpress.com"
   },
   "product_reference_and_volume_and_price_for_100": {
     "attribute": null,
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@data-widget_type='shortcode.default']",
+    "selector": "//div[@data-widget_type='shortcode.default']",
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "text_to_be_present_in_element": "",
     "event": null,
-    "text_to_be_present_in_element":"","locator_description": "На сайте кривой HTML, поэтому одним локатором вытескиваю 3 значения, а потом делаю парсинг. Приходит список из четырех объектов: объем, цена за 100 гр, артикул, пустой div"
-  },
-  "reference": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "reference Собирается в коде из supplier.supplier_id + f.supplier_reference"
-  },
-  "supplier_reference": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "logic for action[AND|OR|XOR|VALUE|null]": null,
-    "if_list": "first",
-
-    "mandatory": false,
     "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "supplier_reference Получаю через локатор product_reference_and_volume_and_price_for_100"
+    "locator_description": "Специальный локатор для парсинга нескольких значений aliexpress.com"
   },
   "additional_images_urls": {
     "attribute": "src",
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//ol[contains(@class, 'flex-control-thumbs')]//img",
+    "selector": "//ol[contains(@class, 'flex-control-thumbs')]//img",
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "additional_images_alts": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "location": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "text_to_be_present_in_element":"","locator_description": "location"
-  },
-  "width": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "width"
-  },
-  "height": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
     "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "height"
-  },
-  "depth": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "depth"
-  },
-  "weight": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "logic for action[AND|OR|XOR|VALUE|null]": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "weight"
-  },
-  "quantity_discount": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "quantity_discount"
-  },
-  "ean13": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "ean13"
-  },
-  "isbn": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "isbn"
-  },
-  "upc": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "upc"
-  },
-  "mpn": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "mpn"
-  },
-  "cache_is_pack": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "cache_is_pack"
-  },
-  "cache_has_attachments": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "cache_has_attachments"
+    "locator_description": "URL-ы дополнительных изображений товара aliexpress.com"
   },
   "is_virtual": {
     "attribute": "0",
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "text_to_be_present_in_element": "",
     "event": null,
-    "text_to_be_present_in_element":"","locator_description": "is_virtual"
+    "timeout_for_event": "presence_of_element_located",
+    "timeout": 0,
+    "locator_description": "PrestaShop: Флаг (1/0), является ли товар виртуальным aliexpress.com"
   },
   "out_of_stock": {
     "attribute": null,
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//p[contains(@class, 'out-of-stock')]",
+    "selector": "//p[contains(@class, 'out-of-stock')]",
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "text_to_be_present_in_element": "",
     "event": null,
-    "text_to_be_present_in_element":"","locator_description": "out_of_stock"
-  },
-  "state": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "state"
-  },
-  "additional_delivery_times": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
     "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "additional_delivery_times"
+    "locator_description": "PrestaShop: Поведение при отсутствии товара на складе aliexpress.com"
   },
   "delivery_in_stock": {
     "attribute": "Israel Post",
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "text_to_be_present_in_element": "",
     "event": null,
-    "text_to_be_present_in_element":"","locator_description": "delivery_in_stock (Israel Post)"
-  },
-  "delivery_out_stock": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "delivery_out_stock"
-  },
-  "product_type": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
     "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "product_type"
+    "locator_description": "PrestaShop: Сообщение о доставке, когда товар в наличии aliexpress.com"
   },
   "on_sale": {
     "attribute": 0,
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "text_to_be_present_in_element": "",
     "event": null,
-    "text_to_be_present_in_element":"","locator_description": "on_sale"
+    "timeout_for_event": "presence_of_element_located",
+    "timeout": 0,
+    "locator_description": "PrestaShop: Флаг (1/0), отображающий иконку 'Распродажа' aliexpress.com"
   },
   "online_only": {
     "attribute": 1,
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "text_to_be_present_in_element": "",
     "event": null,
-    "text_to_be_present_in_element":"","locator_description": "online_only"
-  },
-  "ecotax": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "ecotax"
+    "timeout": 0,
+    "locator_description": "PrestaShop: Флаг (1/0), доступен ли товар только онлайн aliexpress.com"
   },
   "minimal_quantity": {
     "attribute": 1,
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "text_to_be_present_in_element": "",
     "event": null,
-    "text_to_be_present_in_element":"","locator_description": "minimal_quantity"
-  },
-  "low_stock_threshold": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "low_stock_threshold"
-  },
-  "low_stock_alert": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
     "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "low_stock_alert"
+    "locator_description": "PrestaShop: Минимальное количество для заказа aliexpress.com"
   },
   "price": {
     "attribute": "innerText",
     "by": "XPATH",
+    "selector": "(//span[contains(@class, 'price--originalText')])[1] ; (//p[@class='price'])[1] ; (//div[@data-pl='product-price'])[1]",
     "strategy_for_multiple_selectors": "find_first_match",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "(//span[contains(@class, 'price--originalText')])[1] ; (//p[@class='price'])[1] ; (//div[@data-pl='product-price'])[1]",
     "if_list": "first",
-
     "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "text_to_be_present_in_element": "",
     "event": null,
-    "text_to_be_present_in_element":"","locator_description": "price"
-  },
-  "wholesale_price": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "wholesale_price"
-  },
-  "unity": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
     "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "unity"
-  },
-  "unit_price_ratio": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "unit_price_ratio"
+    "locator_description": "PrestaShop: Розничная цена товара aliexpress.com"
   },
   "additional_shipping_cost": {
     "attribute": 30,
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "text_to_be_present_in_element": "",
     "event": null,
-    "text_to_be_present_in_element":"","locator_description": "Стоимость отправки. 30 шек. by: VALUE означает, что я беру значение из attribute"
-  },
-  "customizable": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "customizable"
-  },
-  "text_fields": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
     "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "text_fields"
-  },
-  "uploadable_files": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "uploadable_files"
-  },
-  "active": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "active"
-  },
-  "redirect_type": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "redirect_type"
-  },
-  "id_type_redirected": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "id_type_redirected"
+    "locator_description": "PrestaShop: Дополнительные расходы на доставку aliexpress.com"
   },
   "available_for_order": {
     "attribute": null,
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//p[contains(@class, 'out-of-stock')]",
+    "selector": "//p[contains(@class, 'out-of-stock')]",
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "text_to_be_present_in_element": "",
     "event": null,
-    "text_to_be_present_in_element":"","locator_description": "available_for_order - Если вернулся не пустой локатор - флаг выставляется в 1, иначе 0. Текст на сайте עזל ממלאי"
-  },
-  "available_date": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "available_date"
+    "timeout": 0,
+    "locator_description": "PrestaShop: Флаг (1/0), разрешающий добавление товара в корзину aliexpress.com"
   },
   "show_price": {
     "attribute": 1,
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "text_to_be_present_in_element": "",
     "event": null,
-    "text_to_be_present_in_element":"","locator_description": "show_price"
-  },
-  "indexed": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": ""
+    "timeout": 0,
+    "locator_description": "PrestaShop: Флаг (1/0), показывать ли цену товара aliexpress.com"
   },
   "visibility": {
     "attribute": "both",
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "text_to_be_present_in_element": "",
     "event": null,
-    "text_to_be_present_in_element":"","locator_description": "visibility"
-  },
-  "advanced_stock_management": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "advanced_stock_management"
-  },
-  "date_add": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
     "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "date_add"
-  },
-  "date_upd": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "date_upd"
-  },
-  "pack_stock_type": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "pack_stock_type"
-  },
-  "meta_description": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "meta_description"
-  },
-  "meta_keywords": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "meta_keywords"
-  },
-  "meta_title": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "meta_title"
-  },
-  "link_rewrite": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "link_rewrite"
+    "locator_description": "PrestaShop: Где отображать товар ('both', 'catalog', 'search', 'none') aliexpress.com"
   },
   "name": {
     "attribute": "innerText",
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//h1[contains(@class,'product_title')] | //h1[@data-pl='product-title']",
+    "selector": "//h1[contains(@class,'product_title')] | //h1[@data-pl='product-title']",
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "text_to_be_present_in_element": "",
     "event": null,
-    "text_to_be_present_in_element":"","locator_description": "name"
+    "timeout_for_event": "presence_of_element_located",
+    "timeout": 0,
+    "locator_description": "PrestaShop: Название товара aliexpress.com"
   },
   "description": {
     "attribute": "innerText",
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@id='nav-description']",
+    "selector": "//div[@id='nav-description']",
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "text_to_be_present_in_element": "",
     "event": null,
-    "text_to_be_present_in_element":"","locator_description": "name"
+    "timeout_for_event": "presence_of_element_located",
+    "timeout": 0,
+    "locator_description": "PrestaShop: Полное описание товара aliexpress.com"
   },
   "description_short": {
     "attribute": "innerHTML",
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//ul[contains(@class , 'seo-sellpoints')]",
+    "selector": "//ul[contains(@class , 'seo-sellpoints')]",
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "all",
-
     "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "text_to_be_present_in_element": "",
     "event": null,
-    "text_to_be_present_in_element":"","locator_description": "description_short - ALIEXPRESS"
+    "timeout_for_event": "presence_of_element_located",
+    "timeout": 0,
+    "locator_description": "PrestaShop: Краткое описание товара aliexpress.com"
   },
   "affiliate_short_link": {
     "attribute": "$_(driver.current_url)_$",
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "text_to_be_present_in_element": "",
     "event": null,
-    "text_to_be_present_in_element":"","locator_description": "Исполняю формулу и отдаю результат через `value`"
-  },
-  "affiliate_text": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "affiliate_text"
-  },
-  "affiliate_summary": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
     "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "affiliate_summary"
-  },
-  "affiliate_summary_2": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "affiliate_summary_2"
-  },
-  "affiliate_image_small": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "affiliate_image_small"
-  },
-  "affiliate_image_medium": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "affiliate_image_medium"
-  },
-  "affiliate_image_large": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "affiliate_image_large"
+    "locator_description": "Партнерская ссылка (текущий URL) aliexpress.com"
   },
   "ingredients": {
     "attribute": [
@@ -945,13 +306,14 @@
       true,
       true
     ],
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "text_to_be_present_in_element": "",
     "event": [
       "click()",
       null
     ],
-    "text_to_be_present_in_element":"","locator_description": "ingredients"
+    "timeout_for_event": "presence_of_element_located",
+    "timeout": 0,
+    "locator_description": "Ингредиенты (кастомное поле) aliexpress.com"
   },
   "how_to_use": {
     "attribute": [
@@ -975,530 +337,64 @@
       true,
       true
     ],
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "text_to_be_present_in_element": "",
     "event": [
       "click()",
       null
     ],
-    "text_to_be_present_in_element":"","locator_description": "how_to_use"
+    "timeout_for_event": "presence_of_element_located",
+    "timeout": 0,
+    "locator_description": "Способ применения (кастомное поле) aliexpress.com"
   },
   "specification": {
     "attribute": "innerHTML",
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//div[contains(@class, 'product-params')] | //div[@id='nav-specification']",
+    "selector": "//div[contains(@class, 'product-params')] | //div[@id='nav-specification']",
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "all",
-
     "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "text_to_be_present_in_element": "",
     "event": null,
-    "text_to_be_present_in_element":"","locator_description": "Технические характеристики. "
-  },
-  "available_now": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "available_now"
-  },
-  "available_later": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
     "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "available_later"
+    "locator_description": "PrestaShop: Характеристики товара aliexpress.com"
   },
-  "quantity": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": ""
-  },
-  "link_to_video": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "link_to_video"
-  },
-  "associations": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "@deprecated associations - Поле используется для добавления картинок, категорий итп. Заполняется в коде"
-  },
-  "Active (0/1)": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "@deprecated Active (0/1) - товар показывается или нет в магазине клиента"
-  },
-  "Categories (x,y,z...)": {
+  "categories (x,y,z...)": {
     "attribute": 2,
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "text_to_be_present_in_element": "",
     "event": null,
-    "text_to_be_present_in_element":"","locator_description": "@deprecated Categories (x,y,z...) - дополнительные категории. Поле используется при ручном импорте csv"
-  },
-  "Price tax excluded": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "@deprecated Price tax excluded -  Поле используется при ручном импорте csv . В коде преташоп известен как pex?"
-  },
-  "Price tax included": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
     "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "@deprecated Price tax included -  Поле используется при ручном импорте csv"
+    "locator_description": "PrestaShop: ID дополнительных категорий aliexpress.com"
   },
-  "Tax rule ID": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "@deprecated Tax rule ID -  Поле используется при ручном импорте csv"
-  },
-  "Cost price": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "@deprecated Cost price -  Поле используется при ручном импорте csv"
-  },
-  "On sale (0/1)": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "@deprecated On sale (0/1) -  Поле используется при ручном импорте csv"
-  },
-  "Discount amount": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "@deprecated Discount amount -  Поле используется при ручном импорте csv"
-  },
-  "Discount percent": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "@deprecated Discount amount -  Поле используется при ручном импорте csv"
-  },
-  "Discount from (yyyy-mm-dd)": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "@deprecated Discount from (yyyy-mm-dd) -  Поле используется при ручном импорте csv"
-  },
-  "Discount to (yyyy-mm-dd)": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "@deprecated Discount to (yyyy-mm-dd) -  Поле используется при ручном импорте csv"
-  },
-  "Brand": {
+  "brand": {
     "attribute": "hb",
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "text_to_be_present_in_element": "",
     "event": null,
-    "text_to_be_present_in_element":"","locator_description": "@deprecated Brand -  Поле используется при ручном импорте csv"
-  },
-  "Low stock level": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "@deprecated Low stock level -  Поле используется при ручном импорте csv"
-  },
-  "Send me an email when the quantity is under this level": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
     "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "@deprecated Send me an email when the quantity is under this level -  Поле используется при ручном импорте csv"
+    "locator_description": "PrestaShop: Производитель (бренд) товара aliexpress.com"
   },
-  "Tags (x,y,z...)": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "@deprecated Tags (x,y,z...) -  Поле используется при ручном импорте csv"
-  },
-  "Label when in stock": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "@deprecated Label when in stock -  Поле используется при ручном импорте csv"
-  },
-  "Label when backorder allowed": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null,
-    "text_to_be_present_in_element":"","locator_description": "@deprecated Label when backorder allowed -  Поле используется при ручном импорте csv"
-  },
-  "Delete existing images (0 = No, 1 = Yes)": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Feature (Name:Value:Position:Customized)": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Available online only (0 = No, 1 = Yes)": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Condition": {
-    "attribute": "new",
-    "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Customizable (0 = No, 1 = Yes)": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Uploadable files (0 = No, 1 = Yes)": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Text fields (0 = No, 1 = Yes)": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Action when out of stock": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Virtual product (0 = No, 1 = Yes)": {
+  "virtual product (0 = no, 1 = yes)": {
     "attribute": 0,
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": true,
-    "timeout": 0,
+    "event": null,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "File URL": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
     "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Number of allowed downloads": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Expiration date (yyyy-mm-dd)": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Number of days": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Advanced Stock Management": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Depends on stock": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Warehouse": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Accessories (x,y,z...)": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Open AI Product Description": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Byer protection": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Specification": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Refirbished product description": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Additional shipping details": {
-    "attribute": null,
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-    "if_list": "first",
-
-    "mandatory": false,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "locator_description": "PrestaShop: Является ли товар виртуальным aliexpress.com"
   }
 }

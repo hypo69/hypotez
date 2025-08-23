@@ -87,16 +87,20 @@ def close_pop_up() -> Callable:
             instance = args[0]
             
             # Получаем локатор напрямую из экземпляра
-            locator = instance.locator_for_decorator
-            
-            if locator:
-                try:
-                    await instance.driver.execute_locator(locator)
-                except Exception as ex:
-                    print(f'Ошибка выполнения локатора в декораторе: {ex}')
-                finally:
-                    # Очищаем локатор в экземпляре, а не в глобальном Config
-                    instance.locator_for_decorator = None 
+            if not instance.locator_name_for_decorator:
+                return await func(*args, **kwargs)
+
+            locator_decorator: Optional[SimpleNamespace] = getattr( instance.product_locator, locator_name_for_decorator, None)
+            if not locator_decorator:
+                return await func(*args, **kwargs)
+
+            try:
+                await instance.driver.execute_locator(locator_decorator)
+            except Exception as ex:
+                print(f'Ошибка выполнения локатора в декораторе:', ex, False)
+            finally:
+                # Очищаем локатор в экземпляре ПОСЛЕ первого срабатывания 
+                instance.locator_decorator = None 
 
             return await func(*args, **kwargs)
         return wrapper
@@ -106,92 +110,54 @@ def close_pop_up() -> Callable:
 
 # --- config.py ---
 
-class Config:
-    """! Класс конфигурации поставщика."""
-    
-    
-    def __init__(self, supplier_prefix: str, locator_for_decorator: Optional[SimpleNamespace] = None):
-
-
-        self.supplier_prefix: str = supplier_prefix
-        self.locator_for_decorator: Optional[SimpleNamespace] = locator_for_decorator 
-
-        self.required_fields: List[str] = [
-            'id_supplier', 'name', 'price', 'reference', 'description',
-            'description_short', 'specification', 'default_image_url', 'local_image_path',
-        ]
-
-        _supplier_alias = self.supplier_prefix.replace('.', '_').replace('-', '_')
-        # Предполагается, что __root__ определен глобально
-        self.ENDPOINT: Path = __root__ / 'src' / 'suppliers' / 'suppliers_list' / _supplier_alias
-        self.SCENARIOS_DIR: Path = self.ENDPOINT / 'scenarios'
-
-    @property
-    def product_locators(self) -> SimpleNamespace:
-        """Свойство для ленивой загрузки локаторов товара."""
-        try:
-            return j_loads_ns(self.ENDPOINT / 'locators' / 'product.json')
-        except FileNotFoundError:
-            # logger.error(f"Локаторы товара не найдены: {self.ENDPOINT / 'locators' / 'product.json'}")
-            print(f"ERROR: Локаторы товара не найдены: {self.ENDPOINT / 'locators' / 'product.json'}")
-            return SimpleNamespace()
-
-    @property
-    def category_locators(self) -> SimpleNamespace:
-        """Свойство для ленивой загрузки локаторов категории."""
-        try:
-            return j_loads_ns(self.ENDPOINT / 'locators' / 'category.json')
-        except FileNotFoundError:
-            # logger.error(f"Локаторы категории не найдены: {self.ENDPOINT / 'locators' / 'category.json'}")
-            print(f"ERROR: Локаторы категории не найдены: {self.ENDPOINT / 'locators' / 'category.json'}")
-            return SimpleNamespace()
-# --- config.py end ---
-
-# --- graber.py ---
 @dataclass(slots=True, kw_only=True)
 class GraberBase:
-    """! Базовый класс грабера поставщика.
+    """! Базовый класс грабера поставщика."""
 
-    Attrs:
-        supplier_prefix (str): Префикс поставщика.
-        driver (Driver): Экземпляр драйвера браузера.
-        locator_for_decorator (Optional[SimpleNamespace]): Локаторы для использования в декораторах.
-        lang_index (int): Индекс языка.
-        config (Config): Конфигурация, загружаемая по префиксу.
-        product_locator (SimpleNamespace): Локаторы для товара.
-        product_fields (ProductFields): Поля, собираемые с карточки товара.
-    """
-
+    # --- Основные поля ---
     supplier_prefix: str
     driver: T
-    locator_for_decorator: Optional[SimpleNamespace] = None
-    lang_index: int = 1
+    locator_for_decorator: str = ''
+    # --- ПЕРЕНЕСЕННОЕ ПОЛЕ ---
+    locator_name_for_decorator: str = ''  # Теперь это поле находится здесь
+    id_lang: int = 1
 
-    config: Config = field(init=False)
+    # --- Атрибуты, не требующие инициализации ---
+    required_fields: List[str] = field(
+        default_factory=lambda: [
+            'id_supplier', 'name', 'price', 'reference', 'description',
+            'description_short', 'specification', 'default_image_url', 'local_image_path',
+        ],
+        init=False
+    )
+    ENDPOINT: Path = field(init=False)
+    SCENARIOS_DIR: Path = field(init=False)
+
+    # --- Атрибуты, зависящие от других ---
     product_locator: SimpleNamespace = field(init=False)
-    product_fields: ProductFields = field(default_factory=lambda: ProductFields())
+    category_locator: SimpleNamespace = field(init=False)
+    product_fields: Optional[SimpleNamespace] = field(default_factory=lambda: ProductFields())
 
-    def __post_init__(self, config:Optional[Config] = None):
-        self.config = config or Config(supplier_prefix = self.supplier_prefix, locator_for_decorator=self.locator_for_decorator or None)
-        self.product_locator = self.config.product_locators
+    def __post_init__(self):
+        """Инициализация атрибутов после создания экземпляра."""
+        _supplier_alias = self.supplier_prefix.replace('.', '_').replace('-', '_')
+        self.ENDPOINT = __root__ / 'src' / 'suppliers' / 'suppliers_list' / _supplier_alias
+        self.SCENARIOS_DIR = self.ENDPOINT / 'scenarios'
+        self.product_locator = j_loads_ns(self.ENDPOINT / 'locators' / 'product.json')
+        self.category_locator = j_loads_ns(self.ENDPOINT / 'locators' / 'category.json')
 
-    
-    # --- Пустой контекст-менеджер ---
     def __enter__(self) -> "GraberBase":
-        """Возвращает экземпляр без дополнительных действий."""
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb) -> None:
-        """Ничего не делает при выходе из контекста."""
-        return False  #Исключения не подавляются
+        return False
 
     async def __aenter__(self) -> "GraberBase":
-        """Возвращает экземпляр в асинхронном контексте."""
         return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb) -> None:
-        """Ничего не делает при выходе из асинхронного контекста."""
-        return False  #Исключения не подавляются
+        return False
+
 
 
     def grab_page(self, required_fields, page_url, *args, **kwargs) -> ProductFields | bool:

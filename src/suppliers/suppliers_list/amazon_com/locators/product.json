@@ -1,1701 +1,153 @@
 {
-  "id": {
-    "attribute": null,
-
-    "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
+  "supplier_prefix": "amazon.com",
   "id_manufacturer": {
     "attribute": "innerText",
-
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//span[contains(text(), 'Brand')]/parent::td/following-sibling::td/span[contains(@class, 'po-break-word')]",
-
+    "selector": "//span[contains(text(), 'Brand')]/parent::td/following-sibling::td/span[contains(@class, 'po-break-word')]",
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": true,
-    "timeout": 0,
+    "event": null,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "timeout": 0,
+    "locator_description": "PrestaShop: ID производителя (бренда) товара amazon.com"
   },
   "id_supplier": {
     "attribute": 2800,
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
+    "selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": true,
-    "timeout": 0,
+    "event": null,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "id_category_default": {
-    "attribute": null,
-
-    "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
     "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "new": {
-    "attribute": null,
-
-    "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "cache_default_attribute": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "id_default_image": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "id_default_combination": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "id_tax_rules_group": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "position_in_category": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "type": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "locator_description": "PrestaShop: ID основного поставщика товара amazon.com"
   },
   "id_shop_default": {
     "attribute": "1",
-
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": true,
-    "timeout": 0,
+    "event": null,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "timeout": 0,
+    "locator_description": "PrestaShop: ID основного магазина (в мультимагазинной среде) amazon.com"
   },
   "reference": {
     "attribute": "$d.current_url.split(f'''/''')[-2]",
-
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
+    "selector": null,
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": true,
-    "timeout": 0,
+    "event": null,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "timeout": 0,
+    "locator_description": "PrestaShop: Артикул товара. Извлекается из URL amazon.com"
   },
   "description": {
     "attribute": "innerText",
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@id='feature-bullets']/ul/li",
+    "selector": "//div[@id='feature-bullets']/ul/li",
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "all",
-
     "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "logic for action[and|or|xor|value|null]": null,
     "event": null,
-    "logic for action[AND|OR|XOR|VALUE|null]": null
-  },
-  "supplier_reference": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "timeout": 0,
+    "locator_description": "PrestaShop: Полное описание товара amazon.com"
   },
-
   "default_image_url": {
     "attribute": "src",
-
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//img[@id = 'main-image']",
-
+    "selector": "//img[@id = 'main-image']",
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": true,
-    "timeout": 0,
+    "event": null,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-
-  "location": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
     "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "width": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "height": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "depth": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "weight": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "quantity_discount": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "ean13": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "isbn": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "upc": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "mpn": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "cache_is_pack": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "cache_has_attachments": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "is_virtual": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "state": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "additional_delivery_times": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "delivery_in_stock": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "delivery_out_stock": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "product_type": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "on_sale": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "online_only": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "ecotax": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "minimal_quantity": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "low_stock_threshold": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "low_stock_alert": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "locator_description": "URL главного изображения товара amazon.com"
   },
   "price": {
     "attribute": "innerText",
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//span[contains(@class, 'priceToPay')]//span[@class = 'a-price-whole']",
+    "selector": "//span[contains(@class, 'priceToPay')]//span[@class = 'a-price-whole']",
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": true,
-    "timeout": 0,
+    "event": null,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
-
-  },
-  "wholesale_price": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
     "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "unity": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "unit_price_ratio": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "additional_shipping_cost": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "customizable": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "text_fields": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "uploadable_files": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "active": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "redirect_type": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "id_type_redirected": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "available_for_order": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "available_date": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "show_condition": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "condition": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "show_price": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "indexed": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "visibility": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "advanced_stock_management": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "date_add": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "date_upd": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "pack_stock_type": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "meta_description": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "meta_keywords": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "meta_title": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "link_rewrite": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "locator_description": "PrestaShop: Розничная цена товара amazon.com"
   },
   "name": {
     "attribute": "innerText",
-
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//span[@id='productTitle'] | //span[@id='title']",
-
+    "selector": "//span[@id='productTitle'] | //span[@id='title']",
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": true,
-    "timeout": 0,
+    "event": null,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "timeout": 0,
+    "locator_description": "PrestaShop: Название товара amazon.com"
   },
   "description_short": {
     "attribute": "innerText",
-
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//div[@id = 'productOverview_feature_div']",
-
+    "selector": "//div[@id = 'productOverview_feature_div']",
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": true,
-    "timeout": 0,
+    "event": null,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "timeout": 0,
+    "locator_description": "PrestaShop: Краткое описание товара amazon.com"
   },
   "specification": {
     "attribute": "innerText",
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//div[id = 'productSpecifications-content']",
+    "selector": "//div[id = 'productSpecifications-content']",
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "all",
-
     "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
     "event": null,
-    "locator_": "Технические характеристики. "
-  },
-  "available_now": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "available_later": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
     "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "locator_description": "PrestaShop: Характеристики товара. amazon.com"
   },
-  "associations": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "ASIN": {
+  "asin": {
     "attribute": "$_(driver.current_url[(driver.current_url.index(r'dp/') + 3):(driver.current_url.index(r'dp/') + 3) + 10:])_$",
-
     "by": "VALUE",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "",
-
+    "selector": "",
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": true,
-    "timeout": 0,
+    "event": null,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Active (0/1)": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
     "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "locator_description": "Amazon Standard Identification Number (ASIN) amazon.com"
   },
-
-  "Categories (x,y,z...)": "2,",
-  "On sale (0/1)": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Discount amount": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Discount percent": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Discount from (yyyy-mm-dd)": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Discount to (yyyy-mm-dd)": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "reference #": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Supplier reference #": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Supplier": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "UPC": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "MPN": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Ecotax": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Width": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Height": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Depth": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Weight": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Delivery time of in-stock products:": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Delivery time of out-of-stock products with allowed orders:": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "quantity": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Minimal quantity": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Low stock level": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Send me an email when the quantity is under this level": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Visibility": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Additional shipping cost": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Unit for base price": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Base price": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-
-  "Tags (x,y,z...)": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Meta title": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Meta keywords": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Meta description": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Rewritten URL": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Label when in stock": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Label when backorder allowed": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Available for order (0 = No, 1 = Yes)": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Product availability date": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Product creation date": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Show price (0 = No, 1 = Yes)": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-
+  "categories (x,y,z...)": "2,",
   "additional_images_urls": {
     "attribute": "src",
-
     "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "//img[@id='landingImage']",
+    "selector": "//img[@id='landingImage']",
+    "strategy_for_multiple_selectors": "find_first_match",
     "if_list": "first",
-
     "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "logic for action[and|or|xor|value|null]": null,
     "event": null,
-    "logic for action[AND|OR|XOR|VALUE|null]": null
-  },
-  "additional_images_alts": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Delete existing images (0 = No, 1 = Yes)": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
     "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "locator_description": "URL-ы дополнительных изображений товара amazon.com"
   },
-  "Feature (Name:Value:Position:Customized)": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Available online only (0 = No, 1 = Yes)": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Condition": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Customizable (0 = No, 1 = Yes)": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Uploadable files (0 = No, 1 = Yes)": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Text fields (0 = No, 1 = Yes)": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Action when out of stock": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Virtual product (0 = No, 1 = Yes)": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "File URL": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Number of allowed downloads": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Expiration date (yyyy-mm-dd)": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Number of days": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "ID / Name of shop": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Advanced Stock Management": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Depends on stock": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Warehouse": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Accessories (x,y,z...)": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-
   "affiliate_short_link": {
-    "logic for attribue[AND|OR|XOR|VALUE|null]": [
-      null,
-      null
-    ],
     "attribute": [
       null,
       "value"
@@ -1713,139 +165,23 @@
       false,
       false
     ],
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "logic for action[and|or|xor|value|null]": [
+      null,
+      null
+    ],
+    "logic for attribue[and|or|xor|value|null]": [
+      null,
+      null
+    ],
     "event": [
       "wait(click(),2,after)",
       null
     ],
-    "logic for action[AND|OR|XOR|VALUE|null]": [
-      null,
-      null
-    ]
-  },
-  "affiliate_text": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "affiliate_summary": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
     "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
+    "locator_description": "Партнерская ссылка amazon.com"
   },
-  "affiliate_summary_2": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Open AI Product Description": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Byer protection": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Specification": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Refirbished product description": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Additional shipping details": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "Product features": {
-    "attribute": null,
-
-    "by": null,
-    "strategy_for_multiple_selectors": "find_first_match","selector": null,
-
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
-    "event": null
-  },
-  "affiliate_img_HTML": {
-    "logic for attribue[AND|OR|XOR|VALUE|null]": [
-      null,
-      null
-    ],
+  "affiliate_img_html": {
     "attribute": [
       null,
       "value"
@@ -1863,22 +199,23 @@
       false,
       false
     ],
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "logic for action[and|or|xor|value|null]": [
+      null,
+      null
+    ],
+    "logic for attribue[and|or|xor|value|null]": [
+      null,
+      null
+    ],
     "event": [
       "wait(click(),2,after)",
       null
     ],
-    "logic for action[AND|OR|XOR|VALUE|null]": [
-      null,
-      null
-    ]
+    "timeout_for_event": "presence_of_element_located",
+    "timeout": 0,
+    "locator_description": "HTML-код партнерского изображения amazon.com"
   },
   "affiliate_iframe": {
-    "logic for attribue[AND|OR|XOR|VALUE|null]": [
-      null,
-      null
-    ],
     "attribute": [
       null,
       "value"
@@ -1896,28 +233,33 @@
       false,
       false
     ],
-    "timeout": 0,
-    "timeout_for_event": "presence_of_element_located",
+    "logic for action[and|or|xor|value|null]": [
+      null,
+      null
+    ],
+    "logic for attribue[and|or|xor|value|null]": [
+      null,
+      null
+    ],
     "event": [
       "wait(click(),2,after)",
       null
     ],
-    "logic for action[AND|OR|XOR|VALUE|null]": [
-      null,
-      null
-    ]
-  },
-  "Additional product info": {
-    "attribute": "innerText",
-
-    "by": "XPATH",
-    "strategy_for_multiple_selectors": "find_first_match","selector": "",
-    "if_list": "first",
-
-    "mandatory": true,
-    "timeout": 0,
     "timeout_for_event": "presence_of_element_located",
+    "timeout": 0,
+    "locator_description": "Iframe партнерского блока (картинка + текст) amazon.com"
+  },
+  "additional product info": {
+    "attribute": "innerText",
+    "by": "XPATH",
+    "selector": "",
+    "strategy_for_multiple_selectors": "find_first_match",
+    "if_list": "first",
+    "mandatory": true,
+    "logic for action[and|or|xor|value|null]": null,
     "event": null,
-    "logic for action[AND|OR|XOR|VALUE|null]": null
+    "timeout_for_event": "presence_of_element_located",
+    "timeout": 0,
+    "locator_description": "Дополнительная информация о товаре amazon.com"
   }
 }
