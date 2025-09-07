@@ -103,8 +103,8 @@ class GoogleGenerativeAi:
     def __init__(
         self,
         api_key: str,
-        model_name: str,
-        generation_config: Optional[Dict] = None, # Изменено на None, чтобы по умолчанию использовался дефолт API
+        model_name: str = 'gemini-2.5-flash',
+        generation_config: Optional[Dict] = None, # По умолчанию используется {'response_mime_type': 'text/plain'}
         system_instruction: Optional[str] = None,
     ):
         """
@@ -142,6 +142,7 @@ class GoogleGenerativeAi:
                 # который применяется ко всей модели независимо от истории чата,
                 # то оставьте его здесь. Для гибкости сброса, я его уберу отсюда.
                 # system_instruction=self.system_instruction, # Убираем отсюда
+                system_instruction = self.system_instruction,
             )
             # При первом старте чата _start_chat будет использовать self.system_instruction
             self._chat = self._start_chat(initial_system_instruction=self.system_instruction)

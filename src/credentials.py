@@ -137,6 +137,14 @@ class ProgramSettings:
         #     )
         # ),
 
+        wordpress=SimpleNamespace(owner = SimpleNamespace(
+            db_name = None,
+            db_password = None,
+            db_user = None,
+            host = None,
+            port = None
+            ))
+
         gapi = SimpleNamespace(owner = SimpleNamespace(api_key = None,)),
     ))
     # ------------------------------------ пути ---------------------------------
@@ -202,26 +210,7 @@ class ProgramSettings:
         warnings.filterwarnings("ignore", category=UserWarning)
         self._load_credentials()
 
-    def _load_aliexpress_credentials(self, kp: PyKeePass) -> bool:
-        """ Load Aliexpress API credentials from KeePass
-        Args:
-            kp (PyKeePass): The KeePass database instance.
 
-        Returns:
-            bool: True if loading was successful, False otherwise.
-        """
-        try:
-            entry = kp.find_groups(path=['suppliers', 'aliexpress', 'api']).entries[0]
-            self.credentials.aliexpress_com.api_key = entry.custom_properties.get('api_key', None)
-            self.credentials.aliexpress_com.secret = entry.custom_properties.get('secret', None)
-            self.credentials.aliexpress_com.tracking_id = entry.custom_properties.get('tracking_id', None)
-            self.credentials.aliexpress_com.email = entry.custom_properties.get('email', None)
-            self.credentials.aliexpress_com.password = entry.password
-            return True
-        except Exception as ex:
-            print(f"Failed to extract Aliexpress API key from KeePass {ex}" )
-            ...
-            return False
 
     def _load_credentials(self) -> None:
         """ Загружает учетные данные из настроек."""
@@ -247,6 +236,9 @@ class ProgramSettings:
         if not self._load_discord_credentials(kp):
             print('Failed to load Discord credentials')
 
+        if not self._load_wordpress_credentials(kp):
+            print('Failed to load Wordpress credentials')
+
         if not self._load_telegram_credentials(kp):
             print('Failed to load Telegram credentials')
 
@@ -265,6 +257,29 @@ class ProgramSettings:
         if not self._load_serpapi_credentials(kp):
             print('Failed to load https://serpapi.com credentials')
 
+
+
+    def _load_aliexpress_credentials(self, kp: PyKeePass) -> bool:
+        """ Load Aliexpress API credentials from KeePass
+        Args:
+            kp (PyKeePass): The KeePass database instance.
+
+        Returns:
+            bool: True if loading was successful, False otherwise.
+        """
+        try:
+            entry = kp.find_groups(path=['suppliers', 'aliexpress', 'api']).entries[0]
+            self.credentials.aliexpress_com.api_key = entry.custom_properties.get('api_key', None)
+            self.credentials.aliexpress_com.secret = entry.custom_properties.get('secret', None)
+            self.credentials.aliexpress_com.tracking_id = entry.custom_properties.get('tracking_id', None)
+            self.credentials.aliexpress_com.email = entry.custom_properties.get('email', None)
+            self.credentials.aliexpress_com.password = entry.password
+            return True
+        except Exception as ex:
+            print(f"Failed to extract Aliexpress API key from KeePass {ex}" )
+            ...
+            return False
+
     def _load_discord_credentials(self, kp: PyKeePass) -> bool:
         """ Load Discord credentials from KeePass
         Args:
@@ -281,6 +296,28 @@ class ProgramSettings:
                 setattr(_entry, 'application_id', entry.custom_properties.get('application_id', None))
                 setattr(_entry, 'public_key', entry.custom_properties.get('public_key', None))
                 setattr(_entry, 'bot_token', entry.custom_properties.get('bot_token', None))
+        except Exception as ex:
+            raise ValueError(f'failed sets: `discord` credentianals {ex}')
+        return True
+
+    def _load_wordpress_credenatials(self, kp:PyKeePass) -> bool:
+        """ Load Wordpress (davidka.net) database credentials from KeePass
+        Args:
+            kp (PyKeePass): The KeePass database instance.
+
+        Returns:
+            bool: True if loading was successful, False otherwise.
+        """
+        try:
+
+            for entry in kp.find_groups(path=['davidka_net']).entries:
+                setattr(self.credentials.wordpress, entry.title, SimpleNamespace())
+                _entry = getattr(self.credentials.discord, entry.title)
+                setattr(_entry, 'db_name', entry.custom_properties.get('db_name', None))
+                setattr(_entry, 'db_password', entry.custom_properties.get('db_password', None))
+                setattr(_entry, 'db_user', entry.custom_properties.get('db_user', None))
+                setattr(_entry, 'host', entry.custom_properties.get('host', None))
+                setattr(_entry, 'port', entry.custom_properties.get('port', None))
         except Exception as ex:
             raise ValueError(f'failed sets: `discord` credentianals {ex}')
         return True

@@ -1,9 +1,9 @@
-## \file /src/endpoints/hypo69/suppliers_runner.py
+## \file /src/endpoints/kazarinov/header.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 
 """
-.. module:: src.endpoints.hypo69.suppliers_runner 
+.. module:: src.endpoints.kazarinov 
 	:platform: Windows, Unix
 	:synopsis:
 
@@ -11,6 +11,8 @@
 
 
 import sys
+import json
+
 
 from pathlib import Path
 def set_project_root(marker_files=('__root__','.git')) -> Path:
