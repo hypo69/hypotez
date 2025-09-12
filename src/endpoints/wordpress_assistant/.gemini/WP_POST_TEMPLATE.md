@@ -1,3 +1,7 @@
+<!-- wp:heading {"level":1} -->
+<h3 class="wp-block-heading">מבוא: מהו ExifTool ולמה להשתמש בו עם PowerShell?</h3>
+<!-- /wp:heading -->
+
 <!-- wp:paragraph -->
 <p>בכל פעם שאתם מצלמים תמונה, המצלמה שלכם רושמת לקובץ לא רק את התמונה עצמה, אלא גם מידע שירות: דגם המצלמה והעדשה, תאריך ושעת הצילום, מהירות תריס, צמצם, ISO, קואורדינטות GPS. נתונים אלו נקראים **EXIF (Exchangeable Image File Format)**.</p>
 <!-- /wp:paragraph -->

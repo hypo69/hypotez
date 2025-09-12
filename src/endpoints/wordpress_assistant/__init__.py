@@ -11,17 +11,21 @@
 import asyncio
 from pathlib import Path
 from dataclasses import dataclass
-from typing import List
+from typing import List, Optional
 
 from header import __root__
 from src import gs
 from src.llm.gemini import GoogleGenerativeAi
-from src.utils.file import recursively_yield_file_path
+from src.endpoints.wordpress_assistant.db.wordpress_models import Post, add_new_post
+from src.endpoints.wordpress_assistant.db.wordpress_pymysql import WordPressDB, WordPressConfig
+
+from src.utils.file import recursively_yield_file_path, save_text_file
+from src.utils.jjson import j_dumps, j_loads
 from src.logger import logger
 from src.utils.printer import pprint
 
 
-def gemini_getinstance(api_key: str, system_instruction: str) -> GoogleGenerativeAi:
+def gemini_getinstance(api_key: str, system_instruction: str, generation_config:dict = {'response_mime_type': 'application/json'}) -> GoogleGenerativeAi:
     """! Create and return an instance of GoogleGenerativeAi with the provided API key and system instruction.
 
     Args:
@@ -31,7 +35,7 @@ def gemini_getinstance(api_key: str, system_instruction: str) -> GoogleGenerativ
     Returns:
         GoogleGenerativeAi: Configured Gemini model instance.
     """
-    return GoogleGenerativeAi(api_key=api_key, system_instruction=system_instruction)
+    return GoogleGenerativeAi(api_key=api_key, system_instruction=system_instruction, generation_config = {'response_mime_type': 'text/plain'})
 
 
 Languages: list = [
@@ -46,9 +50,39 @@ Languages: list = [
 ]
 
 
+
+
 @dataclass
 class WordpressAssistant:
     """! Dataclass version of the WordPress Assistant configuration."""
+
+    async def add_post(self, title:str, content:str):
+        """"""
+        ...
+
+        # Настройка подключения
+        config:WordPressConfig = WordPressConfig()
+        wp_db:WordPressDB = WordPressDB(config)
+        wp_db.connect()
+
+        # Создание поста
+        new_post = Post(
+            post_title='Мой новый пост',
+            post_content='<p>Это содержимое поста</p>',
+            post_status='publish',
+            post_author=1,
+            meta={
+                '_custom_field': 'Пользовательское значение',
+                '_seo_description': 'SEO описание',
+            }
+        )
+
+        # Добавление поста
+        post_id = add_new_post(wp_db, new_post)
+        if post_id:
+            print(f'Пост создан с ID: {post_id}')
+
+
 
     async def translate(
         self, model_instance: GoogleGenerativeAi, text: str, target_language: str
@@ -64,13 +98,13 @@ class WordpressAssistant:
             str: Translated text in HTML format.
         """
         prompt: str = (
-            f"Translate the following text to {target_language} and return HTML:\n\n{text}"
+            f"Translate the following text to {target_language} and return JSON:\n\n{text}"
         )
-        response: str = model_instance.ask(prompt)
+        response: str = model_instance.ask(prompt, )
         return response
 
     async def generate_wordpress(
-        self, model_instance: GoogleGenerativeAi, text: str
+        self, model_instance: GoogleGenerativeAi, text: str ,  lang:str
     ) -> str:
         """! Generate a WordPress-ready post from given text using Gemini API.
 
@@ -82,7 +116,7 @@ class WordpressAssistant:
             str: HTML post formatted for WordPress.
         """
         prompt: str = (
-            f"Format the following content as a clean WordPress HTML post:\n\n{text}"
+            f"Translate to lang={lang} and Format the following content:\n\n{text}"
         )
         response: str = model_instance.ask(prompt)
         return response
@@ -97,26 +131,7 @@ class WordpressAssistant:
         Returns:
             None
         """
-
-
-        def clean_before_heading(text: str) -> str:
-            """
-            Remove everything before the first <!-- wp:heading --> marker.
-
-            Args:
-                text (str): Input string that may contain WordPress HTML blocks.
-
-            Returns:
-                str: String starting from <!-- wp:heading -->. 
-                     If marker not found — return the original text.
-            """
-            marker = "<!-- wp:heading -->"
-            if marker in text:
-                return text.split(marker, 1)[1].strip()
-            return text
-
-
-
+        
         filenames: List[Path] = list(
             recursively_yield_file_path(process_dir, patterns=["*.md", "*.txt"])
         )
@@ -126,28 +141,45 @@ class WordpressAssistant:
             return
 
         for file_name in filenames:
+            output_file: Path = file_name.with_suffix(".wordpress")
+
+            # Check if the output file already exists.
+            if output_file.exists():
+                pprint(f"✅ Skipping: {file_name} as {output_file} already exists.")
+                continue
+
             text: str = file_name.read_text(encoding="UTF-8")
             if not text:
                 logger.error(f"Empty file skipped: {file_name}")
                 continue
 
-            data: str = ""
+            # data: dict = {}
             for lang in Languages:
                 translated: str = await self.translate(model_instance, text, lang)
-                translated = clean_before_heading(translated)
                 if not translated:
                     logger.error(
                         f"Translation failed for {file_name} → {lang}",
                         exc_info=True,
                     )
                     continue
-                data += f"[:{lang}]{translated}"
-            data += "[:]"
 
-            output_file: Path = file_name.with_suffix(".html")
-            output_file.write_text(data, encoding="UTF-8")
+                
+                # if not j_dumps(translated, output_file, indent=4, ensure_ascii=False, mode = '+a'):
+                #     logger.error(
+                #        f"JSON parsing failed for {file_name} → {lang}", None, False 
+                #        )
+                #     continue
+
+                ...
+
+                save_text_file(translated, output_file, '+a')
+
+                # data += f"[:{lang}]{translated}"
+            # data += "[:]"
+
+            #output_file.write_text(data, encoding="UTF-8")
+            #j_dumps(data, output_file, indent=4, ensure_ascii=False, mode = '+a')
             pprint(f"✅ Saved: {output_file}")
-
 
 if __name__ == "__main__":
     base_path_for_source_dirs: Path = Path(
@@ -162,10 +194,18 @@ if __name__ == "__main__":
     system_instruction: str = f"""{(system_instructions_dir / 'GEMINI.md').read_text(encoding='utf-8')}
     Пример md:
 {(system_instructions_dir / 'ORIGINAL.md').read_text(encoding='utf-8')}
-ответ worpress HTML в формате wordpress ответа:
-{(system_instructions_dir / 'WP_POST_TEMPLATE.md').read_text(encoding='utf-8')}
+Твой ответ в формате `wordpress`: 
+lang : en
+post_title : [:en]<title>[:ru]<название>[:he]<כותרת>...[:]
+post_content : [:en]{(system_instructions_dir / 'WP_POST_TEMPLATE.md').read_text(encoding='utf-8')}[:]
+post_status : publish
+post_author : 1
+_seo_description : [:en]<SEO description>[:ru]<SEO описание>[:he]<תיאור SEO>...[:]
+_seo_keywords: [:en]<SEO description>[:ru]<SEO описание>[:he]<תיאור SEO>...[:]
+
 НЕ ДОБАВБЛЯЙ НИЧЕГО ВНЕШНЕГО, ТОЛЬКО ЧИСТЫЙ HTML ДЛЯ WORDPRESS
 """
+
 
     kazarinov_api: str = gs.credentials.gemini.kazarinov.api_key
     onela_api: str = gs.credentials.gemini.onela.api_key

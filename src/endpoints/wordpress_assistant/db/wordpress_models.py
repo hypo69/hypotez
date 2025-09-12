@@ -1,4 +1,4 @@
-## \file src/database/wordpress_models.py
+## \file src/endpoints/wordpress_assistaint/db/wordpress_models.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 
@@ -12,6 +12,12 @@
 .. module:: src.database.wordpress_models
 ```
 """
+from pathlib import Path
+from typing import Optional, Dict, Any, List, Union
+from dataclasses import dataclass, field
+from datetime import datetime
+import pymysql
+from .wordpress_pymysql import WordPressDB
 
 import header
 from header import __root__
@@ -20,11 +26,7 @@ from src.logger.logger import logger
 from src.utils.jjson import j_loads_ns, j_dumps
 from src.utils.printer import pprint as print
 
-from typing import Optional, Dict, Any, List, Union
-from dataclasses import dataclass, field
-from datetime import datetime
-import pymysql
-from .wordpress_pymysql import WordPressDB
+
 
 
 @dataclass

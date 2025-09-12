@@ -1,4 +1,4 @@
-## \file src/database/wordpress_pymysql.py
+## \file src/endpoints/wordpress_assistaint/db/wordpress_pymysql.py
 # -*- coding: utf-8 -*-
 #! .pyenv/bin/python3
 

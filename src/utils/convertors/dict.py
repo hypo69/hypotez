@@ -329,7 +329,6 @@ def dict2html(data: dict | SimpleNamespace, encoding: str = 'UTF-8') -> str:
 
 
 
-
 def example_json2xml():
 
     # Example usage

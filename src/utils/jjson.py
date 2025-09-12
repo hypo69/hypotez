@@ -58,6 +58,7 @@ from json_repair import repair_json
 
 from src.logger.logger import logger
 from .convertors.dict import dict2ns
+from .convertors.list import list2dict
 
 
 @dataclass
@@ -101,7 +102,7 @@ def _convert_to_dict(value: Any) -> Any:
         return {key: _convert_to_dict(val) for key, val in value.items()}
     # Рекурсивная конвертация списков
     if isinstance(value, list):
-        return [_convert_to_dict(item) for item in value]
+        return list2dict(value)
     # Возврат значения без изменений, если это не SimpleNamespace, dict или list
     return value
 
@@ -200,6 +201,7 @@ def _merge_data(
 def j_dumps(
     data: dict[Any, Any] | SimpleNamespace | list[Any] | str,
     file_path: Path | str | None = None,
+    indent:int = 4,
     ensure_ascii: bool = False,
     mode: str = Config.MODE_WRITE,
     exc_info: bool = True,
@@ -265,14 +267,15 @@ def j_dumps(
                 return False if file_path else None
         else:
             processed_data = data_as_obj
-    elif isinstance(data, (SimpleNamespace, dict, list)):
-        processed_data = _convert_to_dict(data)
+
+    if isinstance(processed_data, (SimpleNamespace, dict, list)):
+        processed_data = _convert_to_dict(processed_data)
     else:
-        logger.error(f'Unsupported data type for j_dumps: {type(data)}', None, exc_info=exc_info)
+        logger.error(f'Unsupported data type for j_dumps: {type(processed_data)}', None, exc_info=exc_info)
         return False if file_path else None
 
     if processed_data is None : # Не должно случиться, если _convert_to_dict/_string_to_dict работают как ожидается
-        logger.error(f'Data became None after initial processing. Original type: {type(data)}', None, exc_info=exc_info)
+        logger.error(f'Data became None after initial processing. Original type: {type(processed_data)}', None, exc_info=exc_info)
         return False if file_path else None
 
     if file_path:
@@ -302,7 +305,7 @@ def j_dumps(
         try:
             path.parent.mkdir(parents=True, exist_ok=True)
             with path.open(Config.MODE_WRITE, encoding='utf-8') as f: # Слияние выполнено, пишем всегда в 'w'
-                json.dump(final_data_to_write, f, ensure_ascii=ensure_ascii, indent=4)
+                json.dump(final_data_to_write, f, ensure_ascii=ensure_ascii, indent = indent)
             return True
         except Exception as ex:
             logger.error(f'Failed to write data to {path}:', ex, exc_info=exc_info)

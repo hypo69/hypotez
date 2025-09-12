@@ -143,7 +143,7 @@ class ProgramSettings:
             db_user = None,
             host = None,
             port = None
-            ))
+            )),
 
         gapi = SimpleNamespace(owner = SimpleNamespace(api_key = None,)),
     ))
@@ -300,7 +300,7 @@ class ProgramSettings:
             raise ValueError(f'failed sets: `discord` credentianals {ex}')
         return True
 
-    def _load_wordpress_credenatials(self, kp:PyKeePass) -> bool:
+    def _load_wordpress_credentials(self, kp:PyKeePass) -> bool:
         """ Load Wordpress (davidka.net) database credentials from KeePass
         Args:
             kp (PyKeePass): The KeePass database instance.
@@ -312,14 +312,14 @@ class ProgramSettings:
 
             for entry in kp.find_groups(path=['davidka_net']).entries:
                 setattr(self.credentials.wordpress, entry.title, SimpleNamespace())
-                _entry = getattr(self.credentials.discord, entry.title)
+                _entry = getattr(self.credentials.wordpress, entry.title)
                 setattr(_entry, 'db_name', entry.custom_properties.get('db_name', None))
                 setattr(_entry, 'db_password', entry.custom_properties.get('db_password', None))
                 setattr(_entry, 'db_user', entry.custom_properties.get('db_user', None))
                 setattr(_entry, 'host', entry.custom_properties.get('host', None))
                 setattr(_entry, 'port', entry.custom_properties.get('port', None))
         except Exception as ex:
-            raise ValueError(f'failed sets: `discord` credentianals {ex}')
+            raise ValueError(f'failed sets: `wordpress` credentianals {ex}')
         return True
 
 
