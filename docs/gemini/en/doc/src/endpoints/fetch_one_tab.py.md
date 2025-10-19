@@ -14,7 +14,7 @@ This module is responsible for extracting target URLs and related information fr
 
 ## Functions
 
-### `fetch_target_urls_onetab`
+### `fetch_onetab_data`
 
 **Purpose**: This function parses target URLs, a price, and a description from a given OneTab URL.
 
@@ -44,14 +44,14 @@ This module is responsible for extracting target URLs and related information fr
 ```python
 # Example 1: Successful parsing
 one_tab_url = "https://onetab.com/page/your-onetab-url"
-price, description, urls = fetch_target_urls_onetab(one_tab_url)
+price, description, urls = fetch_onetab_data(one_tab_url)
 print(f"Price: {price}")
 print(f"Description: {description}")
 print(f"URLs: {urls}")
 
 # Example 2: Error during HTTP request
 one_tab_url = "https://invalid-url.com"
-result = fetch_target_urls_onetab(one_tab_url)
+result = fetch_onetab_data(one_tab_url)
 if result:
     # Process the result
 else:
@@ -76,7 +76,7 @@ import header
 from src import gs
 from src.logger import logger
 
-def fetch_target_urls_onetab(one_tab_url: str) -> tuple[str, str, list[str]] | bool:
+def fetch_onetab_data(one_tab_url: str) -> tuple[str, str, list[str]] | bool:
     """
     Функция паресит целевые URL из полученного OneTab.
     """

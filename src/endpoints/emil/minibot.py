@@ -25,7 +25,7 @@ import header
 from header import __root__
 from src import gs
 from src.logger import logger
-from src.endpoints.fetch_one_tab import fetch_target_urls_onetab
+from src.endpoints.fetch_one_tab import fetch_onetab_data
 from src.endpoints.emil.from_supplier_toPrestashop import SupplierToPrestashopPipeline
 
 from src.utils.url import is_url
@@ -102,7 +102,7 @@ class BotHandler:
 
         # Parsing https//one-tab.com/XXXXXXXXX page
         try:
-           category, urls = fetch_target_urls_onetab(url)
+           category, urls = fetch_onetab_data(url)
            bot.send_message(message.chat.id, f'Получил мехирон {mexiron_name} - {price} шек')
         except Exception as ex:
             logger.error(f"Error fetching URLs from OneTab: {ex}")

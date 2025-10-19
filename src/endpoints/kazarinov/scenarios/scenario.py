@@ -199,7 +199,7 @@ class Scenario:
             "default_image_url",
         ]
         
-
+        ...
 
         async with Browser( # <- you can substitute the browser class (Chrome, Edge) from from src.webdriver.pydoll.llib.browser here
                         options = options,

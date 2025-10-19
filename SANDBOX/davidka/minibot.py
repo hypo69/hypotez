@@ -48,7 +48,7 @@ class Config:
 # --- end config.py ---------------
 
 
-def fetch_target_urls_onetab(one_tab_url: str) -> tuple[str, str, list[str]] | bool:
+def fetch_onetab_data(one_tab_url: str) -> tuple[str, str, list[str]] | bool:
     """
     Функция паресит целевые URL из полученного OneTab.
     """
@@ -121,7 +121,7 @@ class BotHandler:
 
         # Parsing https//one-tab.com/XXXXXXXXX page
         try:
-           categories, urls = fetch_target_urls_onetab(url)
+           categories, urls = fetch_onetab_data(url)
            bot.send_message(message.chat.id, f'Получил табы по категориям {categories}')
         except Exception as ex:
             logger.error(f"Error fetching URLs from OneTab: {ex}")

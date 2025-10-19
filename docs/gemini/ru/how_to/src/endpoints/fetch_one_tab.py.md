@@ -1,4 +1,4 @@
-## Как использовать функцию `fetch_target_urls_onetab`
+## Как использовать функцию `fetch_onetab_data`
 
 =========================================================================================
 
@@ -6,7 +6,7 @@
 
 -------------------------
 
-Функция `fetch_target_urls_onetab` извлекает целевые URL-адреса, описание и цену (если доступна) из HTML-кода страницы OneTab.
+Функция `fetch_onetab_data` извлекает целевые URL-адреса, описание и цену (если доступна) из HTML-кода страницы OneTab.
 
 ### Шаги выполнения
 
@@ -24,11 +24,11 @@
 -------------------------
 
 ```python
-from src.endpoints.fetch_one_tab import fetch_target_urls_onetab
+from src.endpoints.fetch_one_tab import fetch_onetab_data
 
 one_tab_url = 'https://www.onetab.com/page/your_onetab_page_id'
 
-price, description, urls = fetch_target_urls_onetab(one_tab_url)
+price, description, urls = fetch_onetab_data(one_tab_url)
 
 if price:
     print(f"Цена: {price}")

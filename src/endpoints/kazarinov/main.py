@@ -3,9 +3,6 @@
 #! .pyenv/bin/python3
 
 """
-```rst
-.. module:: src.endpoints.kazarinov 
-```
 
 Модуль обслуживания для Сергея Казаринова
 ==========================================
@@ -18,10 +15,10 @@
 [Документация `minibot`](https://github.com/hypo69/hypotez/blob/master/docs/ru/src/endpoints/kazarinov/minibot.py.md)
 [Документация `scenario`](https://github.com/hypo69/hypotez/blob/master/docs/ru/src/endpoints/kazarinov/scenarios/scenario.py.md)
 [Документация `quotation_builder`](https://github.com/hypo69/hypotez/blob/master/docs/ru/src/endpoints/kazarinov/scenarios/quotation_builder.py.md)
+.. module:: src.endpoints.kazarinov 
 """
-import asyncio
 import header
-from src.endpoints.kazarinov.minibot import main
+from src.endpoints.kazarinov.minibot import KazarinovBot
 
 if __name__ == "__main__":
-	main()
+	KazarinovBot().bot_start()

@@ -10,10 +10,10 @@
 
 ## Функции
 
-### `fetch_target_urls_onetab`
+### `fetch_onetab_data`
 
 ```python
-def fetch_target_urls_onetab(one_tab_url: str) -> tuple[str, str, list[str]] | bool:
+def fetch_onetab_data(one_tab_url: str) -> tuple[str, str, list[str]] | bool:
     """
     Функция паресит целевые URL из полученного OneTab.
 
@@ -37,7 +37,7 @@ def fetch_target_urls_onetab(one_tab_url: str) -> tuple[str, str, list[str]] | b
 
     Примеры:
         >>> one_tab_url = "https://www.one-tab.com/..."
-        >>> price, description, urls = fetch_target_urls_onetab(one_tab_url)
+        >>> price, description, urls = fetch_onetab_data(one_tab_url)
         >>> if price and description and urls:
         ...     print(f"Цена: {price}, Описание: {description}")
         ...     print(f"Количество URL: {len(urls)}")
@@ -71,7 +71,7 @@ def fetch_target_urls_onetab(one_tab_url: str) -> tuple[str, str, list[str]] | b
 
 ```python
 one_tab_url = "https://www.one-tab.com/..."  # Замените на актуальный URL OneTab
-price, description, urls = fetch_target_urls_onetab(one_tab_url)
+price, description, urls = fetch_onetab_data(one_tab_url)
 
 if price and description and urls:
     print(f"Цена: {price}, Описание: {description}")

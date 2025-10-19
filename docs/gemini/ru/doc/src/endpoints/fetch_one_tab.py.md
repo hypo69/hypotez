@@ -2,18 +2,18 @@
 
 ## Обзор
 
-Этот модуль содержит функцию `fetch_target_urls_onetab`, которая парсит целевые URL-адреса из OneTab. 
+Этот модуль содержит функцию `fetch_onetab_data`, которая парсит целевые URL-адреса из OneTab. 
 Функция извлекает ссылки из OneTab, а также цену и описание (если доступны) и возвращает их.
 
 ## Подробней
 
-Функция `fetch_target_urls_onetab` принимает URL OneTab в качестве аргумента. Она выполняет запрос к этому URL, 
+Функция `fetch_onetab_data` принимает URL OneTab в качестве аргумента. Она выполняет запрос к этому URL, 
 парсит HTML-контент с помощью `BeautifulSoup` и извлекает целевые URL-адреса из HTML-структуры. 
 Функция также извлекает цену и описание товара из элемента с классом `tabGroupLabel`. 
 
 ## Функции
 
-### `fetch_target_urls_onetab`
+### `fetch_onetab_data`
 
 **Назначение**: Парсит целевые URL-адреса, цену и описание товара из OneTab.
 
@@ -45,14 +45,14 @@
 **Примеры**:
 
 ```python
->>> from src.endpoints.fetch_one_tab import fetch_target_urls_onetab
+>>> from src.endpoints.fetch_one_tab import fetch_onetab_data
 >>> one_tab_url = 'https://www.onetab.com/page/1234567890'
->>> price, description, urls = fetch_target_urls_onetab(one_tab_url)
+>>> price, description, urls = fetch_onetab_data(one_tab_url)
 >>> print(f'Price: {price}, Description: {description}, URLs: {urls}')
 Price: 100, Description: Example product, URLs: ['https://www.example.com/', 'https://www.example2.com/']
 
 >>> one_tab_url = 'https://www.onetab.com/page/invalid_url'
->>> result = fetch_target_urls_onetab(one_tab_url)
+>>> result = fetch_onetab_data(one_tab_url)
 >>> print(result)
 False
 ```

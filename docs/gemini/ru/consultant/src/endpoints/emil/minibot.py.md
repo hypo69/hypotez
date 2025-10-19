@@ -76,7 +76,7 @@ from header import __root__
 from src import gs
 from src.logger import logger
 from src.llm.gemini import GoogleGenerativeAi
-from src.endpoints.kazarinov.scenarios.scenario import fetch_target_urls_onetab, Scenario
+from src.endpoints.kazarinov.scenarios.scenario import fetch_onetab_data, Scenario
 from src.utils.url import is_url
 from src.utils.printer import pprint as print
 
@@ -177,7 +177,7 @@ class BotHandler:
             price: float
             mexiron_name: str
             urls: list[str]
-            price, mexiron_name, urls = fetch_target_urls_onetab(url)
+            price, mexiron_name, urls = fetch_onetab_data(url)
             bot.send_message(message.chat.id, f'Получил мехирон {mexiron_name} - {price} шек')
         except Exception as ex:
             logger.error(f"Error fetching URLs from OneTab: {ex}", ex, exc_info=True)

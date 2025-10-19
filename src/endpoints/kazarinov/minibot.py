@@ -5,9 +5,9 @@
 """
 This module implements a Telegram bot that interacts with users to fetch and process data from OneTab links, allowing for the creation of a price list for Kazarinov.
 ========================================================================
-```rst
+
 .. module:: src.endpoints.kazarinov.minibot 
-```
+
 """
 import time
 import threading
@@ -29,7 +29,7 @@ from header import __root__
 from src import gs, USE_ENV
 from src.logger import logger
 from src.endpoints.kazarinov.scenarios.scenario import Scenario
-from src.endpoints.kazarinov.scenarios.fetch_one_tab import fetch_one_tab_data
+from src.endpoints.kazarinov.fetch_one_tab import fetch_onetab_data
 from src.utils.url import is_url
 from src.utils.jjson import j_loads_ns 
 from src.utils.printer import pprint as print
@@ -75,7 +75,7 @@ Here are the available commands:
 
     DEFAULT_GEMINI_MODEL: str = 'gemini-2.5-flash'  # Default model for Gemini API'
 
-# --- config.py end -----------------
+# --- config.py end ----------------
 
 
 # --- handlers.py -----------------
@@ -108,31 +108,31 @@ class BotHandler:
     def _handle_url(self, bot: TeleBot, message: Message) -> None:
         url = message.text
         if not url.startswith(('https://one-tab.com', 'https://www.one-tab.com')):
-            bot.send_message(message.chat.id, 'Мне на вход нужен URL `https://one-tab.com`.')
+            bot.send_message(message.chat.id, 'Мне на вход нужен URL, начинающийся с:  `https://one-tab.com`.')
             return
 
         try:
-            mexiron_name, price, urls = fetch_one_tab_data(url)
+            mexiron_name, price, urls = fetch_onetab_data(url)
             bot.send_message(message.chat.id, f'Получил мехирон {mexiron_name} - {price} шек')
         except Exception as ex:
             logger.error(f"\nError fetching URLs from OneTab: ", ex,  exc_info=True)
-            bot.send_message(message.chat.id, "Ошибка при получении данных из OneTab.")
+            bot.send_message(message.chat.id, f"Ошибка при получении данных из OneTab:\n{ex}")
             return
 
         if not urls:
             bot.send_message(message.chat.id, 'Список URL пуст')
-            logger.debug(f"\nError fetching URLs from OneTab: ", ex,  exc_info=True)
+            logger.debug(f"\nError fetching URLs from OneTab: ", None,  exc_info=True)
             return
 
         try:
             #scenario = Scenario()
-            asyncio.run(
+            asyncio.run(                                    
                 Scenario().run_scenario_async(
                     mexiron_name = mexiron_name or gs.now,
-                    price=price,
-                    urls=list(urls),
-                    bot=bot,
-                    chat_id=message.chat.id,
+                    price = price,
+                    urls = list(urls),
+                    bot = bot,
+                    chat_id = message.chat.id,
                 )
             )
         except Exception as ex:
@@ -278,7 +278,6 @@ class KazarinovBot:
                 logger.debug(f"Retrying in 10 seconds... Attempts left: {attempts}")
                 time.sleep(10)
         raise RuntimeError("Failed to start bot after multiple attempts.")
-
 
 
 if __name__ == '__main__':

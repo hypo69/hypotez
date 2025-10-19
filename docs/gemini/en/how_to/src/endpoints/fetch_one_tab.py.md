@@ -33,7 +33,7 @@ Usage Example
 
 ```python
 one_tab_url = "https://onetab.com/page/YOUR_ONE_TAB_URL"
-price, description, urls = fetch_target_urls_onetab(one_tab_url)
+price, description, urls = fetch_onetab_data(one_tab_url)
 print(f"Price: {price}, Description: {description}, URLs: {urls}")
 ```
 
