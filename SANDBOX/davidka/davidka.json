@@ -1,0 +1,20 @@
+{
+  "google_drive": {
+    "storage": "J:\\My Drive\\hypo69\\llm",
+    "data_by_supplier_storage": "J:\\My Drive\\hypo69\\llm\\data_by_supplier",
+    "train_data": "J:\\My Drive\\hypo69\\llm\\train_data",
+    "train_data_all_in_one": "J:\\My Drive\\hypo69\\llm\\train_data_all_in_one",
+    "random_urls": "J:\\My Drive\\hypo69\\llm\\random_urls",
+    "unzipped_storage": "J:\\My Drive\\hypo69\\llm\\unzipeped_storage"
+  },
+  "local_storage": {
+    "storage": "E:\\hypo69\\llm",
+    "data_by_supplier_storage": "E:\\hypo69\\llm\\data_by_supplier",
+    "train_data": "E:\\hypo69\\llm\\train_data",
+    "random_urls": "E:\\hypo69\\llm\\random_urls",
+    "unzipped_storage": "E:\\hypo69\\llm\\unzipeped_storage"
+  },
+
+  "actual_storage": "local_storage",
+  "gemini_model_name": "gemini-2.0-flash-lite"
+}

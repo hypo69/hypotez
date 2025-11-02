@@ -1,0 +1,20 @@
+{
+  "supplier": "amazon",
+  "supplier_id": "2800",
+  "supplier_prefix": "amazon",
+  "start_url": "https://www.amazon.com/",
+  "price_rule": "+0",
+  "if_list":"first","use_mouse": false, 
+  "if_login": false,
+  "login_url": "https://amazon.com",
+  "lang": "HE",
+  "check categories on site": false,
+  "parsing via api":false,
+  "collect_products_from_categorypage": false,
+  "scenario_files": [ ],
+  "excluded": [
+
+  ],
+  "last_runned_scenario": ""
+}
+

@@ -1,0 +1,16 @@
+{
+  "host": "0.0.0.0",
+  "git": "hypo",
+  "git_user": "hypotez",
+  "current_release": "",
+
+  "path": {
+    "external_storage": "E:\\hypo69\\data",
+    "google_drive": "H:\\My Drive\\hypo69\\data",
+    "log": "E:\\hypo69\\log",
+    "tmp": "E:\\hypo69\\tmp",
+    "secrets": "C:\\Users\\user\\Documents\\repos\\hypotez\\secrets"
+  },
+  "timestamp_format": "%Y%m%dT%H%M%S-%f"
+
+}

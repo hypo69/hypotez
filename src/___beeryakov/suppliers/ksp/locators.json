@@ -1,0 +1,26 @@
+{
+    "worlds": {
+        "attrs": {"href":"text"} ,
+        "by": "XPATH",
+        "strategy_for_multiple_selectors": "find_first_match","selector": "//a[contains(@href,'/web/world')]",
+        "event":false
+    },
+    "subs_from_worlds":{
+        "attrs":{"href":"text"},
+        "by":"XPATH",
+        "selector":"//h1/following-sibling::div[1]/div//a",
+        "event":false
+    },
+    "open_full_brands_list":{
+        "attrs":false,
+        "by":"XPATH",
+        "selector":"//div[contains(@aria-label,'פתחו') and contains(@aria-label,'עוד') and contains(@aria-label,'יצרן')]",
+        "event":"click()" 
+    },
+    "get_brands_list":{
+        "attrs":"innerText",
+        "by":"XPATH",
+        "selector":"//div[not (contains(@aria-label,'פתחו')) and not (contains(@aria-label,'עוד')) and contains(@aria-label,'יצרן')]/following-sibling::div[1]",
+        "timeout":0,"timeout_for_event":"presence_of_element_located","event": false
+    }
+}
