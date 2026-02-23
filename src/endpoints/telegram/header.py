@@ -1,18 +1,11 @@
-## \file /src/endpoints/kazarinov/scenarios/header.py
+## \file header.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
 
-"""
-.. module:: src.endpoints.kazarinov.scenarios 
-	:platform: Windows, Unix
-	:synopsis:
-
-"""
-
-
 import sys
+import json
 from pathlib import Path
+
 def set_project_root(marker_files=('__root__','.git')) -> Path:
     """
     Finds the root directory of the project starting from the current file's directory,

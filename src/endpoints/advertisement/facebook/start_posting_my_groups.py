@@ -1,14 +1,7 @@
 ## \file /src/endpoints/advertisement/facebook/start_posting_my_groups.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
 
-"""
-.. module:: src.endpoints.advertisement.facebook 
-	:platform: Windows, Unix
-	:synopsis: Отправка рекламных объявлений в группы фейсбук (my groups?)
-
-"""
 
 
 
