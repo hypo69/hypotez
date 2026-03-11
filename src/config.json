@@ -5,11 +5,11 @@
   "current_release": "",
 
   "path": {
-    "external_storage": "E:\\hypo69\\data",
-    "google_drive": "H:\\My Drive\\hypo69\\data",
-    "log": "E:\\hypo69\\log",
-    "tmp": "E:\\hypo69\\tmp",
-    "secrets": "C:\\Users\\user\\Documents\\repos\\hypotez\\secrets"
+    "external_storage": "D:\\repos\\hypotez\\data",
+    "google_drive": "H:\\My Drive\\hypotez\\data",
+    "log": "D:\\repos\\hypotez\\log",
+    "tmp": "D:\\repos\\hypotez\\tmp",
+    "secrets": "D:\\repos\\hypotez\\secrets"
   },
   "timestamp_format": "%Y%m%dT%H%M%S-%f"
 

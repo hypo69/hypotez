@@ -1,14 +1,7 @@
 ## \file /src/endpoints/advertisement/facebook/facebook_fields.py
 # -*- coding: utf-8 -*-
-
 #! .pyenv/bin/python3
 
-"""
-.. module:: src.endpoints.advertisement.facebook 
-	:platform: Windows, Unix
-	:synopsis:
-
-"""
 
 
 

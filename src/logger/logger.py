@@ -2,12 +2,7 @@
 
 #! .pyenv/bin/python3
 
-"""
-.. module:: src.logger.logger
-    :platform: Windows, Unix
-    :synopsis: Модуль логгера
 
-"""
 
 
 import logging
