@@ -6,12 +6,8 @@
 Модуль для запуска сценариев поставщиков
 ================================================================
 Сценарии позволеют получить товары по поставщикам и по категориям
-
-
- ```rst
- .. module:: sandbox.davidka.experiments.8_run_suppliers_scenarios_pydoll
- ```
 """
+
 import importlib
 import asyncio
 import argparse
@@ -20,12 +16,16 @@ from pathlib import Path
 from types import SimpleNamespace
 from typing import Optional, Dict, Any, List
 
-from src.webdriver.pydoll.llib.pydoll.browser.chrome import Chrome
-from src.webdriver.pydoll.llib.pydoll.constants import By
-from src.webdriver.pydoll.llib.pydoll.browser.page import Page
 
 from header import __root__
 from src import gs
+from pydoll.constants import Key
+from pydoll.browser.chromium.chrome import Chrome 
+from src.webdriver.pydoll.tab import Tab
+from src.webdriver.pydoll.options import Options
+from src.webdriver.pydoll.browser import Browser
+
+
 
 from src.endpoints.prestashop.product import PrestaProduct
 from src.endpoints.prestashop.product_fields import ProductFields
@@ -126,6 +126,7 @@ async def main(scenario_filename: Optional[str] = None) -> None:
     scenario_data: Dict[str, Any] | List[Dict[str, Any]] | None
     supplier_prefix_from_file: str
 
+    # TODO: Это старая логика, ее надо переписать. Мы работаем объектами `tаb`, не страницами.
     browser = Chrome()  
     await browser.start()
     page = await browser.get_page()

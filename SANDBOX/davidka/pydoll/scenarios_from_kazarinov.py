@@ -10,9 +10,6 @@ This module contains the configuration and scenario executor for the `kazarinov`
 1. Kazarinov selects components
 2. combines them in onetab
 3. Sends a link to onetab to the telegram bot
-```rst
-.. module:: src.endpoints.kazarinov.scenarios.scenario
-```
 """
 
 import asyncio
@@ -23,7 +20,6 @@ from typing import List, Optional, TYPE_CHECKING, TypeVar
 import telebot
 
 from header import __root__
-from src import gs, USE_ENV
 
 from src.webdriver.pydoll.tab import Tab
 from src.webdriver.pydoll.options import Options
@@ -33,9 +29,9 @@ from src.endpoints.kazarinov.report_generator.report_generator import ReportGene
 from src.endpoints.kazarinov.scenarios.quotation_builder import QuotationBuilder
 from src.endpoints.prestashop.product_fields.product_fields import ProductFields
 from src.suppliers.get_graber_by_supplier import get_graber_by_supplier_url
+
 from src.utils.port import get_free_port
 from src.logger.logger import logger
-
 from src.utils.jjson import j_loads, j_loads_ns, j_dumps
 
 T = TypeVar('T')

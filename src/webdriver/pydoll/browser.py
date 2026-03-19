@@ -49,7 +49,7 @@ async with driver as browser:
 
 ```
 """
-
+from header import __root__  # type: ignore[import]
 import asyncio
 import os
 import subprocess
@@ -60,18 +60,17 @@ from typing import List,  Optional, Any, TYPE_CHECKING
 from types import SimpleNamespace
 from dataclasses import dataclass, field
 
-from header import __root__
-
-from src.webdriver.pydoll.llib.browser import Chrome
-if TYPE_CHECKING:
-    from src.webdriver.pydoll.llib.elements.web_element import WebElement
-    from src.webdriver.pydoll.llib.browser.tab import Tab as Base_Tab
+# from src.webdriver.pydoll.llib.browser import Chrome
+# if TYPE_CHECKING:
+#     from src.webdriver.pydoll.llib.elements.web_element import WebElement
+#     from src.webdriver.pydoll.llib.browser.tab import Tab as Base_Tab
 
 # from pydoll.browser import Chrome
 # if TYPE_CHECKING:
 #     from pydoll.elements.web_element import WabElement
 #     from pydoll.browser.tab import Tab as BaseTab
 
+from pydoll.browser import Chrome
 from src.webdriver.pydoll.options import Options # <- DO NOT CONFUSE with src.webdriver.pydoll.llib.options.Options
 from src.webdriver.pydoll.tab import Tab
 from src.utils.jjson import j_loads_ns
@@ -92,7 +91,7 @@ class Browser(Chrome):
         incognito (bool): Launch in incognito mode. Defaults to False.
         disable_gpu (bool): Disable GPU hardware acceleration. Defaults to True.
     """
-    pid_file: Path = __root__ / 'src' / 'webdriver' / 'pydoll' / 'process.pid'
+    pid_file_path: Path = __root__ / 'src' / 'webdriver' / 'pydoll' / 'process.pid'
     def __init__(self, options: Optional[Options] = None, connection_port: Optional[int] = 0, **kwargs):
         """"""
         super().__init__(options = options or Options(), connection_port = connection_port, **kwargs)
@@ -116,7 +115,7 @@ class Browser(Chrome):
             obj._kill_previous_pid()
             ```
         """
-        pid_file = getattr(self, "pid_file", None)
+        pid_file = getattr(self, "pid_file_path", None)
         if not pid_file:
             ... # logger.error("pid_file attribute is missing, cannot kill previous PID.", exc_info=True)
             return
@@ -156,7 +155,7 @@ class Browser(Chrome):
             _process = getattr(_process_manager, '_process', None)
             if _process:
                 pid = getattr(_process, 'pid', None)
-                pid_file = getattr(self, "pid_file", None)
+                pid_file = getattr(self, "pid_file_path", None)
                 pid_file.write_text(str(pid), encoding="UTF-8")
                 self._pid = pid
                 return True
@@ -186,7 +185,7 @@ class Browser(Chrome):
             ... # <- мб ошибка в файле, но не критично
 
         try:
-            base_tab: BaseTab = await super().start()
+            base_tab: Tab = await super().start()
             if not base_tab:
                 logger.error("BaseTab is None after starting browser.", exc_info=True)
                 return None
@@ -228,7 +227,7 @@ if __name__ == "__main__":
                 return
 
             # Open a page
-            await tab.goto("https://toscrape.com/")
+            await tab.go_to("https://toscrape.com/")
 
             # Execute a locator (example: take page title text)
             title_locator = {

@@ -1,8 +1,9 @@
 from typing import Optional
 from header import __root__
-from src.webdriver.pydoll.llib.browser.interfaces import BrowserOptionsManager
-from src.webdriver.pydoll.llib.browser.options import ChromiumOptions
-from src.webdriver.pydoll.llib.exceptions import InvalidOptionsObject
+
+from pydoll.browser.interfaces import BrowserOptionsManager
+from pydoll.browser.options import ChromiumOptions
+from pydoll.exceptions import InvalidOptionsObject
 
 from src.webdriver.pydoll.options import Options
 
